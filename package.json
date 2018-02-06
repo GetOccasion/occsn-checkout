@@ -1,0 +1,29 @@
+{
+  "name": "occsn-checkout-react",
+  "version": "0.0.1",
+  "description": "An Occasion checkout experience built using React-Redux and Mitragyna",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "occasion",
+    "checkout",
+    "experience",
+    "react",
+    "redux",
+    "mitragyna",
+    "occasion-sdk",
+    "active-resource"
+  ],
+  "author": "Nick Landgrebe, Peak Labs LLC DBA Occasion App",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "poi": "^9.6.13",
+    "poi-preset-react": "^9.2.1"
+  }
+}
