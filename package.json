@@ -19,8 +19,10 @@
   "author": "Nick Landgrebe, Peak Labs LLC DBA Occasion App",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "^4.0.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "reactstrap": "^5.0.0-beta"
   },
   "devDependencies": {
     "poi": "^9.6.13",
