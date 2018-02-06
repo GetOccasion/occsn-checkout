@@ -1,5 +1,5 @@
 {
-  "name": "occsn-checkout-react",
+  "name": "occsn_checkout",
   "version": "0.0.1",
   "description": "An Occasion checkout experience built using React-Redux and Mitragyna",
   "main": "index.js",
