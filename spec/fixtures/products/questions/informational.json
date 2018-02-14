@@ -1,0 +1,154 @@
+{
+  "data": [
+    {
+      "id": "bwd6heeh",
+      "type": "questions",
+      "attributes": {
+        "category": "info",
+        "created_at": "2018-02-13T14:34:51.552-06:00",
+        "display_as_title": null,
+        "form_control": "text_input",
+        "max": null,
+        "min": null,
+        "operation": null,
+        "position": 1,
+        "price": null,
+        "price_calculating": false,
+        "percentage": null,
+        "required": null,
+        "title": "Phone Number",
+        "updated_at": "2018-02-13T14:36:46.121-06:00",
+        "waiver_text": null
+      }
+    },
+    {
+      "id": "hh86hxzs",
+      "type": "questions",
+      "attributes": {
+        "category": "info",
+        "created_at": "2018-02-13T14:37:14.489-06:00",
+        "display_as_title": null,
+        "form_control": "drop_down",
+        "max": null,
+        "min": null,
+        "operation": null,
+        "position": 2,
+        "price": null,
+        "price_calculating": false,
+        "percentage": null,
+        "required": true,
+        "title": "my dropdown",
+        "updated_at": "2018-02-13T14:38:58.151-06:00",
+        "waiver_text": null
+      }
+    },
+    {
+      "id": "tnd6hlti",
+      "type": "questions",
+      "attributes": {
+        "category": "info",
+        "created_at": "2018-02-13T14:38:00.366-06:00",
+        "display_as_title": null,
+        "form_control": "checkbox",
+        "max": null,
+        "min": null,
+        "operation": null,
+        "position": 3,
+        "price": null,
+        "price_calculating": false,
+        "percentage": null,
+        "required": false,
+        "title": "my checkbox",
+        "updated_at": "2018-02-13T14:38:58.187-06:00",
+        "waiver_text": null
+      }
+    },
+    {
+      "id": "vop6hu4s",
+      "type": "questions",
+      "attributes": {
+        "category": "info",
+        "created_at": "2018-02-13T14:38:21.677-06:00",
+        "display_as_title": null,
+        "form_control": "option_list",
+        "max": null,
+        "min": null,
+        "operation": null,
+        "position": 4,
+        "price": null,
+        "price_calculating": false,
+        "percentage": null,
+        "required": true,
+        "title": "my radio list",
+        "updated_at": "2018-02-13T14:38:58.217-06:00",
+        "waiver_text": null
+      }
+    },
+    {
+      "id": "ybh6hohu",
+      "type": "questions",
+      "attributes": {
+        "category": "static",
+        "created_at": "2018-02-13T14:38:44.582-06:00",
+        "display_as_title": null,
+        "form_control": "separator",
+        "max": null,
+        "min": null,
+        "operation": null,
+        "position": 5,
+        "price": null,
+        "price_calculating": false,
+        "percentage": null,
+        "required": null,
+        "title": null,
+        "updated_at": "2018-02-13T14:39:00.851-06:00",
+        "waiver_text": null
+      }
+    },
+    {
+      "id": "_8_6h8e0",
+      "type": "questions",
+      "attributes": {
+        "category": "info",
+        "created_at": "2018-02-13T14:38:35.562-06:00",
+        "display_as_title": null,
+        "form_control": "text_area",
+        "max": null,
+        "min": null,
+        "operation": null,
+        "position": 6,
+        "price": null,
+        "price_calculating": false,
+        "percentage": null,
+        "required": false,
+        "title": "my textarea",
+        "updated_at": "2018-02-13T14:39:00.886-06:00",
+        "waiver_text": null
+      }
+    },
+    {
+      "id": "hes6hqbd",
+      "type": "questions",
+      "attributes": {
+        "category": "info",
+        "created_at": "2018-02-13T14:34:51.488-06:00",
+        "display_as_title": null,
+        "form_control": "waiver",
+        "max": null,
+        "min": null,
+        "operation": null,
+        "position": 7,
+        "price": null,
+        "price_calculating": false,
+        "percentage": null,
+        "required": null,
+        "title": "I agree to the terms of this waiver",
+        "updated_at": "2018-02-13T14:39:00.897-06:00",
+        "waiver_text": "Waiver text goes here..."
+      }
+    }
+  ],
+  "links": {
+    "self": "https://app.getoccasion.com/api/v1/products/4qqxnqgbuus7d0siqunvmg/questions"
+  }
+}

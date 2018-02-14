@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "code": "not_found",
+      "detail": "Could not find record with id: '121ojbasfidb1238g'",
+      "source": {
+        "parameter": "id"
+      }
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "data": {
+    "id": "QCF67DA",
+    "type": "products",
+    "attributes": {
+      "attendee_questions": [],
+      "can_delete_all_time_slots": false,
+      "closing_time_relative": false,
+      "created_at": "2015-10-23T11:00:44.539-05:00",
+      "description": "<em>Permission To Feel FAB-U-LOUS is one-on-one health and happiness coaching for women and men. It comes in three flavors.<br><ul><li>One Day Immersions</li><li>90 Days to Nourishment</li><li>Six Months to Delicious Health and Happiness</li></ul></em><em>If you’re looking for results fast, I’d love to meet you in person (or Skype/phone) for a full day of powerful coaching. For the go-getter and immediate implementation.\ufeff</em><em><br></em>",
+      "first_time_slot_starts_at": "2015-10-26T12:00:00.000-05:00",
+      "free": false,
+      "has_redeemables": true,
+      "image": {
+        "url": "https://d2o99y7glp64sh.cloudfront.net/uploads/product/image/10640/Photo1.jpg",
+        "thumb": {
+          "url": "https://d2o99y7glp64sh.cloudfront.net/uploads/product/image/10640/thumb_Photo1.jpg"
+        }
+      },
+      "order_button_text": "Let's Talk!",
+      "post_transactional_message": "I look forward to helping your dreams and goals coming a reality!",
+      "pro_ratable": false,
+      "pro_rate_until_session": null,
+      "sells_sessions": false,
+      "show_occurrence_availability": false,
+      "show_time_slot_duration": true,
+      "status": "active",
+      "tax_percentage": "0.0",
+      "time_slots_closed_before": "2018-02-14T14:30:32.711-06:00",
+      "title": "1-On-1 Coaching Session",
+      "updated_at": "2017-11-21T10:57:10.297-06:00",
+      "widget_attributes_title": "Additional Information",
+      "widget_questions_title": "Additional Information",
+      "widget_contact_title": null,
+      "widget_occurrences_title": null,
+      "widget_time_slots_title": null,
+      "widget_payment_title": null,
+      "widget_total_due_title": null
+    },
+    "relationships": {
+      "merchant": {
+        "data": {
+          "id": "w7cgpas3",
+          "type": "merchants"
+        },
+        "links": {
+          "self": "https://www.occsn.com/api/v1/products/QCF67DA/relationships/merchant",
+          "related": "https://www.occsn.com/api/v1/products/QCF67DA/merchant"
+        }
+      },
+      "venue": {
+        "data": {
+          "id": "qhjeoyn",
+          "type": "venues"
+        },
+        "links": {
+          "self": "https://www.occsn.com/api/v1/products/QCF67DA/relationships/venue",
+          "related": "https://www.occsn.com/api/v1/products/QCF67DA/venue"
+        }
+      }
+    },
+    "links": {
+      "self": "https://www.occsn.com/api/v1/products/QCF67DA"
+    }
+  },
+  "included": [
+    {
+      "id": "w7cgpas3",
+      "type": "merchants",
+      "attributes": {
+        "created_at": "2015-09-15T15:12:14.464-05:00",
+        "facebook_page": "https://www.facebook.com/Occsn?fref=ts",
+        "name": "Occasion",
+        "profile_picture": {
+          "url": "https://d2o99y7glp64sh.cloudfront.net/uploads/merchant/profile_picture/1/Occasion_Logo.jpg",
+          "thumb": {
+            "url": "https://d2o99y7glp64sh.cloudfront.net/uploads/merchant/profile_picture/1/thumb_Occasion_Logo.jpg"
+          }
+        },
+        "psp_name": "cash",
+        "tax_percentage": "0.0",
+        "time_zone": "America/Chicago",
+        "updated_at": "2017-12-22T15:02:49.949-06:00"
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/merchants/w7cgpas3"
+      }
+    },
+    {
+      "id": "qhjeoyn",
+      "type": "venues",
+      "attributes": {
+        "address": "541 N Fairbanks, 22nd Floor",
+        "capacity": null,
+        "city": "Chicago",
+        "created_at": "2015-09-15T15:13:14.464-05:00",
+        "email": "example@occsn.com",
+        "name": "Occasion",
+        "phone": "999.999.9999",
+        "updated_at": "2017-06-15T08:46:09.122-05:00",
+        "website": "www.getoccasion.com",
+        "zip": "60611"
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/venues/qhjeoyn"
+      }
+    }
+  ]
+}
