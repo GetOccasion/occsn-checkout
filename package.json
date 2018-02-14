@@ -4,7 +4,7 @@
   "description": "An Occasion checkout experience built using React-Redux and Mitragyna",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "occasion",
@@ -25,7 +25,31 @@
     "reactstrap": "^5.0.0-beta"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^22.2.2",
+    "babel-plugin-react-transform": "^3.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^22.3.0",
+    "jest-cli": "^22.3.0",
     "poi": "^9.6.13",
-    "poi-preset-react": "^9.2.1"
+    "poi-preset-react": "^9.2.1",
+    "react-test-renderer": "^16.2.0"
+  },
+  "jest": {
+    "setupFiles": [
+      "./spec/jestsetup.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(css|scss)$": "identity-obj-proxy"
+    }
   }
 }
