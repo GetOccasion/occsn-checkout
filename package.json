@@ -4,7 +4,8 @@
   "description": "An Occasion checkout experience built using React-Redux and Mitragyna",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "testw": "jest --watch"
   },
   "keywords": [
     "occasion",
@@ -20,6 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "bootstrap": "^4.0.0",
+    "occasion-sdk": "git+https://github.com/nicklandgrebe/occasion-sdk-js.git",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "reactstrap": "^5.0.0-beta"
@@ -39,6 +41,7 @@
     "jest-cli": "^22.3.0",
     "poi": "^9.6.13",
     "poi-preset-react": "^9.2.1",
+    "poi-preset-resolve-alias": "^1.0.1",
     "react-test-renderer": "^16.2.0"
   },
   "jest": {
@@ -49,7 +52,9 @@
       "enzyme-to-json/serializer"
     ],
     "moduleNameMapper": {
-      "^.+\\.(css|scss)$": "identity-obj-proxy"
+      "^.+\\.(css|scss)$": "identity-obj-proxy",
+      "^active-resource$": "active-resource/build/active-resource.min.js",
+      "^occasion-sdk$": "occasion-sdk/build/occasion-sdk.min.js"
     }
   }
 }

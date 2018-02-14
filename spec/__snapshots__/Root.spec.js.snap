@@ -2,6 +2,8 @@
 
 exports[`MyComponent should render my component 1`] = `
 <p>
-  Hello World!!
+  Hello 
+  Nick
+  !!
 </p>
 `;

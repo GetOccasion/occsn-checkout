@@ -8,3 +8,8 @@ Enzyme.configure({ adapter: new Adapter() });
 global.shallow = shallow;
 global.render = render;
 global.mount = mount;
+
+global.OCCSN = {
+  api_key: '',
+  host_url: 'http://noisacco.lvh.me:3000'
+};
