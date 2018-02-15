@@ -5,6 +5,7 @@ const process = require('process');
 module.exports = {
   // Entry is relative to process.cwd()
   entry: [
+    path.join('node_modules', 'babel-polyfill', 'dist', 'polyfill.min.js'),
     'index.jsx',
   ],
 
