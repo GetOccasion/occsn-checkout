@@ -1,10 +1,21 @@
 import React from 'react';
 import Root from '../app/containers/Root.jsx';
 
+import axios from 'axios';
+
+import productFixture from './fixtures/products/cash.json';
+
 describe('MyComponent', () => {
-  it('should render my component', () => {
+  it('loads product for window.OCCSN.product_id', async (done) => {
+    axios._setMockResponse({ data: productFixture, status: 200 });
+
     const wrapper = shallow(<Root />);
 
-    expect(wrapper).toMatchSnapshot();
+    await wrapper.update();
+
+    wait(() => {
+      expect(wrapper.state('product').id).toEqual(window.OCCSN.product_id);
+      done()
+    });
   });
 });

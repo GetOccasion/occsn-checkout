@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`MyComponent should render my component 1`] = `
-<p>
-  Hello 
-  Nick
-  !!
-</p>
-`;

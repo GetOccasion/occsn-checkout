@@ -8,8 +8,12 @@ Enzyme.configure({ adapter: new Adapter() });
 global.shallow = shallow;
 global.render = render;
 global.mount = mount;
+global.wait = function(c) {
+  setTimeout(c, 1);
+};
 
 global.OCCSN = {
   api_key: '',
-  host_url: 'http://noisacco.lvh.me:3000'
+  host_url: 'http://noisacco.lvh.me:3000',
+  product_id: 'QCF67DA'
 };
