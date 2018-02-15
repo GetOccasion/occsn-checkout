@@ -8,9 +8,6 @@ Enzyme.configure({ adapter: new Adapter() });
 global.shallow = shallow;
 global.render = render;
 global.mount = mount;
-global.wait = function(c) {
-  setTimeout(c, 1);
-};
 
 global.OCCSN = {
   api_key: '',

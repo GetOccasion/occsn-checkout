@@ -1,13 +1,14 @@
 'use strict';
 var mockDelay = 1;
 var mockError;
-var mockResponse = {
+var defaultResponse = {
   data: {},
   status: 200,
   statusText: 'OK',
   headers: {},
   config: {},
 };
+var mockResponses = [];
 
 var axiosMock = jest.genMockFromModule('axios');
 
@@ -21,7 +22,15 @@ function create() {
           if (mockError) {
             reject(mockError);
           } else {
-            resolve(mockResponse);
+            var response = defaultResponse;
+
+            for(var k in mockResponses) {
+              if(mockResponses.hasOwnProperty(k) && options.url.indexOf(k) > -1) {
+                response = mockResponses[k];
+              }
+            }
+
+            resolve(response);
           }
         }, mockDelay);
       });
@@ -35,10 +44,10 @@ function create() {
 
 axiosMock.create.mockImplementation(create);
 
-axiosMock.getLastRequest = () => { return axiosMock.__requests[axiosMock.__requests.length - 1] }
+axiosMock.getLastRequest = () => { axiosMock.__requests[axiosMock.__requests.length - 1] };
 axiosMock._setMockError = (mE) => { mockError = mE };
-axiosMock._setMockResponse = (mR) => { mockResponse = mR };
+axiosMock._setMockResponses = (mR) => { mockResponses = mR };
 axiosMock._setDelay = (mD) => { mockDelay = mD };
-axiosMock.finishRequest = () => { jest.runOnlyPendingTimers() };
+axiosMock.wait = (c) => { setTimeout(c, mockDelay) };
 
 module.exports = axiosMock;
