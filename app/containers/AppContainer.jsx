@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { loadProduct } from '../actions/appActionCreators';
+import { loadProduct } from '../actions/appActions';
 
 import '../styles/index.css'
 
@@ -45,7 +45,7 @@ export class AppContainer extends PureComponent {
     if(data.product) {
       return (
         <div>
-          <p>Hello { data.product.title }!!</p>
+          <p>{ data.product.title }</p>
         </div>
       );
     } else {

@@ -55,7 +55,8 @@
     "poi": "^9.6.13",
     "poi-preset-react": "^9.2.1",
     "poi-preset-resolve-alias": "^1.0.1",
-    "react-test-renderer": "^16.2.0"
+    "react-test-renderer": "^16.2.0",
+    "redux-mock-store": "^1.5.1"
   },
   "jest": {
     "setupFiles": [
