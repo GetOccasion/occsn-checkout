@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "testw": "jest --watch",
-    "testd": "node --inspect-brk node_modules/.bin/jest --runInBand --watch"
+    "test:watch": "npm test -- --watch",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch"
   },
   "keywords": [
     "occasion",
