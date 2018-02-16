@@ -44,6 +44,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.3.0",
     "jest-cli": "^22.3.0",
+    "jest-plugin-set": "^2.6.0",
     "poi": "^9.6.13",
     "poi-preset-react": "^9.2.1",
     "poi-preset-resolve-alias": "^1.0.1",
@@ -51,7 +52,8 @@
   },
   "jest": {
     "setupFiles": [
-      "./spec/jestsetup.js"
+      "./spec/jestsetup.js",
+      "jest-plugin-set/setup"
     ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"

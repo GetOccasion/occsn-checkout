@@ -48,6 +48,6 @@ axiosMock.getLastRequest = () => { axiosMock.__requests[axiosMock.__requests.len
 axiosMock._setMockError = (mE) => { mockError = mE };
 axiosMock._setMockResponses = (mR) => { mockResponses = mR };
 axiosMock._setDelay = (mD) => { mockDelay = mD };
-axiosMock.wait = (c) => { setTimeout(c, mockDelay) };
+axiosMock.wait = (t) => { new Promise((r) => { setTimeout(() => { r() }, t || mockDelay) }) };
 
 module.exports = axiosMock;
