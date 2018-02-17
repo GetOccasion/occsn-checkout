@@ -25,7 +25,11 @@ function create() {
             var response = defaultResponse;
 
             for(var k in mockResponses) {
-              if(mockResponses.hasOwnProperty(k) && options.url.indexOf(k) > -1) {
+              var resources = k.split(':id');
+              resources[resources.length - 1] += '$';
+              var regexp = new RegExp(resources.join('([^\/]+)'));
+
+              if(mockResponses.hasOwnProperty(k) && options.url.match(regexp)) {
                 response = mockResponses[k];
               }
             }
