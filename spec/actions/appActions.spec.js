@@ -1,10 +1,10 @@
 import configureMockStore from 'redux-mock-store'
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
 
 import Immutable from 'immutable';
 
 import * as actions from '../../app/actions/appActions'
-import * as types from '../../app/constants/appConstants'
+import types from '../../app/constants/appConstants'
 
 import axios from 'axios';
 
@@ -17,19 +17,30 @@ const mockStore = configureMockStore(middlewares);
 describe('app actions', () => {
   beforeEach(() => {
     axios._setMockResponses({
-      '/products': { status: 200, data: productFixture },
-      '/questions': { status: 200, data: blankQuestionsFixture },
+      '/products/:id/': { status: 200, data: productFixture },
+      '/products/:id/questions/:id/': { status: 200, data: blankQuestionsFixture },
     });
   });
 
   describe('loadProduct', () => {
-    it('sets product', () => {
-      const store = mockStore({ $$appStore: Immutable.fromJS({ product: null }) });
+    let store, calledAction;
 
-      return store.dispatch(actions.loadProduct(global.OCCSN.product_id)).then(() => {
-        // return of async actions
-        expect(store.getActions()[0].product.id).toEqual(global.OCCSN.product_id);
-      })
+    beforeEach(async () => {
+      store = mockStore({ $$appStore: Immutable.fromJS({ product: null }) });
+
+      await store.dispatch(actions.loadProduct(global.OCCSN.product_id));
+    });
+
+    it('creates SET_PRODUCT && CONSTRUCT_ORDER_REQUEST when product is done loading', async () => {
+      expect(typesForActions(store.getActions())).toEqual([
+        types.LOAD_PRODUCT_REQUEST,
+        types.SET_PRODUCT,
+        types.CONSTRUCT_ORDER_REQUEST,
+      ]);
+    });
+
+    it('creates SET_PRODUCT with product with id == OCCSN.product_id', async () => {
+      expect(store.getActions()[1].product.id).toEqual(global.OCCSN.product_id);
     });
   });
 });

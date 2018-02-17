@@ -10,7 +10,8 @@ import '../styles/index.css'
 function stateToProps(state) {
   return {
     data: {
-      product: state.$$appStore.get('product')
+      order: state.$$appStore.get('order'),
+      product: state.$$appStore.get('product'),
     }
   };
 }
@@ -46,6 +47,10 @@ export class AppContainer extends PureComponent {
       return (
         <div>
           <p>{ data.product.title }</p>
+          <p>{ data.order ? (
+            <span>{ data.order.sessionIdentifier }</span>
+          ) : (null)
+          }</p>
         </div>
       );
     } else {

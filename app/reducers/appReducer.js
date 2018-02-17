@@ -11,6 +11,8 @@ export default function appReducer($$state = $$initialState, action) {
   const { type } = action;
 
   switch (type) {
+    case actionTypes.SET_ORDER:
+      return $$state.merge({ order: action.order });
     case actionTypes.SET_PRODUCT:
       return $$state.merge({ product: action.product });
     default:

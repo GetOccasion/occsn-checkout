@@ -13,8 +13,8 @@ describe('AppContainer', () => {
 
   beforeEach(async () => {
     axios._setMockResponses({
-      '/products': { status: 200, data: productFixture },
-      '/questions': { status: 200, data: blankQuestionsFixture },
+      '/products/:id/': { status: 200, data: productFixture },
+      '/products/:id/questions/:id/': { status: 200, data: blankQuestionsFixture },
     });
 
     let props = {
@@ -31,9 +31,5 @@ describe('AppContainer', () => {
 
   it('calls loadProduct', () => {
     expect(mockLoadProduct.mock.calls.length).toBe(1);
-  });
-
-  it('displays product title', () => {
-    expect(wrapper.find('p').text()).toBe(productFixture.data.attributes.title);
   });
 });
