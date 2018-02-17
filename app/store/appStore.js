@@ -5,7 +5,7 @@ import thunkMiddleware from 'redux-thunk';
 
 import reducers, { initialStates } from '../reducers';
 
-export default props => {
+export default function configureStore(_) {
   const { $$appState } = initialStates;
 
   // Redux expects to initialize the store using an Object, not an Immutable.Map
@@ -23,5 +23,15 @@ export default props => {
     applyMiddleware(thunkMiddleware)
   )(createStore);
 
-  return finalCreateStore(reducer, initialState);
+  var store = finalCreateStore(reducer, initialState);
+
+  // Enable Webpack hot module replacement for reducers
+  if (module.hot) {
+    module.hot.accept('../reducers', () => {
+      const nextRootReducer = require('../reducers/index');
+      store.replaceReducer(nextRootReducer);
+    });
+  }
+
+  return store;
 };
