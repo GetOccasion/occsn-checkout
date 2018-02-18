@@ -21,7 +21,13 @@ export function constructOrderRequest() {
 export function loadProduct(id) {
   return dispatch => {
     dispatch(loadProductRequest());
-    return occsn.Product.find(id).then(product => {
+
+    var query =
+      occsn.Product
+      .includes('merchant', { venue: 'state' })
+      .find(id);
+
+    return query.then(product => {
       dispatch(setProduct(product));
       dispatch(constructOrder(product));
     });

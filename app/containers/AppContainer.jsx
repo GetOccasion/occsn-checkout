@@ -1,10 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Container, Row, Col } from 'reactstrap';
 
 import { loadProduct } from '../actions/appActions';
 
 import '../styles/index.css'
+
+import Header from '../components/Header';
 
 // Which part of the Redux global state does our component want to receive as props?
 function stateToProps(state) {
@@ -43,19 +46,25 @@ export class AppContainer extends PureComponent {
   render() {
     const { actions, data } = this.props;
 
-    if(data.product) {
-      return (
-        <div>
-          <p>{ data.product.title }</p>
-          <p>{ data.order ? (
-            <span>{ data.order.sessionIdentifier }</span>
-          ) : (null)
-          }</p>
-        </div>
-      );
-    } else {
-      return <p>Hello World!!</p>;
-    }
+    return <Container>
+      { data.product ? (
+        <Row>
+          <Col xs={{ size: 10, offset: 1 }}>
+            <Col><Header product={ data.product }></Header></Col>
+          </Col>
+        </Row>
+      ) : (
+        this.renderLoadingScreen()
+      )}
+    </Container>;
+  }
+
+  renderLoadingScreen() {
+    return <Row>
+      <Col>
+        <p>Loading...</p>
+      </Col>
+    </Row>;
   }
 }
 

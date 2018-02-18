@@ -23,12 +23,16 @@ describe('app actions', () => {
   });
 
   describe('loadProduct', () => {
-    let store, calledAction;
+    let store;
 
     beforeEach(async () => {
       store = mockStore({ $$appStore: Immutable.fromJS({ product: null }) });
 
       await store.dispatch(actions.loadProduct(global.OCCSN.product_id));
+    });
+
+    it('includes venue, venue.state, and merchant when requesting product', async () => {
+      expect(axios.requests[0].params).toEqual({ include: 'merchant,venue.state' });
     });
 
     it('creates SET_PRODUCT && CONSTRUCT_ORDER_REQUEST when product is done loading', async () => {

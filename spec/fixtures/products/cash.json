@@ -101,8 +101,21 @@
         "website": "www.getoccasion.com",
         "zip": "60611"
       },
+      "relationships": {
+        "state": {
+          "data": { "type": "states", "id": "h7ddj4sa" }
+        }
+      },
       "links": {
         "self": "https://www.occsn.com/api/v1/venues/qhjeoyn"
+      }
+    },
+    {
+      "id": "h7ddj4sa",
+      "type": "states",
+      "attributes": {
+        "code": "IL",
+        "name": "Illinois"
       }
     }
   ]

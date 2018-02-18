@@ -12,7 +12,7 @@ var mockResponses = [];
 
 var axiosMock = jest.genMockFromModule('axios');
 
-axiosMock.__requests = [];
+axiosMock.requests = [];
 
 function create() {
   return {
@@ -39,7 +39,12 @@ function create() {
         }, mockDelay);
       });
 
-      axiosMock.__requests.push(request);
+      debugger;
+      var requestData = {
+        ...options,
+        promise: request
+      };
+      axiosMock.requests.push(requestData);
 
       return request;
     }
@@ -48,7 +53,7 @@ function create() {
 
 axiosMock.create.mockImplementation(create);
 
-axiosMock.getLastRequest = () => { axiosMock.__requests[axiosMock.__requests.length - 1] };
+axiosMock.getLastRequest = () => { return axiosMock.requests[axiosMock.requests.length - 1] };
 axiosMock._setMockError = (mE) => { mockError = mE };
 axiosMock._setMockResponses = (mR) => { mockResponses = mR };
 axiosMock._setDelay = (mD) => { mockDelay = mD };
