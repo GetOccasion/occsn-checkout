@@ -23,6 +23,7 @@
   "dependencies": {
     "bootstrap": "^4.0.0",
     "immutable": "^3.8.2",
+    "jest-plugins": "^2.6.0",
     "mirror-creator": "^1.1.0",
     "occasion-sdk": "git+https://github.com/nicklandgrebe/occasion-sdk-js.git",
     "prop-types": "^15.6.0",
@@ -47,11 +48,19 @@
     "babel-preset-stage-0": "^6.24.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-matchers": "^4.2.0",
     "enzyme-to-json": "^3.3.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.3.0",
     "jest-cli": "^22.3.0",
+    "jest-enzyme": "^4.2.0",
+    "jest-plugin-action": "^2.6.0",
+    "jest-plugin-context": "^2.6.0",
+    "jest-plugin-for-each": "^2.6.0",
+    "jest-plugin-it-renders": "^2.6.0",
+    "jest-plugin-its": "^2.6.0",
     "jest-plugin-set": "^2.6.0",
+    "jest-plugin-unhandled-promise": "^2.6.0",
     "poi": "^9.6.13",
     "poi-preset-react": "^9.2.1",
     "poi-preset-resolve-alias": "^1.0.1",
@@ -60,16 +69,16 @@
   },
   "jest": {
     "setupFiles": [
-      "./spec/jestsetup.js",
-      "jest-plugin-set/setup"
+      "./spec/jest/setup.js"
     ],
+    "setupTestFrameworkScriptFile": "./spec/jest/plugins.js",
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
     "moduleNameMapper": {
       "^.+\\.(css|scss)$": "identity-obj-proxy",
-      "^active-resource$": "active-resource/build/active-resource.min.js",
-      "^occasion-sdk$": "occasion-sdk/build/occasion-sdk.min.js"
+      "^active-resource$": "active-resource/build/active-resource.js",
+      "^occasion-sdk$": "occasion-sdk/build/occasion-sdk.js"
     }
   }
 }
