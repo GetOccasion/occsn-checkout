@@ -3,6 +3,8 @@ import thunk from 'redux-thunk';
 
 import Immutable from 'immutable';
 
+import occsn from '../../app/libs/Occasion'
+
 import * as actions from '../../app/actions/appActions'
 import types from '../../app/constants/appConstants'
 
@@ -18,7 +20,7 @@ describe('app actions', () => {
   beforeEach(() => {
     axios._setMockResponses({
       '/products/:id/': { status: 200, data: productFixture },
-      '/products/:id/questions/:id/': { status: 200, data: blankQuestionsFixture },
+      '/products/:id/questions/': { status: 200, data: blankQuestionsFixture },
     });
   });
 
@@ -35,7 +37,7 @@ describe('app actions', () => {
       expect(axios.requests[0].params).toEqual({ include: 'merchant,venue.state' });
     });
 
-    it('creates SET_PRODUCT && CONSTRUCT_ORDER_REQUEST when product is done loading', async () => {
+    it('creates appropriate actions', async () => {
       expect(typesForActions(store.getActions())).toEqual([
         types.LOAD_PRODUCT_REQUEST,
         types.SET_PRODUCT,
@@ -43,8 +45,35 @@ describe('app actions', () => {
       ]);
     });
 
+    it('creates SET_PRODUCT with product of class occsn.Product', async () => {
+      expect(store.getActions()[1].product).toBeInstanceOf(occsn.Product);
+    });
+
     it('creates SET_PRODUCT with product with id == OCCSN.product_id', async () => {
       expect(store.getActions()[1].product.id).toEqual(global.OCCSN.product_id);
+    });
+  });
+
+  describe('constructOrder', () => {
+    let store;
+
+    beforeEach(async () => {
+      store = mockStore({ $$appStore: Immutable.fromJS({ order: null }) });
+
+      var product = await occsn.Product.find(global.OCCSN.product_id);
+
+      await store.dispatch(actions.constructOrder(product));
+    });
+
+    it('creates appropriate actions', async () => {
+      expect(typesForActions(store.getActions())).toEqual([
+        types.CONSTRUCT_ORDER_REQUEST,
+        types.SET_ORDER,
+      ]);
+    });
+
+    it('creates SET_ORDER with order of class occsn.Order', async () => {
+      expect(store.getActions()[1].order).toBeInstanceOf(occsn.Order);
     });
   });
 });

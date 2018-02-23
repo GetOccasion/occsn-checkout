@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
 
+import { Resource } from 'mitragyna';
+
 import { loadProduct } from '../actions/appActions';
 
 import '../styles/index.css'
 
 import Header from '../components/Header';
+import Order from '../components/Order';
 
 // Which part of the Redux global state does our component want to receive as props?
 function stateToProps(state) {
@@ -49,8 +52,19 @@ export class AppContainer extends PureComponent {
     return <Container>
       { data.product ? (
         <Row>
-          <Col xs={{ size: 10, offset: 1 }}>
-            <Col><Header product={ data.product }></Header></Col>
+          <Col sm={{ size: 10, offset: 1 }}>
+            <Row>
+              <Col>
+                <Header product={ data.product }></Header>
+              </Col>
+            </Row>
+            { data.order ? (
+              <Row>
+                <Col>
+                  <Resource component={ Order } subject={ data.order }></Resource>
+                </Col>
+              </Row>
+            ) : (null)}
           </Col>
         </Row>
       ) : (

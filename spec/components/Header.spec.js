@@ -43,7 +43,7 @@ describe('Header', () => {
     });
 
     it('displays product description', () => {
-      expect(wrapper.find('.product p')).toHaveHTML('<p>' + product.description.replace(/<br>/g, '<br/>') + '</p>');
+      expect(wrapper.find('.product span')).toHaveHTML('<span>' + product.description.replace(/<br>/g, '<br/>') + '</span>');
     });
 
     it('displays venue name', () => {
