@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": "f23skvy8",
+    "type": "orders",
+    "attributes": {
+      "updated_at": "2018-02-22T14:29:13.610-06:00"
+    },
+    "relationships": {
+      "time_slots": {
+        "data": [
+          {
+            "id": "ga8wdZsM9-",
+            "type": "time_slots"
+          }
+        ],
+        "links": {
+          "self": "http://lvh.me:3000/api/v1/orders/f23skvy8/relationships/time_slots",
+          "related": "http://lvh.me:3000/api/v1/orders/f23skvy8/time_slots"
+        }
+      }
+    },
+    "links": {
+      "self": "http://lvh.me:3000/api/v1/orders/f23skvy8"
+    }
+  }
+}

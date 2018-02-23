@@ -39,7 +39,6 @@ function create() {
         }, mockDelay);
       });
 
-      debugger;
       var requestData = {
         ...options,
         promise: request

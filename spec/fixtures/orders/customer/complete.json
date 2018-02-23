@@ -1,0 +1,39 @@
+{
+  "data": {
+    "id": "f23skvy8",
+    "type": "orders",
+    "attributes": {
+      "updated_at": "2018-02-22T16:19:02.936-06:00"
+    },
+    "relationships": {
+      "customer": {
+        "data": {
+          "id": "d8sh0bap",
+          "type": "customers"
+        },
+        "links": {
+          "self": "http://lvh.me:3000/api/v1/orders/f23skvy8/relationships/customer",
+          "related": "http://lvh.me:3000/api/v1/orders/f23skvy8/customer"
+        }
+      }
+    },
+    "links": {
+      "self": "http://lvh.me:3000/api/v1/orders/f23skvy8"
+    }
+  },
+  "included": [
+    {
+      "id": "d8sh0bap",
+      "type": "customers",
+      "attributes": {
+        "email": "nick@example.com",
+        "first_name": "Nick",
+        "last_name": "Smith",
+        "updated_at": "2018-02-22T16:19:02.883-06:00"
+      },
+      "links": {
+        "self": "http://lvh.me:3000/api/v1/customers/d8sh0bap"
+      }
+    }
+  ]
+}

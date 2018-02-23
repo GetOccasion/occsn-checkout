@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": "f23skvy8",
+    "type": "orders",
+    "attributes": {
+      "coupon_amount": null,
+      "coupon_description": null,
+      "created_at": "2018-02-22T14:29:13.610-06:00",
+      "description": "Advanced Bass Guitar building for dummies",
+      "gift_card_amount": null,
+      "outstanding_balance": "0.0",
+      "price": "0.0",
+      "quantity": 1,
+      "status": "booked",
+      "subtotal": "0.0",
+      "tax": "0.0",
+      "tax_percentage": "0.0",
+      "total": "0.0",
+      "updated_at": "2018-02-22T17:32:33.118-06:00",
+      "verification_code": "186AO1"
+    },
+    "links": {
+      "self": "http://lvh.me:3000/api/v1/orders/f23skvy8"
+    }
+  }
+}
