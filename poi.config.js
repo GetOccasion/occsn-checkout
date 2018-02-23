@@ -18,6 +18,7 @@ module.exports = {
     require('poi-preset-react')(),
     require('poi-preset-resolve-alias')({
       'active-resource': path.join(process.cwd(), 'node_modules', 'active-resource', 'build', 'active-resource.min.js'),
+      'mitragyna': path.join(process.cwd(), 'node_modules', 'mitragyna', 'build', 'mitragyna.min.js'),
       'occasion-sdk': path.join(process.cwd(), 'node_modules', 'occasion-sdk', 'build', 'occasion-sdk.min.js'),
     })
   ],

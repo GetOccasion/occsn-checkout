@@ -25,6 +25,7 @@
     "immutable": "^3.8.2",
     "jest-plugins": "^2.6.0",
     "mirror-creator": "^1.1.0",
+    "mitragyna": "git+https://github.com/nicklandgrebe/mitragyna.git",
     "occasion-sdk": "git+https://github.com/nicklandgrebe/occasion-sdk-js.git",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
@@ -79,6 +80,7 @@
     "moduleNameMapper": {
       "^.+\\.(css|scss)$": "identity-obj-proxy",
       "^active-resource$": "active-resource/build/active-resource.js",
+      "^mitragyna$": "mitragyna/build/mitragyna.min.js",
       "^occasion-sdk$": "occasion-sdk/build/occasion-sdk.js"
     }
   }

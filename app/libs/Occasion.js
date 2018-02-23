@@ -2,7 +2,8 @@ import ActiveResource from 'active-resource';
 import Occasion from 'occasion-sdk';
 
 let options = {
-  token: window.OCCSN.api_key
+  token: window.OCCSN.api_key,
+  immutable: true
 };
 
 let url = window.OCCSN.host_url;
