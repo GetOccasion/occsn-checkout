@@ -23,7 +23,6 @@
   "dependencies": {
     "bootstrap": "^4.0.0",
     "immutable": "^3.8.2",
-    "jest-plugins": "^2.6.0",
     "mirror-creator": "^1.1.0",
     "mitragyna": "git+https://github.com/nicklandgrebe/mitragyna.git",
     "occasion-sdk": "git+https://github.com/nicklandgrebe/occasion-sdk-js.git",
@@ -56,6 +55,7 @@
     "jest": "^22.3.0",
     "jest-cli": "^22.3.0",
     "jest-enzyme": "^4.2.0",
+    "jest-plugins": "^2.6.0",
     "jest-plugin-action": "^2.6.0",
     "jest-plugin-context": "^2.6.0",
     "jest-plugin-for-each": "^2.6.0",
