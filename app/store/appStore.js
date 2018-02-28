@@ -11,6 +11,7 @@ export default function configureStore(_) {
   // Redux expects to initialize the store using an Object, not an Immutable.Map
   const initialState = {
     $$appStore: $$appState,
+    $$calendarStore: $$calendarState,
   };
 
   // https://github.com/reactjs/react-router-redux
