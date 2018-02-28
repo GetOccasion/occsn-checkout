@@ -18,3 +18,5 @@ global.OCCSN = {
   host_url: 'http://noisacco.lvh.me:3000',
   product_id: 'QCF67DA'
 };
+
+global.debugRequests = false;

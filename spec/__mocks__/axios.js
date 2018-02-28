@@ -30,7 +30,13 @@ function create() {
               var regexp = new RegExp(resources.join('([^\/]+)'));
 
               if(mockResponses.hasOwnProperty(k) && options.url.match(regexp)) {
+                if(global.debugRequests) {
+                  console.log('REQUESTED ' + options.method + ' ' + options.url);
+                  console.log(mockResponses[k]);
+                }
+
                 response = mockResponses[k];
+                break;
               }
             }
 

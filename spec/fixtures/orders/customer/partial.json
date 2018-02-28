@@ -3,6 +3,7 @@
     "id": "f23skvy8",
     "type": "orders",
     "attributes": {
+      "status": "initialized",
       "updated_at": "2018-02-22T16:15:59.843-06:00"
     },
     "relationships": {
@@ -29,8 +30,8 @@
         "address": null,
         "city": null,
         "created_at": "2018-02-22T16:15:59.753-06:00",
-        "email": null,
-        "first_name": "Nick",
+        "email": "nick@example.com",
+        "first_name": null,
         "last_name": null,
         "phone": null,
         "updated_at": "2018-02-22T16:15:59.753-06:00",

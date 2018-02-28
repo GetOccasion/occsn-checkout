@@ -70,6 +70,7 @@
     "redux-mock-store": "^1.5.1"
   },
   "jest": {
+    "clearMocks": true,
     "setupFiles": [
       "./spec/jest/setup.js"
     ],
@@ -81,7 +82,8 @@
       "^.+\\.(css|scss)$": "identity-obj-proxy",
       "^active-resource$": "active-resource/build/active-resource.js",
       "^mitragyna$": "mitragyna/build/mitragyna.min.js",
-      "^occasion-sdk$": "occasion-sdk/build/occasion-sdk.js"
+      "^occasion-sdk$": "occasion-sdk/build/occasion-sdk.js",
+      "fixtures(.*)$": "<rootDir>/spec/fixtures$1"
     }
   }
 }
