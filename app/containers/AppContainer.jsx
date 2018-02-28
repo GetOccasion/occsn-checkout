@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { Resource } from 'mitragyna';
 
-import { loadProduct } from '../actions/appActions';
+import { loadProduct, setOrder } from '../actions/appActions';
 
 import '../styles/index.css'
 
@@ -27,6 +27,7 @@ function dispatchToProps(dispatch) {
   return {
     actions: {
       loadProduct: () => dispatch(loadProduct(window.OCCSN.product_id)),
+      setOrder: (order) => dispatch(setOrder(order))
     }
   }
 }
@@ -61,7 +62,7 @@ export class AppContainer extends PureComponent {
             { data.order ? (
               <Row>
                 <Col>
-                  <Resource component={ Order } subject={ data.order }></Resource>
+                  <Resource afterUpdate={ actions.setOrder } component={ Order } subject={ data.order }></Resource>
                 </Col>
               </Row>
             ) : (null)}

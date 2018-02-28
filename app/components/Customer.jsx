@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Input } from 'mitragyna';
-import { InputGroup } from 'reactstrap';
+import { Field } from 'mitragyna';
+import { Input, ListGroup, ListGroupItem } from 'reactstrap';
 
 import occsn from '../libs/Occasion';
 
@@ -14,11 +14,22 @@ export default class Customer extends PureComponent {
   render() {
     let { subject } = this.props;
 
-    return <InputGroup>
-      <Input type="email" name="email" className="form-control"></Input>
-      <Input type="text" name="firstName" className="form-control"></Input>
-      <Input type="text" name="lastName" className="form-control"></Input>
-      <Input type="text" name="zip" className="form-control"></Input>
-    </InputGroup>;
+    return <section>
+      <h2>Customer Information</h2>
+      <ListGroup>
+        <ListGroupItem>
+          <Field type="email" name="email" placeholder="Email" component={ Input }></Field>
+        </ListGroupItem>
+        <ListGroupItem>
+          <Field type="text"  name="firstName" placeholder="First Name" component={ Input }></Field>
+        </ListGroupItem>
+        <ListGroupItem>
+          <Field type="text"  name="lastName" placeholder="Last Name" component={ Input }></Field>
+        </ListGroupItem>
+        <ListGroupItem>
+          <Field type="text"  name="zip" placeholder="Zip Code" component={ Input }></Field>
+        </ListGroupItem>
+      </ListGroup>
+    </section>;
   }
 }

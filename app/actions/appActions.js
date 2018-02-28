@@ -6,7 +6,7 @@ export function constructOrder(product) {
   return dispatch => {
     dispatch(constructOrderRequest());
 
-    return occsn.Order.construct({ product }).then(order => {
+    return occsn.Order.construct({ product, status: 'initialized' }).then(order => {
       dispatch(setOrder(order));
     });
   };

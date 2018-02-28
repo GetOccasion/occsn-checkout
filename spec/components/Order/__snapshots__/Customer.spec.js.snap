@@ -1,0 +1,289 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Order Customer complete customer matches snapshot 1`] = `
+<section>
+  <h2>
+    Customer Information
+  </h2>
+  <ListGroup
+    tag="ul"
+  >
+    <ul
+      className="list-group"
+    >
+      <ListGroupItem
+        tag="li"
+      >
+        <li
+          className="list-group-item"
+        >
+          <Field
+            component={[Function]}
+            name="email"
+            placeholder="Email"
+            type="email"
+          >
+            <Input
+              key="email"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="Email"
+              type="text"
+              value="nick@example.com"
+            >
+              <input
+                className="form-control"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Email"
+                type="text"
+                value="nick@example.com"
+              />
+            </Input>
+          </Field>
+        </li>
+      </ListGroupItem>
+      <ListGroupItem
+        tag="li"
+      >
+        <li
+          className="list-group-item"
+        >
+          <Field
+            component={[Function]}
+            name="firstName"
+            placeholder="First Name"
+            type="text"
+          >
+            <Input
+              key="firstName"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="First Name"
+              type="text"
+              value="Nick"
+            >
+              <input
+                className="form-control"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="First Name"
+                type="text"
+                value="Nick"
+              />
+            </Input>
+          </Field>
+        </li>
+      </ListGroupItem>
+      <ListGroupItem
+        tag="li"
+      >
+        <li
+          className="list-group-item"
+        >
+          <Field
+            component={[Function]}
+            name="lastName"
+            placeholder="Last Name"
+            type="text"
+          >
+            <Input
+              key="lastName"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="Last Name"
+              type="text"
+              value="Smith"
+            >
+              <input
+                className="form-control"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Last Name"
+                type="text"
+                value="Smith"
+              />
+            </Input>
+          </Field>
+        </li>
+      </ListGroupItem>
+      <ListGroupItem
+        tag="li"
+      >
+        <li
+          className="list-group-item"
+        >
+          <Field
+            component={[Function]}
+            name="zip"
+            placeholder="Zip Code"
+            type="text"
+          >
+            <Input
+              key="zip"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="Zip Code"
+              type="text"
+              value=""
+            >
+              <input
+                className="form-control"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Zip Code"
+                type="text"
+                value=""
+              />
+            </Input>
+          </Field>
+        </li>
+      </ListGroupItem>
+    </ul>
+  </ListGroup>
+</section>
+`;
+
+exports[`Order Customer on change matches snapshot 1`] = `
+<section>
+  <h2>
+    Customer Information
+  </h2>
+  <ListGroup
+    tag="ul"
+  >
+    <ul
+      className="list-group"
+    >
+      <ListGroupItem
+        tag="li"
+      >
+        <li
+          className="list-group-item"
+        >
+          <Field
+            component={[Function]}
+            name="email"
+            placeholder="Email"
+            type="email"
+          >
+            <Input
+              key="email"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="Email"
+              type="text"
+              value="nick@example.com"
+            >
+              <input
+                className="form-control"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Email"
+                type="text"
+                value="nick@example.com"
+              />
+            </Input>
+          </Field>
+        </li>
+      </ListGroupItem>
+      <ListGroupItem
+        tag="li"
+      >
+        <li
+          className="list-group-item"
+        >
+          <Field
+            component={[Function]}
+            name="firstName"
+            placeholder="First Name"
+            type="text"
+          >
+            <Input
+              key="firstName"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="First Name"
+              type="text"
+              value=""
+            >
+              <input
+                className="form-control"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="First Name"
+                type="text"
+                value=""
+              />
+            </Input>
+          </Field>
+        </li>
+      </ListGroupItem>
+      <ListGroupItem
+        tag="li"
+      >
+        <li
+          className="list-group-item"
+        >
+          <Field
+            component={[Function]}
+            name="lastName"
+            placeholder="Last Name"
+            type="text"
+          >
+            <Input
+              key="lastName"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="Last Name"
+              type="text"
+              value=""
+            >
+              <input
+                className="form-control"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Last Name"
+                type="text"
+                value=""
+              />
+            </Input>
+          </Field>
+        </li>
+      </ListGroupItem>
+      <ListGroupItem
+        tag="li"
+      >
+        <li
+          className="list-group-item"
+        >
+          <Field
+            component={[Function]}
+            name="zip"
+            placeholder="Zip Code"
+            type="text"
+          >
+            <Input
+              key="zip"
+              onBlur={[Function]}
+              onChange={[Function]}
+              placeholder="Zip Code"
+              type="text"
+              value=""
+            >
+              <input
+                className="form-control"
+                onBlur={[Function]}
+                onChange={[Function]}
+                placeholder="Zip Code"
+                type="text"
+                value=""
+              />
+            </Input>
+          </Field>
+        </li>
+      </ListGroupItem>
+    </ul>
+  </ListGroup>
+</section>
+`;

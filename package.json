@@ -21,6 +21,7 @@
   "author": "Nick Landgrebe, Peak Labs LLC DBA Occasion App",
   "license": "MIT",
   "dependencies": {
+    "active-resource": "git+https://github.com/nicklandgrebe/activeresource.js.git#feature/immutable",
     "bootstrap": "^4.0.0",
     "immutable": "^3.8.2",
     "mirror-creator": "^1.1.0",
