@@ -41,16 +41,17 @@ describe('app actions', () => {
       expect(typesForActions(store.getActions())).toEqual([
         types.LOAD_PRODUCT_REQUEST,
         types.SET_PRODUCT,
+        types.SET_TIME_ZONE,
         types.CONSTRUCT_ORDER_REQUEST,
       ]);
     });
 
     it('creates SET_PRODUCT with product of class occsn.Product', async () => {
-      expect(store.getActions()[1].product).toBeInstanceOf(occsn.Product);
+      expect(actionForType('SET_PRODUCT', store.getActions()).product).toBeInstanceOf(occsn.Product);
     });
 
     it('creates SET_PRODUCT with product with id == OCCSN.product_id', async () => {
-      expect(store.getActions()[1].product.id).toEqual(global.OCCSN.product_id);
+      expect(actionForType('SET_PRODUCT', store.getActions()).product.id).toEqual(global.OCCSN.product_id);
     });
   });
 
@@ -73,7 +74,7 @@ describe('app actions', () => {
     });
 
     it('creates SET_ORDER with order of class occsn.Order', async () => {
-      expect(store.getActions()[1].order).toBeInstanceOf(occsn.Order);
+      expect(actionForType('SET_ORDER', store.getActions()).order).toBeInstanceOf(occsn.Order);
     });
   });
 });

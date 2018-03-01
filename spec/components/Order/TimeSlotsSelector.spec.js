@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { Resource } from 'mitragyna';
+import moment from 'moment';
+import 'moment-timezone';
 
 import Order from '../../../app/components/Order';
 import TimeSlotsSelector from '../../../app/components/TimeSlotsSelector';
@@ -32,6 +34,8 @@ describe('Order', () => {
       axios._setMockResponses(responses);
 
       product = await occsn.Product.find('1');
+      moment.tz.setDefault(product.merchant().timeZone);
+
       order = await occsn.Order.construct({ product, status: 'initialized' });
 
       order = await order.save();
@@ -59,6 +63,10 @@ describe('Order', () => {
 
     it('displays time slots for product', () => {
       expect(timeSlotsWrapper.find('button').length).toEqual(productTimeSlotsFixture.data.length)
+    });
+
+    it('uses merchant time zone for time slots', () => {
+      expect(timeSlotsWrapper.find('button').first()).toHaveText('Feb 13, 2018 3:00 PM')
     });
 
     context('on click', () => {

@@ -12,6 +12,7 @@ global.render = render;
 global.mount = mount;
 
 global.typesForActions = (actions) => { return _.map(actions, (a) => { return a.type }) };
+global.actionForType = (type, actions) => { return _.find(actions, (a) => { return a.type == type }) };
 
 global.OCCSN = {
   api_key: '',

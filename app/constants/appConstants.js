@@ -5,6 +5,7 @@ const actionTypes = mirrorCreator([
   'LOAD_PRODUCT_REQUEST',
   'SET_ORDER',
   'SET_PRODUCT',
+  'SET_TIME_ZONE',
 ]);
 
 export default actionTypes;

@@ -2,6 +2,8 @@ import ActiveResource from 'active-resource';
 import Occasion from 'occasion-sdk';
 
 import moment from 'moment';
+import 'moment-timezone';
+
 
 let options = {
   token: window.OCCSN.api_key,
@@ -17,7 +19,9 @@ var occsn = Occasion.Client(options);
 
 // Wrap SDK dates in Moment.js objects
 occsn.Product.afterRequest(function() {
-  if(this.firstTimeSlotStartsAt != null) this.firstTimeSlotStartsAt = moment(this.firstTimeSlotStartsAt);
+  if(this.firstTimeSlotStartsAt != null) {
+    this.firstTimeSlotStartsAt = moment(this.firstTimeSlotStartsAt).tz(this.merchant().timeZone);
+  }
 });
 
 occsn.TimeSlot.afterRequest(function() {

@@ -29,6 +29,9 @@ export function loadProduct(id) {
 
     return query.then(product => {
       dispatch(setProduct(product));
+
+      dispatch(setTimeZone(product.merchant().timeZone));
+
       dispatch(constructOrder(product));
     });
   };
@@ -51,5 +54,12 @@ export function setProduct(product) {
   return {
     type: actionTypes.SET_PRODUCT,
     product
+  };
+}
+
+export function setTimeZone(timeZone) {
+  return {
+    type: actionTypes.SET_TIME_ZONE,
+    timeZone
   };
 }
