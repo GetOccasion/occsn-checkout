@@ -6,6 +6,7 @@ import { Container, Row, Col } from 'reactstrap';
 import { Resource } from 'mitragyna';
 
 import { loadProduct, setOrder } from '../actions/appActions';
+import { loadProductTimeSlots } from '../actions/calendarActions';
 
 import '../styles/index.css'
 
@@ -28,6 +29,7 @@ function dispatchToProps(dispatch) {
   return {
     actions: {
       loadProduct: () => dispatch(loadProduct(window.OCCSN.product_id)),
+      loadProductTimeSlots: (product) => dispatch(loadProductTimeSlots(product)),
       setOrder: (order) => dispatch(setOrder(order))
     }
   }
@@ -46,6 +48,14 @@ export class AppContainer extends PureComponent {
   componentDidMount() {
     const { actions } = this.props;
     actions.loadProduct();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { actions, data } = this.props;
+
+    if(data.product == null && nextProps.data.product != null) {
+      actions.loadProductTimeSlots(nextProps.data.product);
+    }
   }
 
   render() {

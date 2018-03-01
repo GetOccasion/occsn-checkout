@@ -7,9 +7,11 @@ import { Row, Col } from 'reactstrap';
 import occsn from '../libs/Occasion';
 
 import Customer from './Customer';
+import TimeSlotsSelector from './TimeSlotsSelector';
 
 export default class Order extends PureComponent {
   static propTypes = {
+    afterUpdate: PropTypes.func.isRequired,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
     selectedTimeSlots: PropTypes.shape({
       __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
@@ -17,13 +19,14 @@ export default class Order extends PureComponent {
   };
 
   render() {
-    let { subject, selectedTimeSlots } = this.props;
+    let { afterUpdate, subject, selectedTimeSlots } = this.props;
 
     let customer = subject.customer();
-    let product = subject.product();
 
     return <section>
-        <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
+      <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
+
+      <TimeSlotsSelector subject={subject} timeSlots={ selectedTimeSlots } onSelect={ afterUpdate } />
     </section>;
   }
 }
