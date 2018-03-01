@@ -1,5 +1,6 @@
 import React from 'react';
 
+import ActiveResource from 'active-resource';
 import { Resource } from 'mitragyna';
 
 import Order from '../../../app/components/Order';
@@ -12,6 +13,7 @@ import productFixture from 'fixtures/products/cash.json';
 import blankQuestionsFixture from 'fixtures/blank.json';
 
 import initializedOrderFixture from 'fixtures/orders/initialized/free.json';
+import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
 import partialCustomerOrderFixture from 'fixtures/orders/customer/partial.json';
 import completeCustomerOrderFixture from 'fixtures/orders/customer/complete.json';
 
@@ -25,6 +27,7 @@ describe('Order', () => {
       let responses = {
         '/products/:id/': { status: 200, data: productFixture },
         '/products/:id/questions/': { status: 200, data: blankQuestionsFixture },
+        '/products/:id/time_slots/': { status: 200, data: blankQuestionsFixture },
         ...orderResponses
       };
       axios._setMockResponses(responses);
@@ -36,6 +39,7 @@ describe('Order', () => {
 
       let props = {
         component: Order,
+        componentProps: { selectedTimeSlots: ActiveResource.Collection.build() },
         subject: order,
         afterUpdate: mockSetOrder
       };

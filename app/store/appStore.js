@@ -6,7 +6,7 @@ import thunkMiddleware from 'redux-thunk';
 import reducers, { initialStates } from '../reducers';
 
 export default function configureStore(_) {
-  const { $$appState } = initialStates;
+  const { $$appState, $$calendarState } = initialStates;
 
   // Redux expects to initialize the store using an Object, not an Immutable.Map
   const initialState = {

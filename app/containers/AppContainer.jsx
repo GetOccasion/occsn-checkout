@@ -18,6 +18,7 @@ function stateToProps(state) {
     data: {
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
+      selectedTimeSlots: state.$$calendarStore.get('selectedTimeSlots'),
     }
   };
 }
@@ -62,7 +63,12 @@ export class AppContainer extends PureComponent {
             { data.order ? (
               <Row>
                 <Col>
-                  <Resource afterUpdate={ actions.setOrder } component={ Order } subject={ data.order }></Resource>
+                  <Resource
+                    afterUpdate={ actions.setOrder }
+                    component={ Order }
+                    componentProps={ { selectedTimeSlots: data.selectedTimeSlots } }
+                    subject={ data.order }
+                  ></Resource>
                 </Col>
               </Row>
             ) : (null)}

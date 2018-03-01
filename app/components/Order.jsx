@@ -10,11 +10,14 @@ import Customer from './Customer';
 
 export default class Order extends PureComponent {
   static propTypes = {
-    subject: PropTypes.instanceOf(occsn.Order),
+    subject: PropTypes.instanceOf(occsn.Order).isRequired,
+    selectedTimeSlots: PropTypes.shape({
+      __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
+    })
   };
 
   render() {
-    let { subject } = this.props;
+    let { subject, selectedTimeSlots } = this.props;
 
     let customer = subject.customer();
     let product = subject.product();
