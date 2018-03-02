@@ -12,7 +12,10 @@ var mockResponses = [];
 
 var axiosMock = jest.genMockFromModule('axios');
 
+var _ = require('underscore');
+
 axiosMock.requests = [];
+axiosMock.requestCountsForURL = {};
 
 function create() {
   return {
@@ -30,12 +33,24 @@ function create() {
               var regexp = new RegExp(resources.join('([^\/]+)'));
 
               if(mockResponses.hasOwnProperty(k) && options.url.match(regexp)) {
-                if(global.debugRequests) {
-                  console.log('REQUESTED ' + options.method + ' ' + options.url);
-                  console.log(mockResponses[k]);
+                var mockResponse;
+                if(_.isArray(mockResponses[k])) {
+                  var count = axiosMock.requestCountsForURL[options.url];
+                  if(count == undefined) count = 0;
+
+                  mockResponse = mockResponses[k][count];
+
+                  axiosMock.requestCountsForURL[options.url] = count + 1;
+                } else {
+                  mockResponse = mockResponses[k]
                 }
 
-                response = mockResponses[k];
+                if(global.debugRequests) {
+                  console.log('REQUESTED ' + options.method + ' ' + options.url);
+                  console.log(mockResponse);
+                }
+
+                response = mockResponse;
                 break;
               }
             }
@@ -63,5 +78,7 @@ axiosMock._setMockError = (mE) => { mockError = mE };
 axiosMock._setMockResponses = (mR) => { mockResponses = mR };
 axiosMock._setDelay = (mD) => { mockDelay = mD };
 axiosMock.wait = (t) => { new Promise((r) => { setTimeout(() => { r() }, t || mockDelay) }) };
+
+axiosMock.reset = () => { axiosMock.requests = []; axiosMock.requestCountsForURL = {}; mockResponses = []; }
 
 module.exports = axiosMock;
