@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import _ from 'underscore';
+
 import { Container, Row, Col } from 'reactstrap';
 
 import { Resource } from 'mitragyna';
@@ -12,6 +15,7 @@ import '../styles/index.css'
 
 import Header from '../components/Header';
 import Order from '../components/Order';
+import OrderComplete from '../components/Order/Complete';
 
 // Which part of the Redux global state does our component want to receive as props?
 function stateToProps(state) {
@@ -43,6 +47,12 @@ export class AppContainer extends PureComponent {
 
   constructor(props) {
     super(props);
+
+    _.bindAll(this,
+      'renderBookingScreen',
+      'renderCompleteScreen',
+      'renderLoadingScreen',
+    )
   }
 
   componentDidMount() {
@@ -61,41 +71,60 @@ export class AppContainer extends PureComponent {
   render() {
     const { actions, data } = this.props;
 
+    let body;
+    if(data.product) {
+      if(data.order != null && data.order.status == 'booked') {
+        body = this.renderCompleteScreen();
+      } else {
+        body = this.renderBookingScreen();
+      }
+    } else {
+      body = this.renderLoadingScreen();
+    }
+
     return <Container>
-      { data.product ? (
-        <Row>
-          <Col sm={{ size: 10, offset: 1 }}>
-            <Row>
-              <Col>
-                <Header product={ data.product }></Header>
-              </Col>
-            </Row>
-            { data.order ? (
-              <Row>
-                <Col>
-                  <Resource
-                    afterUpdate={ actions.setOrder }
-                    component={ Order }
-                    componentProps={ { selectedTimeSlots: data.selectedTimeSlots } }
-                    subject={ data.order }
-                  ></Resource>
-                </Col>
-              </Row>
-            ) : (null)}
-          </Col>
-        </Row>
-      ) : (
-        this.renderLoadingScreen()
-      )}
+      <Row>
+        <Col sm={{ size: 10, offset: 1 }}>
+          { body }
+        </Col>
+      </Row>
     </Container>;
   }
 
   renderLoadingScreen() {
-    return <Row>
-      <Col>
+    return <section>
         <p>Loading...</p>
-      </Col>
-    </Row>;
+    </section>;
+  }
+
+  renderBookingScreen() {
+    const { actions, data } = this.props;
+
+    return <section>
+      <Row>
+        <Col>
+          <Header product={ data.product }></Header>
+        </Col>
+      </Row>
+      { data.order ? (
+        <Row>
+          <Col>
+            <Resource
+              afterUpdate={ actions.setOrder }
+              component={ Order }
+              componentProps={ { selectedTimeSlots: data.selectedTimeSlots } }
+              subject={ data.order }
+            ></Resource>
+          </Col>
+        </Row>
+      ) : (null)}
+    </section>;
+  }
+
+  renderCompleteScreen() {
+    const { data } = this.props;
+
+    return <OrderComplete order={ data.order}></OrderComplete>;
   }
 }
 
