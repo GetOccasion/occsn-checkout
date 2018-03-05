@@ -18,6 +18,29 @@ export function constructOrderRequest() {
   };
 }
 
+export function bookOrder(order) {
+  return async (dispatch) => {
+    dispatch(bookOrderRequest());
+
+    order = await order.update({ status: 'reserved' });
+
+    dispatch(bookOrderRequestComplete(order));
+  };
+}
+
+export function bookOrderRequest() {
+  return {
+    type: actionTypes.BOOK_ORDER_REQUEST
+  };
+}
+
+export function bookOrderRequestComplete(order) {
+  return {
+    type: actionTypes.BOOK_ORDER_REQUEST_COMPLETE,
+    order
+  };
+}
+
 export function loadProduct(id) {
   return dispatch => {
     dispatch(loadProductRequest());
