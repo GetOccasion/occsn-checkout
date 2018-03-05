@@ -42,10 +42,11 @@ export default class TimeSlotsSelector extends PureComponent {
       { timeSlots.map((timeSlot) => {
           return (
             <Button
-              className={ subject.timeSlots().target().include(timeSlot) ? 'active' : '' }
+              className={ 'mr-2 mb-2 ' + (subject.timeSlots().target().include(timeSlot) ? 'active' : '') }
               color="primary"
               key={timeSlot.id}
               onClick={() => this.selectTimeSlot(timeSlot)}
+              outline
             >
               { timeSlot.startsAt.format('lll') }
             </Button>
