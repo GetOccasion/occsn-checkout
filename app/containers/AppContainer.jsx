@@ -8,7 +8,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { Resource } from 'mitragyna';
 
-import { loadProduct, setOrder } from '../actions/appActions';
+import { bookOrder, loadProduct, setOrder } from '../actions/appActions';
 import { loadProductTimeSlots } from '../actions/calendarActions';
 
 import '../styles/index.css'
@@ -32,6 +32,7 @@ function stateToProps(state) {
 function dispatchToProps(dispatch) {
   return {
     actions: {
+      bookOrder: (order) => dispatch(bookOrder(order)),
       loadProduct: () => dispatch(loadProduct(window.OCCSN.product_id)),
       loadProductTimeSlots: (product) => dispatch(loadProductTimeSlots(product)),
       setOrder: (order) => dispatch(setOrder(order))
@@ -113,6 +114,7 @@ export class AppContainer extends PureComponent {
               afterUpdate={ actions.setOrder }
               component={ Order }
               componentProps={ { selectedTimeSlots: data.selectedTimeSlots } }
+              onSubmit={ actions.bookOrder }
               subject={ data.order }
             ></Resource>
           </Col>

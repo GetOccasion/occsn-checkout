@@ -1,0 +1,115 @@
+import React from 'react';
+
+import { Resource } from 'mitragyna';
+import moment from 'moment';
+import 'moment-timezone';
+
+import Order from 'app/components/Order';
+
+import axios from 'axios';
+import occsn from 'app/libs/Occasion';
+
+import productFixture from 'fixtures/products/cash.json';
+import blankQuestionsFixture from 'fixtures/blank.json';
+import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
+
+import bookedOrderFixture from 'fixtures/orders/booked/cash/free.json';
+import orderCustomerCompleteFixture from 'fixtures/orders/customer/complete.json';
+import orderTimeSlotFixture from 'fixtures/orders/time_slots/event.json';
+
+describe('Order', () => {
+  let order, product, wrapper, timeSlots;
+
+  const mockBookOrder = jest.fn();
+  const mockSetOrder = jest.fn();
+
+  set('bookingOrder', () => false);
+
+  async function setupWrapper(orderResponses) {
+    let responses = {
+      '/products/:id/': { status: 200, data: productFixture },
+      '/products/:id/questions/': { status: 200, data: blankQuestionsFixture },
+      '/products/:id/time_slots/': { status: 200, data: productTimeSlotsFixture },
+      ...orderResponses
+    };
+    axios._setMockResponses(responses);
+
+    product = await occsn.Product.find('1');
+
+    moment.tz.setDefault(product.merchant().timeZone);
+
+    order = await occsn.Order.construct({ product, status: 'initialized' });
+
+    // Set customer
+    order = await order.save();
+
+    // Set time slot
+    timeSlots = await product.timeSlots().all();
+    order = await order.update({ timeSlots: [timeSlots.first()] });
+
+    let props = {
+      ...props,
+      afterUpdate: mockSetOrder,
+      component: Order,
+      componentProps: { bookingOrder, selectedTimeSlots: timeSlots },
+      subject: order,
+      onSubmit: mockBookOrder,
+    };
+
+    wrapper = mount(<Resource {...props} />);
+    wrapper.update();
+  }
+
+  afterEach(async () => {
+    axios.reset();
+  });
+
+  context('normal conditions', () => {
+    beforeEach(async () => {
+      await setupWrapper({
+        '/orders/': { status: 201, data: orderCustomerCompleteFixture },
+        '/orders/:id': [
+          { status: 200, data: orderTimeSlotFixture },
+          { status: 200, data: bookedOrderFixture },
+        ]
+      });
+    });
+
+    it('displays Button#bookOrder with product.orderButtonText', () => {
+      expect(wrapper.find('Button#bookOrder')).toHaveText(product.orderButtonText);
+    });
+
+    it('enables Button#bookOrder', () => {
+      expect(wrapper.find('Button#bookOrder')).toHaveProp('disabled', false);
+    });
+
+    context('when form submitted', () => {
+      beforeEach(async () => {
+        wrapper.find('form').simulate('submit');
+        wrapper.update();
+      });
+
+      it('calls bookOrder', () => {
+        expect(mockBookOrder.mock.calls.length).toBe(1);
+      });
+    });
+  });
+
+  context('when already booking order', () => {
+    set('bookingOrder', () => true);
+
+    beforeEach(async () => {
+      await setupWrapper({
+        '/orders/': { status: 201, data: orderCustomerCompleteFixture },
+        '/orders/:id': [
+          { status: 200, data: orderTimeSlotFixture },
+          { status: 200, data: bookedOrderFixture },
+        ]
+      });
+    });
+
+    it('disables Button#bookOrder', () => {
+      expect(wrapper.find('Button#bookOrder')).toHaveProp('disabled', true);
+    });
+  });
+});

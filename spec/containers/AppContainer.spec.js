@@ -26,6 +26,7 @@ describe('AppContainer', () => {
   let product, order, timeSlots, selectedTimeSlots;
 
   const mockLoadProduct = jest.fn();
+  const mockBookOrder = jest.fn();
   const mockSetOrder = jest.fn();
 
   async function setupWrapper(orderResponses, buildProps) {
@@ -71,6 +72,7 @@ describe('AppContainer', () => {
         return {
           actions: {
             loadProduct: mockLoadProduct,
+            bookOrder: mockBookOrder,
             setOrder: mockSetOrder,
           },
           data: {
@@ -92,6 +94,7 @@ describe('AppContainer', () => {
           afterUpdate={mockSetOrder}
           component={Order}
           componentProps={ { selectedTimeSlots } }
+          onSubmit={mockBookOrder}
           subject={order}
         ></Resource>);
     });
