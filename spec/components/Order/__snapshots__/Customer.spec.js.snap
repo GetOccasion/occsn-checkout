@@ -28,7 +28,7 @@ exports[`Order Customer complete customer matches snapshot 1`] = `
               onBlur={[Function]}
               onChange={[Function]}
               placeholder="Email"
-              type="text"
+              type="email"
               value="nick@example.com"
             >
               <input
@@ -36,7 +36,7 @@ exports[`Order Customer complete customer matches snapshot 1`] = `
                 onBlur={[Function]}
                 onChange={[Function]}
                 placeholder="Email"
-                type="text"
+                type="email"
                 value="nick@example.com"
               />
             </Input>
@@ -172,7 +172,7 @@ exports[`Order Customer on change matches snapshot 1`] = `
               onBlur={[Function]}
               onChange={[Function]}
               placeholder="Email"
-              type="text"
+              type="email"
               value="nick@example.com"
             >
               <input
@@ -180,7 +180,7 @@ exports[`Order Customer on change matches snapshot 1`] = `
                 onBlur={[Function]}
                 onChange={[Function]}
                 placeholder="Email"
-                type="text"
+                type="email"
                 value="nick@example.com"
               />
             </Input>
