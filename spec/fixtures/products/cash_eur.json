@@ -84,7 +84,7 @@
       },
       "relationships": {
         "currency": {
-          "data": { "type": "currencies", "id": "h7abn9e7" }
+          "data": { "type": "currencies", "id": "h7abn9e8" }
         }
       },
       "links": {
@@ -124,11 +124,11 @@
       }
     },
     {
-      "id": "h7abn9e7",
+      "id": "h7abn9e8",
       "type": "currencies",
       "attributes": {
-        "code": "$",
-        "name": "USD"
+        "code": "€ ",
+        "name": "EUR"
       }
     }
   ]

@@ -47,7 +47,7 @@ export function loadProduct(id) {
 
     var query =
       occsn.Product
-      .includes('merchant', { venue: 'state' })
+      .includes({ merchant: 'currency', venue: 'state' })
       .find(id);
 
     return query.then(product => {

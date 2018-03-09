@@ -36,8 +36,8 @@ describe('app actions', () => {
       await store.dispatch(actions.loadProduct(global.OCCSN.product_id));
     });
 
-    it('includes venue, venue.state, and merchant when requesting product', async () => {
-      expect(axios.requests[0].params).toEqual({ include: 'merchant,venue.state' });
+    it('includes venue, venue.state, and merchant.currency when requesting product', async () => {
+      expect(axios.requests[0].params).toEqual({ include: 'merchant.currency,venue.state' });
     });
 
     it('creates appropriate actions', async () => {

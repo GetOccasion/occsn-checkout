@@ -12,7 +12,7 @@ import occsn from 'app/libs/Occasion';
 import productFixture from 'fixtures/products/cash.json';
 import productQuestionsFixture from 'fixtures/products/questions/priced.json';
 
-import initializedOrderFixture from 'fixtures/orders/initialized/priced.json';
+import initializedOrderFixture from 'fixtures/orders/initialized/cash/price.json';
 
 describe('Order', () => {
   describe('Questions', () => {
