@@ -15,7 +15,7 @@ export default class OptionList extends PureComponent {
     let { answer } = this.props;
 
     return <FormGroup tag="fieldset">
-      <legend>{ answer.question().title }{ answer.question().required ? '*' : '' }</legend>
+      <label>{ answer.question().title }{ answer.question().required ? '*' : '' }</label>
       {
         answer.question().options().target().map((option) => {
           return <FormGroup check>

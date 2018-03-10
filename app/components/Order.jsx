@@ -42,8 +42,6 @@ export default class Order extends PureComponent {
     let customer = subject.customer();
     let product = subject.product();
 
-    debugger
-
     return <section>
       <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
 
@@ -53,20 +51,24 @@ export default class Order extends PureComponent {
 
       {
         product.free ? (null) : (
-          <Pricing order={subject}></Pricing>
+          <section className="mt-3">
+            <Pricing order={subject}></Pricing>
+          </section>
         )
       }
 
-      <Button
-        block
-        color="success"
-        id="bookOrder"
-        size="lg"
-        type="submit"
-        disabled={ !this.allowedToBookOrder() }
-      >
-        { product.orderButtonText }
-      </Button>
+      <section className="mt-3">
+        <Button
+          block
+          color="success"
+          id="bookOrder"
+          size="lg"
+          type="submit"
+          disabled={ !this.allowedToBookOrder() }
+        >
+          { product.orderButtonText }
+        </Button>
+      </section>
     </section>;
   }
 }

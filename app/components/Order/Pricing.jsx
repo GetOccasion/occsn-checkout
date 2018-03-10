@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Currency from 'react-currency-formatter';
 import Decimal from 'decimal';
 
+import { Card, CardBody, CardText } from 'reactstrap';
+
 import occsn from '../../libs/Occasion';
 
 export default class Pricing extends PureComponent {
@@ -41,8 +43,12 @@ export default class Pricing extends PureComponent {
       </p>
     );
 
-    return <section>
-      { rows }
-    </section>;
+    return <Card>
+      <CardBody>
+        <CardText>
+          { rows }
+        </CardText>
+      </CardBody>
+    </Card>;
   }
 }
