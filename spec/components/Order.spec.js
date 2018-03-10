@@ -9,6 +9,7 @@ import Order from 'app/components/Order';
 import axios from 'axios';
 import occsn from 'app/libs/Occasion';
 
+import freeProductFixture from 'fixtures/products/free.json';
 import productFixture from 'fixtures/products/cash.json';
 import blankQuestionsFixture from 'fixtures/blank.json';
 import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
@@ -25,12 +26,17 @@ describe('Order', () => {
 
   set('bookingOrder', () => false);
 
-  async function setupWrapper(orderResponses) {
+  async function setupWrapper(customResponses) {
     let responses = {
-      '/products/:id/': { status: 200, data: productFixture },
-      '/products/:id/questions/': { status: 200, data: blankQuestionsFixture },
-      '/products/:id/time_slots/': { status: 200, data: productTimeSlotsFixture },
-      ...orderResponses
+      '/products/:id/': {status: 200, data: productFixture},
+      '/products/:id/questions/': {status: 200, data: blankQuestionsFixture},
+      '/products/:id/time_slots/': {status: 200, data: productTimeSlotsFixture},
+      '/orders/': {status: 201, data: orderCustomerCompleteFixture},
+      '/orders/:id': [
+        {status: 200, data: orderTimeSlotFixture},
+        {status: 200, data: bookedOrderFixture},
+      ],
+      ...customResponses
     };
     axios._setMockResponses(responses);
 
@@ -64,15 +70,9 @@ describe('Order', () => {
     axios.reset();
   });
 
-  context('normal conditions', () => {
+  describe('booking button', () => {
     beforeEach(async () => {
-      await setupWrapper({
-        '/orders/': { status: 201, data: orderCustomerCompleteFixture },
-        '/orders/:id': [
-          { status: 200, data: orderTimeSlotFixture },
-          { status: 200, data: bookedOrderFixture },
-        ]
-      });
+      await setupWrapper({});
     });
 
     it('displays Button#bookOrder with product.orderButtonText', () => {
@@ -99,17 +99,35 @@ describe('Order', () => {
     set('bookingOrder', () => true);
 
     beforeEach(async () => {
-      await setupWrapper({
-        '/orders/': { status: 201, data: orderCustomerCompleteFixture },
-        '/orders/:id': [
-          { status: 200, data: orderTimeSlotFixture },
-          { status: 200, data: bookedOrderFixture },
-        ]
-      });
+      await setupWrapper({});
     });
 
     it('disables Button#bookOrder', () => {
       expect(wrapper.find('Button#bookOrder')).toHaveProp('disabled', true);
+    });
+  });
+
+  describe('Pricing display', () => {
+    context('when product is not free', () => {
+      beforeEach(async () => {
+        await setupWrapper({});
+      });
+
+      it('displays Pricing', () => {
+        expect(wrapper.find('Pricing')).toBePresent()
+      });
+    });
+
+    context('when product is free', () => {
+      beforeEach(async () => {
+        await setupWrapper({
+          '/products/:id/': { status: 200, data: freeProductFixture },
+        });
+      });
+
+      it('does not display Pricing', () => {
+        expect(wrapper.find('Pricing')).not.toBePresent()
+      });
     });
   });
 });

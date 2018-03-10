@@ -10,6 +10,7 @@ import occsn from '../libs/Occasion';
 
 import Customer from './Customer';
 import TimeSlotsSelector from './TimeSlotsSelector';
+import Pricing from './Order/Pricing';
 import Questions from './Order/Questions';
 
 export default class Order extends PureComponent {
@@ -41,12 +42,20 @@ export default class Order extends PureComponent {
     let customer = subject.customer();
     let product = subject.product();
 
+    debugger
+
     return <section>
       <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
 
       <TimeSlotsSelector subject={subject} timeSlots={ selectedTimeSlots } onSelect={ afterUpdate } />
 
       <Questions subject={subject} questions={ product.questions().target() }></Questions>
+
+      {
+        product.free ? (null) : (
+          <Pricing order={subject}></Pricing>
+        )
+      }
 
       <Button
         block
