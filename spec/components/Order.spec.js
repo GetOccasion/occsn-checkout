@@ -14,6 +14,7 @@ import productFixture from 'fixtures/products/cash.json';
 import blankQuestionsFixture from 'fixtures/blank.json';
 import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
 
+import initializedOrderFixture from 'fixtures/orders/initialized/free.json';
 import bookedOrderFixture from 'fixtures/orders/booked/cash/free.json';
 import orderCustomerCompleteFixture from 'fixtures/orders/customer/complete.json';
 import orderTimeSlotFixture from 'fixtures/orders/time_slots/event.json';
@@ -31,8 +32,9 @@ describe('Order', () => {
       '/products/:id/': {status: 200, data: productFixture},
       '/products/:id/questions/': {status: 200, data: blankQuestionsFixture},
       '/products/:id/time_slots/': {status: 200, data: productTimeSlotsFixture},
-      '/orders/': {status: 201, data: orderCustomerCompleteFixture},
+      '/orders/': {status: 201, data: initializedOrderFixture},
       '/orders/:id': [
+        {status: 200, data: orderCustomerCompleteFixture},
         {status: 200, data: orderTimeSlotFixture},
         {status: 200, data: bookedOrderFixture},
       ],
@@ -45,6 +47,9 @@ describe('Order', () => {
     moment.tz.setDefault(product.merchant().timeZone);
 
     order = await occsn.Order.construct({ product, status: 'initialized' });
+
+    // Set price
+    order = await order.save();
 
     // Set customer
     order = await order.save();

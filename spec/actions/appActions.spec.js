@@ -108,4 +108,25 @@ describe('app actions', () => {
       expect(actionForType('SET_ORDER', store.getActions()).order).toBeInstanceOf(occsn.Order);
     });
   });
+
+  describe('saveOrder', () => {
+    let store;
+
+    beforeEach(async () => {
+      store = mockStore({ $$appStore: Immutable.fromJS({ savingOrder: false }) });
+
+      var product = await occsn.Product.find(global.OCCSN.product_id);
+      var order = await occsn.Order.construct({ product });
+
+      await store.dispatch(actions.saveOrder(order));
+    });
+
+    it('creates appropriate actions', async () => {
+      expect(typesForActions(store.getActions())).toEqual([
+        types.SAVE_ORDER_REQUEST,
+        types.SET_ORDER,
+        types.SAVE_ORDER_REQUEST_COMPLETE,
+      ]);
+    });
+  });
 });

@@ -15,10 +15,10 @@ import productFixture from '../fixtures/products/cash.json';
 import blankQuestionsFixture from '../fixtures/blank.json';
 import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
 
-
 import initializedOrderFixture from 'fixtures/orders/initialized/free.json';
 import bookedOrderFixture from 'fixtures/orders/booked/cash/free.json';
 import orderTimeSlotFixture from 'fixtures/orders/time_slots/event.json';
+import {loadProductTimeSlots} from "../../app/actions/calendarActions";
 
 describe('AppContainer', () => {
   let wrapper;
@@ -26,7 +26,9 @@ describe('AppContainer', () => {
   let product, order, timeSlots, selectedTimeSlots;
 
   const mockLoadProduct = jest.fn();
+  const mockLoadProductTimeSlots = jest.fn();
   const mockBookOrder = jest.fn();
+  const mockSaveOrder = jest.fn();
   const mockSetOrder = jest.fn();
 
   async function setupWrapper(orderResponses, buildProps) {
@@ -42,12 +44,15 @@ describe('AppContainer', () => {
     wrapper = shallow(<AppContainer {...props} />);
   }
 
-  context('normal conditions', () => {
+  context('on init', () => {
     beforeEach(async () => {
       await setupWrapper({}, () => {
         return {
           actions: {
-            loadProduct: mockLoadProduct
+            loadProduct: mockLoadProduct,
+            loadProductTimeSlots: mockLoadProductTimeSlots,
+            bookOrder: mockBookOrder,
+            setOrder: mockSetOrder,
           },
           data: {}
         };
@@ -56,6 +61,86 @@ describe('AppContainer', () => {
 
     it('calls loadProduct', () => {
       expect(mockLoadProduct.mock.calls.length).toBe(1);
+    });
+  });
+
+  context('if product loaded', () => {
+    beforeEach(async () => {
+      await setupWrapper({}, async () => {
+
+        return {
+          actions: {
+            loadProduct: mockLoadProduct,
+            loadProductTimeSlots: mockLoadProductTimeSlots,
+            bookOrder: mockBookOrder,
+            setOrder: mockSetOrder,
+          },
+          data: {}
+        };
+      });
+
+      product = await occsn.Product.find(global.OCCSN.product_id);
+      selectedTimeSlots = ActiveResource.Collection.build();
+      wrapper.setProps({
+        data: {
+          product,
+          selectedTimeSlots
+        }
+      });
+    });
+
+    it('renders Header', () => {
+      expect(wrapper).toContainReact(<Header product={product}></Header>);
+    });
+
+    it('calls loadProductTimeSlots', () => {
+      expect(mockLoadProductTimeSlots.mock.calls.length).toBe(1);
+    });
+
+    it('does not render Resource with Order', () => {
+      expect(wrapper).not.toContainReact(
+        <Resource
+          afterUpdate={mockSetOrder}
+          component={Order}
+          componentProps={ { selectedTimeSlots } }
+          onSubmit={mockBookOrder}
+        ></Resource>);
+    });
+  });
+
+  context('if order constructed', () => {
+    beforeEach(async () => {
+      await setupWrapper({
+        '/orders/': { status: 201, data: initializedOrderFixture },
+      }, async () => {
+        product = await occsn.Product.find(global.OCCSN.product_id);
+        selectedTimeSlots = ActiveResource.Collection.build();
+
+        return {
+          actions: {
+            loadProduct: mockLoadProduct,
+            loadProductTimeSlots: mockLoadProductTimeSlots,
+            bookOrder: mockBookOrder,
+            saveOrder: mockSaveOrder,
+            setOrder: mockSetOrder,
+          },
+          data: {
+            product,
+            selectedTimeSlots
+          }
+        };
+      });
+
+      order = await occsn.Order.construct({ product });
+      wrapper.setProps({
+        data: {
+          order
+        }
+      });
+    });
+
+    it('calls saveOrder', async () => {
+      expect(mockSaveOrder.mock.calls.length).toBe(1);
     });
   });
 
@@ -72,7 +157,9 @@ describe('AppContainer', () => {
         return {
           actions: {
             loadProduct: mockLoadProduct,
+            loadProductTimeSlots: mockLoadProductTimeSlots,
             bookOrder: mockBookOrder,
+            saveOrder: mockSaveOrder,
             setOrder: mockSetOrder,
           },
           data: {
@@ -82,10 +169,6 @@ describe('AppContainer', () => {
           }
         };
       });
-    });
-
-    it('renders Header', () => {
-      expect(wrapper).toContainReact(<Header product={product}></Header>);
     });
 
     it('renders Resource with Order', () => {

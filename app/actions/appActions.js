@@ -66,6 +66,29 @@ export function loadProductRequest() {
   };
 }
 
+export function saveOrder(order) {
+  return async (dispatch) => {
+    dispatch(saveOrderRequest());
+
+    order = await order.save();
+
+    dispatch(setOrder(order));
+    dispatch(saveOrderRequestComplete());
+  };
+}
+
+export function saveOrderRequest() {
+  return {
+    type: actionTypes.SAVE_ORDER_REQUEST
+  };
+}
+
+export function saveOrderRequestComplete() {
+  return {
+    type: actionTypes.SAVE_ORDER_REQUEST_COMPLETE,
+  };
+}
+
 export function setOrder(order) {
   return {
     type: actionTypes.SET_ORDER,

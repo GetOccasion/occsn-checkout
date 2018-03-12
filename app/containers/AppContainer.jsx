@@ -8,7 +8,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { Resource } from 'mitragyna';
 
-import { bookOrder, loadProduct, setOrder } from '../actions/appActions';
+import { bookOrder, loadProduct, saveOrder, setOrder } from '../actions/appActions';
 import { loadProductTimeSlots } from '../actions/calendarActions';
 
 import '../styles/index.css'
@@ -66,6 +66,10 @@ export class AppContainer extends PureComponent {
 
     if(data.product == null && nextProps.data.product != null) {
       actions.loadProductTimeSlots(nextProps.data.product);
+    }
+
+    if(data.order == null && nextProps.data.order != null) {
+      actions.saveOrder(nextProps.data.order);
     }
   }
 

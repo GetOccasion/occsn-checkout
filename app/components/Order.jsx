@@ -50,7 +50,7 @@ export default class Order extends PureComponent {
       <Questions subject={subject} questions={ product.questions().target() }></Questions>
 
       {
-        product.free ? (null) : (
+        product.free || !subject.price ? (null) : (
           <section className="mt-3">
             <Pricing order={subject}></Pricing>
           </section>
