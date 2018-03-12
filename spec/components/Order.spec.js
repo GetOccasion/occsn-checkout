@@ -75,6 +75,28 @@ describe('Order', () => {
     axios.reset();
   });
 
+  describe('product section titles', () => {
+    beforeEach(async () => {
+      await setupWrapper({});
+    });
+
+    it('displays h2 with product.widgetContactTitle', () => {
+      expect(wrapper.find('h2#widgetContactTitle')).toHaveText(product.widgetContactTitle);
+    });
+
+    it('displays h2 with product.widgetQuestionsTitle', () => {
+      expect(wrapper.find('h2#widgetQuestionsTitle')).toHaveText(product.widgetQuestionsTitle);
+    });
+
+    it('displays h2 with product.widgetTimeSlotsTitle', () => {
+      expect(wrapper.find('h2#widgetTimeSlotsTitle')).toHaveText(product.widgetTimeSlotsTitle);
+    });
+
+    it('displays h2 with product.widgetTotalDueTitle', () => {
+      expect(wrapper.find('h2#widgetTotalDueTitle')).toHaveText(product.widgetTotalDueTitle);
+    });
+  });
+
   describe('booking button', () => {
     beforeEach(async () => {
       await setupWrapper({});

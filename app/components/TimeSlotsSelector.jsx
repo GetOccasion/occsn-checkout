@@ -38,7 +38,6 @@ export default class TimeSlotsSelector extends PureComponent {
     let { timeSlots, subject } = this.props;
 
     return <section className='mt-2'>
-      <h2>Time Slots</h2>
       { timeSlots.map((timeSlot) => {
           return (
             <Button

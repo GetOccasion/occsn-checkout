@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Field } from 'mitragyna';
 import { Input, ListGroup, ListGroupItem } from 'reactstrap';
 
-import occsn from '../libs/Occasion';
+import occsn from '../../libs/Occasion';
 
 export default class Customer extends PureComponent {
   static propTypes = {
@@ -15,7 +15,6 @@ export default class Customer extends PureComponent {
     let { subject } = this.props;
 
     return <section>
-      <h2>Customer Information</h2>
       <ListGroup>
         <ListGroupItem>
           <Field type="email" name="email" placeholder="Email" component={ Input }></Field>

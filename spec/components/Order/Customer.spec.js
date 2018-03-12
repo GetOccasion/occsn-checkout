@@ -4,7 +4,7 @@ import ActiveResource from 'active-resource';
 import { Resource } from 'mitragyna';
 
 import Order from '../../../app/components/Order';
-import Customer from '../../../app/components/Customer';
+import Customer from '../../../app/components/Order/Customer';
 
 import axios from 'axios';
 import occsn from '../../../app/libs/Occasion';

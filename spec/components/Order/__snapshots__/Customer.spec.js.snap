@@ -2,9 +2,6 @@
 
 exports[`Order Customer complete customer matches snapshot 1`] = `
 <section>
-  <h2>
-    Customer Information
-  </h2>
   <ListGroup
     tag="ul"
   >
@@ -146,9 +143,6 @@ exports[`Order Customer complete customer matches snapshot 1`] = `
 
 exports[`Order Customer on change matches snapshot 1`] = `
 <section>
-  <h2>
-    Customer Information
-  </h2>
   <ListGroup
     tag="ul"
   >

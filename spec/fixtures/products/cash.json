@@ -29,13 +29,13 @@
       "time_slots_closed_before": "2018-02-14T14:30:32.711-06:00",
       "title": "1-On-1 Coaching Session",
       "updated_at": "2017-11-21T10:57:10.297-06:00",
-      "widget_attributes_title": "Additional Information",
-      "widget_questions_title": "Additional Information",
-      "widget_contact_title": null,
-      "widget_occurrences_title": null,
-      "widget_time_slots_title": null,
-      "widget_payment_title": null,
-      "widget_total_due_title": null
+      "widget_attributes_title": "Additional Information!!",
+      "widget_questions_title": "Additional Information!!",
+      "widget_contact_title": "Contact Information!!",
+      "widget_occurrences_title": "Time Slots!!",
+      "widget_time_slots_title": "Time Slots!!",
+      "widget_payment_title": "Payment Information!!",
+      "widget_total_due_title": "Total Due Today!!"
     },
     "relationships": {
       "merchant": {

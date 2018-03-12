@@ -8,7 +8,7 @@ import { Button } from 'reactstrap';
 
 import occsn from '../libs/Occasion';
 
-import Customer from './Customer';
+import Customer from './Order/Customer';
 import TimeSlotsSelector from './TimeSlotsSelector';
 import Pricing from './Order/Pricing';
 import Questions from './Order/Questions';
@@ -27,6 +27,7 @@ export default class Order extends PureComponent {
     super();
     _.bindAll(this,
       'allowedToBookOrder',
+      'headerForSection',
     );
   }
 
@@ -36,6 +37,47 @@ export default class Order extends PureComponent {
     return !bookingOrder;
   }
 
+  // @param [String] section the name of the section to get the custom or default section title for, rendered as <h2>
+  headerForSection(section) {
+    const { subject } = this.props;
+    let product = subject.product();
+
+    switch(section) {
+      case 'contact':
+        return <h2 id="widgetContactTitle">
+          { _.isNull(product.widgetContactTitle) ? (
+            "Contact Information"
+          ) : (
+            product.widgetContactTitle
+          )}
+        </h2>;
+      case 'timeSlots':
+        return <h2 id="widgetTimeSlotsTitle">
+          { _.isNull(product.widgetTimeSlotsTitle) ? (
+            "Time Slots"
+          ) : (
+            product.widgetTimeSlotsTitle
+          )}
+        </h2>;
+      case 'questions':
+        return <h2 id="widgetQuestionsTitle">
+          { _.isNull(product.widgetQuestionsTitle) ? (
+            "Additional Information"
+          ) : (
+            product.widgetQuestionsTitle
+          )}
+        </h2>;
+      case 'totalDue':
+        return <h2 id="widgetTotalDueTitle">
+          { _.isNull(product.widgetTotalDueTitle) ? (
+            "Total Due Today"
+          ) : (
+            product.widgetTotalDueTitle
+          )}
+        </h2>;
+    }
+  }
+
   render() {
     let { afterUpdate, subject, selectedTimeSlots } = this.props;
 
@@ -43,18 +85,22 @@ export default class Order extends PureComponent {
     let product = subject.product();
 
     return <section>
+      { this.headerForSection('contact') }
       <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
 
+      { this.headerForSection('timeSlots') }
       <TimeSlotsSelector subject={subject} timeSlots={ selectedTimeSlots } onSelect={ afterUpdate } />
 
+      { this.headerForSection('questions') }
       <Questions subject={subject} questions={ product.questions().target() }></Questions>
 
+      { this.headerForSection('totalDue') }
       {
-        product.free || !subject.price ? (null) : (
+        !product.free && subject.price ? (
           <section className="mt-3">
             <Pricing order={subject}></Pricing>
           </section>
-        )
+        ) : null
       }
 
       <section className="mt-3">
