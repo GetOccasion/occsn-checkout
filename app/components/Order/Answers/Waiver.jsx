@@ -16,18 +16,20 @@ export default class Waiver extends PureComponent {
   render() {
     let { answer } = this.props;
 
-    return <FormGroup check>
-      <Card>
+    return <FormGroup>
+      <Card color="light">
         <CardBody>
           <CardText>
             { ReactHtmlParser(answer.question().waiverText) }
           </CardText>
         </CardBody>
       </Card>
-      <Label check>
-        <Field name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>
-        { answer.question().title }*
-      </Label>
+      <FormGroup check>
+        <Label check className="mt-2">
+          <Field name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>
+          { answer.question().title }*
+        </Label>
+      </FormGroup>
     </FormGroup>;
   }
 }

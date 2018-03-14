@@ -14,11 +14,13 @@ export default class Checkbox extends PureComponent {
   render() {
     let { answer } = this.props;
 
-    return <FormGroup check>
-      <Label check>
-        <Field name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>
-        { answer.question().title }{ answer.question().required ? '*' : '' }
-      </Label>
+    return <FormGroup>
+      <FormGroup check>
+        <Label check>
+          <Field name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>
+          { answer.question().title }{ answer.question().required ? '*' : '' }
+        </Label>
+      </FormGroup>
     </FormGroup>;
   }
 }
