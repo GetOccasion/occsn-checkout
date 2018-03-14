@@ -28,6 +28,7 @@ export default class Order extends PureComponent {
     _.bindAll(this,
       'allowedToBookOrder',
       'headerForSection',
+      'showPrice',
     );
   }
 
@@ -52,7 +53,7 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'timeSlots':
-        return <h2 id="widgetTimeSlotsTitle">
+        return <h2 className="mt-3" id="widgetTimeSlotsTitle">
           { _.isNull(product.widgetTimeSlotsTitle) ? (
             "Time Slots"
           ) : (
@@ -60,7 +61,7 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'questions':
-        return <h2 id="widgetQuestionsTitle">
+        return <h2 className="mt-3" id="widgetQuestionsTitle">
           { _.isNull(product.widgetQuestionsTitle) ? (
             "Additional Information"
           ) : (
@@ -68,7 +69,7 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'totalDue':
-        return <h2 id="widgetTotalDueTitle">
+        return <h2 className="mt-3" id="widgetTotalDueTitle">
           { _.isNull(product.widgetTotalDueTitle) ? (
             "Total Due Today"
           ) : (
@@ -76,6 +77,13 @@ export default class Order extends PureComponent {
           )}
         </h2>;
     }
+  }
+
+  showPrice() {
+    let { subject } = this.props;
+    let product = subject.product();
+
+    return !product.free && subject.price;
   }
 
   render() {
@@ -94,10 +102,10 @@ export default class Order extends PureComponent {
       { this.headerForSection('questions') }
       <Questions subject={subject} questions={ product.questions().target() }></Questions>
 
-      { this.headerForSection('totalDue') }
       {
-        !product.free && subject.price ? (
-          <section className="mt-3">
+        this.showPrice() ? (
+          <section>
+            { this.headerForSection('totalDue') }
             <Pricing order={subject}></Pricing>
           </section>
         ) : null
