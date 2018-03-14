@@ -35,6 +35,7 @@ function dispatchToProps(dispatch) {
       bookOrder: (order) => dispatch(bookOrder(order)),
       loadProduct: () => dispatch(loadProduct(window.OCCSN.product_id)),
       loadProductTimeSlots: (product) => dispatch(loadProductTimeSlots(product)),
+      saveOrder: (order) => dispatch(saveOrder(order)),
       setOrder: (order) => dispatch(setOrder(order))
     }
   }
