@@ -23,7 +23,7 @@
   "dependencies": {
     "active-resource": "git+https://github.com/nicklandgrebe/activeresource.js.git#feature/immutable",
     "bootstrap": "^4.0.0",
-    "decimal": "0.0.2",
+    "decimal.js": "^10.0.0",
     "immutable": "^3.8.2",
     "mirror-creator": "^1.1.0",
     "mitragyna": "git+https://github.com/nicklandgrebe/mitragyna.git",
@@ -32,6 +32,7 @@
     "moment-timezone": "^0.5.14",
     "occasion-sdk": "git+https://github.com/nicklandgrebe/occasion-sdk-js.git",
     "prop-types": "^15.6.0",
+    "q": "^1.5.1",
     "react": "^16.2.0",
     "react-currency-formatter": "^1.1.0",
     "react-dom": "^16.2.0",

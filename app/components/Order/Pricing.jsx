@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Currency from 'react-currency-formatter';
-import Decimal from 'decimal';
+import Decimal from 'decimal.js';
 
 import { Card, CardBody, CardText } from 'reactstrap';
 

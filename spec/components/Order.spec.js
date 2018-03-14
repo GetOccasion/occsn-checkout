@@ -14,7 +14,8 @@ import productFixture from 'fixtures/products/cash.json';
 import blankQuestionsFixture from 'fixtures/blank.json';
 import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
 
-import initializedOrderFixture from 'fixtures/orders/initialized/free.json';
+import freeInitializedOrderFixture from 'fixtures/orders/initialized/free.json';
+import pricedInitializedOrderFixture from 'fixtures/orders/initialized/cash/price.json';
 import bookedOrderFixture from 'fixtures/orders/booked/cash/free.json';
 import orderCustomerCompleteFixture from 'fixtures/orders/customer/complete.json';
 import orderTimeSlotFixture from 'fixtures/orders/time_slots/event.json';
@@ -32,7 +33,7 @@ describe('Order', () => {
       '/products/:id/': {status: 200, data: productFixture},
       '/products/:id/questions/': {status: 200, data: blankQuestionsFixture},
       '/products/:id/time_slots/': {status: 200, data: productTimeSlotsFixture},
-      '/orders/': {status: 201, data: initializedOrderFixture},
+      '/orders/': {status: 201, data: freeInitializedOrderFixture},
       '/orders/:id': [
         {status: 200, data: orderCustomerCompleteFixture},
         {status: 200, data: orderTimeSlotFixture},
@@ -131,6 +132,44 @@ describe('Order', () => {
 
     it('disables Button#bookOrder', () => {
       expect(wrapper.find('Button#bookOrder')).toHaveProp('disabled', true);
+    });
+  });
+
+  describe('PaymentForm display', () => {
+    context('when product is not free', () => {
+      context('when order price == 0', () => {
+        beforeEach(async () => {
+          await setupWrapper({});
+        });
+
+        it('does not display PaymentForm', () => {
+          expect(wrapper.find('PaymentForm')).not.toBePresent()
+        });
+      });
+
+      context('when order price > 0', () => {
+        beforeEach(async () => {
+          await setupWrapper({
+            '/orders/': {status: 201, data: pricedInitializedOrderFixture},
+          });
+        });
+
+        it('displays PaymentForm', () => {
+          expect(wrapper.find('PaymentForm')).toBePresent()
+        });
+      });
+    });
+
+    context('when product is free', () => {
+      beforeEach(async () => {
+        await setupWrapper({
+          '/products/:id/': { status: 200, data: freeProductFixture },
+        });
+      });
+
+      it('does not display PaymentForm', () => {
+        expect(wrapper.find('PaymentForm')).not.toBePresent()
+      });
     });
   });
 

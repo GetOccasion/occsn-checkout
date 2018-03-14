@@ -28,5 +28,12 @@ module.exports = {
     css: 'stylesheets/' + pkg.name + '-[name]_bundle.css',
     images: 'images/[name].[ext]',
     fonts: 'fonts/[name].[ext]',
+  },
+
+  webpack(config) {
+    config.externals = {
+      spreedly: 'Spreedly',
+      square: 'SqPaymentForm',
+    }
   }
 };
