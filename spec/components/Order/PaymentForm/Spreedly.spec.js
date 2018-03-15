@@ -4,7 +4,6 @@ import Spreedly from 'app/components/Order/PaymentForm/Spreedly';
 
 import SpreedlyAPI from 'spreedly';
 
-import axios from 'axios';
 import occsn from 'app/libs/Occasion';
 
 describe('Order', () => {
@@ -16,21 +15,21 @@ describe('Order', () => {
         wrapper = mount(<Spreedly></Spreedly>);
       });
 
-      afterEach(async () => {
-        axios.reset();
-      });
-
       it('renders fields', () => {
         expect(wrapper).toMatchSnapshot();
       });
 
-      context('when nameOnCard input changed', () => {
+      it('calls SpreedlyAPI.init', () => {
+        expect(SpreedlyAPI.init.mock.calls.length).toBe(1);
+      });
+
+      context('when full_name input changed', () => {
         beforeEach(() => {
-          wrapper.find('input#nameOnCard').simulate('change', { target: { value: 'J Smith' } });
+          wrapper.find('input#full_name').simulate('change', { target: { value: 'J Smith' } });
         });
 
-        it('changes nameOnCard in state', () => {
-          expect(wrapper).toHaveState('nameOnCard', 'J Smith');
+        it('changes full_name in state', () => {
+          expect(wrapper).toHaveState('full_name', 'J Smith');
         });
       });
 
@@ -59,17 +58,17 @@ describe('Order', () => {
           wrapper.setState({
             month: '11',
             year: '2019',
-            nameOnCard: 'J Smith'
+            full_name: 'J Smith'
           });
 
           wrapper.instance().tokenizePaymentMethodData();
         });
 
-        it('calls Spreedly.tokenizeCreditCardData with month and year', () => {
+        it('calls SpreedlyAPI.tokenizeCreditCardData with month and year', () => {
           expect(SpreedlyAPI.tokenizeCreditCard.mock.calls[0]).toEqual([{
             month: '11',
             year: '2019',
-            nameOnCard: 'J Smith'
+            full_name: 'J Smith'
           }])
         })
       });

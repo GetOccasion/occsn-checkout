@@ -20,7 +20,7 @@ export default class Spreedly extends PaymentServiceProvider {
 
     this.state = {
       month: null,
-      nameOnCard: null,
+      full_name: null,
       year: null
     };
   }
@@ -34,22 +34,41 @@ export default class Spreedly extends PaymentServiceProvider {
       "cvvEl": "spreedly-cvv"
     });
 
+    var defaultInputStyle = 'display: block;' +
+      '  width: 80%;' +
+      '  padding: 0.375rem 0.75rem;' +
+      '  font-size: 1rem;' +
+      '  line-height: 1.5;' +
+      '  color: #495057;' +
+      '  background-color: #fff;' +
+      '  background-clip: padding-box;' +
+      '  border: 1px solid #ced4da;' +
+      '  border-radius: 0.25rem;' +
+      '  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out';
+
+    var focusInputStyle = 'color: #495057;' +
+      '  background-color: #fff;' +
+      '  border-color: #80bdff;' +
+      '  outline: 0;' +
+      '  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)';
+
     SpreedlyAPI.on("ready", function () {
       SpreedlyAPI.setFieldType("number", "text");
       SpreedlyAPI.setNumberFormat("prettyFormat");
-      SpreedlyAPI.setPlaceholder("number", "Card Number");
-      SpreedlyAPI.setPlaceholder("cvv", "CVV");
-      //SpreedlyAPI.setStyle("number", 'display: block; width: 95%; height: 36px; padding: 6px 12px; font-size: 16px; line-height: 1.428571429; color: #7b829a; background-color: #fff; background-image: none; border: 1px solid #ccc; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;');
-      //SpreedlyAPI.setStyle("cvv", 'display: block; width: 60px; height: 36px; padding: 6px 12px; font-size: 16px; line-height: 1.428571429; color: #7b829a; background-color: #fff; background-image: none; border: 1px solid #ccc; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;');
+      SpreedlyAPI.setPlaceholder("number", "•••• •••• •••• ••••");
+      SpreedlyAPI.setPlaceholder("cvv", "•••");
+      SpreedlyAPI.setStyle("number", defaultInputStyle);
+      SpreedlyAPI.setStyle("cvv", defaultInputStyle);
     });
 
     SpreedlyAPI.on('fieldEvent', function(name, type, activeEl, inputProperties) {
-      //if(type == 'focus'){
-      //  SpreedlyAPI.setStyle(name,'border-color: #66afe9; outline: 0; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6)');
-      //}
-      //if(type == 'blur'){
-      //  SpreedlyAPI.setStyle(name, 'border: 1px solid #ccc; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;');
-      //}
+      if(type == 'focus'){
+        SpreedlyAPI.setStyle(name, focusInputStyle);
+      }
+
+      if(type == 'blur'){
+        SpreedlyAPI.setStyle(name, defaultInputStyle);
+      }
     });
 
     SpreedlyAPI.on('errors', function(errors) {
@@ -75,24 +94,30 @@ export default class Spreedly extends PaymentServiceProvider {
     return <section>
       <FormGroup>
         <label>Name On Card</label>
-        <Input type="text" id="nameOnCard" name="nameOnCard" placeholder="Name On Card" onChange={ (e) => this.handleChange('nameOnCard', e) } />
+        <Input type="text" id="full_name" name="full_name" placeholder="Name On Card" onChange={ (e) => this.handleChange('full_name', e) } />
       </FormGroup>
 
       <FormGroup>
         <Label>Credit Card Number</Label>
-        <div id="spreedly-number" class="spreedly-input"></div>
+        <div id="spreedly-number" style={{ height: '48px' }}></div>
       </FormGroup>
 
       <FormGroup>
         <Row>
-          <Col size="9">
+          <Col xs="6">
             <Label>Expiration Date</Label>
-            <Input type="text" id="month" name="month" maxlength="2" placeholder="MM" onChange={ (e) => this.handleChange('month', e) } />
-            <Input type="text" id="year" name="year" maxlength="4" placeholder="YYYY" onChange={ (e) => this.handleChange('year', e) } />
+            <Row>
+              <Col xs="6">
+                <Input type="text" id="month" name="month" maxlength="2" placeholder="MM" onChange={ (e) => this.handleChange('month', e) } />
+              </Col>
+              <Col xs="6">
+                <Input type="text" id="year" name="year" maxlength="4" placeholder="YYYY" onChange={ (e) => this.handleChange('year', e) } />
+              </Col>
+            </Row>
           </Col>
-          <Col size="3">
+          <Col xs="3">
             <Label>CVV</Label>
-            <div id="spreedly-cvv" class="spreedly-input"></div>
+            <div id="spreedly-cvv" style={{ height: '48px' }}></div>
           </Col>
         </Row>
       </FormGroup>

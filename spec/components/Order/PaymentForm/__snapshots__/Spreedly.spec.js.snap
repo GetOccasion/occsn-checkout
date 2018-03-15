@@ -13,16 +13,16 @@ exports[`Order PaymentForm Spreedly renders fields 1`] = `
           Name On Card
         </label>
         <Input
-          id="nameOnCard"
-          name="nameOnCard"
+          id="full_name"
+          name="full_name"
           onChange={[Function]}
           placeholder="Name On Card"
           type="text"
         >
           <input
             className="form-control"
-            id="nameOnCard"
-            name="nameOnCard"
+            id="full_name"
+            name="full_name"
             onChange={[Function]}
             placeholder="Name On Card"
             type="text"
@@ -55,8 +55,12 @@ exports[`Order PaymentForm Spreedly renders fields 1`] = `
           </label>
         </Label>
         <div
-          class="spreedly-input"
           id="spreedly-number"
+          style={
+            Object {
+              "height": "48px",
+            }
+          }
         />
       </div>
     </FormGroup>
@@ -73,7 +77,6 @@ exports[`Order PaymentForm Spreedly renders fields 1`] = `
             className="row"
           >
             <Col
-              size="9"
               tag="div"
               widths={
                 Array [
@@ -84,10 +87,10 @@ exports[`Order PaymentForm Spreedly renders fields 1`] = `
                   "xl",
                 ]
               }
+              xs="6"
             >
               <div
-                className="col"
-                size="9"
+                className="col-6"
               >
                 <Label
                   tag="label"
@@ -107,46 +110,89 @@ exports[`Order PaymentForm Spreedly renders fields 1`] = `
                     Expiration Date
                   </label>
                 </Label>
-                <Input
-                  id="month"
-                  maxlength="2"
-                  name="month"
-                  onChange={[Function]}
-                  placeholder="MM"
-                  type="text"
+                <Row
+                  tag="div"
                 >
-                  <input
-                    className="form-control"
-                    id="month"
-                    maxlength="2"
-                    name="month"
-                    onChange={[Function]}
-                    placeholder="MM"
-                    type="text"
-                  />
-                </Input>
-                <Input
-                  id="year"
-                  maxlength="4"
-                  name="year"
-                  onChange={[Function]}
-                  placeholder="YYYY"
-                  type="text"
-                >
-                  <input
-                    className="form-control"
-                    id="year"
-                    maxlength="4"
-                    name="year"
-                    onChange={[Function]}
-                    placeholder="YYYY"
-                    type="text"
-                  />
-                </Input>
+                  <div
+                    className="row"
+                  >
+                    <Col
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                      xs="6"
+                    >
+                      <div
+                        className="col-6"
+                      >
+                        <Input
+                          id="month"
+                          maxlength="2"
+                          name="month"
+                          onChange={[Function]}
+                          placeholder="MM"
+                          type="text"
+                        >
+                          <input
+                            className="form-control"
+                            id="month"
+                            maxlength="2"
+                            name="month"
+                            onChange={[Function]}
+                            placeholder="MM"
+                            type="text"
+                          />
+                        </Input>
+                      </div>
+                    </Col>
+                    <Col
+                      tag="div"
+                      widths={
+                        Array [
+                          "xs",
+                          "sm",
+                          "md",
+                          "lg",
+                          "xl",
+                        ]
+                      }
+                      xs="6"
+                    >
+                      <div
+                        className="col-6"
+                      >
+                        <Input
+                          id="year"
+                          maxlength="4"
+                          name="year"
+                          onChange={[Function]}
+                          placeholder="YYYY"
+                          type="text"
+                        >
+                          <input
+                            className="form-control"
+                            id="year"
+                            maxlength="4"
+                            name="year"
+                            onChange={[Function]}
+                            placeholder="YYYY"
+                            type="text"
+                          />
+                        </Input>
+                      </div>
+                    </Col>
+                  </div>
+                </Row>
               </div>
             </Col>
             <Col
-              size="3"
               tag="div"
               widths={
                 Array [
@@ -157,10 +203,10 @@ exports[`Order PaymentForm Spreedly renders fields 1`] = `
                   "xl",
                 ]
               }
+              xs="3"
             >
               <div
-                className="col"
-                size="3"
+                className="col-3"
               >
                 <Label
                   tag="label"
@@ -181,8 +227,12 @@ exports[`Order PaymentForm Spreedly renders fields 1`] = `
                   </label>
                 </Label>
                 <div
-                  class="spreedly-input"
                   id="spreedly-cvv"
+                  style={
+                    Object {
+                      "height": "48px",
+                    }
+                  }
                 />
               </div>
             </Col>

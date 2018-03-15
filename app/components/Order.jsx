@@ -28,11 +28,18 @@ export default class Order extends PureComponent {
   constructor() {
     super();
     _.bindAll(this,
+      'acceptsPayment',
       'allowedToBookOrder',
       'headerForSection',
       'showPaymentForm',
       'showPrice',
     );
+  }
+
+  acceptsPayment() {
+    const { subject } = this.props;
+
+    return subject.product().merchant().pspName != 'cash';
   }
 
   allowedToBookOrder() {
@@ -42,8 +49,12 @@ export default class Order extends PureComponent {
   }
 
   // Mitragyna callback
-  async beforeSubmit(subject) {
-    return await this.paymentForm.chargeOutstandingBalanceToPaymentMethod(subject);
+  beforeSubmit(subject) {
+    if(this.acceptsPayment()) {
+      return this.paymentForm.chargeOutstandingBalanceToPaymentMethod(subject);
+    } else {
+      return subject;
+    }
   }
 
   // @param [String] section the name of the section to get the custom or default section title for, rendered as <h2>
@@ -74,6 +85,14 @@ export default class Order extends PureComponent {
             "Additional Information"
           ) : (
             product.widgetQuestionsTitle
+          )}
+        </h2>;
+      case 'payment':
+        return <h2 className="mt-3" id="widgetPaymentTitle">
+          { _.isNull(product.widgetPaymentTitle) ? (
+            "Payment Information"
+          ) : (
+            product.widgetPaymentTitle
           )}
         </h2>;
       case 'totalDue':
@@ -124,7 +143,7 @@ export default class Order extends PureComponent {
       {
         this.showPaymentForm() ? (
           <section>
-            { this.headerForSection('payments') }
+            { this.headerForSection('payment') }
             <PaymentForm order={subject} ref={(form) => this.paymentForm = form }></PaymentForm>
           </section>
         ) : null

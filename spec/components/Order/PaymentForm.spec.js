@@ -6,6 +6,7 @@ import axios from 'axios';
 import occsn from 'app/libs/Occasion';
 
 import Spreedly from 'spreedly';
+import SquareAPI from 'square';
 
 import cashProductFixture from 'fixtures/products/cash.json';
 import spreedlyProductFixture from 'fixtures/products/spreedly.json';
@@ -91,6 +92,8 @@ describe('Order', () => {
         await setupWrapper({
           '/products/:id/': { status: 200, data: squareProductFixture },
         });
+
+        SquareAPI.setPaymentMethodTokenResponse('SQUARE_PAYMENT_METHOD_ID');
       });
 
       it('renders Square', () => {
@@ -113,6 +116,10 @@ describe('Order', () => {
 
         it('adds transaction with CreditCard payment method', () => {
           expect(newOrder.transactions().target().last().paymentMethod().klass()).toBe(occsn.CreditCard);
+        });
+
+        it('adds transaction with CreditCard payment method with id returned from square', () => {
+          expect(newOrder.transactions().target().last().paymentMethod().id).toEqual('SQUARE_PAYMENT_METHOD_ID');
         });
 
         it('adds transaction with amount equal to order.outstandingBalance', () => {

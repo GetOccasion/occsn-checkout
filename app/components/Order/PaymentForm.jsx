@@ -22,12 +22,13 @@ export default class PaymentForm extends PureComponent {
     );
   }
 
-  async chargeOutstandingBalanceToPaymentMethod(subject) {
-    var paymentMethod = await this.pspForm.buildPaymentMethod();
-
-    var newSubject = subject.clone();
-    newSubject.charge(paymentMethod, newSubject.outstandingBalance);
-    return newSubject;
+  chargeOutstandingBalanceToPaymentMethod(subject) {
+    return this.pspForm.buildPaymentMethod()
+    .then((paymentMethod) => {
+      var newSubject = subject.clone();
+      newSubject.charge(paymentMethod, newSubject.outstandingBalance);
+      return newSubject;
+    });
   }
 
   paymentServiceProvider() {

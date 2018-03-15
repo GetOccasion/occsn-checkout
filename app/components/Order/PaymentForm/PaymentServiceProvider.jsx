@@ -22,10 +22,10 @@ export default class PaymentServiceProvider extends PureComponent {
     this.initializeForm();
   }
 
-  async buildPaymentMethod() {
+  buildPaymentMethod() {
     this.tokenizePaymentMethodData();
 
-    return await this.paymentMethodDeferred.promise;
+    return this.paymentMethodDeferred.promise;
   }
 
   // Initializes the iFrame form that the 3rd party PSP provides for their PCI-compliant service
