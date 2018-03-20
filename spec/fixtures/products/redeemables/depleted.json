@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "source": {
+        "parameter": "filter/code",
+        "code": "unavailable",
+        "detail": "Coupon is depleted and no longer available for use."
+      }
+    }
+  ]
+}

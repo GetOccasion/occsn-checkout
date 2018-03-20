@@ -12,6 +12,8 @@ import axios from 'axios';
 
 import productFixture from '../fixtures/products/cash.json';
 import blankQuestionsFixture from '../fixtures/blank.json';
+import redeemablesSuccessFixture from 'fixtures/products/redeemables/coupons/fixed.json';
+import redeemablesErrorFixture from 'fixtures/products/redeemables/not_found.json';
 
 import bookedOrderFixture from 'fixtures/orders/booked/cash/free';
 
@@ -19,18 +21,24 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('app actions', () => {
-  beforeEach(() => {
+  let setup = (customResponses = {}) => {
     axios._setMockResponses({
       '/products/:id/': { status: 200, data: productFixture },
       '/products/:id/questions/': { status: 200, data: blankQuestionsFixture },
-      '/orders/': { status: 201, data: bookedOrderFixture }
+      '/orders/': { status: 201, data: bookedOrderFixture },
+      ...customResponses
     });
+  };
+
+  afterEach(() => {
+    axios.reset();
   });
 
   describe('loadProduct', () => {
     let store;
 
     beforeEach(async () => {
+      setup();
       store = mockStore({ $$appStore: Immutable.fromJS({ product: null }) });
 
       await store.dispatch(actions.loadProduct(global.OCCSN.product_id));
@@ -62,6 +70,7 @@ describe('app actions', () => {
     let store;
 
     beforeEach(async () => {
+      setup();
       store = mockStore({ $$appStore: Immutable.fromJS({ bookingOrder: true, order: null }) });
 
       var product = await occsn.Product.find(global.OCCSN.product_id);
@@ -90,6 +99,7 @@ describe('app actions', () => {
     let store;
 
     beforeEach(async () => {
+      setup();
       store = mockStore({ $$appStore: Immutable.fromJS({ order: null }) });
 
       var product = await occsn.Product.find(global.OCCSN.product_id);
@@ -109,10 +119,80 @@ describe('app actions', () => {
     });
   });
 
+  describe('findRedeemable', () => {
+    let store;
+
+    let onSuccess = jest.fn();
+    let onError = jest.fn();
+
+    context('normal conditions', () => {
+      beforeEach(async () => {
+        setup({
+          '/products/:id/redeemables/': { status: 200, data: redeemablesSuccessFixture },
+        });
+
+        store = mockStore({ $$appStore: Immutable.fromJS({ product: null }) });
+
+        var product = await occsn.Product.find(global.OCCSN.product_id);
+
+        await store.dispatch(actions.findRedeemable(product, 'CODE', onSuccess, onError));
+      });
+
+      it('requests redeemable with code for product', async () => {
+        expect(axios.requests[1].params['filter']).toEqual({ code: 'CODE' });
+      });
+
+      it('creates appropriate actions', async () => {
+        expect(typesForActions(store.getActions())).toEqual([
+          types.FIND_REDEEMABLE_REQUEST,
+          types.FIND_REDEEMABLE_REQUEST_COMPLETE,
+        ]);
+      });
+    });
+
+    context('on success', () => {
+      beforeEach(async () => {
+        setup({
+          '/products/:id/redeemables/': { status: 200, data: redeemablesSuccessFixture },
+        });
+
+        store = mockStore({ $$appStore: Immutable.fromJS({ product: null }) });
+
+        var product = await occsn.Product.find(global.OCCSN.product_id);
+
+        await store.dispatch(actions.findRedeemable(product, 'CODE', onSuccess, onError));
+      });
+
+      it('calls onSuccess', async () => {
+        expect(onSuccess.mock.calls.length).toBe(1);
+      });
+    });
+
+    context('on error', () => {
+      beforeEach(async () => {
+        setup({
+          '/products/:id/redeemables/': { status: 404, data: redeemablesErrorFixture },
+        });
+
+        store = mockStore({ $$appStore: Immutable.fromJS({ product: null }) });
+
+        var product = await occsn.Product.find(global.OCCSN.product_id);
+
+        await store.dispatch(actions.findRedeemable(product, 'CODE', onSuccess, onError));
+      });
+
+      it('calls onError', async () => {
+        expect(onError.mock.calls.length).toBe(1);
+      });
+    });
+  });
+
   describe('saveOrder', () => {
     let store;
 
     beforeEach(async () => {
+      setup();
+
       store = mockStore({ $$appStore: Immutable.fromJS({ savingOrder: false }) });
 
       var product = await occsn.Product.find(global.OCCSN.product_id);

@@ -41,6 +41,30 @@ export function bookOrderRequestComplete(order) {
   };
 }
 
+export function findRedeemable(product, code, onSuccess, onError) {
+  return dispatch => {
+    dispatch(findRedeemableRequest());
+
+    return product.redeemables().findBy({ code })
+    .then(onSuccess, onError)
+    .finally(() => {
+      dispatch(findRedeemableRequestComplete());
+    });
+  };
+}
+
+export function findRedeemableRequest() {
+  return {
+    type: actionTypes.FIND_REDEEMABLE_REQUEST
+  };
+}
+
+export function findRedeemableRequestComplete() {
+  return {
+    type: actionTypes.FIND_REDEEMABLE_REQUEST_COMPLETE
+  };
+}
+
 export function loadProduct(id) {
   return dispatch => {
     dispatch(loadProductRequest());

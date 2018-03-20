@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "type": "coupons",
+      "id": "h17sle7",
+      "attributes": {
+        "name": "Holiday Coupon",
+        "code": "COUPON-CODE",
+        "discount_fixed": 2.0,
+        "discount_percentage": null
+      }
+    }
+  ]
+}

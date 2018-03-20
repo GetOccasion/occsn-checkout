@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "source": {
+        "parameter": "filter/code",
+        "code": "not_found",
+        "detail": "Could not find coupon or gift card with that code."
+      }
+    }
+  ]
+}
