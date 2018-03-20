@@ -14,11 +14,14 @@ import TimeSlotsSelector from './TimeSlotsSelector';
 import Pricing from './Order/Pricing';
 import PaymentForm from './Order/PaymentForm';
 import Questions from './Order/Questions';
+import Redeemables from './Order/Redeemables';
 
 export default class Order extends PureComponent {
   static propTypes = {
     afterUpdate: PropTypes.func.isRequired,
     bookingOrder: PropTypes.bool,
+    findRedeemable: PropTypes.func.isRequired,
+    saveOrder: PropTypes.func,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
     selectedTimeSlots: PropTypes.shape({
       __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
@@ -72,7 +75,7 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'timeSlots':
-        return <h2 className="mt-3" id="widgetTimeSlotsTitle">
+        return <h2 className="mt-3 mb-2" id="widgetTimeSlotsTitle">
           { _.isNull(product.widgetTimeSlotsTitle) ? (
             "Time Slots"
           ) : (
@@ -80,7 +83,7 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'questions':
-        return <h2 className="mt-3" id="widgetQuestionsTitle">
+        return <h2 className="mt-3 mb-2" id="widgetQuestionsTitle">
           { _.isNull(product.widgetQuestionsTitle) ? (
             "Additional Information"
           ) : (
@@ -88,15 +91,19 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'payment':
-        return <h2 className="mt-3" id="widgetPaymentTitle">
+        return <h2 className="mt-3 mb-2" id="widgetPaymentTitle">
           { _.isNull(product.widgetPaymentTitle) ? (
             "Payment Information"
           ) : (
             product.widgetPaymentTitle
           )}
         </h2>;
+      case 'redeemables':
+        return <h2 className="mt-3 mb-2" id="widgetRedeemableTitle">
+            Coupons and Gift Cards
+        </h2>;
       case 'totalDue':
-        return <h2 className="mt-3" id="widgetTotalDueTitle">
+        return <h2 className="mt-3 mb-2" id="widgetTotalDueTitle">
           { _.isNull(product.widgetTotalDueTitle) ? (
             "Total Due Today"
           ) : (
@@ -104,6 +111,19 @@ export default class Order extends PureComponent {
           )}
         </h2>;
     }
+  }
+
+  // Determines if should show Redeemables
+  // @note If the product is not free && hasRedeemables then show Redeemables
+  //
+  // @return [Boolean] whether or not to show Redeemables
+  showRedeemables() {
+    let { subject } = this.props;
+    let product = subject.product();
+
+    if(subject.newResource()) return false;
+
+    return !product.free && product.hasRedeemables;
   }
 
   // Determines if should show the payment form
@@ -114,6 +134,8 @@ export default class Order extends PureComponent {
     let { subject } = this.props;
     let product = subject.product();
 
+    if(subject.newResource()) return false;
+
     return !(product.free || Decimal(subject.outstandingBalance || '0.0').isZero());
   }
 
@@ -121,11 +143,13 @@ export default class Order extends PureComponent {
     let { subject } = this.props;
     let product = subject.product();
 
+    if(subject.newResource()) return false;
+
     return !product.free && subject.price;
   }
 
   render() {
-    let { afterUpdate, subject, selectedTimeSlots } = this.props;
+    let { afterUpdate, findRedeemable, saveOrder, subject, selectedTimeSlots } = this.props;
 
     let customer = subject.customer();
     let product = subject.product();
@@ -139,6 +163,15 @@ export default class Order extends PureComponent {
 
       { this.headerForSection('questions') }
       <Questions subject={subject} questions={ product.questions().target() }></Questions>
+
+      {
+        this.showRedeemables() ? (
+          <section>
+            { this.headerForSection('redeemables') }
+            <Redeemables findRedeemable={findRedeemable} order={subject} onChange={saveOrder}></Redeemables>
+          </section>
+        ) : null
+      }
 
       {
         this.showPaymentForm() ? (

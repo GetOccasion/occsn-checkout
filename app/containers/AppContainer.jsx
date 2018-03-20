@@ -8,8 +8,8 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { Resource } from 'mitragyna';
 
-import { bookOrder, loadProduct, saveOrder, setOrder } from '../actions/appActions';
-import { loadProductTimeSlots } from '../actions/calendarActions';
+import * as appActions from '../actions/appActions';
+import * as calendarActions from '../actions/calendarActions';
 
 import '../styles/index.css'
 
@@ -32,11 +32,12 @@ function stateToProps(state) {
 function dispatchToProps(dispatch) {
   return {
     actions: {
-      bookOrder: (order) => dispatch(bookOrder(order)),
-      loadProduct: () => dispatch(loadProduct(window.OCCSN.product_id)),
-      loadProductTimeSlots: (product) => dispatch(loadProductTimeSlots(product)),
-      saveOrder: (order) => dispatch(saveOrder(order)),
-      setOrder: (order) => dispatch(setOrder(order))
+      bookOrder: (order) => dispatch(appActions.bookOrder(order)),
+      findRedeemable: (product, code, onSuccess, onError) => dispatch(appActions.findRedeemable(product, code, onSuccess, onError)),
+      loadProduct: () => dispatch(appActions.loadProduct(window.OCCSN.product_id)),
+      loadProductTimeSlots: (product) => dispatch(calendarActions.loadProductTimeSlots(product)),
+      saveOrder: (order) => dispatch(appActions.saveOrder(order)),
+      setOrder: (order) => dispatch(appActions.setOrder(order))
     }
   }
 }
@@ -118,7 +119,11 @@ export class AppContainer extends PureComponent {
             <Resource
               afterUpdate={ actions.setOrder }
               component={ Order }
-              componentProps={ { selectedTimeSlots: data.selectedTimeSlots } }
+              componentProps={ {
+                findRedeemable: actions.findRedeemable,
+                saveOrder: actions.saveOrder,
+                selectedTimeSlots: data.selectedTimeSlots
+              } }
               onSubmit={ actions.bookOrder }
               subject={ data.order }
             ></Resource>

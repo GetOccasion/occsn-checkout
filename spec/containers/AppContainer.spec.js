@@ -28,6 +28,7 @@ describe('AppContainer', () => {
   const mockLoadProduct = jest.fn();
   const mockLoadProductTimeSlots = jest.fn();
   const mockBookOrder = jest.fn();
+  const mockFindRedeemable = jest.fn();
   const mockSaveOrder = jest.fn();
   const mockSetOrder = jest.fn();
 
@@ -159,6 +160,7 @@ describe('AppContainer', () => {
             loadProduct: mockLoadProduct,
             loadProductTimeSlots: mockLoadProductTimeSlots,
             bookOrder: mockBookOrder,
+            findRedeemable: mockFindRedeemable,
             saveOrder: mockSaveOrder,
             setOrder: mockSetOrder,
           },
@@ -176,7 +178,7 @@ describe('AppContainer', () => {
         <Resource
           afterUpdate={mockSetOrder}
           component={Order}
-          componentProps={ { selectedTimeSlots } }
+          componentProps={ { findRedeemable: mockFindRedeemable, saveOrder: mockSaveOrder, selectedTimeSlots } }
           onSubmit={mockBookOrder}
           subject={order}
         ></Resource>);
