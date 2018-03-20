@@ -27,6 +27,10 @@ function create() {
           } else {
             var response = defaultResponse;
 
+            if(global.debugRequests) {
+              console.log('REQUESTED ' + options.method + ' ' + options.url);
+            }
+
             for(var k in mockResponses) {
               var resources = k.split(':id');
               resources[resources.length - 1] += '$';
@@ -46,7 +50,7 @@ function create() {
                 }
 
                 if(global.debugRequests) {
-                  console.log('REQUESTED ' + options.method + ' ' + options.url);
+                  console.log('MATCHED ' + options.method + ' ' + options.url);
                   console.log(mockResponse);
                 }
 
