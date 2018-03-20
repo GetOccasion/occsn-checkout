@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Decimal from 'decimal.js';
+
 import ActiveResource from 'active-resource';
 import { Resource } from 'mitragyna';
 
@@ -14,12 +16,13 @@ import blankQuestionsFixture from 'fixtures/blank.json';
 import noRedeemablesProductFixture from 'fixtures/products/cash.json';
 import freeProductFixture from 'fixtures/products/free.json';
 import redeemablesFixedCouponFixture from 'fixtures/products/redeemables/coupons/fixed.json';
-import redeemablesPercentageCouponFixture from 'fixtures/products/redeemables/coupons/percentage.json';
+import redeemablesGiftCardHighFixture from 'fixtures/products/redeemables/gift_cards/high_value.json';
+import redeemablesGiftCardLowFixture from 'fixtures/products/redeemables/gift_cards/low_value.json';
 
 import initializedOrderPriceFixture from 'fixtures/orders/initialized/cash/price.json';
 import initializedOrderFixedCouponFixture from 'fixtures/orders/initialized/coupons/fixed.json';
 import initializedOrderFullCouponFixture from 'fixtures/orders/initialized/coupons/full.json';
-import initializedOrderPercentageCouponFixture from 'fixtures/orders/initialized/coupons/percentage.json';
+import initializedOrderGiftCardFixture from 'fixtures/orders/initialized/gift_card.json';
 
 describe('Order', () => {
   describe('Redeemables', () => {
@@ -90,6 +93,86 @@ describe('Order', () => {
       });
     });
 
+    describe('when code entered', () => {
+      beforeEach(async () => {
+        await setupWrapper({
+          '/products/:id/redeemables/': { status: 200, data: redeemablesFixedCouponFixture },
+          '/orders/:id': { status: 200, data: initializedOrderFullCouponFixture }
+        });
+
+        redeemablesWrapper.find('input').simulate('change', { target: { value: 'COUPON-CODE' } });
+        redeemablesWrapper.find('button').simulate('click');
+        wrapper.update();
+      });
+
+      it('calls findRedeemable with code', () => {
+        expect(mockFindRedeemable.mock.calls[0][1]).toEqual('COUPON-CODE');
+      });
+    });
+
+    describe('addRedeemable', () => {
+      context('when coupon', () => {
+        let coupon;
+
+        beforeEach(async () => {
+          await setupWrapper({
+            '/products/:id/redeemables/': { status: 200, data: redeemablesFixedCouponFixture },
+          });
+
+          coupon = await product.redeemables().findBy({ code: 'CODE' });
+          redeemablesWrapper.instance().addRedeemable(coupon);
+        });
+
+        it('calls saveOrder with order with coupon', () => {
+          expect(mockSaveOrder.mock.calls[0][0].coupon()).toBe(coupon);
+        });
+      });
+
+      context('when gift cards totaling less than order.outstandingBalance', () => {
+        let giftCard;
+
+        beforeEach(async () => {
+          await setupWrapper({
+            '/products/:id/redeemables/': { status: 200, data: redeemablesGiftCardLowFixture },
+            '/orders/': { status: 201, data: initializedOrderGiftCardFixture }
+          });
+
+          giftCard = await product.redeemables().findBy({ code: 'CODE' });
+          redeemablesWrapper.instance().addRedeemable(giftCard);
+        });
+
+        it('calls saveOrder with order with transaction with giftCard', () => {
+          expect(mockSaveOrder.mock.calls[0][0].transactions().target().first().paymentMethod()).toBe(giftCard);
+        });
+
+        it('calls saveOrder with order with transaction with amount equal to giftCard.value', () => {
+          expect(mockSaveOrder.mock.calls[0][0].transactions().target().first().amount).toEqual(Decimal(giftCard.value).toString());
+        });
+      });
+
+      context('when gift cards totaling more than order.outstandingBalance', () => {
+        let giftCard;
+
+        beforeEach(async () => {
+          await setupWrapper({
+            '/products/:id/redeemables/': { status: 200, data: redeemablesGiftCardHighFixture },
+            '/orders/': { status: 201, data: initializedOrderGiftCardFixture }
+          });
+
+          giftCard = await product.redeemables().findBy({ code: 'CODE' });
+          redeemablesWrapper.instance().addRedeemable(giftCard);
+        });
+
+        it('calls saveOrder with order with transaction with giftCard', () => {
+          expect(mockSaveOrder.mock.calls[0][0].transactions().target().first().paymentMethod()).toBe(giftCard);
+        });
+
+        it('calls saveOrder with order with transaction with amount equal to order.outstandingBalance', () => {
+          expect(mockSaveOrder.mock.calls[0][0].transactions().target().first().amount).toEqual(Decimal(order.outstandingBalance).toString());
+        });
+      });
+    });
+
     describe('when coupon that covers full outstandingBalance present', () => {
       beforeEach(async () => {
         await setupWrapper({
@@ -132,20 +215,26 @@ describe('Order', () => {
       });
     });
 
-    describe('when code entered', () => {
+    describe('when gift cards present', () => {
       beforeEach(async () => {
         await setupWrapper({
-          '/products/:id/redeemables/': { status: 200, data: redeemablesFixedCouponFixture },
-          '/orders/:id': { status: 200, data: initializedOrderFullCouponFixture }
-        });
+          '/products/:id/redeemables/': { status: 200, data: redeemablesGiftCardHighFixture },
+          '/orders/': { status: 201, data: initializedOrderGiftCardFixture }
+        }, async () => {
+          product = await occsn.Product.find('1');
+          var giftCard = await product.redeemables().findBy({ code: 'CODE' });
+          order = await occsn.Order.construct({ product, status: 'initialized' });
 
-        redeemablesWrapper.find('input').simulate('change', { target: { value: 'COUPON-CODE' } });
-        redeemablesWrapper.find('button').simulate('click');
-        wrapper.update();
+          order.charge(giftCard, giftCard.value);
+        });
       });
 
-      it('calls findRedeemable with code', () => {
-        expect(mockFindRedeemable.mock.calls[0][1]).toEqual('COUPON-CODE');
+      it('renders GiftCard', () => {
+        expect(redeemablesWrapper.find('GiftCard')).toBePresent();
+      });
+
+      it('renders input', () => {
+        expect(redeemablesWrapper.find('input')).toBePresent();
       });
     });
   });

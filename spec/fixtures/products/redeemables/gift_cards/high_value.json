@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "type": "gift_cards",
+      "id": "h17sle6",
+      "attributes": {
+        "code": "GIFT-CARD-CODE",
+        "initial_value": 50.0,
+        "value": 10.0
+      }
+    }
+  ]
+}

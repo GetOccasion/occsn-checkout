@@ -9,6 +9,7 @@ import occsn from '../../libs/Occasion'
 import { Button, Col, Card, CardBody, CardTitle, CardText, InputGroup, InputGroupAddon, Input, Row } from 'reactstrap';
 
 import Coupon from './Redeemables/Coupon';
+import GiftCard from './Redeemables/GiftCard';
 
 export default class Redeemables extends PureComponent {
   static propTypes = {
@@ -88,10 +89,21 @@ export default class Redeemables extends PureComponent {
     let { order } = this.props;
     let { code } = this.state;
 
+    let currency = order.product().merchant().currency();
+
     let redeemables = [];
     if(!_.isNull(order.coupon())) {
-      redeemables.push(<Coupon currency={ order.product().merchant().currency().name } subject={order.coupon()}></Coupon>);
+      redeemables.push(<Coupon currency={currency.name} subject={order.coupon()}></Coupon>);
     }
+
+    let giftCards =
+      order.transactions().target()
+      .map((t) => { return t.paymentMethod() })
+      .select((p) => { return p.isA(occsn.GiftCard) });
+
+    giftCards.each((giftCard) => {
+      redeemables.push(<GiftCard currency={currency.name} subject={giftCard}></GiftCard>);
+    });
 
     return <section>
       { redeemables }
