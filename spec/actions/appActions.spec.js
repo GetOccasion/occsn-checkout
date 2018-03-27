@@ -16,6 +16,7 @@ import redeemablesSuccessFixture from 'fixtures/products/redeemables/coupons/fix
 import redeemablesErrorFixture from 'fixtures/products/redeemables/not_found.json';
 
 import bookedOrderFixture from 'fixtures/orders/booked/cash/free';
+import bookedOrderFailedFixture from 'fixtures/errors/orders/customer.json';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -69,29 +70,66 @@ describe('app actions', () => {
   describe('bookOrder', () => {
     let store;
 
-    beforeEach(async () => {
-      setup();
-      store = mockStore({ $$appStore: Immutable.fromJS({ bookingOrder: true, order: null }) });
+    context('when booking successful', () => {
+      beforeEach(async () => {
+        setup();
+        store = mockStore({ $$appStore: Immutable.fromJS({ bookingOrder: false, order: null }) });
 
-      var product = await occsn.Product.find(global.OCCSN.product_id);
-      var order = await occsn.Order.construct({ product });
+        var product = await occsn.Product.find(global.OCCSN.product_id);
+        var order = await occsn.Order.construct({ product });
 
-      await store.dispatch(actions.bookOrder(order));
+        await store.dispatch(actions.bookOrder(order));
+      });
+
+      it('creates appropriate actions', async () => {
+        expect(typesForActions(store.getActions())).toEqual([
+          types.BOOK_ORDER_REQUEST,
+          types.SET_ORDER,
+          types.BOOK_ORDER_REQUEST_COMPLETE,
+        ]);
+      });
+
+      it('creates SET_ORDER with order of class occsn.Order', async () => {
+        expect(actionForType('SET_ORDER', store.getActions()).order).toBeInstanceOf(occsn.Order);
+      });
+
+      it('creates SET_ORDER with order.status == booked', async () => {
+        expect(actionForType('SET_ORDER', store.getActions()).order.status).toEqual('booked');
+      });
     });
 
-    it('creates appropriate actions', async () => {
-      expect(typesForActions(store.getActions())).toEqual([
-        types.BOOK_ORDER_REQUEST,
-        types.BOOK_ORDER_REQUEST_COMPLETE,
-      ]);
-    });
+    context('when booking failed', () => {
+      beforeEach(async () => {
+        setup({
+          '/orders/': { status: 422, data: bookedOrderFailedFixture },
+        });
+        store = mockStore({ $$appStore: Immutable.fromJS({ bookingOrder: false, order: null }) });
 
-    it('creates BOOK_ORDER_REQUEST_COMPLETE with order of class occsn.Order', async () => {
-      expect(actionForType('BOOK_ORDER_REQUEST_COMPLETE', store.getActions()).order).toBeInstanceOf(occsn.Order);
-    });
+        var product = await occsn.Product.find(global.OCCSN.product_id);
+        var order = await occsn.Order.construct({ product, status: 'initialized' });
 
-    it('creates BOOK_ORDER_REQUEST_COMPLETE with order.status == booked', async () => {
-      expect(actionForType('BOOK_ORDER_REQUEST_COMPLETE', store.getActions()).order.status).toEqual('booked');
+        await store.dispatch(actions.bookOrder(order));
+      });
+
+      it('creates appropriate actions', async () => {
+        expect(typesForActions(store.getActions())).toEqual([
+          types.BOOK_ORDER_REQUEST,
+          types.SET_ORDER,
+          types.BOOK_ORDER_REQUEST_COMPLETE,
+        ]);
+      });
+
+      it('creates SET_ORDER with order of class occsn.Order', async () => {
+        expect(actionForType('SET_ORDER', store.getActions()).order).toBeInstanceOf(occsn.Order);
+      });
+
+      it('creates SET_ORDER with order.status == initialized', async () => {
+        expect(actionForType('SET_ORDER', store.getActions()).order.status).toEqual('initialized');
+      });
+
+      it('creates SET_ORDER with order with errors', async () => {
+        expect(actionForType('SET_ORDER', store.getActions()).order.errors().empty()).toBe(false);
+      });
     });
   });
 

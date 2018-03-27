@@ -1,0 +1,25 @@
+{
+  "errors": [
+    {
+      "source": {
+        "pointer": "/data/relationships/customer/data/attributes/email"
+      },
+      "code": "blank",
+      "detail": "Email cannot be blank."
+    },
+    {
+      "source":  {
+        "pointer": "/data/relationships/customer/data/attributes/first_name"
+      },
+      "code":  "blank",
+      "detail": "First Name cannot be blank."
+    },
+    {
+      "source":  {
+        "pointer": "/data/relationships/customer/data/attributes/last_name"
+      },
+      "code": "blank",
+      "detail": "Last Name cannot be blank."
+    }
+  ]
+}

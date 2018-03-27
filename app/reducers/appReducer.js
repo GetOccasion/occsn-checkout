@@ -19,7 +19,7 @@ export default function appReducer($$state = $$initialState, action) {
     case actionTypes.BOOK_ORDER_REQUEST:
       return $$state.merge({ bookingOrder: true });
     case actionTypes.BOOK_ORDER_REQUEST_COMPLETE:
-      return $$state.merge({ bookingOrder: false, order: action.order });
+      return $$state.merge({ bookingOrder: false });
     case actionTypes.SAVE_ORDER_REQUEST:
       return $$state.merge({ savingOrder: true });
     case actionTypes.SAVE_ORDER_REQUEST_COMPLETE:

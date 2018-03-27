@@ -22,9 +22,14 @@ export function bookOrder(order) {
   return async (dispatch) => {
     dispatch(bookOrderRequest());
 
-    order = await order.update({ status: 'reserved' });
+    try {
+      order = await order.update({ status: 'reserved' });
+    } catch(invalidOrder) {
+      order = invalidOrder;
+    }
 
-    dispatch(bookOrderRequestComplete(order));
+    dispatch(setOrder(order));
+    dispatch(bookOrderRequestComplete());
   };
 }
 

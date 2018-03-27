@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "source": {
+        "pointer": "/data/relationships/time_slots/data"
+      },
+      "code": "blank",
+      "detail": "Orders for product id: '[]' require at least one time slot."
+    }
+  ]
+}
