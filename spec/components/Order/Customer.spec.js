@@ -16,6 +16,7 @@ import initializedOrderFixture from 'fixtures/orders/initialized/free.json';
 import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
 import partialCustomerOrderFixture from 'fixtures/orders/customer/partial.json';
 import completeCustomerOrderFixture from 'fixtures/orders/customer/complete.json';
+import customerOrderErrorsFixture from 'fixtures/errors/orders/customer.json';
 
 describe('Order', () => {
   describe('Customer', () => {
@@ -35,7 +36,11 @@ describe('Order', () => {
       product = await occsn.Product.find('1');
       order = await occsn.Order.construct({ product, status: 'initialized' });
 
-      order = await order.save();
+      try {
+        order = await order.save();
+      } catch(invalidOrder) {
+        order = invalidOrder;
+      }
 
       let props = {
         component: Order,
@@ -77,6 +82,18 @@ describe('Order', () => {
         await setupWrapper({
           '/orders/': { status: 201, data: completeCustomerOrderFixture },
           '/orders/:id': { status: 200, data: completeCustomerOrderFixture },
+        });
+      });
+
+      it('matches snapshot', () => {
+        expect(customerWrapper.find('section').first()).toMatchSnapshot();
+      });
+    });
+
+    context('customer errors', () => {
+      beforeEach(async () => {
+        await setupWrapper({
+          '/orders/': { status: 422, data: customerOrderErrorsFixture },
         });
       });
 
