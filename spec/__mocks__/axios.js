@@ -46,7 +46,7 @@ function create() {
 
                   axiosMock.requestCountsForURL[options.url] = count + 1;
                 } else {
-                  mockResponse = mockResponses[k]
+                  mockResponse = mockResponses[k];
                 }
 
                 if(global.debugRequests) {
@@ -59,7 +59,11 @@ function create() {
               }
             }
 
-            resolve(response);
+            if(response.status < 400) {
+              resolve(response);
+            } else {
+              reject({ response: response });
+            }
           }
         }, mockDelay);
       });
