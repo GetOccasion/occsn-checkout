@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import classNames from 'classnames';
 import _ from 'underscore';
 
-import { Button } from 'reactstrap';
+import { ErrorsFor } from 'mitragyna';
+import { Button, FormFeedback } from 'reactstrap';
 
 import occsn from '../libs/Occasion';
 
@@ -37,8 +39,16 @@ export default class TimeSlotsSelector extends PureComponent {
   render() {
     let { timeSlots, subject } = this.props;
 
+    var customControlInputClassNames = classNames(
+      'custom-control-input',
+      {
+        'is-invalid': !subject.errors().forField('timeSlots').empty()
+      }
+    );
+
     return <section className='mt-2'>
-      { timeSlots.map((timeSlot) => {
+      <section>
+        { timeSlots.map((timeSlot) => {
           return (
             <Button
               className={ 'mr-2 mb-2 ' + (subject.timeSlots().target().include(timeSlot) ? 'active' : '') }
@@ -51,7 +61,12 @@ export default class TimeSlotsSelector extends PureComponent {
             </Button>
           )
         }).toArray()
-      }
+        }
+      </section>
+      <section className='custom-control'>
+        <div className={customControlInputClassNames}></div>
+        <ErrorsFor component={FormFeedback} field="timeSlots"></ErrorsFor>
+      </section>
     </section>;
   }
 }

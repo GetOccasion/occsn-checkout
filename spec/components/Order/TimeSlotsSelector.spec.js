@@ -17,11 +17,15 @@ import initializedOrderFixture from 'fixtures/orders/initialized/free.json';
 import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
 
 import orderTimeSlotsFixture from 'fixtures/orders/time_slots/event.json';
+import orderTimeSlotsErrorFixture from 'fixtures/errors/orders/time_slot.json';
 
+// FIXME: Why are these only failing in specs and not on development?
 describe('Order', () => {
   describe('TimeSlotsSelector', () => {
     let order, product, wrapper, timeSlots, timeSlotsWrapper;
 
+    const mockFindRedeemable = jest.fn();
+    const mockSaveOrder = jest.fn();
     const mockSetOrder = jest.fn();
 
     async function setupWrapper(orderResponses) {
@@ -29,6 +33,7 @@ describe('Order', () => {
         '/products/:id/': { status: 200, data: productFixture },
         '/products/:id/questions/': { status: 200, data: blankQuestionsFixture },
         '/products/:id/time_slots/': { status: 200, data: productTimeSlotsFixture },
+        '/orders/': { status: 201, data: initializedOrderFixture },
         ...orderResponses
       };
       axios._setMockResponses(responses);
@@ -45,21 +50,15 @@ describe('Order', () => {
       let props = {
         afterUpdate: mockSetOrder,
         component: Order,
-        componentProps: { selectedTimeSlots: timeSlots },
+        componentProps: { findRedeemable: mockFindRedeemable, saveOrder: mockSaveOrder, selectedTimeSlots: timeSlots },
         subject: order,
       };
 
       wrapper = mount(<Resource {...props} />);
       wrapper.update();
+      console.log(wrapper.debug());
       timeSlotsWrapper = wrapper.find(TimeSlotsSelector).first();
     }
-
-    beforeEach(async () => {
-      await setupWrapper({
-        '/orders/': { status: 201, data: initializedOrderFixture },
-        '/orders/:id': { status: 200, data: orderTimeSlotsFixture },
-      });
-    });
 
     it('displays time slots for product', () => {
       expect(timeSlotsWrapper.find('button').length).toEqual(productTimeSlotsFixture.data.length)
@@ -71,6 +70,10 @@ describe('Order', () => {
 
     context('on click', () => {
       beforeEach(async () => {
+        await setupWrapper({
+          '/orders/:id': { status: 200, data: orderTimeSlotsFixture },
+        });
+
         var timeSlotButton = timeSlotsWrapper.find('button').first();
         timeSlotButton.simulate('click');
       });
@@ -80,11 +83,32 @@ describe('Order', () => {
       });
 
       it('calls setOrder with order with selected timeslot', () => {
-        expect(mockSetOrder.mock.calls[0][0].timeSlots().target().first()).toBe(timeSlots.first());
+        expect(mockSetOrder.mock.calls[0][0].timeSlots().target().first()).toEqual(timeSlots.first());
       });
 
       it('sets active class on correct timeslot', () => {
         expect(wrapper.find(TimeSlotsSelector).first().find('Button.active').first().key()).toEqual(timeSlots.first().id);
+      });
+    });
+
+    context('with errors', () => {
+      beforeEach(async () => {
+        await setupWrapper({
+          '/orders/:id': { status: 422, data: orderTimeSlotsErrorFixture },
+        });
+
+        order = await order.save();
+        wrapper.setProps({ subject: order });
+        wrapper.update();
+        timeSlotsWrapper = wrapper.find(TimeSlotsSelector).first();
+      });
+
+      it('adds is-invalid class to custom-control-input', () => {
+        expect(timeSlotsWrapper.find('.custom-control-input').first()).toHaveClassName('is-invalid');
+      });
+
+      it('adds FormFeedback with error message', () => {
+        expect(timeSlotsWrapper.find('FormFeedback').first()).toBePresent();
       });
     });
   });
