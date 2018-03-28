@@ -23,6 +23,7 @@
   "dependencies": {
     "active-resource": "git+https://github.com/nicklandgrebe/activeresource.js.git#feature/immutable",
     "bootstrap": "^4.0.0",
+    "classnames": "^2.2.5",
     "decimal.js": "^10.0.0",
     "immutable": "^3.8.2",
     "mirror-creator": "^1.1.0",
