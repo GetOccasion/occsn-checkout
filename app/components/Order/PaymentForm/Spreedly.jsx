@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
 
 import _ from 'underscore';
+import s from 'underscore.string';
+
+import { ErrorsFor } from 'mitragyna';
 
 import occsn from '../../../libs/Occasion';
 
 import SpreedlyAPI from 'spreedly';
 
-import { Col, FormGroup, Input, Label, Row } from 'reactstrap';
+import { Col, FormGroup, Input, Label, Row, FormFeedback } from 'reactstrap';
 
 import PaymentServiceProvider from './PaymentServiceProvider';
 
@@ -71,7 +74,17 @@ export default class Spreedly extends PaymentServiceProvider {
       }
     });
 
-    SpreedlyAPI.on('errors', function(errors) {
+    SpreedlyAPI.on('errors', (errors) => {
+      console.log(errors)
+      this.paymentMethodDeferred.reject(
+        _.map(errors, (error) => {
+          return [
+            'creditCard.' + s.camelize(error.attribute, true),
+            error.key.replace('errors.', ''),
+            error.message
+          ];
+        })
+      )
     });
 
     SpreedlyAPI.on('paymentMethod', (token) => {
@@ -91,15 +104,27 @@ export default class Spreedly extends PaymentServiceProvider {
   }
 
   render() {
+    const { order } = this.props;
+
     return <section>
       <FormGroup>
         <label>Name On Card</label>
-        <Input type="text" id="full_name" name="full_name" placeholder="Name On Card" onChange={ (e) => this.handleChange('full_name', e) } />
+        <Input type="text" id="full_name" name="full_name" placeholder="Name On Card"
+               onChange={ (e) => this.handleChange('full_name', e) }
+               className={ (order.errors().forField('creditCard.firstName').empty() && order.errors().forField('creditCard.lastName').empty()) ? '' : 'is-invalid' }
+        />
+        <ErrorsFor component={FormFeedback} field='creditCard.firstName'></ErrorsFor>
+        <ErrorsFor component={FormFeedback} field='creditCard.lastName'></ErrorsFor>
       </FormGroup>
 
       <FormGroup>
         <Label>Credit Card Number</Label>
-        <div id="spreedly-number" style={{ height: '48px' }}></div>
+        <div class="custom-file">
+          <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
+            <div id="spreedly-number" style={{ height: '48px' }}></div>
+          </div>
+          <ErrorsFor component={FormFeedback} field='creditCard.number'></ErrorsFor>
+        </div>
       </FormGroup>
 
       <FormGroup>
@@ -108,10 +133,18 @@ export default class Spreedly extends PaymentServiceProvider {
             <Label>Expiration Date</Label>
             <Row>
               <Col xs="6">
-                <Input type="text" id="month" name="month" maxlength="2" placeholder="MM" onChange={ (e) => this.handleChange('month', e) } />
+                <Input type="text" id="month" name="month" maxlength="2" placeholder="MM"
+                       onChange={ (e) => this.handleChange('month', e) }
+                       className={ order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid' }
+                />
+                <ErrorsFor component={FormFeedback} field='creditCard.month'></ErrorsFor>
               </Col>
               <Col xs="6">
-                <Input type="text" id="year" name="year" maxlength="4" placeholder="YYYY" onChange={ (e) => this.handleChange('year', e) } />
+                <Input type="text" id="year" name="year" maxlength="4" placeholder="YYYY"
+                       onChange={ (e) => this.handleChange('year', e) }
+                       className={ order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid' }
+                />
+                <ErrorsFor component={FormFeedback} field='creditCard.year'></ErrorsFor>
               </Col>
             </Row>
           </Col>

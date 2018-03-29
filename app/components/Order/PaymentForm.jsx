@@ -28,6 +28,10 @@ export default class PaymentForm extends PureComponent {
       var newSubject = subject.clone();
       newSubject.charge(paymentMethod, newSubject.outstandingBalance);
       return newSubject;
+    })
+    .catch((errors) => {
+      subject.errors().clear();
+      throw subject.errors().addAll(...errors);
     });
   }
 
@@ -41,6 +45,7 @@ export default class PaymentForm extends PureComponent {
     let { order } = this.props;
 
     let pspFormProps = {
+      order,
       ref: (form) => { this.pspForm = form }
     };
 

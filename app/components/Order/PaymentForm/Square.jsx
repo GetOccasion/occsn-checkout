@@ -1,10 +1,13 @@
 import React, { PureComponent } from 'react';
 
+import { ErrorsFor } from 'mitragyna';
+import _ from 'underscore';
+
 import occsn from '../../../libs/Occasion';
 
 import SquareAPI from 'square';
 
-import { Col, FormGroup, Input, Label, Row } from 'reactstrap';
+import { Col, FormGroup, Input, Label, Row, FormFeedback } from 'reactstrap';
 
 import PaymentServiceProvider from './PaymentServiceProvider';
 
@@ -46,34 +49,18 @@ export default class Square extends PaymentServiceProvider {
       callbacks: {
         cardNonceResponseReceived: (errors, nonce) => {
           if (errors) {
-          } else {
+            this.paymentMethodDeferred.reject(
+              _.map(errors, (error) => {
+                return [
+                  'creditCard.' + error.field,
+                  'invalid',
+                  error.message
+                ];
+              })
+            )          } else {
             this.paymentMethodDeferred.resolve(occsn.CreditCard.build({ id: nonce }));
           }
-        },
-        unsupportedBrowserDetected: () => {},
-        inputEventReceived: (inputEvent) => {
-          switch (inputEvent.eventType) {
-            case 'focusClassAdded':
-              /* HANDLE AS DESIRED */
-              break;
-            case 'focusClassRemoved':
-              /* HANDLE AS DESIRED */
-              break;
-            case 'errorClassAdded':
-              /* HANDLE AS DESIRED */
-              break;
-            case 'errorClassRemoved':
-              /* HANDLE AS DESIRED */
-              break;
-            case 'cardBrandChanged':
-              /* HANDLE AS DESIRED */
-              break;
-            case 'postalCodeChanged':
-              /* HANDLE AS DESIRED */
-              break;
-          }
-        },
-        paymentFormLoaded: () => {}
+        }
       }
     });
 
@@ -90,14 +77,24 @@ export default class Square extends PaymentServiceProvider {
       <div id="sq-ccbox">
         <FormGroup>
           <Label>Card Number</Label>
-          <div id="sq-card-number"></div>
+          <div class="custom-file">
+            <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
+              <div id="sq-card-number"></div>
+            </div>
+            <ErrorsFor component={FormFeedback} field='creditCard.cardNumber'></ErrorsFor>
+          </div>
         </FormGroup>
 
         <FormGroup>
           <Row>
             <Col xs="6">
               <Label>Expiration Date</Label>
-              <div id="sq-expiration-date"></div>
+              <div class="custom-file">
+                <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
+                  <div id="sq-expiration-date"></div>
+                </div>
+                <ErrorsFor component={FormFeedback} field='creditCard.expirationDate'></ErrorsFor>
+              </div>
             </Col>
             <Col xs="3">
               <Label>CVV</Label>
@@ -108,10 +105,13 @@ export default class Square extends PaymentServiceProvider {
 
         <FormGroup>
           <Label>Postal Code</Label>
-          <div id="sq-postal-code"></div>
+          <div class="custom-file">
+            <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
+              <div id="sq-postal-code"></div>
+            </div>
+            <ErrorsFor component={FormFeedback} field='creditCard.postalCode'></ErrorsFor>
+          </div>
         </FormGroup>
-
-        <input type="hidden" id="card-nonce" name="nonce" />
       </div>
     </section>;
   }

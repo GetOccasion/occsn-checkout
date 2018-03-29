@@ -56,7 +56,6 @@ describe('Order', () => {
 
       wrapper = mount(<Resource {...props} />);
       wrapper.update();
-      console.log(wrapper.debug());
       timeSlotsWrapper = wrapper.find(TimeSlotsSelector).first();
     }
 

@@ -125,6 +125,7 @@ export class AppContainer extends PureComponent {
                 selectedTimeSlots: data.selectedTimeSlots
               } }
               onSubmit={ actions.bookOrder }
+              onInvalidSubmit={ actions.setOrder }
               subject={ data.order }
             ></Resource>
           </Col>

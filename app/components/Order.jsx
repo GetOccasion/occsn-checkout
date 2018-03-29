@@ -191,7 +191,7 @@ export default class Order extends PureComponent {
         ) : null
       }
 
-      <section className="mt-3">
+      <section className="mt-3 mb-3">
         <Button
           block
           color="success"

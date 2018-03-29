@@ -23,6 +23,7 @@ export default class PaymentServiceProvider extends PureComponent {
   }
 
   buildPaymentMethod() {
+    this.reset();
     this.tokenizePaymentMethodData();
 
     return this.paymentMethodDeferred.promise;
