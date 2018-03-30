@@ -6,6 +6,7 @@ import SpreedlyAPI from 'spreedly';
 
 import occsn from 'app/libs/Occasion';
 
+// TODO: Add error specs
 describe('Order', () => {
   describe('PaymentForm', () => {
     describe('Spreedly', () => {
