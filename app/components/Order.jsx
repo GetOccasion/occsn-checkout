@@ -136,7 +136,7 @@ export default class Order extends PureComponent {
 
     if(subject.newResource()) return false;
 
-    return !product.free && product.hasRedeemables;
+    return !product.free && !Decimal(subject.price || '0.0').isZero() && product.hasRedeemables;
   }
 
   // Determines if should show the payment form
