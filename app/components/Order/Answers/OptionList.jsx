@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import Decimal from 'decimal.js';
 import { Field } from 'mitragyna';
 import { FormGroup, Label, Input } from 'reactstrap';
+import ReactCurrencyFormatter from 'react-currency-formatter';
 
 import occsn from '../../../libs/Occasion';
 
@@ -21,7 +23,14 @@ export default class OptionList extends PureComponent {
           return <FormGroup check>
             <Label check>
               <Field name="option" type="radio" component={ Input } value={ option }></Field>
-              { option.title }
+              <span className="mr-1">{ option.title }</span>
+              {
+                option.price ? (
+                  <span>
+                    (<ReactCurrencyFormatter quantity={ Decimal(option.price).toNumber() } currency={ answer.order().product().merchant().currency().name }></ReactCurrencyFormatter>)
+                  </span>
+                ) : null
+              }
             </Label>
           </FormGroup>
         }).toArray()
