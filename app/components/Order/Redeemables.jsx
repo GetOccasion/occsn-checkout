@@ -6,7 +6,8 @@ import _ from 'underscore';
 
 import occsn from '../../libs/Occasion'
 
-import { Button, Col, Card, CardBody, CardTitle, CardText, InputGroup, InputGroupAddon, Input, Row } from 'reactstrap';
+import { ErrorsFor } from 'mitragyna';
+import { Button, Col, Card, FormGroup, InputGroup, InputGroupAddon, Input, FormFeedback } from 'reactstrap';
 
 import Coupon from './Redeemables/Coupon';
 import GiftCard from './Redeemables/GiftCard';
@@ -15,6 +16,7 @@ export default class Redeemables extends PureComponent {
   static propTypes = {
     findRedeemable: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
+    onErrors: PropTypes.func.isRequired,
     order: PropTypes.instanceOf(occsn.Order).isRequired,
   };
 
@@ -22,7 +24,7 @@ export default class Redeemables extends PureComponent {
     super();
 
     _.bindAll(this,
-      'addError',
+      'addErrors',
       'addRedeemable',
       'checkForRedeemable',
       'handleChange',
@@ -34,8 +36,16 @@ export default class Redeemables extends PureComponent {
     this.setState({ code: '' });
   }
 
-  addError(errors) {
+  addErrors(errors) {
+    let { onErrors, order } = this.props;
 
+    order = order.clone();
+    order.errors().clear();
+    errors.each((e) => {
+      e.field = 'redeemables.' + e.parameter.replace('filter/', '');
+      order.errors().push(e);
+    });
+    onErrors(order);
   }
 
   addRedeemable(redeemable) {
@@ -65,7 +75,7 @@ export default class Redeemables extends PureComponent {
   checkForRedeemable(code) {
     let { findRedeemable, order } = this.props;
 
-    findRedeemable(order.product(), code, this.addRedeemable, this.addError);
+    findRedeemable(order.product(), code, this.addRedeemable, this.addErrors);
   }
 
   handleChange(e) {
@@ -109,12 +119,15 @@ export default class Redeemables extends PureComponent {
       { redeemables }
 
       { this.showInput() ? (
-          <InputGroup>
+        <FormGroup>
+          <InputGroup className={ order.errors().forField('redeemables.code').empty() ? '' : 'is-invalid' }>
             <Input onChange={ this.handleChange } value={ code } />
             <InputGroupAddon addonType="append">
               <Button onClick={ () => this.checkForRedeemable(code) }>Search</Button>
             </InputGroupAddon>
           </InputGroup>
+          <ErrorsFor component={FormFeedback} field='redeemables.code'></ErrorsFor>
+        </FormGroup>
         ) : (null)
       }
     </section>;

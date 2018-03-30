@@ -117,6 +117,7 @@ export class AppContainer extends PureComponent {
         <Row>
           <Col>
             <Resource
+              afterError={ actions.setOrder }
               afterUpdate={ actions.setOrder }
               component={ Order }
               componentProps={ {

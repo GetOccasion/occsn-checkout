@@ -16,8 +16,10 @@ import PaymentForm from './Order/PaymentForm';
 import Questions from './Order/Questions';
 import Redeemables from './Order/Redeemables';
 
+// TODO: Use saveOrder as afterUpdate callback and setOrder as afterFailure callback
 export default class Order extends PureComponent {
   static propTypes = {
+    afterError: PropTypes.func.isRequired,
     afterUpdate: PropTypes.func.isRequired,
     bookingOrder: PropTypes.bool,
     findRedeemable: PropTypes.func.isRequired,
@@ -149,7 +151,7 @@ export default class Order extends PureComponent {
   }
 
   render() {
-    let { afterUpdate, findRedeemable, saveOrder, subject, selectedTimeSlots } = this.props;
+    let { afterError, afterUpdate, findRedeemable, saveOrder, subject, selectedTimeSlots } = this.props;
 
     let customer = subject.customer();
     let product = subject.product();
@@ -168,7 +170,7 @@ export default class Order extends PureComponent {
         this.showRedeemables() ? (
           <section>
             { this.headerForSection('redeemables') }
-            <Redeemables findRedeemable={findRedeemable} order={subject} onChange={saveOrder}></Redeemables>
+            <Redeemables findRedeemable={findRedeemable} order={subject} onChange={saveOrder} onErrors={afterError}></Redeemables>
           </section>
         ) : null
       }
