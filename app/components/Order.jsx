@@ -55,7 +55,7 @@ export default class Order extends PureComponent {
 
   // Mitragyna callback
   beforeSubmit(subject) {
-    if(this.acceptsPayment()) {
+    if(this.acceptsPayment() && !Decimal(subject.outstandingBalance).isZero()) {
       return this.paymentForm.chargeOutstandingBalanceToPaymentMethod(subject);
     } else {
       return subject;
