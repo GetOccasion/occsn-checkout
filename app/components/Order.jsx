@@ -115,6 +115,17 @@ export default class Order extends PureComponent {
     }
   }
 
+  // Determines if should show Questions
+  // @note If the product.questions() is empty, don't show questions
+  //
+  // @return [Boolean] whether or not to show Questions
+  showQuestions() {
+    let { subject } = this.props;
+    let product = subject.product();
+
+    return !product.questions().empty();
+  }
+
   // Determines if should show Redeemables
   // @note If the product is not free && hasRedeemables then show Redeemables
   //
@@ -163,8 +174,14 @@ export default class Order extends PureComponent {
       { this.headerForSection('timeSlots') }
       <TimeSlotsSelector subject={subject} timeSlots={ selectedTimeSlots } onSelect={ afterUpdate } />
 
-      { this.headerForSection('questions') }
-      <Questions subject={subject} questions={ product.questions().target() }></Questions>
+      {
+        this.showQuestions() ? (
+          <section>
+            { this.headerForSection('questions') }
+            <Questions subject={subject} questions={ product.questions().target() }></Questions>
+          </section>
+        ) : null
+      }
 
       {
         this.showRedeemables() ? (
