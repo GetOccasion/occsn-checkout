@@ -14,6 +14,7 @@ import initializedOrderPriceFixture from 'fixtures/orders/initialized/cash/price
 import initializedOrderPriceTaxFixture from 'fixtures/orders/initialized/cash/price_tax.json';
 import initializedOrderCouponFixture from 'fixtures/orders/initialized/coupons/fixed.json';
 
+// TODO: Add outstandingBalance and giftCardAmount specs
 describe('Order', () => {
   describe('Pricing', () => {
     let order, product, wrapper;

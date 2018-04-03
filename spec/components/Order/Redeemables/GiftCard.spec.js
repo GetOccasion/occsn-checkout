@@ -8,6 +8,8 @@ import occsn from 'app/libs/Occasion';
 import productFixture from 'fixtures/products/cash.json';
 import redeemablesGiftCardFixture from 'fixtures/products/redeemables/gift_cards/low_value.json';
 
+// TODO: Change subject passed in to transaction
+// TODO: Add spec for balance left on gift card after booking message
 describe('Order', () => {
   describe('Redeemables', () => {
     describe('GiftCard', () => {

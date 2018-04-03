@@ -108,13 +108,12 @@ export default class Redeemables extends PureComponent {
       redeemables.push(<Coupon currency={currency.name} subject={order.coupon()}></Coupon>);
     }
 
-    let giftCards =
+    let giftCardTransactions =
       order.transactions().target()
-      .map((t) => { return t.paymentMethod() })
-      .select((p) => { return p.isA(occsn.GiftCard) });
+      .select((t) => { return t.paymentMethod().isA(occsn.GiftCard) });
 
-    giftCards.each((giftCard) => {
-      redeemables.push(<GiftCard currency={currency.name} subject={giftCard}></GiftCard>);
+    giftCardTransactions.each((giftCardTransaction) => {
+      redeemables.push(<GiftCard currency={currency.name} subject={giftCardTransaction}></GiftCard>);
     });
 
     return <section>

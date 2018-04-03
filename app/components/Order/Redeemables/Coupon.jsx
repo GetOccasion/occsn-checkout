@@ -26,7 +26,7 @@ export default class Coupon extends PureComponent {
       discount = <span>{subject.discountPercentage}%</span>;
     }
 
-    return <Card>
+    return <Card className="mb-2">
       <CardBody>
         <Row>
           <Col xs="9">

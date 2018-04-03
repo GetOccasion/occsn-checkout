@@ -1,10 +1,17 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 import Q from 'q';
 
 import _ from 'underscore';
 
+import occsn from '../../../libs/Occasion';
+
 export default class PaymentServiceProvider extends PureComponent {
+  static propTypes = {
+    order: PropTypes.instanceOf(occsn.Order)
+  };
+
   constructor() {
     super();
 
