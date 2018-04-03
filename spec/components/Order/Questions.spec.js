@@ -15,6 +15,7 @@ import productQuestionsFixture from 'fixtures/products/questions/priced.json';
 import initializedOrderFixture from 'fixtures/orders/initialized/cash/price.json';
 
 // TODO: Add spec for spin button max display + constraints, pricing display
+// TODO: Add spec for checkbox pricing display
 // TODO: Add spec for drop down and option list pricing options display
 describe('Order', () => {
   describe('Questions', () => {
