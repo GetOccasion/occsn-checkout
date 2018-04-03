@@ -24,6 +24,8 @@ import initializedOrderFixedCouponFixture from 'fixtures/orders/initialized/coup
 import initializedOrderFullCouponFixture from 'fixtures/orders/initialized/coupons/full.json';
 import initializedOrderGiftCardFixture from 'fixtures/orders/initialized/gift_card.json';
 
+// TODO: Add spec for clearing code on successful find
+// TODO: Add specs for remove redeemable button
 describe('Order', () => {
   describe('Redeemables', () => {
     let order, product, wrapper, redeemablesWrapper;

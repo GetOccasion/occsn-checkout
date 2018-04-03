@@ -51,6 +51,8 @@ export default class Redeemables extends PureComponent {
   addRedeemable(redeemable) {
     let { onChange, order } = this.props;
 
+    this.setState({ code: '' });
+
     if(redeemable.isA(occsn.Coupon)) {
       onChange(order.assignAttributes({ coupon: redeemable }))
     } else if(redeemable.isA(occsn.GiftCard)) {
