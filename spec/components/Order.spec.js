@@ -20,6 +20,9 @@ import bookedOrderFixture from 'fixtures/orders/booked/cash/free.json';
 import orderCustomerCompleteFixture from 'fixtures/orders/customer/complete.json';
 import orderTimeSlotFixture from 'fixtures/orders/time_slots/event.json';
 
+
+// TODO: Spec Questions display
+// TODO: Spec Redeemables display
 describe('Order', () => {
   let order, product, wrapper, timeSlots;
 

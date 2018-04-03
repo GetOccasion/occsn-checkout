@@ -136,7 +136,7 @@ export default class Order extends PureComponent {
 
     if(subject.newResource()) return false;
 
-    return !product.free && !Decimal(subject.price || '0.0').isZero() && product.hasRedeemables;
+    return !product.free && product.hasRedeemables && !Decimal(subject.subtotal || '0.0').isZero();
   }
 
   // Determines if should show the payment form
@@ -152,6 +152,11 @@ export default class Order extends PureComponent {
     return !(product.free || Decimal(subject.outstandingBalance || '0.0').isZero());
   }
 
+  // Determines if should show the price output
+  // @note If the product is free or price is null (required price-calculating questions are missing answers),
+  //   do not show the price display
+  //
+  // @return [Boolean] whether or not to show the payment form
   showPrice() {
     let { subject } = this.props;
     let product = subject.product();
