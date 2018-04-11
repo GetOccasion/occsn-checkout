@@ -11,6 +11,7 @@ import occsn from '../libs/Occasion';
 
 import Customer from './Order/Customer';
 import TimeSlotsSelector from './TimeSlotsSelector';
+import MissingAnswers from './Order/MissingAnswers';
 import Pricing from './Order/Pricing';
 import PaymentForm from './Order/PaymentForm';
 import Questions from './Order/Questions';
@@ -50,7 +51,10 @@ export default class Order extends PureComponent {
   allowedToBookOrder() {
     const { bookingOrder } = this.props;
 
-    return !bookingOrder;
+    let missingAnswers = false;
+    if(this.missingAnswers && !this.missingAnswers.empty()) missingAnswers = true;
+
+    return !bookingOrder && !missingAnswers;
   }
 
   // Mitragyna callback
@@ -214,6 +218,10 @@ export default class Order extends PureComponent {
           </section>
         ) : null
       }
+
+      <section className="mt-3">
+        <MissingAnswers order={subject} ref={(r) => this.missingAnswers = r }></MissingAnswers>
+      </section>
 
       <section className="mt-3 mb-3">
         <Button
