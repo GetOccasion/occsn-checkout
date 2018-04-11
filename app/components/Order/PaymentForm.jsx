@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import _ from 'underscore';
 
+import Cash from './PaymentForm/Cash';
 import Spreedly from './PaymentForm/Spreedly';
 import Square from './PaymentForm/Square';
 
@@ -52,6 +53,7 @@ export default class PaymentForm extends PureComponent {
     return <section>
       {
         {
+          cash: <Cash></Cash>,
           spreedly: <Spreedly {...pspFormProps}></Spreedly>,
           square: <Square {...pspFormProps}></Square>,
         }[this.paymentServiceProvider()]
