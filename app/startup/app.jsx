@@ -18,7 +18,7 @@ const render = Component => {
         <Component />
       </Provider>
     </AppContainer>,
-    document.getElementById('booking-page')
+    document.getElementById('occsn-app')
   )
 };
 
