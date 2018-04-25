@@ -5,7 +5,7 @@ const process = require('process');
 module.exports = {
   // Entry is relative to process.cwd()
   entry: [
-    'node_modules/babel-polyfill/dist/polyfill.min.js',
+    'node_modules/@babel/polyfill/dist/polyfill.min.js',
     'app/startup/app.jsx',
   ],
 
