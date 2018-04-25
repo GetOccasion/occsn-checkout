@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Order Attendee matches snapshot 1`] = `
+<Card
+  className="mb-2"
+  tag="div"
+>
+  <CardBody
+    tag="div"
+  >
+    <CardTitle
+      tag="h5"
+    >
+      Attendee 
+      1
+    </CardTitle>
+    <FormGroup
+      tag="div"
+    >
+      <Field
+        component={[Function]}
+        invalidClassName="is-invalid"
+        name="firstName"
+        placeholder="First name"
+        type="text"
+      />
+    </FormGroup>
+    <FormGroup
+      tag="div"
+    >
+      <Field
+        component={[Function]}
+        invalidClassName="is-invalid"
+        name="lastName"
+        placeholder="Last name"
+        type="text"
+      />
+    </FormGroup>
+  </CardBody>
+</Card>
+`;
