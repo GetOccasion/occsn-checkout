@@ -21,6 +21,7 @@
       "post_transactional_message": "I look forward to helping your dreams and goals coming a reality!",
       "pro_ratable": false,
       "pro_rate_until_session": null,
+      "quantity_aware": true,
       "sells_sessions": false,
       "show_occurrence_availability": false,
       "show_time_slot_duration": true,

@@ -5,7 +5,7 @@ import { Field } from 'mitragyna';
 
 import s from 'underscore.string';
 
-import occsn from '../../libs/Occasion';
+import occsn from '../../../libs/Occasion';
 
 import { Card, CardBody, CardTitle, CardText, FormGroup, Input } from 'reactstrap';
 
@@ -21,12 +21,10 @@ export default class Attendee extends PureComponent {
   render() {
     let { indexOf, questions } = this.props;
 
-    debugger;
-
     return <Card className="mb-2">
       <CardBody>
         <CardTitle>
-          Attendee { indexOf }
+          Attendee { indexOf + 1 }
         </CardTitle>
         {
           questions.map((q) => {

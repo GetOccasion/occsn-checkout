@@ -9,6 +9,7 @@ import { Button } from 'reactstrap';
 
 import occsn from '../libs/Occasion';
 
+import Attendees from './Order/Attendees';
 import Customer from './Order/Customer';
 import TimeSlotsSelector from './TimeSlotsSelector';
 import MissingAnswers from './Order/MissingAnswers';
@@ -96,6 +97,10 @@ export default class Order extends PureComponent {
             product.widgetQuestionsTitle
           )}
         </h2>;
+      case 'attendees':
+        return <h2 className="mt-3 mb-2" id="widgetAttendeesTitle">
+          Attendee Information
+        </h2>;
       case 'payment':
         return <h2 className="mt-3 mb-2" id="widgetPaymentTitle">
           { _.isNull(product.widgetPaymentTitle) ? (
@@ -117,6 +122,19 @@ export default class Order extends PureComponent {
           )}
         </h2>;
     }
+  }
+
+  // Determines if should show Attendees
+  // @note If the product is quantity aware && has attendeeQuestions, and order.quantity > 0, show Attendees
+  //
+  // @return [Boolean] whether or not to show Attendees
+  showAttendees() {
+    let { subject } = this.props;
+    let product = subject.product();
+
+    if(subject.newResource()) return false;
+
+    return product.quantityAware && !product.attendeeQuestions.empty() && subject.quantity > 0;
   }
 
   // Determines if should show Questions
@@ -188,6 +206,15 @@ export default class Order extends PureComponent {
           <section>
             { this.headerForSection('questions') }
             <Questions subject={subject} questions={ product.questions().target() }></Questions>
+          </section>
+        ) : null
+      }
+
+      {
+        this.showAttendees() ? (
+          <section>
+            { this.headerForSection('attendees') }
+            <Attendees questions={product.attendeeQuestions} subject={subject}></Attendees>
           </section>
         ) : null
       }

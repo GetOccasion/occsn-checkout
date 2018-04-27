@@ -11,15 +11,17 @@ import occsn from 'app/libs/Occasion';
 
 import freeProductFixture from 'fixtures/products/free.json';
 import productFixture from 'fixtures/products/cash.json';
+import attendeesProductFixture from 'fixtures/products/attendee_questions.json';
 import blankQuestionsFixture from 'fixtures/blank.json';
 import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
 
 import freeInitializedOrderFixture from 'fixtures/orders/initialized/free.json';
 import pricedInitializedOrderFixture from 'fixtures/orders/initialized/cash/price.json';
+import noAttendeesOrderFixture from 'fixtures/orders/initialized/attendees/none.json';
+import oneAttendeesOrderFixture from 'fixtures/orders/initialized/attendees/one.json';
 import bookedOrderFixture from 'fixtures/orders/booked/cash/free.json';
 import orderCustomerCompleteFixture from 'fixtures/orders/customer/complete.json';
 import orderTimeSlotFixture from 'fixtures/orders/time_slots/event.json';
-
 
 // TODO: Spec Questions display
 // TODO: Spec Redeemables display
@@ -135,6 +137,36 @@ describe('Order', () => {
 
     it('disables Button#bookOrder', () => {
       expect(wrapper.find('Button#bookOrder')).toHaveProp('disabled', true);
+    });
+  });
+
+  describe('Attendees', () => {
+    context('when product is not quantity_aware', () => {
+      beforeEach(async () => {
+        await setupWrapper({});
+      });
+
+      it('does not display Attendees', () => {
+        expect(wrapper.find('Attendees')).not.toBePresent()
+      });
+    });
+
+    context('when product is quantityAware && has attendeeQuestions', () => {
+      beforeEach(async () => {
+        await setupWrapper({
+          '/products/:id/': {status: 200, data: attendeesProductFixture},
+          '/orders/': {status: 201, data: oneAttendeesOrderFixture},
+          '/orders/:id': [
+            {status: 200, data: orderCustomerCompleteFixture},
+            {status: 200, data: orderTimeSlotFixture},
+            {status: 200, data: oneAttendeesOrderFixture},
+          ]
+        });
+      });
+
+      it('displays Attendees', () => {
+        expect(wrapper.find('Attendees')).toBePresent()
+      });
     });
   });
 

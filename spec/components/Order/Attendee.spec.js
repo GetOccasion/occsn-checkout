@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Attendee from 'app/components/Order/Attendee';
+import Attendee from 'app/components/Order/Attendees/Attendee';
 
 import axios from 'axios';
 import occsn from 'app/libs/Occasion';

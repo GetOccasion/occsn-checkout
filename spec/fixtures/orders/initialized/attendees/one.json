@@ -1,0 +1,56 @@
+{
+  "data": {
+    "id": "f23skvy8",
+    "type": "orders",
+    "attributes": {
+      "coupon_amount": null,
+      "coupon_description": null,
+      "created_at": "2018-02-22T14:29:13.610-06:00",
+      "description": "1-On-1 Coaching Session",
+      "gift_card_amount": null,
+      "outstanding_balance": "0.0",
+      "price": "0.0",
+      "quantity": 2,
+      "status": "initialized",
+      "subtotal": "0.0",
+      "tax": "0.0",
+      "tax_percentage": "0.0",
+      "total": "0.0",
+      "updated_at": "2018-02-22T14:29:13.610-06:00",
+      "verification_code": null
+    },
+    "relationships": {
+      "attendees": {
+        "data": [
+          {
+            "id": "1culgrbbrowad7a473k1dw",
+            "type": "attendees"
+          }
+        ]
+      },
+      "product": {
+        "data": {
+          "id": "3k1cad7a471dwulgrbbrow",
+          "type": "products"
+        },
+        "links": {
+          "self": "http://lvh.me:3000/api/v1/orders/f23skvy8/relationships/product",
+          "related": "http://lvh.me:3000/api/v1/orders/f23skvy8/product"
+        }
+      }
+    },
+    "links": {
+      "self": "http://lvh.me:3000/api/v1/orders/f23skvy8"
+    }
+  },
+  "included": [
+    {
+      "id": "1culgrbbrowad7a473k1dw",
+      "type": "attendees",
+      "attributes": {
+        "first_name": "sxh",
+        "last_name": "smith"
+      }
+    }
+  ]
+}
