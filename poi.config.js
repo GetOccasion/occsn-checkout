@@ -4,10 +4,9 @@ const process = require('process');
 
 module.exports = {
   // Entry is relative to process.cwd()
-  entry: [
-    'node_modules/@babel/polyfill/dist/polyfill.min.js',
-    'app/startup/app.jsx',
-  ],
+  entry: {
+    client: 'app/startup/app.jsx'
+  },
 
   html: {
     template: 'index.html'
@@ -15,7 +14,7 @@ module.exports = {
 
   dist: 'lib/assets',
 
-  presets: [
+  plugins: [
     require('poi-preset-react')(),
     require('poi-preset-resolve-alias')({
       'active-resource': path.join(process.cwd(), 'node_modules', 'active-resource', 'build', 'active-resource.min.js'),

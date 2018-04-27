@@ -21,6 +21,7 @@
   "author": "Nick Landgrebe, Peak Labs LLC DBA Occasion App",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.0.0-beta.46",
     "active-resource": "git+https://github.com/nicklandgrebe/activeresource.js.git#feature/immutable",
     "bootstrap": "^4.0.0",
     "classnames": "^2.2.5",
