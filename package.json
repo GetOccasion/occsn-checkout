@@ -71,7 +71,7 @@
     "jest-plugin-its": "^2.6.0",
     "jest-plugin-set": "^2.6.0",
     "jest-plugin-unhandled-promise": "^2.6.0",
-    "poi": "^9.6.13",
+    "poi": "^10.1.9",
     "poi-preset-react": "^9.2.1",
     "poi-preset-resolve-alias": "^1.0.1",
     "react-test-renderer": "^16.2.0",
