@@ -57,6 +57,7 @@ export class TimeSlotsContainer extends PureComponent {
         actions.loadProductCalendar(data.product);
         break;
       case 'list':
+        actions.loadProductTimeSlots(data.product);
         break;
     }
   }
@@ -99,7 +100,16 @@ export class TimeSlotsContainer extends PureComponent {
           <TimeSlotsSelector onSelect={actions.saveOrder} subject={order} timeSlots={data.timeSlotsFromCalendar} />
         </section>;
       case 'list':
-        break;
+        return <section className="mt-3">
+          <TimeSlotsSelector onSelect={actions.saveOrder} subject={order} timeSlots={data.activeTimeSlotsCollection} />
+          <Row>
+            <Col xs={{ offset: "9" }}>
+            </Col>
+            <Col xs="3">
+              <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
+            </Col>
+          </Row>
+        </section>;
     }
   }
 }

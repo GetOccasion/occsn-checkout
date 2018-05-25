@@ -18,6 +18,7 @@ export function loadProductTimeSlots(product) {
 
     var query =
       product.timeSlots()
+      .includes({ product: 'merchant' })
       .where({ status: 'bookable' })
       .all();
 
