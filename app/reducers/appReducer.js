@@ -2,9 +2,6 @@ import Immutable from 'immutable';
 
 import actionTypes from '../constants/appConstants';
 
-import moment from 'moment';
-import 'moment-timezone';
-
 export const $$initialState = Immutable.fromJS({
   bookingOrder: false,
   order: null,
@@ -28,9 +25,6 @@ export default function appReducer($$state = $$initialState, action) {
       return $$state.merge({ order: action.order });
     case actionTypes.SET_PRODUCT:
       return $$state.merge({ product: action.product });
-    case actionTypes.SET_TIME_ZONE:
-      moment.tz.setDefault(action.timeZone);
-      return $$state;
     default:
       return $$state;
   }

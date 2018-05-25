@@ -9,9 +9,10 @@ import { Button } from 'reactstrap';
 
 import occsn from '../libs/Occasion';
 
+import TimeSlotsContainer from '../containers/TimeSlotsContainer';
+
 import Attendees from './Order/Attendees';
 import Customer from './Order/Customer';
-import TimeSlotsSelector from './TimeSlotsSelector';
 import MissingAnswers from './Order/MissingAnswers';
 import Pricing from './Order/Pricing';
 import PaymentForm from './Order/PaymentForm';
@@ -21,15 +22,18 @@ import Redeemables from './Order/Redeemables';
 // TODO: Use saveOrder as afterUpdate callback and setOrder as afterFailure callback
 export default class Order extends PureComponent {
   static propTypes = {
+    activeTimeSlotsCollection: PropTypes.shape({
+      __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
+    }),
+    timeSlotsFromCalendar: PropTypes.shape({
+      __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
+    }),
     afterError: PropTypes.func.isRequired,
     afterUpdate: PropTypes.func.isRequired,
     bookingOrder: PropTypes.bool,
     findRedeemable: PropTypes.func.isRequired,
     saveOrder: PropTypes.func,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
-    selectedTimeSlots: PropTypes.shape({
-      __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
-    })
   };
 
   constructor() {
@@ -137,6 +141,17 @@ export default class Order extends PureComponent {
     return product.quantityAware && !product.attendeeQuestions.empty() && subject.quantity > 0;
   }
 
+  // Determines if should show TimeSlotsContainer
+  // @note If the product hasTimeSlots then show TimeSlotsContainer
+  //
+  // @return [Boolean] whether or not to show TimeSlotsContainer
+  showTimeSlots() {
+    let { subject } = this.props;
+    let product = subject.product();
+
+    return product.hasTimeSlots;
+  }
+
   // Determines if should show Questions
   // @note If the product.questions() is empty, don't show questions
   //
@@ -189,7 +204,7 @@ export default class Order extends PureComponent {
   }
 
   render() {
-    let { afterError, afterUpdate, findRedeemable, saveOrder, subject, selectedTimeSlots } = this.props;
+    let { afterError, afterUpdate, findRedeemable, saveOrder, subject } = this.props;
 
     let customer = subject.customer();
     let product = subject.product();
@@ -199,7 +214,7 @@ export default class Order extends PureComponent {
       <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
 
       { this.headerForSection('timeSlots') }
-      <TimeSlotsSelector subject={subject} timeSlots={ selectedTimeSlots } onSelect={ afterUpdate } />
+      <TimeSlotsContainer order={subject} onSelect={ afterUpdate } />
 
       {
         this.showQuestions() ? (

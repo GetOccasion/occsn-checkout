@@ -1,8 +1,6 @@
 import React from 'react';
 
 import { Resource } from 'mitragyna';
-import moment from 'moment';
-import 'moment-timezone';
 
 import Order from 'app/components/Order';
 
@@ -13,7 +11,7 @@ import freeProductFixture from 'fixtures/products/free.json';
 import productFixture from 'fixtures/products/cash.json';
 import attendeesProductFixture from 'fixtures/products/attendee_questions.json';
 import blankQuestionsFixture from 'fixtures/blank.json';
-import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
+import productTimeSlotsFixture from 'fixtures/products/time_slots/index.json';
 
 import freeInitializedOrderFixture from 'fixtures/orders/initialized/free.json';
 import pricedInitializedOrderFixture from 'fixtures/orders/initialized/cash/price.json';
@@ -50,8 +48,6 @@ describe('Order', () => {
 
     product = await occsn.Product.find('1');
 
-    moment.tz.setDefault(product.merchant().timeZone);
-
     order = await occsn.Order.construct({ product, status: 'initialized' });
 
     // Set price
@@ -68,7 +64,7 @@ describe('Order', () => {
       ...props,
       afterUpdate: mockSetOrder,
       component: Order,
-      componentProps: { bookingOrder, selectedTimeSlots: timeSlots },
+      componentProps: { bookingOrder, activeTimeSlotsCollection: timeSlots },
       subject: order,
       onSubmit: mockBookOrder,
     };

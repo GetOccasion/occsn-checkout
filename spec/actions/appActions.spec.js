@@ -53,7 +53,6 @@ describe('app actions', () => {
       expect(typesForActions(store.getActions())).toEqual([
         types.LOAD_PRODUCT_REQUEST,
         types.SET_PRODUCT,
-        types.SET_TIME_ZONE,
         types.CONSTRUCT_ORDER_REQUEST,
       ]);
     });

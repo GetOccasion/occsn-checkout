@@ -1,8 +1,5 @@
 import React from 'react';
 
-import moment from 'moment';
-import 'moment-timezone';
-
 import OrderComplete from '../../../app/components/Order/Complete';
 
 import axios from 'axios';
@@ -10,7 +7,7 @@ import occsn from '../../../app/libs/Occasion';
 
 import productFixture from 'fixtures/products/cash.json';
 import blankQuestionsFixture from 'fixtures/blank.json';
-import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
+import productTimeSlotsFixture from 'fixtures/products/time_slots/index.json';
 
 import bookedOrderFixture from 'fixtures/orders/booked/cash/free.json';
 import orderCustomerCompleteFixture from 'fixtures/orders/customer/complete.json';
@@ -30,8 +27,6 @@ describe('Order', () => {
       axios._setMockResponses(responses);
 
       product = await occsn.Product.find('1');
-
-      moment.tz.setDefault(product.merchant().timeZone);
 
       order = await occsn.Order.construct({ product, status: 'initialized' });
 

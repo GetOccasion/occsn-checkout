@@ -11,7 +11,7 @@
       "first_time_slot_starts_at": "2015-10-26T12:00:00.000-05:00",
       "free": false,
       "has_redeemables": false,
-      "has_time_slots": false,
+      "has_time_slots": true,
       "image": {
         "url": "https://d2o99y7glp64sh.cloudfront.net/uploads/product/image/10640/Photo1.jpg",
         "thumb": {
@@ -33,13 +33,13 @@
       "time_slots_view": "calendar",
       "title": "1-On-1 Coaching Session",
       "updated_at": "2017-11-21T10:57:10.297-06:00",
-      "widget_attributes_title": "Additional Information",
-      "widget_questions_title": "Additional Information",
-      "widget_contact_title": null,
-      "widget_occurrences_title": null,
-      "widget_time_slots_title": null,
-      "widget_payment_title": null,
-      "widget_total_due_title": null
+      "widget_attributes_title": "Additional Information!!",
+      "widget_questions_title": "Additional Information!!",
+      "widget_contact_title": "Contact Information!!",
+      "widget_occurrences_title": "Time Slots!!",
+      "widget_time_slots_title": "Time Slots!!",
+      "widget_payment_title": "Payment Information!!",
+      "widget_total_due_title": "Total Due Today!!"
     },
     "relationships": {
       "merchant": {
@@ -81,10 +81,15 @@
             "url": "https://d2o99y7glp64sh.cloudfront.net/uploads/merchant/profile_picture/1/thumb_Occasion_Logo.jpg"
           }
         },
-        "psp_name": "spreedly",
+        "psp_name": "cash",
         "tax_percentage": "0.0",
         "time_zone": "America/Chicago",
         "updated_at": "2017-12-22T15:02:49.949-06:00"
+      },
+      "relationships": {
+        "currency": {
+          "data": { "type": "currencies", "id": "h7abn9e7" }
+        }
       },
       "links": {
         "self": "https://www.occsn.com/api/v1/merchants/w7cgpas3"
@@ -120,6 +125,14 @@
       "attributes": {
         "code": "IL",
         "name": "Illinois"
+      }
+    },
+    {
+      "id": "h7abn9e7",
+      "type": "currencies",
+      "attributes": {
+        "code": "$",
+        "name": "USD"
       }
     }
   ]

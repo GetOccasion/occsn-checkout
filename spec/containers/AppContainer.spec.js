@@ -13,7 +13,7 @@ import OrderComplete from '../../app/components/Order/Complete';
 
 import productFixture from '../fixtures/products/cash.json';
 import blankQuestionsFixture from '../fixtures/blank.json';
-import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
+import productTimeSlotsFixture from 'fixtures/products/time_slots/index.json';
 
 import initializedOrderFixture from 'fixtures/orders/initialized/free.json';
 import bookedOrderFixture from 'fixtures/orders/booked/cash/free.json';
@@ -23,7 +23,7 @@ import {loadProductTimeSlots} from "../../app/actions/calendarActions";
 describe('AppContainer', () => {
   let wrapper;
 
-  let product, order, timeSlots, selectedTimeSlots;
+  let product, order, timeSlots, activeTimeSlotsCollection;
 
   const mockLoadProduct = jest.fn();
   const mockLoadProductTimeSlots = jest.fn();
@@ -81,11 +81,11 @@ describe('AppContainer', () => {
       });
 
       product = await occsn.Product.find(global.OCCSN.product_id);
-      selectedTimeSlots = ActiveResource.Collection.build();
+      activeTimeSlotsCollection = ActiveResource.Collection.build();
       wrapper.setProps({
         data: {
           product,
-          selectedTimeSlots
+          activeTimeSlotsCollection
         }
       });
     });
@@ -103,7 +103,7 @@ describe('AppContainer', () => {
         <Resource
           afterUpdate={mockSetOrder}
           component={Order}
-          componentProps={ { selectedTimeSlots } }
+          componentProps={ { activeTimeSlotsCollection } }
           onSubmit={mockBookOrder}
         ></Resource>);
     });
@@ -115,7 +115,7 @@ describe('AppContainer', () => {
         '/orders/': { status: 201, data: initializedOrderFixture },
       }, async () => {
         product = await occsn.Product.find(global.OCCSN.product_id);
-        selectedTimeSlots = ActiveResource.Collection.build();
+        activeTimeSlotsCollection = ActiveResource.Collection.build();
 
         return {
           actions: {
@@ -127,7 +127,7 @@ describe('AppContainer', () => {
           },
           data: {
             product,
-            selectedTimeSlots
+            activeTimeSlotsCollection
           }
         };
       });
@@ -152,7 +152,7 @@ describe('AppContainer', () => {
       }, async () => {
         product = await occsn.Product.find(global.OCCSN.product_id);
         order = await occsn.Order.construct({ product });
-        selectedTimeSlots = ActiveResource.Collection.build();
+        activeTimeSlotsCollection = ActiveResource.Collection.build();
         order = await order.save();
 
         return {
@@ -167,7 +167,7 @@ describe('AppContainer', () => {
           data: {
             product,
             order,
-            selectedTimeSlots
+            activeTimeSlotsCollection
           }
         };
       });
@@ -178,7 +178,7 @@ describe('AppContainer', () => {
         <Resource
           afterUpdate={mockSetOrder}
           component={Order}
-          componentProps={ { findRedeemable: mockFindRedeemable, saveOrder: mockSaveOrder, selectedTimeSlots } }
+          componentProps={ { findRedeemable: mockFindRedeemable, saveOrder: mockSaveOrder, activeTimeSlotsCollection } }
           onSubmit={mockBookOrder}
           subject={order}
         ></Resource>);

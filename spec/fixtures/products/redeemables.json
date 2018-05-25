@@ -11,12 +11,15 @@
       "first_time_slot_starts_at": "2015-10-26T12:00:00.000-05:00",
       "free": false,
       "has_redeemables": true,
+      "has_time_slots": false,
       "image": {
         "url": "https://d2o99y7glp64sh.cloudfront.net/uploads/product/image/10640/Photo1.jpg",
         "thumb": {
           "url": "https://d2o99y7glp64sh.cloudfront.net/uploads/product/image/10640/thumb_Photo1.jpg"
         }
       },
+      "monthly_time_slot_days_batch_size": 7,
+      "monthly_time_slot_preload_size": 2,
       "order_button_text": "Let's Talk!",
       "post_transactional_message": "I look forward to helping your dreams and goals coming a reality!",
       "pro_ratable": false,
@@ -27,6 +30,7 @@
       "status": "active",
       "tax_percentage": "0.0",
       "time_slots_closed_before": "2018-02-14T14:30:32.711-06:00",
+      "time_slots_view": "calendar",
       "title": "1-On-1 Coaching Session",
       "updated_at": "2017-11-21T10:57:10.297-06:00",
       "widget_attributes_title": "Additional Information!!",

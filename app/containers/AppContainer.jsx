@@ -9,7 +9,6 @@ import { Container, Row, Col } from 'reactstrap';
 import { Resource } from 'mitragyna';
 
 import * as appActions from '../actions/appActions';
-import * as calendarActions from '../actions/calendarActions';
 
 import '../styles/index.css'
 
@@ -23,7 +22,8 @@ function stateToProps(state) {
     data: {
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
-      selectedTimeSlots: state.$$calendarStore.get('selectedTimeSlots'),
+      activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
+      timeSlotsFromCalendar: state.$$calendarStore.get('timeSlotsFromCalendar'),
     }
   };
 }
@@ -35,7 +35,6 @@ function dispatchToProps(dispatch) {
       bookOrder: (order) => dispatch(appActions.bookOrder(order)),
       findRedeemable: (product, code, onSuccess, onError) => dispatch(appActions.findRedeemable(product, code, onSuccess, onError)),
       loadProduct: () => dispatch(appActions.loadProduct(window.OCCSN.product_id)),
-      loadProductTimeSlots: (product) => dispatch(calendarActions.loadProductTimeSlots(product)),
       saveOrder: (order) => dispatch(appActions.saveOrder(order)),
       setOrder: (order) => dispatch(appActions.setOrder(order))
     }
@@ -65,10 +64,6 @@ export class AppContainer extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { actions, data } = this.props;
-
-    if(data.product == null && nextProps.data.product != null) {
-      actions.loadProductTimeSlots(nextProps.data.product);
-    }
 
     if(data.order == null && nextProps.data.order != null) {
       actions.saveOrder(nextProps.data.order);
@@ -123,7 +118,8 @@ export class AppContainer extends PureComponent {
               componentProps={ {
                 findRedeemable: actions.findRedeemable,
                 saveOrder: actions.saveOrder,
-                selectedTimeSlots: data.selectedTimeSlots
+                activeTimeSlotsCollection: data.activeTimeSlotsCollection,
+                timeSlotsFromCalendar: data.timeSlotsFromCalendar
               } }
               onSubmit={ actions.bookOrder }
               onInvalidSubmit={ actions.setOrder }

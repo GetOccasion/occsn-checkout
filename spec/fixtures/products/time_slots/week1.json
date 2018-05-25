@@ -1,0 +1,234 @@
+{
+  "data": [
+    {
+      "id": "ga8v42hMd9",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-01T15:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8v4T2hMd9"
+      }
+    },
+    {
+      "id": "ga8v6WtI9-",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-01T16:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8v6qWtI9-"
+      }
+    },
+    {
+      "id": "ga8v8249d-",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-03T15:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8v8-249d-"
+      }
+    },
+    {
+      "id": "ga8v_Xk59-",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-04T15:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8v_TXk59-"
+      }
+    },
+    {
+      "id": "ga8wJ3wud-",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-05T15:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8wJn3wud-"
+      }
+    },
+    {
+      "id": "ga8wLX8q9-",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-06T15:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8wL-X8q9-"
+      }
+    },
+    {
+      "id": "ga8wO4ofd-",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-06T16:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8wOS4ofd-"
+      }
+    },
+    {
+      "id": "ga8wYY0b9-",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-07T15:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8wYnY0b9-"
+      }
+    },
+    {
+      "id": "ga8wdZsM9-",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-07T17:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8wdSZsM9-"
+      }
+    },
+    {
+      "id": "ga8wf54Jd-",
+      "type": "time_slots",
+      "attributes": {
+        "starts_at": "2018-05-07T18:00:00.000-06:00",
+        "duration": 60,
+        "spots_available": 20
+      },
+      "relationships": {
+        "product": {
+          "data": {
+            "type": "products",
+            "id": "7sbs0dc5"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/time_slots/gua8wfm54Jd-"
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "products",
+      "id": "7sbs0dc5",
+      "relationships": {
+        "merchant": {
+          "data": {
+            "type": "merchants",
+            "id": "ncvt5ak9"
+          }
+        }
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/products/7sbs0dc5"
+      }
+    },
+    {
+      "type": "merchants",
+      "id": "ncvt5ak9",
+      "attributes": {
+        "time_zone": "America/Chicago"
+      },
+      "links": {
+        "self": "https://www.occsn.com/api/v1/merchants/ncvt5ak9"
+      }
+    }
+  ],
+  "links": {
+    "self": "https://app.getoccasion.com/api/v1/products/7sbs0dc5/time_slots?filter[status]=bookable&filter[starts_at][ge]=2018-05-01T00:00:00.000-06:00&filter[starts_at][le]=2018-05-07T23:59:59.999-06:00"
+  }
+}

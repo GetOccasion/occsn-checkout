@@ -26,6 +26,7 @@
     "bootstrap": "^4.0.0",
     "classnames": "^2.2.5",
     "decimal.js": "^10.0.0",
+    "fullcalendar-reactwrapper": "^1.0.7",
     "immutable": "^3.8.2",
     "mirror-creator": "^1.1.0",
     "mitragyna": "git+https://github.com/nicklandgrebe/mitragyna.git",

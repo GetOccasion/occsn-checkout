@@ -58,7 +58,7 @@ describe('Order', () => {
         componentProps: {
           findRedeemable: mockFindRedeemable,
           saveOrder: mockSaveOrder,
-          selectedTimeSlots: ActiveResource.Collection.build()
+          activeTimeSlotsCollection: ActiveResource.CollectionResponse.build()
         },
         subject: order,
       };

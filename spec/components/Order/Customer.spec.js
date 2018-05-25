@@ -13,7 +13,7 @@ import productFixture from 'fixtures/products/cash.json';
 import blankQuestionsFixture from 'fixtures/blank.json';
 
 import initializedOrderFixture from 'fixtures/orders/initialized/free.json';
-import productTimeSlotsFixture from 'fixtures/products/time_slots.json';
+import productTimeSlotsFixture from 'fixtures/products/time_slots/index.json';
 import partialCustomerOrderFixture from 'fixtures/orders/customer/partial.json';
 import completeCustomerOrderFixture from 'fixtures/orders/customer/complete.json';
 import customerOrderErrorsFixture from 'fixtures/errors/orders/customer.json';
@@ -44,7 +44,7 @@ describe('Order', () => {
 
       let props = {
         component: Order,
-        componentProps: { selectedTimeSlots: ActiveResource.Collection.build() },
+        componentProps: { activeTimeSlotsCollection: ActiveResource.CollectionResponse.build() },
         subject: order,
         afterUpdate: mockSetOrder
       };

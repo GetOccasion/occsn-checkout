@@ -40,7 +40,7 @@ describe('Order', () => {
       let props = {
         afterUpdate: mockSetOrder,
         component: Order,
-        componentProps: { selectedTimeSlots: ActiveResource.Collection.build() },
+        componentProps: { activeTimeSlotsCollection: ActiveResource.CollectionResponse.build() },
         subject: order,
       };
 

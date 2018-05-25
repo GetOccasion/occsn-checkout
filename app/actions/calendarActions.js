@@ -2,6 +2,16 @@ import occsn from '../libs/Occasion';
 
 import actionTypes from '../constants/calendarConstants';
 
+export function loadProductCalendar(product) {
+  return dispatch => {
+    dispatch(loadProductTimeSlotsRequest());
+
+    return product.constructCalendar(product.firstTimeSlotStartsAt.clone().startOf('month')).then(timeSlots => {
+      dispatch(setActiveTimeSlotsCollection(timeSlots));
+    });
+  };
+}
+
 export function loadProductTimeSlots(product) {
   return dispatch => {
     dispatch(loadProductTimeSlotsRequest());
@@ -12,7 +22,7 @@ export function loadProductTimeSlots(product) {
       .all();
 
     return query.then(timeSlots => {
-      dispatch(selectTimeSlotsForDisplay(timeSlots.toCollection()));
+      dispatch(setActiveTimeSlotsCollection(timeSlots));
     });
   };
 }
@@ -23,9 +33,16 @@ export function loadProductTimeSlotsRequest() {
   };
 }
 
-export function selectTimeSlotsForDisplay(timeSlots) {
+export function setActiveTimeSlotsCollection(timeSlots) {
   return {
-    type: actionTypes.SELECT_TIME_SLOTS_FOR_DISPLAY,
+    type: actionTypes.SET_ACTIVE_TIME_SLOTS_COLLECTION,
+    timeSlots
+  };
+}
+
+export function setTimeSlotsFromCalendar(timeSlots) {
+  return {
+    type: actionTypes.SET_TIME_SLOTS_FROM_CALENDAR,
     timeSlots
   };
 }

@@ -11,7 +11,6 @@ const actionTypes = mirrorCreator([
   'SAVE_ORDER_REQUEST_COMPLETE',
   'SET_ORDER',
   'SET_PRODUCT',
-  'SET_TIME_ZONE',
 ]);
 
 export default actionTypes;

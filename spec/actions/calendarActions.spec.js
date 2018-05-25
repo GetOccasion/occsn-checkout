@@ -13,7 +13,7 @@ import axios from 'axios';
 
 import productFixture from '../fixtures/products/cash.json';
 import blankQuestionsFixture from '../fixtures/blank.json';
-import timeSlotsFixture from '../fixtures/products/time_slots.json';
+import timeSlotsFixture from '../fixtures/products/time_slots/index.json';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -31,7 +31,7 @@ describe('calendar actions', () => {
 
     beforeEach(async () => {
       store = mockStore({
-        $$calendarStore: Immutable.fromJS({ selectedTimeSlots: ActiveResource.Collection.build() })
+        $$calendarStore: Immutable.fromJS({ activeTimeSlotsCollection: ActiveResource.Collection.build() })
       });
 
       product = await occsn.Product.find('1');
@@ -46,7 +46,7 @@ describe('calendar actions', () => {
     it('creates appropriate actions', async () => {
       expect(typesForActions(store.getActions())).toEqual([
         types.LOAD_PRODUCT_TIME_SLOTS_REQUEST,
-        types.SELECT_TIME_SLOTS_FOR_DISPLAY
+        types.SET_ACTIVE_TIME_SLOTS_COLLECTION
       ]);
     });
   });
