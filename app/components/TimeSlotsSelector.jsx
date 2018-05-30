@@ -11,6 +11,7 @@ import occsn from '../libs/Occasion';
 
 export default class TimeSlotsSelector extends PureComponent {
   static propTypes = {
+    disabled: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
     timeSlots: PropTypes.shape({
@@ -37,7 +38,7 @@ export default class TimeSlotsSelector extends PureComponent {
   }
 
   render() {
-    let { timeSlots, subject } = this.props;
+    let { disabled, timeSlots, subject } = this.props;
 
     var customControlInputClassNames = classNames(
       'custom-control-input',
@@ -53,6 +54,7 @@ export default class TimeSlotsSelector extends PureComponent {
             <Button
               className={ 'mr-2 mb-2 ' + (subject.timeSlots().target().include(timeSlot) ? 'active' : '') }
               color="primary"
+              disabled={disabled}
               key={timeSlot.id}
               onClick={() => this.selectTimeSlot(timeSlot)}
               outline

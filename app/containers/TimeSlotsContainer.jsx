@@ -50,15 +50,19 @@ export class TimeSlotsContainer extends PureComponent {
   };
 
   componentDidMount() {
-    const { actions, data } = this.props;
+    const { actions, data, order } = this.props;
 
     switch(data.product.timeSlotView) {
       case 'calendar':
         actions.loadProductCalendar(data.product);
         break;
       case 'list':
-        actions.loadProductTimeSlots(data.product);
+        if(data.product.requiresTimeSlotSelection) actions.loadProductTimeSlots(data.product);
         break;
+    }
+
+    if(data.product.sellsSessions) {
+      actions.setActiveTimeSlotsCollection(order.timeSlots().target().clone())
     }
   }
 
@@ -101,14 +105,23 @@ export class TimeSlotsContainer extends PureComponent {
         </section>;
       case 'list':
         return <section className="mt-3">
-          <TimeSlotsSelector onSelect={actions.saveOrder} subject={order} timeSlots={data.activeTimeSlotsCollection} />
-          <Row>
-            <Col xs={{ offset: "9" }}>
-            </Col>
-            <Col xs="3">
-              <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
-            </Col>
-          </Row>
+          {
+            data.product.sellsSessions ? (
+              <p>Sessions are purchased together</p>
+            ) : (null)
+          }
+          <TimeSlotsSelector disabled={data.product.sellsSessions} onSelect={actions.saveOrder} subject={order} timeSlots={data.activeTimeSlotsCollection} />
+          {
+            !data.product.sellsSessions ? (
+              <Row>
+                <Col xs={{ offset: "9" }}>
+                </Col>
+                <Col xs="3">
+                  <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
+                </Col>
+              </Row>
+            ) : (null)
+          }
         </section>;
     }
   }
