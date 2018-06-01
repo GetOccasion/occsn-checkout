@@ -12,25 +12,26 @@ module.exports = {
     template: 'index.html'
   },
 
-  dist: 'lib/assets',
+  outDir: 'lib/assets',
 
   plugins: [
     require('poi-preset-react')(),
-    require('poi-preset-resolve-alias')({
-      'active-resource': path.join(process.cwd(), 'node_modules', 'active-resource', 'build', 'active-resource.min.js'),
+    require('poi-plugin-resolve-alias')({
+      'active-resource': path.join(process.cwd(), 'node_modules', 'active-resource', 'build', 'active-resource.js'),
       'mitragyna': path.join(process.cwd(), 'node_modules', 'mitragyna', 'build', 'mitragyna.min.js'),
-      'occasion-sdk': path.join(process.cwd(), 'node_modules', 'occasion-sdk', 'build', 'occasion-sdk.min.js'),
+      'occasion-sdk': path.join(process.cwd(), 'node_modules', 'occasion-sdk', 'build', 'occasion-sdk.js'),
     })
   ],
 
   filename: {
     js: 'javascripts/' + pkg.name + '-[name]_bundle.js',
+    chunk: 'javascripts/' + pkg.name + '-[name]_bundle.js',
     css: 'stylesheets/' + pkg.name + '-[name]_bundle.css',
     images: 'images/[name].[ext]',
     fonts: 'fonts/[name].[ext]',
   },
 
-  webpack(config) {
+  configureWebpack(config) {
     config.externals = {
       spreedly: 'Spreedly',
       square: 'SqPaymentForm',
