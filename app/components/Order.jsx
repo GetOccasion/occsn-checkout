@@ -136,7 +136,7 @@ export default class Order extends PureComponent {
 
     if(subject.newResource()) return false;
 
-    return product.quantityAware && !product.attendeeQuestions.empty() && subject.quantity > 0;
+    return !product.attendeeQuestions.empty() && subject.quantity > 0;
   }
 
   // Determines if should show TimeSlotsContainer
