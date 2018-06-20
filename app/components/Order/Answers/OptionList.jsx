@@ -18,23 +18,25 @@ export default class OptionList extends PureComponent {
 
     return <FormGroup tag="fieldset">
       <label>{ answer.question().title }{ answer.question().required ? '*' : '' }</label>
-      {
-        answer.question().options().target().map((option) => {
-          return <FormGroup check>
-            <Label check>
-              <Field name="option" type="radio" component={ Input } value={ option }></Field>
-              <span className="mr-1">{ option.title }</span>
-              {
-                option.price ? (
-                  <span>
+      <Field type="radioGroup">
+        {
+          answer.question().options().target().map((option) => {
+            return <FormGroup check>
+              <Label check>
+                <Field name="option" type="radio" component={ Input } value={ option }></Field>
+                <span className="mr-1">{ option.title }</span>
+                {
+                  option.price ? (
+                    <span>
                     (<ReactCurrencyFormatter quantity={ Decimal(option.price).toNumber() } currency={ answer.order().product().merchant().currency().name }></ReactCurrencyFormatter>)
                   </span>
-                ) : null
-              }
-            </Label>
-          </FormGroup>
-        }).toArray()
-      }
+                  ) : null
+                }
+              </Label>
+            </FormGroup>
+          }).toArray()
+        }
+      </Field>
     </FormGroup>;
   }
 }
