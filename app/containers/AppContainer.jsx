@@ -113,11 +113,10 @@ export class AppContainer extends PureComponent {
           <Col>
             <Resource
               afterError={ actions.setOrder }
-              afterUpdate={ actions.setOrder }
+              afterUpdate={ actions.saveOrder }
               component={ Order }
               componentProps={ {
                 findRedeemable: actions.findRedeemable,
-                saveOrder: actions.saveOrder,
                 activeTimeSlotsCollection: data.activeTimeSlotsCollection,
                 timeSlotsFromCalendar: data.timeSlotsFromCalendar
               } }

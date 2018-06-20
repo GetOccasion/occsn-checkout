@@ -19,7 +19,6 @@ import PaymentForm from './Order/PaymentForm';
 import Questions from './Order/Questions';
 import Redeemables from './Order/Redeemables';
 
-// TODO: Use saveOrder as afterUpdate callback and setOrder as afterFailure callback
 export default class Order extends PureComponent {
   static propTypes = {
     activeTimeSlotsCollection: PropTypes.shape({
@@ -32,7 +31,6 @@ export default class Order extends PureComponent {
     afterUpdate: PropTypes.func.isRequired,
     bookingOrder: PropTypes.bool,
     findRedeemable: PropTypes.func.isRequired,
-    saveOrder: PropTypes.func,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
   };
 
@@ -204,7 +202,7 @@ export default class Order extends PureComponent {
   }
 
   render() {
-    let { afterError, afterUpdate, findRedeemable, saveOrder, subject } = this.props;
+    let { afterError, afterUpdate, findRedeemable, subject } = this.props;
 
     let customer = subject.customer();
     let product = subject.product();
@@ -214,7 +212,7 @@ export default class Order extends PureComponent {
       <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
 
       { this.headerForSection('timeSlots') }
-      <TimeSlotsContainer order={subject} onSelect={ afterUpdate } />
+      <TimeSlotsContainer order={subject} />
 
       {
         this.showQuestions() ? (
@@ -238,7 +236,7 @@ export default class Order extends PureComponent {
         this.showRedeemables() ? (
           <section>
             { this.headerForSection('redeemables') }
-            <Redeemables findRedeemable={findRedeemable} order={subject} onChange={saveOrder} onErrors={afterError}></Redeemables>
+            <Redeemables findRedeemable={findRedeemable} order={subject} onChange={afterUpdate} onErrors={afterError}></Redeemables>
           </section>
         ) : null
       }
