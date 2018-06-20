@@ -211,8 +211,14 @@ export default class Order extends PureComponent {
       { this.headerForSection('contact') }
       <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
 
-      { this.headerForSection('timeSlots') }
-      <TimeSlotsContainer order={subject} />
+      {
+        product.firstTimeSlotStartsAt ? (
+          <section>
+            { this.headerForSection('timeSlots') }
+            <TimeSlotsContainer order={subject} />
+          </section>
+        ) : (null)
+      }
 
       {
         this.showQuestions() ? (
