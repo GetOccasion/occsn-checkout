@@ -9,8 +9,8 @@ import occsn from '../../libs/Occasion'
 import { ErrorsFor } from 'mitragyna';
 import { Button, Col, Card, FormGroup, InputGroup, InputGroupAddon, Input, FormFeedback } from 'reactstrap';
 
-import Coupon from './Redeemables/Coupon';
-import GiftCard from './Redeemables/GiftCard';
+import Coupon from './Redeemables/Coupon.jsx';
+import GiftCard from './Redeemables/GiftCard.jsx';
 
 export default class Redeemables extends PureComponent {
   static propTypes = {

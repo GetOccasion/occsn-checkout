@@ -13,9 +13,9 @@ import * as calendarActions from '../actions/calendarActions';
 
 import occsn from '../libs/Occasion';
 
-import TimeSlotsSelector from '../components/TimeSlotsSelector';
-import Calendar from '../components/TimeSlots/Calendar';
-import Paginator from '../components/TimeSlots/Paginator';
+import TimeSlotsSelector from '../components/TimeSlotsSelector.jsx';
+import Calendar from '../components/TimeSlots/Calendar.jsx';
+import Paginator from '../components/TimeSlots/Paginator.jsx';
 
 // Which part of the Redux global state does our component want to receive as props?
 function stateToProps(state) {

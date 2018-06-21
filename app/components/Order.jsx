@@ -9,15 +9,15 @@ import { Button } from 'reactstrap';
 
 import occsn from '../libs/Occasion';
 
-import TimeSlotsContainer from '../containers/TimeSlotsContainer';
+import TimeSlotsContainer from '../containers/TimeSlotsContainer.jsx';
 
-import Attendees from './Order/Attendees';
-import Customer from './Order/Customer';
-import MissingAnswers from './Order/MissingAnswers';
-import Pricing from './Order/Pricing';
-import PaymentForm from './Order/PaymentForm';
-import Questions from './Order/Questions';
-import Redeemables from './Order/Redeemables';
+import Attendees from './Order/Attendees.jsx';
+import Customer from './Order/Customer.jsx';
+import MissingAnswers from './Order/MissingAnswers.jsx';
+import Pricing from './Order/Pricing.jsx';
+import PaymentForm from './Order/PaymentForm.jsx';
+import Questions from './Order/Questions.jsx';
+import Redeemables from './Order/Redeemables.jsx';
 
 export default class Order extends PureComponent {
   static propTypes = {

@@ -5,7 +5,7 @@ import _ from 'underscore';
 
 import { Collection } from 'mitragyna';
 
-import Attendee from './Attendees/Attendee';
+import Attendee from './Attendees/Attendee.jsx';
 
 import occsn from '../../libs/Occasion';
 

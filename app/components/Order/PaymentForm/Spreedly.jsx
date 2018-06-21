@@ -11,7 +11,7 @@ import SpreedlyAPI from 'spreedly';
 
 import { Col, FormGroup, Input, Label, Row, FormFeedback } from 'reactstrap';
 
-import PaymentServiceProvider from './PaymentServiceProvider';
+import PaymentServiceProvider from './PaymentServiceProvider.jsx';
 
 export default class Spreedly extends PaymentServiceProvider {
   constructor() {

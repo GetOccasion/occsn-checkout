@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import thunkMiddleware from 'redux-thunk';
 
-import reducers, { initialStates } from '../reducers';
+import reducers, { initialStates } from '../reducers/index.js';
 
 export default function configureStore(_) {
   const { $$appState, $$calendarState } = initialStates;

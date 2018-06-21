@@ -5,13 +5,13 @@ import s from 'underscore.string';
 
 import occsn from '../../libs/Occasion';
 
-import Checkbox from './Answers/Checkbox';
-import DropDown from './Answers/DropDown';
-import OptionList from './Answers/OptionList';
-import SpinButton from './Answers/SpinButton';
-import TextArea from './Answers/TextArea';
-import TextInput from './Answers/TextInput';
-import Waiver from './Answers/Waiver';
+import Checkbox from './Answers/Checkbox.jsx';
+import DropDown from './Answers/DropDown.jsx';
+import OptionList from './Answers/OptionList.jsx';
+import SpinButton from './Answers/SpinButton.jsx';
+import TextArea from './Answers/TextArea.jsx';
+import TextInput from './Answers/TextInput.jsx';
+import Waiver from './Answers/Waiver.jsx';
 
 export default class Answer extends PureComponent {
   static propTypes = {

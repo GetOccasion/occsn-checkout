@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import _ from 'underscore';
 
-import Cash from './PaymentForm/Cash';
-import Spreedly from './PaymentForm/Spreedly';
-import Square from './PaymentForm/Square';
+import Cash from './PaymentForm/Cash.jsx';
+import Spreedly from './PaymentForm/Spreedly.jsx';
+import Square from './PaymentForm/Square.jsx';
 
 import occsn from '../../libs/Occasion';
 

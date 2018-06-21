@@ -1,8 +1,8 @@
 {
-  "name": "occsn_checkout",
+  "name": "occsn-checkout",
   "version": "0.0.1",
-  "description": "An Occasion checkout experience built using React-Redux and Mitragyna",
-  "main": "index.js",
+  "description": "Occasion checkout experience boilerplate component built using React-Redux and Mitragyna",
+  "main": "dist/occsn-checkout.js",
   "scripts": {
     "test": "jest",
     "test:watch": "npm test -- --watch",
@@ -18,7 +18,7 @@
     "occasion-sdk",
     "active-resource"
   ],
-  "author": "Nick Landgrebe, Peak Labs LLC DBA Occasion App",
+  "author": "Peak Labs LLC DBA Occasion App",
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.46",
@@ -26,6 +26,7 @@
     "bootstrap": "^4.0.0",
     "classnames": "^2.2.5",
     "decimal.js": "^10.0.0",
+    "es6-promise": "^4.2.4",
     "fullcalendar-reactwrapper": "^1.0.7",
     "immutable": "^3.8.2",
     "mirror-creator": "^1.1.0",
@@ -56,6 +57,7 @@
     "babel-plugin-async-to-promises": "^1.0.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "bili": "^3.1.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-matchers": "^4.2.0",
@@ -77,7 +79,10 @@
     "poi-preset-react": "^9.2.1",
     "react-test-renderer": "^16.2.0",
     "redux-mock-store": "^1.5.1",
-    "regenerator-runtime": "^0.11.1"
+    "regenerator-runtime": "^0.11.1",
+    "rollup": "^0.61.0",
+    "rollup-plugin-babel": "^4.0.0-beta.5",
+    "rollup-plugin-postcss": "^1.6.2"
   },
   "jest": {
     "clearMocks": true,
@@ -90,7 +95,7 @@
     ],
     "moduleNameMapper": {
       "^.+\\.(css|scss)$": "identity-obj-proxy",
-      "^active-resource$": "active-resource/build/active-resource.js",
+      "^active-resource$": "active-resource/build/active-resource.min.js",
       "^mitragyna$": "mitragyna/build/mitragyna.min.js",
       "^occasion-sdk$": "occasion-sdk/build/occasion-sdk.js",
       "^app(.*)$": "<rootDir>/app$1",

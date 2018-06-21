@@ -9,7 +9,7 @@ import SquareAPI from 'square';
 
 import { Col, FormGroup, Input, Label, Row, FormFeedback } from 'reactstrap';
 
-import PaymentServiceProvider from './PaymentServiceProvider';
+import PaymentServiceProvider from './PaymentServiceProvider.jsx';
 
 export default class Square extends PaymentServiceProvider {
   // Initializes the iFrame using the global SqPaymentForm library imported as SquareAPI

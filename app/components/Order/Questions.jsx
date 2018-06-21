@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Resource } from 'mitragyna';
 
-import Answer from './Answer';
+import Answer from './Answer.jsx';
 
 import occsn from '../../libs/Occasion';
 

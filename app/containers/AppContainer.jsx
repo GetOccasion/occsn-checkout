@@ -12,9 +12,9 @@ import * as appActions from '../actions/appActions';
 
 import '../styles/index.css'
 
-import Header from '../components/Header';
-import Order from '../components/Order';
-import OrderComplete from '../components/Order/Complete';
+import Header from '../components/Header.jsx';
+import Order from '../components/Order.jsx';
+import OrderComplete from '../components/Order/Complete.jsx';
 
 // Which part of the Redux global state does our component want to receive as props?
 function stateToProps(state) {
@@ -49,6 +49,8 @@ export class AppContainer extends PureComponent {
 
   constructor(props) {
     super(props);
+
+    console.log(props);
 
     _.bindAll(this,
       'renderBookingScreen',

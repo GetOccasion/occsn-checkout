@@ -4,7 +4,7 @@ import { ErrorsFor } from 'mitragyna';
 
 import { FormGroup, Alert } from 'reactstrap';
 
-import PaymentServiceProvider from './PaymentServiceProvider';
+import PaymentServiceProvider from './PaymentServiceProvider.jsx';
 
 export default class Cash extends PaymentServiceProvider {
   initializeForm() {}
