@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.3
+ * occsn-checkout v0.0.4
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -2695,6 +2695,8 @@ function configureStore(_$$1) {
   return store;
 }
 
+var store = configureStore();
+
 var OccsnCheckout =
 /*#__PURE__*/
 function (_React$Component) {
@@ -2707,15 +2709,10 @@ function (_React$Component) {
   }
 
   _createClass(OccsnCheckout, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.store = configureStore();
-    }
-  }, {
     key: "render",
     value: function render() {
       return React__default.createElement(reactRedux.Provider, {
-        store: this.store
+        store: store
       }, React__default.createElement(AppContainer$1, _objectSpread({}, this.props)));
     }
   }]);

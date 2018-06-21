@@ -6,16 +6,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import AppContainer from '../containers/AppContainer.jsx'
 import createStore from '../store/appStore';
 
-export default class OccsnCheckout extends React.Component {
-  componentDidMount() {
-    this.store = createStore();
-  }
+const store = createStore();
 
+export default class OccsnCheckout extends React.Component {
   render() {
     return React.createElement(
       Provider,
       {
-        store: this.store
+        store
       },
       React.createElement(
         AppContainer,
