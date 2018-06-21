@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.1
+ * occsn-checkout v0.0.3
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -2691,16 +2691,7 @@ function configureStore(_$$1) {
   var reducer = redux.combineReducers(_objectSpread({}, reducers)); // Sync dispatched route actions to the history
 
   var finalCreateStore = reduxDevtoolsExtension.composeWithDevTools(redux.applyMiddleware(thunkMiddleware))(redux.createStore);
-  var store = finalCreateStore(reducer, initialState); // Enable Webpack hot module replacement for reducers
-
-  if (module.hot) {
-    module.hot.accept('../reducers', function () {
-      var nextRootReducer = require('../reducers/index');
-
-      store.replaceReducer(nextRootReducer);
-    });
-  }
-
+  var store = finalCreateStore(reducer, initialState);
   return store;
 }
 
