@@ -16,7 +16,7 @@ export default class OptionList extends PureComponent {
   render() {
     let { answer } = this.props;
 
-    return <FormGroup tag="fieldset">
+    return <FormGroup className="option-list-container" tag="fieldset">
       <label>{ answer.question().title }{ answer.question().required ? '*' : '' }</label>
       <Field type="radioGroup">
         {

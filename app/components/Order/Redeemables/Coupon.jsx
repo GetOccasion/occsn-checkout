@@ -8,7 +8,7 @@ import occsn from '../../../libs/Occasion';
 
 import Currency from 'react-currency-formatter';
 
-import { Card, CardBody, CardTitle, CardText, Col, Row } from "reactstrap";
+import { Button, Card, CardBody, CardTitle, CardText, Col, Row } from "reactstrap";
 
 export default class Coupon extends PureComponent {
   static propTypes = {
@@ -26,18 +26,15 @@ export default class Coupon extends PureComponent {
       discount = <span>{subject.discountPercentage}%</span>;
     }
 
-    return <Card className="mb-2">
-      <CardBody>
-        <Row>
-          <Col xs="9">
-            <CardTitle>
-              { subject.name } - { subject.code }
-            </CardTitle>
-          </Col>
-          <Col xs="3">
-            <CardText>{ discount }</CardText>
-          </Col>
-        </Row>
+    return <Card className="coupon-container">
+      <CardBody className="coupon">
+        <Button className="close">
+          <span aria-hidden="true">&times;</span>
+        </Button>
+        <CardTitle className="coupon-title">
+          { subject.name } - { subject.code }
+        </CardTitle>
+        <CardText className="coupon-message">{ discount }</CardText>
       </CardBody>
     </Card>
   }

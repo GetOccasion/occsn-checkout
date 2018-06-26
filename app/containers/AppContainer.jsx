@@ -87,16 +87,12 @@ export class AppContainer extends PureComponent {
     }
 
     return <Container>
-      <Row>
-        <Col sm={{ size: 10, offset: 1 }}>
-          { body }
-        </Col>
-      </Row>
+      { body }
     </Container>;
   }
 
   renderLoadingScreen() {
-    return <section>
+    return <section className="order-loading">
         <p>Loading...</p>
     </section>;
   }
@@ -104,30 +100,21 @@ export class AppContainer extends PureComponent {
   renderBookingScreen() {
     const { actions, data } = this.props;
 
-    return <section>
-      <Row>
-        <Col>
-          <Header product={ data.product }></Header>
-        </Col>
-      </Row>
+    return <section className="occsn-app-container">
       { data.order ? (
-        <Row>
-          <Col>
-            <Resource
-              afterError={ actions.setOrder }
-              afterUpdate={ actions.saveOrder }
-              component={ Order }
-              componentProps={ {
-                findRedeemable: actions.findRedeemable,
-                activeTimeSlotsCollection: data.activeTimeSlotsCollection,
-                timeSlotsFromCalendar: data.timeSlotsFromCalendar
-              } }
-              onSubmit={ actions.bookOrder }
-              onInvalidSubmit={ actions.setOrder }
-              subject={ data.order }
-            ></Resource>
-          </Col>
-        </Row>
+        <Resource
+          afterError={ actions.setOrder }
+          afterUpdate={ actions.saveOrder }
+          component={ Order }
+          componentProps={ {
+            findRedeemable: actions.findRedeemable,
+            activeTimeSlotsCollection: data.activeTimeSlotsCollection,
+            timeSlotsFromCalendar: data.timeSlotsFromCalendar
+          } }
+          onSubmit={ actions.bookOrder }
+          onInvalidSubmit={ actions.setOrder }
+          subject={ data.order }
+        ></Resource>
       ) : (null)}
     </section>;
   }

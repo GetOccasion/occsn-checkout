@@ -73,43 +73,43 @@ export default class Square extends PaymentServiceProvider {
   }
 
   render() {
-    return <section>
+    return <section className="square-container">
       <div id="sq-ccbox">
-        <FormGroup>
+        <FormGroup className="square-card-number">
           <Label>Card Number</Label>
           <div class="custom-file">
             <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
               <div id="sq-card-number"></div>
             </div>
-            <ErrorsFor component={FormFeedback} field='creditCard.cardNumber'></ErrorsFor>
+            <ErrorsFor className="square-card-number-errors" component={FormFeedback} field='creditCard.cardNumber'></ErrorsFor>
           </div>
         </FormGroup>
 
-        <FormGroup>
+        <FormGroup className="square-expiration-cvv">
           <Row>
-            <Col xs="6">
+            <Col className="square-expiration" xs="6">
               <Label>Expiration Date</Label>
               <div class="custom-file">
                 <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
                   <div id="sq-expiration-date"></div>
                 </div>
-                <ErrorsFor component={FormFeedback} field='creditCard.expirationDate'></ErrorsFor>
+                <ErrorsFor className="square-expiration-errors" component={FormFeedback} field='creditCard.expirationDate'></ErrorsFor>
               </div>
             </Col>
-            <Col xs="3">
+            <Col className="square-cvv" xs="3">
               <Label>CVV</Label>
               <div id="sq-cvv"></div>
             </Col>
           </Row>
         </FormGroup>
 
-        <FormGroup>
+        <FormGroup className="square-postal-code">
           <Label>Postal Code</Label>
           <div class="custom-file">
             <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
               <div id="sq-postal-code"></div>
             </div>
-            <ErrorsFor component={FormFeedback} field='creditCard.postalCode'></ErrorsFor>
+            <ErrorsFor className="square-postal-code-errors" component={FormFeedback} field='creditCard.postalCode'></ErrorsFor>
           </div>
         </FormGroup>
       </div>

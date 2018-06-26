@@ -14,7 +14,7 @@ export default class TextInput extends PureComponent {
   render() {
     let { answer } = this.props;
 
-    return <FormGroup>
+    return <FormGroup className="text-input-container">
       <Label>{ answer.question().title }{ answer.question().required ? '*' : '' }</Label>
       <Field name="value" type="text" component={ Input }></Field>
     </FormGroup>;

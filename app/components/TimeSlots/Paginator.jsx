@@ -44,13 +44,15 @@ export default class Paginator extends PureComponent {
   render() {
     let { className, timeSlotsCollection } = this.props;
 
-    return <Pagination className={className}>
-      <PaginationItem disabled={!timeSlotsCollection.hasPrevPage()}>
-        <PaginationLink previous onClick={this.prevClicked}/>
-      </PaginationItem>
-      <PaginationItem disabled={!timeSlotsCollection.hasNextPage()}>
-        <PaginationLink next onClick={this.nextClicked} />
-      </PaginationItem>
-    </Pagination>;
+    return <section className="time-slots-paginator">
+      <Pagination className={className}>
+        <PaginationItem disabled={!timeSlotsCollection.hasPrevPage()}>
+          <PaginationLink previous onClick={this.prevClicked}/>
+        </PaginationItem>
+        <PaginationItem disabled={!timeSlotsCollection.hasNextPage()}>
+          <PaginationLink next onClick={this.nextClicked} />
+        </PaginationItem>
+      </Pagination>
+    </section>;
   }
 }

@@ -18,16 +18,16 @@ export default class Questions extends PureComponent {
   render() {
     let { subject, questions } = this.props;
 
-    return <section>
+    return <section className="questions">
       { questions.map((question) => {
           switch(question.formControl) {
             case 'text_output':
               if(question.displayAsTitle) {
-                return <legend className='question textOutput' key={question.id}>
+                return <legend className='question text-output-title' key={question.id}>
                   {question.title}
                 </legend>;
               } else {
-                return <p className='question textOutput' key={question.id}>
+                return <p className='question text-output' key={question.id}>
                   {question.title}
                 </p>;
               }

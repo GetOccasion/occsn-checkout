@@ -40,11 +40,13 @@ export default class MissingAnswers extends PureComponent {
     if(this.empty()) {
       return null;
     } else {
-      return <Alert color="secondary">
-        <pre>Please complete the following fields:</pre>
-        <ul>
+      return <Alert color="secondary" className="missing-answers">
+        <p className="missing-answers-text">Please complete the following fields:</p>
+        <ul className="missing-answers-list">
           {
-            this.missingRequiredAnswers().map((a) => { return <li>{a.question().title}</li> }).toArray()
+            this.missingRequiredAnswers().map((a) => {
+              return <li className="missing-answer">{a.question().title}</li>
+            }).toArray()
           }
         </ul>
       </Alert>;

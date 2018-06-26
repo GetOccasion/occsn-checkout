@@ -28,7 +28,7 @@ export default class DropDown extends PureComponent {
   render() {
     let { answer } = this.props;
 
-    return <FormGroup>
+    return <FormGroup className="dropdown-container">
       <Label>{ answer.question().title }{ answer.question().required ? '*' : '' }</Label>
       <Field name="option" type="select" component={ Input }
              includeBlank={true}

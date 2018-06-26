@@ -16,7 +16,7 @@ export default class Waiver extends PureComponent {
   render() {
     let { answer } = this.props;
 
-    return <FormGroup>
+    return <FormGroup className="waiver-container">
       <Card color="light">
         <CardBody>
           <CardText>

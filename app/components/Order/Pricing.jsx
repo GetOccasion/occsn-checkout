@@ -27,7 +27,7 @@ export default class Pricing extends PureComponent {
       displaySubtotal = true;
 
       rows.push(
-        <p className="coupon">
+        <p className="coupon-discount">
           <span>Coupon Discount: </span>
           <Currency currency={currency} quantity={Decimal(order.couponAmount).neg().toNumber()} />
         </p>
@@ -56,29 +56,29 @@ export default class Pricing extends PureComponent {
 
     rows.push(
       <p className="total">
-        <h4>Total: <Currency currency={currency} quantity={order.price} /></h4>
+        Total: <Currency currency={currency} quantity={order.price} />
       </p>
     );
 
     if(!_.isNull(order.giftCardAmount)) {
       rows.push(
-        <p className="giftCardAmount">
+        <p className="gift-card-amount">
           <span>Gift Cards: </span>
           <Currency currency={currency} quantity={Decimal(order.giftCardAmount).neg().toNumber()} />
         </p>,
-        <p className="outstandingBalance">
+        <p className="outstanding-balance">
           <span>Balance due today: </span>
           <Currency currency={currency} quantity={Decimal(order.outstandingBalance).toNumber()} />
         </p>,
       );
     }
 
-    return <Card>
-      <CardBody>
-        <CardText className="text-right">
+    return <section className="total-due">
+      <section className="pricing">
+        <section className="pricing-list">
           { rows }
-        </CardText>
-      </CardBody>
-    </Card>;
+        </section>
+      </section>
+    </section>;
   }
 }

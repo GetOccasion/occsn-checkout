@@ -8,7 +8,7 @@ import occsn from '../../../libs/Occasion';
 
 import Currency from 'react-currency-formatter';
 
-import { Card, CardBody, CardTitle, CardText, Col, FormText, Row } from "reactstrap";
+import { Button, Card, CardBody, CardTitle, CardText, Col, FormText, Row } from "reactstrap";
 
 export default class GiftCard extends PureComponent {
   static propTypes = {
@@ -26,23 +26,22 @@ export default class GiftCard extends PureComponent {
 
     let remainingBalance = giftCardValue.minus(transactionValue);
 
-    return <Card className="mb-2">
-      <CardBody>
-        <Row>
-          <Col xs="9">
-            <CardTitle>
-              Gift Card - { subject.paymentMethod().code }
-            </CardTitle>
-            <FormText>Remaining balance will be <Currency currency={currency} quantity={ remainingBalance.toNumber() }></Currency> after checkout.</FormText>
-          </Col>
-          <Col xs="3">
-            <CardText className="text-right">
-              <h4>
-                <Currency currency={currency} quantity={ giftCardValue.toNumber() }></Currency>
-              </h4>
-            </CardText>
-          </Col>
-        </Row>
+    return <Card className="gift-card-container">
+      <CardBody className="gift-card">
+        <Button className="close">
+          <span aria-hidden="true">&times;</span>
+        </Button>
+        <CardText className="gift-card-messages">
+          <CardTitle className="gift-card-title">
+            Gift Card - { subject.paymentMethod().code }
+          </CardTitle>
+          <FormText className="gift-card-remaining-balance">
+            Remaining balance will be <Currency currency={currency} quantity={ remainingBalance.toNumber() }></Currency> after checkout.
+          </FormText>
+        </CardText>
+        <CardText className="gift-card-value">
+          <Currency currency={currency} quantity={ giftCardValue.toNumber() }></Currency>
+        </CardText>
       </CardBody>
     </Card>
   }

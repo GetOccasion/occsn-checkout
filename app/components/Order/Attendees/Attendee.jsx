@@ -21,14 +21,14 @@ export default class Attendee extends PureComponent {
   render() {
     let { indexOf, questions } = this.props;
 
-    return <Card className="mb-2">
-      <CardBody>
-        <CardTitle>
+    return <Card className="attendee-container">
+      <CardBody className="attendee">
+        <CardTitle className="attendee-title">
           Attendee { indexOf + 1 }
         </CardTitle>
         {
           questions.map((q) => {
-            return <FormGroup>
+            return <FormGroup className="attendee-input-container">
               <Field type='text' name={q} placeholder={s.humanize(q)} component={Input} invalidClassName='is-invalid'></Field>
             </FormGroup>;
           }).toArray()

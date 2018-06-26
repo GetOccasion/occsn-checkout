@@ -47,12 +47,12 @@ export default class TimeSlotsSelector extends PureComponent {
       }
     );
 
-    return <section className='mt-2'>
-      <section>
+    return <section className='time-slots-selector'>
+      <section className="time-slots-selector-buttons">
         { timeSlots.map((timeSlot) => {
           return (
             <Button
-              className={ 'mr-2 mb-2 ' + (subject.timeSlots().target().include(timeSlot) ? 'active' : '') }
+              className={ subject.timeSlots().target().include(timeSlot) ? 'active' : '' }
               color="primary"
               disabled={disabled}
               key={timeSlot.id}
@@ -65,7 +65,7 @@ export default class TimeSlotsSelector extends PureComponent {
         }).toArray()
         }
       </section>
-      <section className='custom-control'>
+      <section className='time-slots-selector-errors custom-control'>
         <div className={customControlInputClassNames}></div>
         <ErrorsFor component={FormFeedback} field="timeSlots"></ErrorsFor>
       </section>

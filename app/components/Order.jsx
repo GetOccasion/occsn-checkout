@@ -76,7 +76,7 @@ export default class Order extends PureComponent {
 
     switch(section) {
       case 'contact':
-        return <h2 id="widgetContactTitle">
+        return <h2 className="container-title" id="widgetContactTitle">
           { _.isNull(product.widgetContactTitle) ? (
             "Contact Information"
           ) : (
@@ -84,7 +84,7 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'timeSlots':
-        return <h2 className="mt-3 mb-2" id="widgetTimeSlotsTitle">
+        return <h2 className="container-title" id="widgetTimeSlotsTitle">
           { _.isNull(product.widgetTimeSlotsTitle) ? (
             "Time Slots"
           ) : (
@@ -92,7 +92,7 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'questions':
-        return <h2 className="mt-3 mb-2" id="widgetQuestionsTitle">
+        return <h2 className="container-title" id="widgetQuestionsTitle">
           { _.isNull(product.widgetQuestionsTitle) ? (
             "Additional Information"
           ) : (
@@ -100,11 +100,11 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'attendees':
-        return <h2 className="mt-3 mb-2" id="widgetAttendeesTitle">
+        return <h2 className="container-title" id="widgetAttendeesTitle">
           Attendee Information
         </h2>;
       case 'payment':
-        return <h2 className="mt-3 mb-2" id="widgetPaymentTitle">
+        return <h2 className="container-title" id="widgetPaymentTitle">
           { _.isNull(product.widgetPaymentTitle) ? (
             "Payment Information"
           ) : (
@@ -112,11 +112,11 @@ export default class Order extends PureComponent {
           )}
         </h2>;
       case 'redeemables':
-        return <h2 className="mt-3 mb-2" id="widgetRedeemableTitle">
+        return <h2 className="container-title" id="widgetRedeemableTitle">
             Coupons and Gift Cards
         </h2>;
       case 'totalDue':
-        return <h2 className="mt-3 mb-2" id="widgetTotalDueTitle">
+        return <h2 className="container-title" id="widgetTotalDueTitle">
           { _.isNull(product.widgetTotalDueTitle) ? (
             "Total Due Today"
           ) : (
@@ -207,13 +207,15 @@ export default class Order extends PureComponent {
     let customer = subject.customer();
     let product = subject.product();
 
-    return <section>
-      { this.headerForSection('contact') }
-      <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
+    return <section className="order-container">
+      <section className="customer-container">
+        { this.headerForSection('contact') }
+        <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
+      </section>
 
       {
         product.firstTimeSlotStartsAt ? (
-          <section>
+          <section className="time-slots-container">
             { this.headerForSection('timeSlots') }
             <TimeSlotsContainer order={subject} />
           </section>
@@ -222,7 +224,7 @@ export default class Order extends PureComponent {
 
       {
         this.showQuestions() ? (
-          <section>
+          <section className="questions-container">
             { this.headerForSection('questions') }
             <Questions subject={subject} questions={ product.questions().target() }></Questions>
           </section>
@@ -231,7 +233,7 @@ export default class Order extends PureComponent {
 
       {
         this.showAttendees() ? (
-          <section>
+          <section className="attendees-container">
             { this.headerForSection('attendees') }
             <Attendees questions={product.attendeeQuestions} subject={subject}></Attendees>
           </section>
@@ -240,7 +242,7 @@ export default class Order extends PureComponent {
 
       {
         this.showRedeemables() ? (
-          <section>
+          <section className="redeemables-container">
             { this.headerForSection('redeemables') }
             <Redeemables findRedeemable={findRedeemable} order={subject} onChange={afterUpdate} onErrors={afterError}></Redeemables>
           </section>
@@ -249,7 +251,7 @@ export default class Order extends PureComponent {
 
       {
         this.showPaymentForm() ? (
-          <section>
+          <section className="payment-container">
             { this.headerForSection('payment') }
             <PaymentForm order={subject} ref={(form) => this.paymentForm = form }></PaymentForm>
           </section>
@@ -258,20 +260,21 @@ export default class Order extends PureComponent {
 
       {
         this.showPrice() ? (
-          <section>
+          <section className="total-due-container">
             { this.headerForSection('totalDue') }
             <Pricing order={subject}></Pricing>
           </section>
         ) : null
       }
 
-      <section className="mt-3">
+      <section className="missing-answers-container">
         <MissingAnswers order={subject} ref={(r) => this.missingAnswers = r }></MissingAnswers>
       </section>
 
-      <section className="mt-3 mb-3">
+      <section className="book-order-container">
         <Button
           block
+          className="book-order-button"
           color="success"
           id="bookOrder"
           size="lg"

@@ -46,7 +46,7 @@ export default class Checkbox extends PureComponent {
       label.push(<span>&nbsp;*</span>);
     }
 
-    return <FormGroup>
+    return <FormGroup className="checkbox-container">
       <FormGroup check>
         <Label check>
           <Field name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>

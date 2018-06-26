@@ -69,7 +69,7 @@ export class TimeSlotsContainer extends PureComponent {
   render() {
     const { data } = this.props;
 
-    return <section>
+    return <section className="time-slots">
       {
         data.activeTimeSlotsCollection.empty() ? (
           this.renderLoadingScreen()
@@ -81,7 +81,7 @@ export class TimeSlotsContainer extends PureComponent {
   }
 
   renderLoadingScreen() {
-    return <section>
+    return <section className="time-slots-loading">
         <p>Loading...</p>
     </section>;
   }
@@ -91,7 +91,7 @@ export class TimeSlotsContainer extends PureComponent {
 
     switch(data.product.timeSlotView) {
       case 'calendar':
-        return <section className="mt-3">
+        return <section className="calendar-view">
           <Row>
             <Col xs="9">
               <h3>{ data.activeTimeSlotsCollection.first().day.format('MMMM YYYY') }</h3>
@@ -104,7 +104,7 @@ export class TimeSlotsContainer extends PureComponent {
           <TimeSlotsSelector onSelect={actions.saveOrder} subject={order} timeSlots={data.timeSlotsFromCalendar} />
         </section>;
       case 'list':
-        return <section className="mt-3">
+        return <section className="list-view">
           {
             data.product.sellsSessions ? (
               <p>Sessions are purchased together</p>

@@ -50,7 +50,7 @@ export default class PaymentForm extends PureComponent {
       ref: (form) => { this.pspForm = form }
     };
 
-    return <section>
+    return <section className="payment">
       {
         {
           cash: <Cash></Cash>,

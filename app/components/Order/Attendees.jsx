@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import _ from 'underscore';
-
 import { Collection } from 'mitragyna';
 
 import Attendee from './Attendees/Attendee.jsx';
@@ -20,8 +18,10 @@ export default class Attendees extends React.Component {
   render() {
     let { questions, subject } = this.props;
 
-    return <Collection component={Attendee} componentProps={{ questions }}
-                       reflection='attendees' subject={subject.attendees()}>
-    </Collection>;
+    return <section className="attendees">
+      <Collection component={Attendee} componentProps={{ questions }}
+                  reflection='attendees' subject={subject.attendees()}>
+      </Collection>
+    </section>;
   }
 }

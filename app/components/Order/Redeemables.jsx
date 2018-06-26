@@ -116,18 +116,20 @@ export default class Redeemables extends PureComponent {
       redeemables.push(<GiftCard currency={currency.name} subject={giftCardTransaction}></GiftCard>);
     });
 
-    return <section>
-      { redeemables }
+    return <section className="redeemables">
+      <section className="redeemables-list">
+        { redeemables }
+      </section>
 
       { this.showInput() ? (
-        <FormGroup>
+        <FormGroup className="redeemable-code">
           <InputGroup className={ order.errors().forField('redeemables.code').empty() ? '' : 'is-invalid' }>
-            <Input onChange={ this.handleChange } value={ code } />
+            <Input className="redeemable-code-input" onChange={ this.handleChange } value={ code } />
             <InputGroupAddon addonType="append">
-              <Button onClick={ () => this.checkForRedeemable(code) }>Search</Button>
+              <Button className="redeemable-code-input-button" onClick={ () => this.checkForRedeemable(code) }>Search</Button>
             </InputGroupAddon>
           </InputGroup>
-          <ErrorsFor component={FormFeedback} field='redeemables.code'></ErrorsFor>
+          <ErrorsFor className="redeemable-code-errors" component={FormFeedback} field='redeemables.code'></ErrorsFor>
         </FormGroup>
         ) : (null)
       }

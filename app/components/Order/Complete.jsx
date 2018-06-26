@@ -13,18 +13,15 @@ export default class OrderComplete extends PureComponent {
   render() {
     let { order } = this.props;
 
-    return <section>
-      <Jumbotron>
-        <h1>Order #{ order.verificationCode }</h1>
-        <hr/>
-        <section className="event">
-          <h4>{ order.timeSlots().target().first().startsAt.format('dddd MMMM Do, YYYY h:mm A') }</h4>
-        </section>
-        <section className="message">
-          <p>{ order.product().postTransactionalMessage }</p>
-          <p>An order confirmation email with receipt has been sent to { order.customer().email }.</p>
-        </section>
-      </Jumbotron>
+    return <section className="order-complete-container">
+      <h1 className="verification-code">Order #{ order.verificationCode }</h1>
+      <section className="order-complete-time-slot-details">
+        <h4>{ order.timeSlots().target().first().startsAt.format('dddd MMMM Do, YYYY h:mm A') }</h4>
+      </section>
+      <section className="order-complete-messages">
+        <p className="post-transactional">{ order.product().postTransactionalMessage }</p>
+        <p className="confirmation">An order confirmation email with receipt has been sent to { order.customer().email }.</p>
+      </section>
     </section>;
   }
 }

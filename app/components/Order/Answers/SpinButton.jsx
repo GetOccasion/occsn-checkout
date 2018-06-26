@@ -41,10 +41,10 @@ export default class SpinButton extends PureComponent {
       </span>;
     }
 
-    return <FormGroup>
+    return <FormGroup className="spin-button-container">
       <Label>{label}</Label>
       <Field name="value" type="number" component={ Input } max={question.max} min={question.min}></Field>
-      <FormText className="text-right">{priceContribution}</FormText>
+      <FormText className="spin-button-calculation">{priceContribution}</FormText>
     </FormGroup>;
   }
 }

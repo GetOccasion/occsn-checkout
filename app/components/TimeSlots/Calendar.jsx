@@ -56,13 +56,15 @@ export default class Calendar extends PureComponent {
       }).toArray();
     }).flatten().toArray();
 
-    return <FullCalendar
-      header={false}
-      dayClick={this.dateClicked}
-      defaultDate={calendarTimeSlots.first().day}
-      events={events}
-      fixedWeekCount={5}
-      ref={(r) => this.fullCalendar = r}
-    />;
+    return <section className="calendar">
+      <FullCalendar
+        header={false}
+        dayClick={this.dateClicked}
+        defaultDate={calendarTimeSlots.first().day}
+        events={events}
+        fixedWeekCount={5}
+        ref={(r) => this.fullCalendar = r}
+      />
+    </section>;
   }
 }
