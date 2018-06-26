@@ -1,0 +1,23 @@
+/* Custom styles */
+
+#occsn-app {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 360px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background: #6c757d;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.content {
+    width: 100%;
+}
+
