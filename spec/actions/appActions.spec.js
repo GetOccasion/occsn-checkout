@@ -51,18 +51,18 @@ describe('app actions', () => {
 
     it('creates appropriate actions', async () => {
       expect(typesForActions(store.getActions())).toEqual([
-        types.LOAD_PRODUCT_REQUEST,
-        types.SET_PRODUCT,
-        types.CONSTRUCT_ORDER_REQUEST,
+        types.OCCSN_LOAD_PRODUCT_REQUEST,
+        types.OCCSN_SET_PRODUCT,
+        types.OCCSN_CONSTRUCT_ORDER_REQUEST,
       ]);
     });
 
-    it('creates SET_PRODUCT with product of class occsn.Product', async () => {
-      expect(actionForType('SET_PRODUCT', store.getActions()).product).toBeInstanceOf(occsn.Product);
+    it('creates OCCSN_SET_PRODUCT with product of class occsn.Product', async () => {
+      expect(actionForType('OCCSN_SET_PRODUCT', store.getActions()).product).toBeInstanceOf(occsn.Product);
     });
 
-    it('creates SET_PRODUCT with product with id == OCCSN.product_id', async () => {
-      expect(actionForType('SET_PRODUCT', store.getActions()).product.id).toEqual(global.OCCSN.product_id);
+    it('creates OCCSN_SET_PRODUCT with product with id == OCCSN.product_id', async () => {
+      expect(actionForType('OCCSN_SET_PRODUCT', store.getActions()).product.id).toEqual(global.OCCSN.product_id);
     });
   });
 
@@ -82,16 +82,16 @@ describe('app actions', () => {
       it('creates appropriate actions', async () => {
         store.dispatch(actions.bookOrder(order)).then(() => {
           expect(typesForActions(store.getActions())).toEqual([
-            types.BOOK_ORDER_REQUEST,
-            types.SET_ORDER,
-            types.BOOK_ORDER_REQUEST_COMPLETE,
+            types.OCCSN_BOOK_ORDER_REQUEST,
+            types.OCCSN_SET_ORDER,
+            types.OCCSN_BOOK_ORDER_REQUEST_COMPLETE,
           ]);
         });
       });
 
-      it('creates SET_ORDER with order.status == booked', async () => {
+      it('creates OCCSN_SET_ORDER with order.status == booked', async () => {
         store.dispatch(actions.bookOrder(order)).then(() => {
-          expect(actionForType('SET_ORDER', store.getActions()).order.status).toEqual('booked');
+          expect(actionForType('OCCSN_SET_ORDER', store.getActions()).order.status).toEqual('booked');
         });
       });
     });
@@ -111,16 +111,16 @@ describe('app actions', () => {
       it('creates appropriate actions', async () => {
         store.dispatch(actions.bookOrder(order)).then(() => {
           expect(typesForActions(store.getActions())).toEqual([
-            types.BOOK_ORDER_REQUEST,
-            types.SET_ORDER,
-            types.BOOK_ORDER_REQUEST_COMPLETE,
+            types.OCCSN_BOOK_ORDER_REQUEST,
+            types.OCCSN_SET_ORDER,
+            types.OCCSN_BOOK_ORDER_REQUEST_COMPLETE,
           ]);
         });
       });
 
-      it('creates SET_ORDER with order with errors', async () => {
+      it('creates OCCSN_SET_ORDER with order with errors', async () => {
         store.dispatch(actions.bookOrder(order)).then(() => {
-          expect(actionForType('SET_ORDER', store.getActions()).order.errors().empty()).toBe(false);
+          expect(actionForType('OCCSN_SET_ORDER', store.getActions()).order.errors().empty()).toBe(false);
         })
       })
     });
@@ -140,13 +140,13 @@ describe('app actions', () => {
 
     it('creates appropriate actions', async () => {
       expect(typesForActions(store.getActions())).toEqual([
-        types.CONSTRUCT_ORDER_REQUEST,
-        types.SET_ORDER,
+        types.OCCSN_CONSTRUCT_ORDER_REQUEST,
+        types.OCCSN_SET_ORDER,
       ]);
     });
 
-    it('creates SET_ORDER with order of class occsn.Order', async () => {
-      expect(actionForType('SET_ORDER', store.getActions()).order).toBeInstanceOf(occsn.Order);
+    it('creates OCCSN_SET_ORDER with order of class occsn.Order', async () => {
+      expect(actionForType('OCCSN_SET_ORDER', store.getActions()).order).toBeInstanceOf(occsn.Order);
     });
   });
 
@@ -175,8 +175,8 @@ describe('app actions', () => {
 
       it('creates appropriate actions', async () => {
         expect(typesForActions(store.getActions())).toEqual([
-          types.FIND_REDEEMABLE_REQUEST,
-          types.FIND_REDEEMABLE_REQUEST_COMPLETE,
+          types.OCCSN_FIND_REDEEMABLE_REQUEST,
+          types.OCCSN_FIND_REDEEMABLE_REQUEST_COMPLETE,
         ]);
       });
     });
@@ -234,9 +234,9 @@ describe('app actions', () => {
 
     it('creates appropriate actions', async () => {
       expect(typesForActions(store.getActions())).toEqual([
-        types.SAVE_ORDER_REQUEST,
-        types.SET_ORDER,
-        types.SAVE_ORDER_REQUEST_COMPLETE,
+        types.OCCSN_SAVE_ORDER_REQUEST,
+        types.OCCSN_SET_ORDER,
+        types.OCCSN_SAVE_ORDER_REQUEST_COMPLETE,
       ]);
     });
   });

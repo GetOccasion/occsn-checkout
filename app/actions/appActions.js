@@ -14,7 +14,7 @@ export function constructOrder(product) {
 
 export function constructOrderRequest() {
   return {
-    type: actionTypes.CONSTRUCT_ORDER_REQUEST
+    type: actionTypes.OCCSN_CONSTRUCT_ORDER_REQUEST
   };
 }
 
@@ -35,13 +35,13 @@ export function bookOrder(order) {
 
 export function bookOrderRequest() {
   return {
-    type: actionTypes.BOOK_ORDER_REQUEST
+    type: actionTypes.OCCSN_BOOK_ORDER_REQUEST
   };
 }
 
 export function bookOrderRequestComplete(order) {
   return {
-    type: actionTypes.BOOK_ORDER_REQUEST_COMPLETE,
+    type: actionTypes.OCCSN_BOOK_ORDER_REQUEST_COMPLETE,
     order
   };
 }
@@ -60,13 +60,13 @@ export function findRedeemable(product, code, onSuccess, onError) {
 
 export function findRedeemableRequest() {
   return {
-    type: actionTypes.FIND_REDEEMABLE_REQUEST
+    type: actionTypes.OCCSN_FIND_REDEEMABLE_REQUEST
   };
 }
 
 export function findRedeemableRequestComplete() {
   return {
-    type: actionTypes.FIND_REDEEMABLE_REQUEST_COMPLETE
+    type: actionTypes.OCCSN_FIND_REDEEMABLE_REQUEST_COMPLETE
   };
 }
 
@@ -89,7 +89,7 @@ export function loadProduct(id) {
 
 export function loadProductRequest() {
   return {
-    type: actionTypes.LOAD_PRODUCT_REQUEST
+    type: actionTypes.OCCSN_LOAD_PRODUCT_REQUEST
   };
 }
 
@@ -106,26 +106,26 @@ export function saveOrder(order) {
 
 export function saveOrderRequest() {
   return {
-    type: actionTypes.SAVE_ORDER_REQUEST
+    type: actionTypes.OCCSN_SAVE_ORDER_REQUEST
   };
 }
 
 export function saveOrderRequestComplete() {
   return {
-    type: actionTypes.SAVE_ORDER_REQUEST_COMPLETE,
+    type: actionTypes.OCCSN_SAVE_ORDER_REQUEST_COMPLETE,
   };
 }
 
 export function setOrder(order) {
   return {
-    type: actionTypes.SET_ORDER,
+    type: actionTypes.OCCSN_SET_ORDER,
     order
   };
 }
 
 export function setProduct(product) {
   return {
-    type: actionTypes.SET_PRODUCT,
+    type: actionTypes.OCCSN_SET_PRODUCT,
     product
   };
 }

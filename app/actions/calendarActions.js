@@ -30,20 +30,20 @@ export function loadProductTimeSlots(product) {
 
 export function loadProductTimeSlotsRequest() {
   return {
-    type: actionTypes.LOAD_PRODUCT_TIME_SLOTS_REQUEST
+    type: actionTypes.OCCSN_LOAD_PRODUCT_TIME_SLOTS_REQUEST
   };
 }
 
 export function setActiveTimeSlotsCollection(timeSlots) {
   return {
-    type: actionTypes.SET_ACTIVE_TIME_SLOTS_COLLECTION,
+    type: actionTypes.OCCSN_SET_ACTIVE_TIME_SLOTS_COLLECTION,
     timeSlots
   };
 }
 
 export function setTimeSlotsFromCalendar(timeSlots) {
   return {
-    type: actionTypes.SET_TIME_SLOTS_FROM_CALENDAR,
+    type: actionTypes.OCCSN_SET_TIME_SLOTS_FROM_CALENDAR,
     timeSlots
   };
 }

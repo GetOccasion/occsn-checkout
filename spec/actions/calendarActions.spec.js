@@ -45,8 +45,8 @@ describe('calendar actions', () => {
 
     it('creates appropriate actions', async () => {
       expect(typesForActions(store.getActions())).toEqual([
-        types.LOAD_PRODUCT_TIME_SLOTS_REQUEST,
-        types.SET_ACTIVE_TIME_SLOTS_COLLECTION
+        types.OCCSN_LOAD_PRODUCT_TIME_SLOTS_REQUEST,
+        types.OCCSN_SET_ACTIVE_TIME_SLOTS_COLLECTION
       ]);
     });
   });
