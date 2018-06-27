@@ -108,7 +108,7 @@ export class AppContainer extends PureComponent {
       body = this.renderLoadingScreen();
     }
 
-    return <Container>
+    return <Container fluid={true}>
       { body }
     </Container>;
   }
