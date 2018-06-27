@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.5
+ * occsn-checkout v0.0.7
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -716,9 +716,15 @@ function (_PureComponent) {
   _inherits(TimeSlotsContainer, _PureComponent);
 
   function TimeSlotsContainer() {
+    var _this;
+
     _classCallCheck(this, TimeSlotsContainer);
 
-    return _possibleConstructorReturn(this, (TimeSlotsContainer.__proto__ || Object.getPrototypeOf(TimeSlotsContainer)).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, (TimeSlotsContainer.__proto__ || Object.getPrototypeOf(TimeSlotsContainer)).call(this));
+
+    _.bindAll(_assertThisInitialized(_this), 'onDateSelect', 'onTimeSelect');
+
+    return _this;
   }
 
   _createClass(TimeSlotsContainer, [{
@@ -742,6 +748,22 @@ function (_PureComponent) {
       if (data.product.sellsSessions) {
         actions.setActiveTimeSlotsCollection(order.timeSlots().target().clone());
       }
+    }
+  }, {
+    key: "onDateSelect",
+    value: function onDateSelect(timeSlotsFromCalendar) {
+      var actions = this.props.actions;
+      var callbackProps = this.context.callbackProps;
+      if (callbackProps.onDateSelect) callbackProps.onDateSelect(timeSlotsFromCalendar);
+      actions.setTimeSlotsFromCalendar(timeSlotsFromCalendar);
+    }
+  }, {
+    key: "onTimeSelect",
+    value: function onTimeSelect(order) {
+      var actions = this.props.actions;
+      var callbackProps = this.context.callbackProps;
+      if (callbackProps.onTimeSelect) callbackProps.onTimeSelect(order);
+      actions.saveOrder(order);
     }
   }, {
     key: "render",
@@ -779,10 +801,10 @@ function (_PureComponent) {
             onChange: actions.setActiveTimeSlotsCollection,
             timeSlotsCollection: data.activeTimeSlotsCollection
           }))), React__default.createElement(Calendar, {
-            onDateSelect: actions.setTimeSlotsFromCalendar,
+            onDateSelect: this.onDateSelect,
             calendarTimeSlots: data.activeTimeSlotsCollection
           }), React__default.createElement(TimeSlotsSelector, {
-            onSelect: actions.saveOrder,
+            onSelect: this.onTimeSelect,
             subject: order,
             timeSlots: data.timeSlotsFromCalendar
           }));
@@ -792,7 +814,7 @@ function (_PureComponent) {
             className: "list-view"
           }, data.product.sellsSessions ? React__default.createElement("p", null, "Sessions are purchased together") : null, React__default.createElement(TimeSlotsSelector, {
             disabled: data.product.sellsSessions,
-            onSelect: actions.saveOrder,
+            onSelect: this.onTimeSelect,
             subject: order,
             timeSlots: data.activeTimeSlotsCollection
           }), !data.product.sellsSessions ? React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
@@ -813,11 +835,13 @@ function (_PureComponent) {
   return TimeSlotsContainer;
 }(React.PureComponent); // See https://github.com/reactjs/react-redux/blob/master/docs/api.md#examples
 
-_defineProperty(TimeSlotsContainer, "propTypes", {
+_defineProperty(_defineProperty(TimeSlotsContainer, "propTypes", {
   actions: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   order: PropTypes.instanceOf(occsn.Order),
   onSelect: PropTypes.func
+}), "contextTypes", {
+  callbackProps: PropTypes.object
 });
 
 var TimeSlotsContainer$1 = reactRedux.connect(stateToProps, dispatchToProps)(TimeSlotsContainer);
@@ -2678,7 +2702,7 @@ function (_PureComponent) {
     key: "getChildContext",
     value: function getChildContext() {
       return {
-        callbackProps: this.props.callbacks
+        callbackProps: this.props.callbacks || {}
       };
     }
   }, {
@@ -2699,7 +2723,9 @@ function (_PureComponent) {
         body = this.renderLoadingScreen();
       }
 
-      return React__default.createElement(reactstrap.Container, null, body);
+      return React__default.createElement(reactstrap.Container, {
+        fluid: true
+      }, body);
     }
   }, {
     key: "renderLoadingScreen",
@@ -2746,8 +2772,10 @@ function (_PureComponent) {
 _defineProperty(_defineProperty(AppContainer, "propTypes", {
   actions: PropTypes.object.isRequired,
   callbacks: PropTypes.shape({
+    onDateSelect: PropTypes.func,
     onOrderChange: PropTypes.func,
-    onProductLoad: PropTypes.func
+    onProductLoad: PropTypes.func,
+    onTimeSelect: PropTypes.func
   }),
   data: PropTypes.object.isRequired
 }), "childContextTypes", {
