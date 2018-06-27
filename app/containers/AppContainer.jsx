@@ -45,8 +45,10 @@ export class AppContainer extends PureComponent {
   static propTypes = {
     actions: PropTypes.object.isRequired,
     callbacks: PropTypes.shape({
+      onDateSelect: PropTypes.func,
       onOrderChange: PropTypes.func,
       onProductLoad: PropTypes.func,
+      onTimeSelect: PropTypes.func,
     }),
     data: PropTypes.object.isRequired,
   };
@@ -88,7 +90,7 @@ export class AppContainer extends PureComponent {
 
   getChildContext() {
     return {
-      callbackProps: this.props.callbacks,
+      callbackProps: this.props.callbacks || {},
     }
   }
 

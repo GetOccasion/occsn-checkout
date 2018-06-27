@@ -49,6 +49,19 @@ export class TimeSlotsContainer extends PureComponent {
     onSelect: PropTypes.func,
   };
 
+  static contextTypes = {
+    callbackProps: PropTypes.object,
+  };
+
+  constructor() {
+    super();
+
+    _.bindAll(this,
+      'onDateSelect',
+      'onTimeSelect',
+    );
+  }
+
   componentDidMount() {
     const { actions, data, order } = this.props;
 
@@ -64,6 +77,24 @@ export class TimeSlotsContainer extends PureComponent {
     if(data.product.sellsSessions) {
       actions.setActiveTimeSlotsCollection(order.timeSlots().target().clone())
     }
+  }
+
+  onDateSelect(timeSlotsFromCalendar) {
+    const { actions } = this.props;
+    const { callbackProps } = this.context;
+
+    if(callbackProps.onDateSelect) callbackProps.onDateSelect(timeSlotsFromCalendar);
+
+    actions.setTimeSlotsFromCalendar(timeSlotsFromCalendar);
+  }
+
+  onTimeSelect(order) {
+    const { actions } = this.props;
+    const { callbackProps } = this.context;
+
+    if(callbackProps.onTimeSelect) callbackProps.onTimeSelect(order);
+
+    actions.saveOrder(order);
   }
 
   render() {
@@ -100,8 +131,8 @@ export class TimeSlotsContainer extends PureComponent {
               <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
             </Col>
           </Row>
-          <Calendar onDateSelect={actions.setTimeSlotsFromCalendar} calendarTimeSlots={data.activeTimeSlotsCollection}/>
-          <TimeSlotsSelector onSelect={actions.saveOrder} subject={order} timeSlots={data.timeSlotsFromCalendar} />
+          <Calendar onDateSelect={this.onDateSelect} calendarTimeSlots={data.activeTimeSlotsCollection}/>
+          <TimeSlotsSelector onSelect={this.onTimeSelect} subject={order} timeSlots={data.timeSlotsFromCalendar} />
         </section>;
       case 'list':
         return <section className="list-view">
@@ -110,7 +141,7 @@ export class TimeSlotsContainer extends PureComponent {
               <p>Sessions are purchased together</p>
             ) : (null)
           }
-          <TimeSlotsSelector disabled={data.product.sellsSessions} onSelect={actions.saveOrder} subject={order} timeSlots={data.activeTimeSlotsCollection} />
+          <TimeSlotsSelector disabled={data.product.sellsSessions} onSelect={this.onTimeSelect} subject={order} timeSlots={data.activeTimeSlotsCollection} />
           {
             !data.product.sellsSessions ? (
               <Row>
