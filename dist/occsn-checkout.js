@@ -198,7 +198,7 @@ if (url != undefined) {
 
 var occsn = Occasion.Client(options);
 
-var actionTypes = mirrorCreator(['BOOK_ORDER_REQUEST', 'BOOK_ORDER_REQUEST_COMPLETE', 'CONSTRUCT_ORDER_REQUEST', 'FIND_REDEEMABLE_REQUEST', 'FIND_REDEEMABLE_REQUEST_COMPLETE', 'LOAD_PRODUCT_REQUEST', 'SAVE_ORDER_REQUEST', 'SAVE_ORDER_REQUEST_COMPLETE', 'SET_ORDER', 'SET_PRODUCT']);
+var actionTypes = mirrorCreator(['OCCSN_BOOK_ORDER_REQUEST', 'OCCSN_BOOK_ORDER_REQUEST_COMPLETE', 'OCCSN_CONSTRUCT_ORDER_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST_COMPLETE', 'OCCSN_LOAD_PRODUCT_REQUEST', 'OCCSN_SAVE_ORDER_REQUEST', 'OCCSN_SAVE_ORDER_REQUEST_COMPLETE', 'OCCSN_SET_ORDER', 'OCCSN_SET_PRODUCT']);
 
 function constructOrder(product) {
   return function (dispatch) {
@@ -213,7 +213,7 @@ function constructOrder(product) {
 }
 function constructOrderRequest() {
   return {
-    type: actionTypes.CONSTRUCT_ORDER_REQUEST
+    type: actionTypes.OCCSN_CONSTRUCT_ORDER_REQUEST
   };
 }
 function bookOrder(order) {
@@ -264,12 +264,12 @@ function bookOrder(order) {
 }
 function bookOrderRequest() {
   return {
-    type: actionTypes.BOOK_ORDER_REQUEST
+    type: actionTypes.OCCSN_BOOK_ORDER_REQUEST
   };
 }
 function bookOrderRequestComplete(order) {
   return {
-    type: actionTypes.BOOK_ORDER_REQUEST_COMPLETE,
+    type: actionTypes.OCCSN_BOOK_ORDER_REQUEST_COMPLETE,
     order: order
   };
 }
@@ -285,12 +285,12 @@ function findRedeemable(product, code, onSuccess, onError) {
 }
 function findRedeemableRequest() {
   return {
-    type: actionTypes.FIND_REDEEMABLE_REQUEST
+    type: actionTypes.OCCSN_FIND_REDEEMABLE_REQUEST
   };
 }
 function findRedeemableRequestComplete() {
   return {
-    type: actionTypes.FIND_REDEEMABLE_REQUEST_COMPLETE
+    type: actionTypes.OCCSN_FIND_REDEEMABLE_REQUEST_COMPLETE
   };
 }
 function loadProduct(id) {
@@ -308,7 +308,7 @@ function loadProduct(id) {
 }
 function loadProductRequest() {
   return {
-    type: actionTypes.LOAD_PRODUCT_REQUEST
+    type: actionTypes.OCCSN_LOAD_PRODUCT_REQUEST
   };
 }
 function saveOrder(order) {
@@ -347,23 +347,23 @@ function saveOrder(order) {
 }
 function saveOrderRequest() {
   return {
-    type: actionTypes.SAVE_ORDER_REQUEST
+    type: actionTypes.OCCSN_SAVE_ORDER_REQUEST
   };
 }
 function saveOrderRequestComplete() {
   return {
-    type: actionTypes.SAVE_ORDER_REQUEST_COMPLETE
+    type: actionTypes.OCCSN_SAVE_ORDER_REQUEST_COMPLETE
   };
 }
 function setOrder(order) {
   return {
-    type: actionTypes.SET_ORDER,
+    type: actionTypes.OCCSN_SET_ORDER,
     order: order
   };
 }
 function setProduct(product) {
   return {
-    type: actionTypes.SET_PRODUCT,
+    type: actionTypes.OCCSN_SET_PRODUCT,
     product: product
   };
 }
@@ -413,7 +413,7 @@ _defineProperty(Header, "propTypes", {
   product: PropTypes.instanceOf(occsn.Product)
 });
 
-var actionTypes$1 = mirrorCreator(['LOAD_PRODUCT_TIME_SLOTS_REQUEST', 'SET_ACTIVE_TIME_SLOTS_COLLECTION', 'SET_TIME_SLOTS_FROM_CALENDAR']);
+var actionTypes$1 = mirrorCreator(['OCCSN_LOAD_PRODUCT_TIME_SLOTS_REQUEST', 'OCCSN_SET_ACTIVE_TIME_SLOTS_COLLECTION', 'OCCSN_SET_TIME_SLOTS_FROM_CALENDAR']);
 
 function loadProductCalendar(product) {
   return function (dispatch) {
@@ -438,18 +438,18 @@ function loadProductTimeSlots(product) {
 }
 function loadProductTimeSlotsRequest() {
   return {
-    type: actionTypes$1.LOAD_PRODUCT_TIME_SLOTS_REQUEST
+    type: actionTypes$1.OCCSN_LOAD_PRODUCT_TIME_SLOTS_REQUEST
   };
 }
 function setActiveTimeSlotsCollection(timeSlots) {
   return {
-    type: actionTypes$1.SET_ACTIVE_TIME_SLOTS_COLLECTION,
+    type: actionTypes$1.OCCSN_SET_ACTIVE_TIME_SLOTS_COLLECTION,
     timeSlots: timeSlots
   };
 }
 function setTimeSlotsFromCalendar(timeSlots) {
   return {
-    type: actionTypes$1.SET_TIME_SLOTS_FROM_CALENDAR,
+    type: actionTypes$1.OCCSN_SET_TIME_SLOTS_FROM_CALENDAR,
     timeSlots: timeSlots
   };
 }
@@ -2768,32 +2768,32 @@ function appReducer() {
   var type = action.type;
 
   switch (type) {
-    case actionTypes.BOOK_ORDER_REQUEST:
+    case actionTypes.OCCSN_BOOK_ORDER_REQUEST:
       return $$state.merge({
         bookingOrder: true
       });
 
-    case actionTypes.BOOK_ORDER_REQUEST_COMPLETE:
+    case actionTypes.OCCSN_BOOK_ORDER_REQUEST_COMPLETE:
       return $$state.merge({
         bookingOrder: false
       });
 
-    case actionTypes.SAVE_ORDER_REQUEST:
+    case actionTypes.OCCSN_SAVE_ORDER_REQUEST:
       return $$state.merge({
         savingOrder: true
       });
 
-    case actionTypes.SAVE_ORDER_REQUEST_COMPLETE:
+    case actionTypes.OCCSN_SAVE_ORDER_REQUEST_COMPLETE:
       return $$state.merge({
         savingOrder: false
       });
 
-    case actionTypes.SET_ORDER:
+    case actionTypes.OCCSN_SET_ORDER:
       return $$state.merge({
         order: action.order
       });
 
-    case actionTypes.SET_PRODUCT:
+    case actionTypes.OCCSN_SET_PRODUCT:
       return $$state.merge({
         product: action.product
       });
@@ -2813,12 +2813,12 @@ function calendarReducer() {
   var type = action.type;
 
   switch (type) {
-    case actionTypes$1.SET_ACTIVE_TIME_SLOTS_COLLECTION:
+    case actionTypes$1.OCCSN_SET_ACTIVE_TIME_SLOTS_COLLECTION:
       return $$state.merge({
         activeTimeSlotsCollection: action.timeSlots
       });
 
-    case actionTypes$1.SET_TIME_SLOTS_FROM_CALENDAR:
+    case actionTypes$1.OCCSN_SET_TIME_SLOTS_FROM_CALENDAR:
       return $$state.merge({
         timeSlotsFromCalendar: action.timeSlots
       });
