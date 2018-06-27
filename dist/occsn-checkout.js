@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.4
+ * occsn-checkout v0.0.5
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -495,10 +495,12 @@ function (_PureComponent) {
         'is-invalid': !subject.errors().forField('timeSlots').empty()
       });
       return React__default.createElement("section", {
-        className: "mt-2"
-      }, React__default.createElement("section", null, timeSlots.map(function (timeSlot) {
+        className: "time-slots-selector"
+      }, React__default.createElement("section", {
+        className: "time-slots-selector-buttons"
+      }, timeSlots.map(function (timeSlot) {
         return React__default.createElement(reactstrap.Button, {
-          className: 'mr-2 mb-2 ' + (subject.timeSlots().target().include(timeSlot) ? 'active' : ''),
+          className: subject.timeSlots().target().include(timeSlot) ? 'active' : '',
           color: "primary",
           disabled: disabled,
           key: timeSlot.id,
@@ -508,7 +510,7 @@ function (_PureComponent) {
           outline: true
         }, timeSlot.startsAt.format('lll'));
       }).toArray()), React__default.createElement("section", {
-        className: "custom-control"
+        className: "time-slots-selector-errors custom-control"
       }, React__default.createElement("div", {
         className: customControlInputClassNames
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -573,7 +575,9 @@ function (_PureComponent) {
           };
         }).toArray();
       }).flatten().toArray();
-      return React__default.createElement(FullCalendar, {
+      return React__default.createElement("section", {
+        className: "calendar"
+      }, React__default.createElement(FullCalendar, {
         header: false,
         dayClick: this.dateClicked,
         defaultDate: calendarTimeSlots.first().day,
@@ -582,7 +586,7 @@ function (_PureComponent) {
         ref: function ref(r) {
           return _this2.fullCalendar = r;
         }
-      });
+      }));
     }
   }]);
 
@@ -644,7 +648,9 @@ function (_PureComponent) {
       var _this$props3 = this.props,
           className = _this$props3.className,
           timeSlotsCollection = _this$props3.timeSlotsCollection;
-      return React__default.createElement(reactstrap.Pagination, {
+      return React__default.createElement("section", {
+        className: "time-slots-paginator"
+      }, React__default.createElement(reactstrap.Pagination, {
         className: className
       }, React__default.createElement(reactstrap.PaginationItem, {
         disabled: !timeSlotsCollection.hasPrevPage()
@@ -656,7 +662,7 @@ function (_PureComponent) {
       }, React__default.createElement(reactstrap.PaginationLink, {
         next: true,
         onClick: this.nextClicked
-      })));
+      }))));
     }
   }]);
 
@@ -741,12 +747,16 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var data = this.props.data;
-      return React__default.createElement("section", null, data.activeTimeSlotsCollection.empty() ? this.renderLoadingScreen() : this.renderTimeSlotsScreen());
+      return React__default.createElement("section", {
+        className: "time-slots"
+      }, data.activeTimeSlotsCollection.empty() ? this.renderLoadingScreen() : this.renderTimeSlotsScreen());
     }
   }, {
     key: "renderLoadingScreen",
     value: function renderLoadingScreen() {
-      return React__default.createElement("section", null, React__default.createElement("p", null, "Loading..."));
+      return React__default.createElement("section", {
+        className: "time-slots-loading"
+      }, React__default.createElement("p", null, "Loading..."));
     }
   }, {
     key: "renderTimeSlotsScreen",
@@ -759,7 +769,7 @@ function (_PureComponent) {
       switch (data.product.timeSlotView) {
         case 'calendar':
           return React__default.createElement("section", {
-            className: "mt-3"
+            className: "calendar-view"
           }, React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
             xs: "9"
           }, React__default.createElement("h3", null, data.activeTimeSlotsCollection.first().day.format('MMMM YYYY'))), React__default.createElement(reactstrap.Col, {
@@ -779,7 +789,7 @@ function (_PureComponent) {
 
         case 'list':
           return React__default.createElement("section", {
-            className: "mt-3"
+            className: "list-view"
           }, data.product.sellsSessions ? React__default.createElement("p", null, "Sessions are purchased together") : null, React__default.createElement(TimeSlotsSelector, {
             disabled: data.product.sellsSessions,
             onSelect: actions.saveOrder,
@@ -830,9 +840,15 @@ function (_PureComponent) {
           indexOf = _this$props.indexOf,
           questions = _this$props.questions;
       return React__default.createElement(reactstrap.Card, {
-        className: "mb-2"
-      }, React__default.createElement(reactstrap.CardBody, null, React__default.createElement(reactstrap.CardTitle, null, "Attendee ", indexOf + 1), questions.map(function (q) {
-        return React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(mitragyna.Field, {
+        className: "attendee-container"
+      }, React__default.createElement(reactstrap.CardBody, {
+        className: "attendee"
+      }, React__default.createElement(reactstrap.CardTitle, {
+        className: "attendee-title"
+      }, "Attendee ", indexOf + 1), questions.map(function (q) {
+        return React__default.createElement(reactstrap.FormGroup, {
+          className: "attendee-input-container"
+        }, React__default.createElement(mitragyna.Field, {
           type: "text",
           name: q,
           placeholder: s.humanize(q),
@@ -871,14 +887,16 @@ function (_React$Component) {
       var _this$props = this.props,
           questions = _this$props.questions,
           subject = _this$props.subject;
-      return React__default.createElement(mitragyna.Collection, {
+      return React__default.createElement("section", {
+        className: "attendees"
+      }, React__default.createElement(mitragyna.Collection, {
         component: Attendee,
         componentProps: {
           questions: questions
         },
         reflection: "attendees",
         subject: subject.attendees()
-      });
+      }));
     }
   }]);
 
@@ -906,44 +924,61 @@ function (_PureComponent) {
   _createClass(Customer, [{
     key: "render",
     value: function render() {
-      var subject = this.props.subject;
-      return React__default.createElement("section", null, React__default.createElement(reactstrap.ListGroup, null, React__default.createElement(reactstrap.ListGroupItem, null, React__default.createElement(mitragyna.Field, {
+      return React__default.createElement("section", {
+        className: "customer"
+      }, React__default.createElement(reactstrap.FormGroup, {
+        className: "customer-email-form-group"
+      }, React__default.createElement(mitragyna.Field, {
+        className: "customer-email-field",
         type: "email",
         name: "email",
         placeholder: "Email",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "customer-email-errors",
         component: reactstrap.FormFeedback,
         field: "email"
-      })), React__default.createElement(reactstrap.ListGroupItem, null, React__default.createElement(mitragyna.Field, {
+      })), React__default.createElement(reactstrap.FormGroup, {
+        className: "customer-first-name-form-group"
+      }, React__default.createElement(mitragyna.Field, {
+        className: "customer-first-name-field",
         type: "text",
         name: "firstName",
         placeholder: "First Name",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "customer-first-name-errors",
         component: reactstrap.FormFeedback,
         field: "firstName"
-      })), React__default.createElement(reactstrap.ListGroupItem, null, React__default.createElement(mitragyna.Field, {
+      })), React__default.createElement(reactstrap.FormGroup, {
+        className: "customer-last-name-form-group"
+      }, React__default.createElement(mitragyna.Field, {
+        className: "customer-last-name-field",
         type: "text",
         name: "lastName",
         placeholder: "Last Name",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "customer-last-name-errors",
         component: reactstrap.FormFeedback,
         field: "lastName"
-      })), React__default.createElement(reactstrap.ListGroupItem, null, React__default.createElement(mitragyna.Field, {
+      })), React__default.createElement(reactstrap.FormGroup, {
+        className: "customer-zip-form-group"
+      }, React__default.createElement(mitragyna.Field, {
+        className: "customer-zip-field",
         type: "text",
         name: "zip",
         placeholder: "Zip Code",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "customer-zip-errors",
         component: reactstrap.FormFeedback,
         field: "zip"
-      }))));
+      })));
     }
   }]);
 
@@ -991,9 +1026,16 @@ function (_PureComponent) {
         return null;
       } else {
         return React__default.createElement(reactstrap.Alert, {
-          color: "secondary"
-        }, React__default.createElement("pre", null, "Please complete the following fields:"), React__default.createElement("ul", null, this.missingRequiredAnswers().map(function (a) {
-          return React__default.createElement("li", null, a.question().title);
+          color: "secondary",
+          className: "missing-answers"
+        }, React__default.createElement("p", {
+          className: "missing-answers-text"
+        }, "Please complete the following fields:"), React__default.createElement("ul", {
+          className: "missing-answers-list"
+        }, this.missingRequiredAnswers().map(function (a) {
+          return React__default.createElement("li", {
+            className: "missing-answer"
+          }, a.question().title);
         }).toArray()));
       }
     }
@@ -1028,7 +1070,7 @@ function (_PureComponent) {
       if (!_.isNull(order.coupon())) {
         displaySubtotal = true;
         rows.push(React__default.createElement("p", {
-          className: "coupon"
+          className: "coupon-discount"
         }, React__default.createElement("span", null, "Coupon Discount: "), React__default.createElement(Currency, {
           currency: currency,
           quantity: Decimal(order.couponAmount).neg().toNumber()
@@ -1056,27 +1098,31 @@ function (_PureComponent) {
 
       rows.push(React__default.createElement("p", {
         className: "total"
-      }, React__default.createElement("h4", null, "Total: ", React__default.createElement(Currency, {
+      }, "Total: ", React__default.createElement(Currency, {
         currency: currency,
         quantity: order.price
-      }))));
+      })));
 
       if (!_.isNull(order.giftCardAmount)) {
         rows.push(React__default.createElement("p", {
-          className: "giftCardAmount"
+          className: "gift-card-amount"
         }, React__default.createElement("span", null, "Gift Cards: "), React__default.createElement(Currency, {
           currency: currency,
           quantity: Decimal(order.giftCardAmount).neg().toNumber()
         })), React__default.createElement("p", {
-          className: "outstandingBalance"
+          className: "outstanding-balance"
         }, React__default.createElement("span", null, "Balance due today: "), React__default.createElement(Currency, {
           currency: currency,
           quantity: Decimal(order.outstandingBalance).toNumber()
         })));
       }
 
-      return React__default.createElement(reactstrap.Card, null, React__default.createElement(reactstrap.CardBody, null, React__default.createElement(reactstrap.CardText, {
-        className: "text-right"
+      return React__default.createElement("section", {
+        className: "total-due"
+      }, React__default.createElement("section", {
+        className: "pricing"
+      }, React__default.createElement("section", {
+        className: "pricing-list"
       }, rows)));
     }
   }]);
@@ -1162,9 +1208,12 @@ function (_PaymentServiceProvid) {
   }, {
     key: "render",
     value: function render() {
-      return React__default.createElement("section", null, React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Alert, {
-        color: "warning"
-      }, "No payment required at this time. Payment will be collected at the venue.")));
+      return React__default.createElement("section", {
+        className: "cash-container"
+      }, React__default.createElement(reactstrap.Alert, {
+        color: "warning",
+        className: "cash"
+      }, "No payment required at this time. Payment will be collected at the venue."));
     }
   }]);
 
@@ -1254,7 +1303,11 @@ function (_PaymentServiceProvid) {
       var _this3 = this;
 
       var order = this.props.order;
-      return React__default.createElement("section", null, React__default.createElement(reactstrap.FormGroup, null, React__default.createElement("label", null, "Name On Card"), React__default.createElement(reactstrap.Input, {
+      return React__default.createElement("section", {
+        className: "spreedly-container"
+      }, React__default.createElement(reactstrap.FormGroup, {
+        className: "spreedly-full-name"
+      }, React__default.createElement("label", null, "Name On Card"), React__default.createElement(reactstrap.Input, {
         type: "text",
         id: "full_name",
         name: "full_name",
@@ -1264,12 +1317,16 @@ function (_PaymentServiceProvid) {
         },
         className: order.errors().forField('creditCard.firstName').empty() && order.errors().forField('creditCard.lastName').empty() ? '' : 'is-invalid'
       }), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "spreedly-first-name-errors",
         component: reactstrap.FormFeedback,
         field: "creditCard.firstName"
       }), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "spreedly-last-name-errors",
         component: reactstrap.FormFeedback,
         field: "creditCard.lastName"
-      })), React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Label, null, "Credit Card Number"), React__default.createElement("div", {
+      })), React__default.createElement(reactstrap.FormGroup, {
+        className: "spreedly-card-number"
+      }, React__default.createElement(reactstrap.Label, null, "Credit Card Number"), React__default.createElement("div", {
         "class": "custom-file"
       }, React__default.createElement("div", {
         className: "custom-file-input is-invalid",
@@ -1282,9 +1339,13 @@ function (_PaymentServiceProvid) {
           height: '48px'
         }
       })), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "spreedly-card-number-errors",
         component: reactstrap.FormFeedback,
         field: "creditCard.number"
-      }))), React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
+      }))), React__default.createElement(reactstrap.FormGroup, {
+        className: "spreedly-expiration-cvv"
+      }, React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
+        className: "spreedly-expiration",
         xs: "6"
       }, React__default.createElement(reactstrap.Label, null, "Expiration Date"), React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
         xs: "6"
@@ -1299,6 +1360,7 @@ function (_PaymentServiceProvid) {
         },
         className: order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid'
       }), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "spreedly-expiration-month-errors",
         component: reactstrap.FormFeedback,
         field: "creditCard.month"
       })), React__default.createElement(reactstrap.Col, {
@@ -1314,9 +1376,11 @@ function (_PaymentServiceProvid) {
         },
         className: order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid'
       }), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "spreedly-expiration-year-errors",
         component: reactstrap.FormFeedback,
         field: "creditCard.year"
       })))), React__default.createElement(reactstrap.Col, {
+        className: "spreedly-cvv",
         xs: "3"
       }, React__default.createElement(reactstrap.Label, null, "CVV"), React__default.createElement("div", {
         id: "spreedly-cvv",
@@ -1401,9 +1465,13 @@ function (_PaymentServiceProvid) {
   }, {
     key: "render",
     value: function render() {
-      return React__default.createElement("section", null, React__default.createElement("div", {
+      return React__default.createElement("section", {
+        className: "square-container"
+      }, React__default.createElement("div", {
         id: "sq-ccbox"
-      }, React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Label, null, "Card Number"), React__default.createElement("div", {
+      }, React__default.createElement(reactstrap.FormGroup, {
+        className: "square-card-number"
+      }, React__default.createElement(reactstrap.Label, null, "Card Number"), React__default.createElement("div", {
         "class": "custom-file"
       }, React__default.createElement("div", {
         className: "custom-file-input is-invalid",
@@ -1413,9 +1481,13 @@ function (_PaymentServiceProvid) {
       }, React__default.createElement("div", {
         id: "sq-card-number"
       })), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "square-card-number-errors",
         component: reactstrap.FormFeedback,
         field: "creditCard.cardNumber"
-      }))), React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
+      }))), React__default.createElement(reactstrap.FormGroup, {
+        className: "square-expiration-cvv"
+      }, React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
+        className: "square-expiration",
         xs: "6"
       }, React__default.createElement(reactstrap.Label, null, "Expiration Date"), React__default.createElement("div", {
         "class": "custom-file"
@@ -1427,13 +1499,17 @@ function (_PaymentServiceProvid) {
       }, React__default.createElement("div", {
         id: "sq-expiration-date"
       })), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "square-expiration-errors",
         component: reactstrap.FormFeedback,
         field: "creditCard.expirationDate"
       }))), React__default.createElement(reactstrap.Col, {
+        className: "square-cvv",
         xs: "3"
       }, React__default.createElement(reactstrap.Label, null, "CVV"), React__default.createElement("div", {
         id: "sq-cvv"
-      })))), React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Label, null, "Postal Code"), React__default.createElement("div", {
+      })))), React__default.createElement(reactstrap.FormGroup, {
+        className: "square-postal-code"
+      }, React__default.createElement(reactstrap.Label, null, "Postal Code"), React__default.createElement("div", {
         "class": "custom-file"
       }, React__default.createElement("div", {
         className: "custom-file-input is-invalid",
@@ -1443,6 +1519,7 @@ function (_PaymentServiceProvid) {
       }, React__default.createElement("div", {
         id: "sq-postal-code"
       })), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "square-postal-code-errors",
         component: reactstrap.FormFeedback,
         field: "creditCard.postalCode"
       })))));
@@ -1501,7 +1578,9 @@ function (_PureComponent) {
           _this2.pspForm = form;
         }
       };
-      return React__default.createElement("section", null, {
+      return React__default.createElement("section", {
+        className: "payment"
+      }, {
         cash: React__default.createElement(Cash, null),
         spreedly: React__default.createElement(Spreedly, pspFormProps),
         square: React__default.createElement(Square, pspFormProps)
@@ -1563,7 +1642,9 @@ function (_PureComponent) {
         label.push(React__default.createElement("span", null, "\xA0*"));
       }
 
-      return React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.FormGroup, {
+      return React__default.createElement(reactstrap.FormGroup, {
+        className: "checkbox-container"
+      }, React__default.createElement(reactstrap.FormGroup, {
         check: true
       }, React__default.createElement(reactstrap.Label, {
         check: true
@@ -1611,7 +1692,9 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
-      return React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Label, null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+      return React__default.createElement(reactstrap.FormGroup, {
+        className: "dropdown-container"
+      }, React__default.createElement(reactstrap.Label, null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
         name: "option",
         type: "select",
         component: reactstrap.Input,
@@ -1645,6 +1728,7 @@ function (_PureComponent) {
     value: function render() {
       var answer = this.props.answer;
       return React__default.createElement(reactstrap.FormGroup, {
+        className: "option-list-container",
         tag: "fieldset"
       }, React__default.createElement("label", null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
         type: "radioGroup"
@@ -1714,14 +1798,16 @@ function (_PureComponent) {
         }));
       }
 
-      return React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Label, null, label), React__default.createElement(mitragyna.Field, {
+      return React__default.createElement(reactstrap.FormGroup, {
+        className: "spin-button-container"
+      }, React__default.createElement(reactstrap.Label, null, label), React__default.createElement(mitragyna.Field, {
         name: "value",
         type: "number",
         component: reactstrap.Input,
         max: question.max,
         min: question.min
       }), React__default.createElement(reactstrap.FormText, {
-        className: "text-right"
+        className: "spin-button-calculation"
       }, priceContribution));
     }
   }]);
@@ -1748,7 +1834,9 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
-      return React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Label, null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+      return React__default.createElement(reactstrap.FormGroup, {
+        className: "text-area-container"
+      }, React__default.createElement(reactstrap.Label, null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
         name: "value",
         type: "textarea",
         component: reactstrap.Input
@@ -1778,7 +1866,9 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
-      return React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Label, null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+      return React__default.createElement(reactstrap.FormGroup, {
+        className: "text-input-container"
+      }, React__default.createElement(reactstrap.Label, null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
         name: "value",
         type: "text",
         component: reactstrap.Input
@@ -1808,7 +1898,9 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
-      return React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.Card, {
+      return React__default.createElement(reactstrap.FormGroup, {
+        className: "waiver-container"
+      }, React__default.createElement(reactstrap.Card, {
         color: "light"
       }, React__default.createElement(reactstrap.CardBody, null, React__default.createElement(reactstrap.CardText, null, ReactHtmlParser(answer.question().waiverText)))), React__default.createElement(reactstrap.FormGroup, {
         check: true
@@ -1901,17 +1993,19 @@ function (_PureComponent) {
       var _this$props = this.props,
           subject = _this$props.subject,
           questions = _this$props.questions;
-      return React__default.createElement("section", null, questions.map(function (question) {
+      return React__default.createElement("section", {
+        className: "questions"
+      }, questions.map(function (question) {
         switch (question.formControl) {
           case 'text_output':
             if (question.displayAsTitle) {
               return React__default.createElement("legend", {
-                className: "question textOutput",
+                className: "question text-output-title",
                 key: question.id
               }, question.title);
             } else {
               return React__default.createElement("p", {
-                className: "question textOutput",
+                className: "question text-output",
                 key: question.id
               }, question.title);
             }
@@ -1977,12 +2071,18 @@ function (_PureComponent) {
       }
 
       return React__default.createElement(reactstrap.Card, {
-        className: "mb-2"
-      }, React__default.createElement(reactstrap.CardBody, null, React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
-        xs: "9"
-      }, React__default.createElement(reactstrap.CardTitle, null, subject.name, " - ", subject.code)), React__default.createElement(reactstrap.Col, {
-        xs: "3"
-      }, React__default.createElement(reactstrap.CardText, null, discount)))));
+        className: "coupon-container"
+      }, React__default.createElement(reactstrap.CardBody, {
+        className: "coupon"
+      }, React__default.createElement(reactstrap.Button, {
+        className: "close"
+      }, React__default.createElement("span", {
+        "aria-hidden": "true"
+      }, "\xD7")), React__default.createElement(reactstrap.CardTitle, {
+        className: "coupon-title"
+      }, subject.name, " - ", subject.code), React__default.createElement(reactstrap.CardText, {
+        className: "coupon-message"
+      }, discount)));
     }
   }]);
 
@@ -2016,20 +2116,28 @@ function (_PureComponent) {
       var transactionValue = Decimal(subject.amount);
       var remainingBalance = giftCardValue.minus(transactionValue);
       return React__default.createElement(reactstrap.Card, {
-        className: "mb-2"
-      }, React__default.createElement(reactstrap.CardBody, null, React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
-        xs: "9"
-      }, React__default.createElement(reactstrap.CardTitle, null, "Gift Card - ", subject.paymentMethod().code), React__default.createElement(reactstrap.FormText, null, "Remaining balance will be ", React__default.createElement(Currency, {
+        className: "gift-card-container"
+      }, React__default.createElement(reactstrap.CardBody, {
+        className: "gift-card"
+      }, React__default.createElement(reactstrap.Button, {
+        className: "close"
+      }, React__default.createElement("span", {
+        "aria-hidden": "true"
+      }, "\xD7")), React__default.createElement(reactstrap.CardText, {
+        className: "gift-card-messages"
+      }, React__default.createElement(reactstrap.CardTitle, {
+        className: "gift-card-title"
+      }, "Gift Card - ", subject.paymentMethod().code), React__default.createElement(reactstrap.FormText, {
+        className: "gift-card-remaining-balance"
+      }, "Remaining balance will be ", React__default.createElement(Currency, {
         currency: currency,
         quantity: remainingBalance.toNumber()
-      }), " after checkout.")), React__default.createElement(reactstrap.Col, {
-        xs: "3"
-      }, React__default.createElement(reactstrap.CardText, {
-        className: "text-right"
-      }, React__default.createElement("h4", null, React__default.createElement(Currency, {
+      }), " after checkout.")), React__default.createElement(reactstrap.CardText, {
+        className: "gift-card-value"
+      }, React__default.createElement(Currency, {
         currency: currency,
         quantity: giftCardValue.toNumber()
-      })))))));
+      }))));
     }
   }]);
 
@@ -2163,18 +2271,27 @@ function (_PureComponent) {
           subject: giftCardTransaction
         }));
       });
-      return React__default.createElement("section", null, redeemables, this.showInput() ? React__default.createElement(reactstrap.FormGroup, null, React__default.createElement(reactstrap.InputGroup, {
+      return React__default.createElement("section", {
+        className: "redeemables"
+      }, React__default.createElement("section", {
+        className: "redeemables-list"
+      }, redeemables), this.showInput() ? React__default.createElement(reactstrap.FormGroup, {
+        className: "redeemable-code"
+      }, React__default.createElement(reactstrap.InputGroup, {
         className: order.errors().forField('redeemables.code').empty() ? '' : 'is-invalid'
       }, React__default.createElement(reactstrap.Input, {
+        className: "redeemable-code-input",
         onChange: this.handleChange,
         value: code
       }), React__default.createElement(reactstrap.InputGroupAddon, {
         addonType: "append"
       }, React__default.createElement(reactstrap.Button, {
+        className: "redeemable-code-input-button",
         onClick: function onClick() {
           return _this2.checkForRedeemable(code);
         }
       }, "Search"))), React__default.createElement(mitragyna.ErrorsFor, {
+        className: "redeemable-code-errors",
         component: reactstrap.FormFeedback,
         field: "redeemables.code"
       })) : null);
@@ -2242,42 +2359,43 @@ function (_PureComponent) {
       switch (section) {
         case 'contact':
           return React__default.createElement("h2", {
+            className: "container-title",
             id: "widgetContactTitle"
           }, _.isNull(product.widgetContactTitle) ? "Contact Information" : product.widgetContactTitle);
 
         case 'timeSlots':
           return React__default.createElement("h2", {
-            className: "mt-3 mb-2",
+            className: "container-title",
             id: "widgetTimeSlotsTitle"
           }, _.isNull(product.widgetTimeSlotsTitle) ? "Time Slots" : product.widgetTimeSlotsTitle);
 
         case 'questions':
           return React__default.createElement("h2", {
-            className: "mt-3 mb-2",
+            className: "container-title",
             id: "widgetQuestionsTitle"
           }, _.isNull(product.widgetQuestionsTitle) ? "Additional Information" : product.widgetQuestionsTitle);
 
         case 'attendees':
           return React__default.createElement("h2", {
-            className: "mt-3 mb-2",
+            className: "container-title",
             id: "widgetAttendeesTitle"
           }, "Attendee Information");
 
         case 'payment':
           return React__default.createElement("h2", {
-            className: "mt-3 mb-2",
+            className: "container-title",
             id: "widgetPaymentTitle"
           }, _.isNull(product.widgetPaymentTitle) ? "Payment Information" : product.widgetPaymentTitle);
 
         case 'redeemables':
           return React__default.createElement("h2", {
-            className: "mt-3 mb-2",
+            className: "container-title",
             id: "widgetRedeemableTitle"
           }, "Coupons and Gift Cards");
 
         case 'totalDue':
           return React__default.createElement("h2", {
-            className: "mt-3 mb-2",
+            className: "container-title",
             id: "widgetTotalDueTitle"
           }, _.isNull(product.widgetTotalDueTitle) ? "Total Due Today" : product.widgetTotalDueTitle);
       }
@@ -2365,41 +2483,58 @@ function (_PureComponent) {
           subject = _this$props.subject;
       var customer = subject.customer();
       var product = subject.product();
-      return React__default.createElement("section", null, this.headerForSection('contact'), React__default.createElement(mitragyna.Resource, {
+      return React__default.createElement("section", {
+        className: "order-container"
+      }, React__default.createElement("section", {
+        className: "customer-container"
+      }, this.headerForSection('contact'), React__default.createElement(mitragyna.Resource, {
         component: Customer,
         reflection: "customer",
         subject: customer
-      }), product.firstTimeSlotStartsAt ? React__default.createElement("section", null, this.headerForSection('timeSlots'), React__default.createElement(TimeSlotsContainer$1, {
+      })), product.firstTimeSlotStartsAt ? React__default.createElement("section", {
+        className: "time-slots-container"
+      }, this.headerForSection('timeSlots'), React__default.createElement(TimeSlotsContainer$1, {
         order: subject
-      })) : null, this.showQuestions() ? React__default.createElement("section", null, this.headerForSection('questions'), React__default.createElement(Questions, {
+      })) : null, this.showQuestions() ? React__default.createElement("section", {
+        className: "questions-container"
+      }, this.headerForSection('questions'), React__default.createElement(Questions, {
         subject: subject,
         questions: product.questions().target()
-      })) : null, this.showAttendees() ? React__default.createElement("section", null, this.headerForSection('attendees'), React__default.createElement(Attendees, {
+      })) : null, this.showAttendees() ? React__default.createElement("section", {
+        className: "attendees-container"
+      }, this.headerForSection('attendees'), React__default.createElement(Attendees, {
         questions: product.attendeeQuestions,
         subject: subject
-      })) : null, this.showRedeemables() ? React__default.createElement("section", null, this.headerForSection('redeemables'), React__default.createElement(Redeemables, {
+      })) : null, this.showRedeemables() ? React__default.createElement("section", {
+        className: "redeemables-container"
+      }, this.headerForSection('redeemables'), React__default.createElement(Redeemables, {
         findRedeemable: findRedeemable,
         order: subject,
         onChange: afterUpdate,
         onErrors: afterError
-      })) : null, this.showPaymentForm() ? React__default.createElement("section", null, this.headerForSection('payment'), React__default.createElement(PaymentForm, {
+      })) : null, this.showPaymentForm() ? React__default.createElement("section", {
+        className: "payment-container"
+      }, this.headerForSection('payment'), React__default.createElement(PaymentForm, {
         order: subject,
         ref: function ref(form) {
           return _this2.paymentForm = form;
         }
-      })) : null, this.showPrice() ? React__default.createElement("section", null, this.headerForSection('totalDue'), React__default.createElement(Pricing, {
+      })) : null, this.showPrice() ? React__default.createElement("section", {
+        className: "total-due-container"
+      }, this.headerForSection('totalDue'), React__default.createElement(Pricing, {
         order: subject
       })) : null, React__default.createElement("section", {
-        className: "mt-3"
+        className: "missing-answers-container"
       }, React__default.createElement(MissingAnswers, {
         order: subject,
         ref: function ref(r) {
           return _this2.missingAnswers = r;
         }
       })), React__default.createElement("section", {
-        className: "mt-3 mb-3"
+        className: "book-order-container"
       }, React__default.createElement(reactstrap.Button, {
         block: true,
+        className: "book-order-button",
         color: "success",
         id: "bookOrder",
         size: "lg",
@@ -2441,11 +2576,19 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var order = this.props.order;
-      return React__default.createElement("section", null, React__default.createElement(reactstrap.Jumbotron, null, React__default.createElement("h1", null, "Order #", order.verificationCode), React__default.createElement("hr", null), React__default.createElement("section", {
-        className: "event"
+      return React__default.createElement("section", {
+        className: "order-complete-container"
+      }, React__default.createElement("h1", {
+        className: "verification-code"
+      }, "Order #", order.verificationCode), React__default.createElement("section", {
+        className: "order-complete-time-slot-details"
       }, React__default.createElement("h4", null, order.timeSlots().target().first().startsAt.format('dddd MMMM Do, YYYY h:mm A'))), React__default.createElement("section", {
-        className: "message"
-      }, React__default.createElement("p", null, order.product().postTransactionalMessage), React__default.createElement("p", null, "An order confirmation email with receipt has been sent to ", order.customer().email, "."))));
+        className: "order-complete-messages"
+      }, React__default.createElement("p", {
+        className: "post-transactional"
+      }, order.product().postTransactionalMessage), React__default.createElement("p", {
+        className: "confirmation"
+      }, "An order confirmation email with receipt has been sent to ", order.customer().email, ".")));
     }
   }]);
 
@@ -2519,11 +2662,24 @@ function (_PureComponent) {
     value: function componentWillReceiveProps(nextProps) {
       var _this$props = this.props,
           actions = _this$props.actions,
+          callbacks = _this$props.callbacks,
           data = _this$props.data;
 
-      if (data.order == null && nextProps.data.order != null) {
-        actions.saveOrder(nextProps.data.order);
+      if (nextProps.data.order != null) {
+        if (data.order == null) actions.saveOrder(nextProps.data.order);
+        if (callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
       }
+
+      if (data.product == null && nextProps.data.product != null) {
+        if (callbacks && callbacks.onProductLoad) callbacks.onProductLoad(nextProps.data.product);
+      }
+    }
+  }, {
+    key: "getChildContext",
+    value: function getChildContext() {
+      return {
+        callbackProps: this.props.callbacks
+      };
     }
   }, {
     key: "render",
@@ -2543,17 +2699,14 @@ function (_PureComponent) {
         body = this.renderLoadingScreen();
       }
 
-      return React__default.createElement(reactstrap.Container, null, React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
-        sm: {
-          size: 10,
-          offset: 1
-        }
-      }, body)));
+      return React__default.createElement(reactstrap.Container, null, body);
     }
   }, {
     key: "renderLoadingScreen",
     value: function renderLoadingScreen() {
-      return React__default.createElement("section", null, React__default.createElement("p", null, "Loading..."));
+      return React__default.createElement("section", {
+        className: "order-loading"
+      }, React__default.createElement("p", null, "Loading..."));
     }
   }, {
     key: "renderBookingScreen",
@@ -2561,9 +2714,9 @@ function (_PureComponent) {
       var _this$props3 = this.props,
           actions = _this$props3.actions,
           data = _this$props3.data;
-      return React__default.createElement("section", null, React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, null, React__default.createElement(Header, {
-        product: data.product
-      }))), data.order ? React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, null, React__default.createElement(mitragyna.Resource, {
+      return React__default.createElement("section", {
+        className: "occsn-app-container"
+      }, data.order ? React__default.createElement(mitragyna.Resource, {
         afterError: actions.setOrder,
         afterUpdate: actions.saveOrder,
         component: Order,
@@ -2575,7 +2728,7 @@ function (_PureComponent) {
         onSubmit: actions.bookOrder,
         onInvalidSubmit: actions.setOrder,
         subject: data.order
-      }))) : null);
+      }) : null);
     }
   }, {
     key: "renderCompleteScreen",
@@ -2590,9 +2743,15 @@ function (_PureComponent) {
   return AppContainer;
 }(React.PureComponent); // See https://github.com/reactjs/react-redux/blob/master/docs/api.md#examples
 
-_defineProperty(AppContainer, "propTypes", {
+_defineProperty(_defineProperty(AppContainer, "propTypes", {
   actions: PropTypes.object.isRequired,
+  callbacks: PropTypes.shape({
+    onOrderChange: PropTypes.func,
+    onProductLoad: PropTypes.func
+  }),
   data: PropTypes.object.isRequired
+}), "childContextTypes", {
+  callbackProps: PropTypes.object
 });
 
 var AppContainer$1 = reactRedux.connect(stateToProps$1, dispatchToProps$1)(AppContainer);

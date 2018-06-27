@@ -29,3 +29,7 @@
 .input-group.is-invalid ~ .invalid-feedback {
     display: block;
 }
+
+.attendees .card, .redeemables .card {
+    margin-bottom: 10px;
+}
