@@ -44,7 +44,15 @@ function dispatchToProps(dispatch) {
 export class AppContainer extends PureComponent {
   static propTypes = {
     actions: PropTypes.object.isRequired,
+    callbacks: PropTypes.shape({
+      onOrderChange: PropTypes.func,
+      onProductLoad: PropTypes.func,
+    }),
     data: PropTypes.object.isRequired,
+  };
+
+  static childContextTypes = {
+    callbackProps: PropTypes.object,
   };
 
   constructor(props) {
@@ -65,10 +73,22 @@ export class AppContainer extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { actions, data } = this.props;
+    const { actions, callbacks, data } = this.props;
 
-    if(data.order == null && nextProps.data.order != null) {
-      actions.saveOrder(nextProps.data.order);
+    if(nextProps.data.order != null) {
+      if(data.order == null) actions.saveOrder(nextProps.data.order);
+
+      if(callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
+    }
+
+    if(data.product == null && nextProps.data.product != null) {
+      if(callbacks && callbacks.onProductLoad) callbacks.onProductLoad(nextProps.data.product);
+    }
+  }
+
+  getChildContext() {
+    return {
+      callbackProps: this.props.callbacks,
     }
   }
 
