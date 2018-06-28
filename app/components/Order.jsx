@@ -208,11 +208,6 @@ export default class Order extends PureComponent {
     let product = subject.product();
 
     return <section className="order-container">
-      <section className="customer-container">
-        { this.headerForSection('contact') }
-        <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
-      </section>
-
       {
         product.firstTimeSlotStartsAt ? (
           <section className="time-slots-container">
@@ -221,6 +216,11 @@ export default class Order extends PureComponent {
           </section>
         ) : (null)
       }
+
+      <section className="customer-container">
+        { this.headerForSection('contact') }
+        <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
+      </section>
 
       {
         this.showQuestions() ? (
