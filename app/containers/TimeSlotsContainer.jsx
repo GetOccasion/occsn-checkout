@@ -35,6 +35,7 @@ function dispatchToProps(dispatch) {
       loadProductCalendar: (product) => dispatch(calendarActions.loadProductCalendar(product)),
       loadProductTimeSlots: (product) => dispatch(calendarActions.loadProductTimeSlots(product)),
       saveOrder: (order) => dispatch(appActions.saveOrder(order)),
+      setOrder: (order) => dispatch(appActions.setOrder(order)),
       setActiveTimeSlotsCollection: (timeSlots) => dispatch(calendarActions.setActiveTimeSlotsCollection(timeSlots)),
       setTimeSlotsFromCalendar: (timeSlots) => dispatch(calendarActions.setTimeSlotsFromCalendar(timeSlots)),
     }
@@ -94,6 +95,7 @@ export class TimeSlotsContainer extends PureComponent {
 
     if(callbackProps.onTimeSelect) callbackProps.onTimeSelect(order);
 
+    actions.setOrder(order);
     actions.saveOrder(order);
   }
 
