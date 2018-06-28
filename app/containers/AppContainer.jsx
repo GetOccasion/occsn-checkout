@@ -51,10 +51,15 @@ export class AppContainer extends PureComponent {
       onTimeSelect: PropTypes.func,
     }),
     data: PropTypes.object.isRequired,
+    format: PropTypes.shape({
+      calendarTimeSlotsSelector: PropTypes.string,
+      listTimeSlotsSelector: PropTypes.string,
+    })
   };
 
   static childContextTypes = {
     callbackProps: PropTypes.object,
+    formatProps: PropTypes.object,
   };
 
   constructor(props) {
@@ -91,6 +96,7 @@ export class AppContainer extends PureComponent {
   getChildContext() {
     return {
       callbackProps: this.props.callbacks || {},
+      formatProps: this.props.format || {},
     }
   }
 

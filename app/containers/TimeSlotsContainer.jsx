@@ -137,7 +137,7 @@ export class TimeSlotsContainer extends PureComponent {
               <h3 className="calendar-date-selected">{data.timeSlotsFromCalendar.first().startsAt.format('dddd, MMMM Do')}</h3>
             ) : null
           }
-          <TimeSlotsSelector onSelect={this.onTimeSelect} subject={order} timeSlots={data.timeSlotsFromCalendar} />
+          <TimeSlotsSelector calendar={true} onSelect={this.onTimeSelect} subject={order} timeSlots={data.timeSlotsFromCalendar} />
         </section>;
       case 'list':
         return <section className="list-view">

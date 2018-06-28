@@ -11,12 +11,17 @@ import occsn from '../libs/Occasion';
 
 export default class TimeSlotsSelector extends PureComponent {
   static propTypes = {
+    calendar: PropTypes.bool,
     disabled: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
     timeSlots: PropTypes.shape({
       __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
     }).isRequired,
+  };
+
+  static contextTypes = {
+    formatProps: PropTypes.object,
   };
 
   constructor() {
@@ -38,7 +43,8 @@ export default class TimeSlotsSelector extends PureComponent {
   }
 
   render() {
-    let { disabled, timeSlots, subject } = this.props;
+    let { calendar, disabled, timeSlots, subject } = this.props;
+    let { formatProps } = this.context;
 
     var customControlInputClassNames = classNames(
       'custom-control-input',
@@ -46,6 +52,14 @@ export default class TimeSlotsSelector extends PureComponent {
         'is-invalid': !subject.errors().forField('timeSlots').empty()
       }
     );
+
+    var timeSlotFormat;
+
+    if(calendar) {
+      timeSlotFormat = formatProps.calendarTimeSlotsSelector || 'LT';
+    } else {
+      timeSlotFormat = formatProps.calendarTimeSlotsSelector || 'LLLL';
+    }
 
     return <section className='time-slots-selector'>
       <section className="time-slots-selector-buttons">
@@ -59,7 +73,7 @@ export default class TimeSlotsSelector extends PureComponent {
               onClick={() => this.selectTimeSlot(timeSlot)}
               outline
             >
-              { timeSlot.startsAt.format('lll') }
+              { timeSlot.startsAt.format(timeSlotFormat) }
             </Button>
           )
         }).toArray()
