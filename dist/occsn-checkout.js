@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.7
+ * occsn-checkout v0.0.8
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -488,15 +488,28 @@ function (_PureComponent) {
       var _this2 = this;
 
       var _this$props2 = this.props,
+          calendar = _this$props2.calendar,
           disabled = _this$props2.disabled,
           timeSlots = _this$props2.timeSlots,
           subject = _this$props2.subject;
+      var formatProps = this.context.formatProps;
       var customControlInputClassNames = classNames('custom-control-input', {
         'is-invalid': !subject.errors().forField('timeSlots').empty()
       });
+      var timeSlotFormat;
+
+      if (calendar) {
+        timeSlotFormat = formatProps.calendarTimeSlotsSelector || 'LT';
+      } else {
+        timeSlotFormat = formatProps.calendarTimeSlotsSelector || 'LLLL';
+      }
+
       return React__default.createElement("section", {
         className: "time-slots-selector"
-      }, React__default.createElement("section", {
+      }, React__default.createElement("a", {
+        name: "time-slots",
+        id: "time-slots-anchor"
+      }), React__default.createElement("section", {
         className: "time-slots-selector-buttons"
       }, timeSlots.map(function (timeSlot) {
         return React__default.createElement(reactstrap.Button, {
@@ -508,7 +521,7 @@ function (_PureComponent) {
             return _this2.selectTimeSlot(timeSlot);
           },
           outline: true
-        }, timeSlot.startsAt.format('lll'));
+        }, timeSlot.startsAt.format(timeSlotFormat));
       }).toArray()), React__default.createElement("section", {
         className: "time-slots-selector-errors custom-control"
       }, React__default.createElement("div", {
@@ -523,13 +536,16 @@ function (_PureComponent) {
   return TimeSlotsSelector;
 }(React.PureComponent);
 
-_defineProperty(TimeSlotsSelector, "propTypes", {
+_defineProperty(_defineProperty(TimeSlotsSelector, "propTypes", {
+  calendar: PropTypes.bool,
   disabled: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
   subject: PropTypes.instanceOf(occsn.Order).isRequired,
   timeSlots: PropTypes.shape({
     __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
   }).isRequired
+}), "contextTypes", {
+  formatProps: PropTypes.object
 });
 
 var Calendar =
@@ -577,7 +593,10 @@ function (_PureComponent) {
       }).flatten().toArray();
       return React__default.createElement("section", {
         className: "calendar"
-      }, React__default.createElement(FullCalendar, {
+      }, React__default.createElement("a", {
+        name: "calendar",
+        id: "calendar-anchor"
+      }), React__default.createElement(FullCalendar, {
         header: false,
         dayClick: this.dateClicked,
         defaultDate: calendarTimeSlots.first().day,
@@ -700,6 +719,9 @@ function dispatchToProps(dispatch) {
       saveOrder: function saveOrder$$1(order) {
         return dispatch(saveOrder(order));
       },
+      setOrder: function setOrder$$1(order) {
+        return dispatch(setOrder(order));
+      },
       setActiveTimeSlotsCollection: function setActiveTimeSlotsCollection$$1(timeSlots) {
         return dispatch(setActiveTimeSlotsCollection(timeSlots));
       },
@@ -763,6 +785,7 @@ function (_PureComponent) {
       var actions = this.props.actions;
       var callbackProps = this.context.callbackProps;
       if (callbackProps.onTimeSelect) callbackProps.onTimeSelect(order);
+      actions.setOrder(order);
       actions.saveOrder(order);
     }
   }, {
@@ -803,7 +826,10 @@ function (_PureComponent) {
           }))), React__default.createElement(Calendar, {
             onDateSelect: this.onDateSelect,
             calendarTimeSlots: data.activeTimeSlotsCollection
-          }), React__default.createElement(TimeSlotsSelector, {
+          }), data.timeSlotsFromCalendar.first() ? React__default.createElement("h3", {
+            className: "calendar-date-selected"
+          }, data.timeSlotsFromCalendar.first().startsAt.format('dddd, MMMM Do')) : null, React__default.createElement(TimeSlotsSelector, {
+            calendar: true,
             onSelect: this.onTimeSelect,
             subject: order,
             timeSlots: data.timeSlotsFromCalendar
@@ -2509,47 +2535,67 @@ function (_PureComponent) {
       var product = subject.product();
       return React__default.createElement("section", {
         className: "order-container"
-      }, React__default.createElement("section", {
-        className: "customer-container"
-      }, this.headerForSection('contact'), React__default.createElement(mitragyna.Resource, {
-        component: Customer,
-        reflection: "customer",
-        subject: customer
-      })), product.firstTimeSlotStartsAt ? React__default.createElement("section", {
+      }, product.firstTimeSlotStartsAt ? React__default.createElement("section", {
         className: "time-slots-container"
       }, this.headerForSection('timeSlots'), React__default.createElement(TimeSlotsContainer$1, {
         order: subject
-      })) : null, this.showQuestions() ? React__default.createElement("section", {
+      })) : null, React__default.createElement("section", {
+        className: "customer-container"
+      }, React__default.createElement("a", {
+        name: "customer",
+        id: "customer-anchor"
+      }), this.headerForSection('contact'), React__default.createElement(mitragyna.Resource, {
+        component: Customer,
+        reflection: "customer",
+        subject: customer
+      })), this.showQuestions() ? React__default.createElement("section", {
         className: "questions-container"
-      }, this.headerForSection('questions'), React__default.createElement(Questions, {
+      }, React__default.createElement("a", {
+        name: "questions",
+        id: "questions-anchor"
+      }), this.headerForSection('questions'), React__default.createElement(Questions, {
         subject: subject,
         questions: product.questions().target()
       })) : null, this.showAttendees() ? React__default.createElement("section", {
         className: "attendees-container"
-      }, this.headerForSection('attendees'), React__default.createElement(Attendees, {
+      }, React__default.createElement("a", {
+        name: "attendees",
+        id: "attendees-anchor"
+      }), this.headerForSection('attendees'), React__default.createElement(Attendees, {
         questions: product.attendeeQuestions,
         subject: subject
       })) : null, this.showRedeemables() ? React__default.createElement("section", {
         className: "redeemables-container"
-      }, this.headerForSection('redeemables'), React__default.createElement(Redeemables, {
+      }, React__default.createElement("a", {
+        name: "redeemables",
+        id: "redeemables-anchor"
+      }), this.headerForSection('redeemables'), React__default.createElement(Redeemables, {
         findRedeemable: findRedeemable,
         order: subject,
         onChange: afterUpdate,
         onErrors: afterError
       })) : null, this.showPaymentForm() ? React__default.createElement("section", {
         className: "payment-container"
-      }, this.headerForSection('payment'), React__default.createElement(PaymentForm, {
+      }, React__default.createElement("a", {
+        name: "payment",
+        id: "payment-anchor"
+      }), this.headerForSection('payment'), React__default.createElement(PaymentForm, {
         order: subject,
         ref: function ref(form) {
           return _this2.paymentForm = form;
         }
       })) : null, this.showPrice() ? React__default.createElement("section", {
         className: "total-due-container"
-      }, this.headerForSection('totalDue'), React__default.createElement(Pricing, {
+      }, React__default.createElement("a", {
+        name: "total-due",
+        id: "total-due-anchor"
+      }), this.headerForSection('totalDue'), React__default.createElement(Pricing, {
         order: subject
       })) : null, React__default.createElement("section", {
         className: "missing-answers-container"
-      }, React__default.createElement(MissingAnswers, {
+      }, React__default.createElement("a", {
+        name: "missing-answers"
+      }), React__default.createElement(MissingAnswers, {
         order: subject,
         ref: function ref(r) {
           return _this2.missingAnswers = r;
@@ -2692,6 +2738,10 @@ function (_PureComponent) {
       if (nextProps.data.order != null) {
         if (data.order == null) actions.saveOrder(nextProps.data.order);
         if (callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
+
+        if (callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
+          callbacks.onOrderComplete(nextProps.data.order);
+        }
       }
 
       if (data.product == null && nextProps.data.product != null) {
@@ -2702,7 +2752,8 @@ function (_PureComponent) {
     key: "getChildContext",
     value: function getChildContext() {
       return {
-        callbackProps: this.props.callbacks || {}
+        callbackProps: this.props.callbacks || {},
+        formatProps: this.props.format || {}
       };
     }
   }, {
@@ -2773,13 +2824,19 @@ _defineProperty(_defineProperty(AppContainer, "propTypes", {
   actions: PropTypes.object.isRequired,
   callbacks: PropTypes.shape({
     onDateSelect: PropTypes.func,
+    onOrderComplete: PropTypes.func,
     onOrderChange: PropTypes.func,
     onProductLoad: PropTypes.func,
     onTimeSelect: PropTypes.func
   }),
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  format: PropTypes.shape({
+    calendarTimeSlotsSelector: PropTypes.string,
+    listTimeSlotsSelector: PropTypes.string
+  })
 }), "childContextTypes", {
-  callbackProps: PropTypes.object
+  callbackProps: PropTypes.object,
+  formatProps: PropTypes.object
 });
 
 var AppContainer$1 = reactRedux.connect(stateToProps$1, dispatchToProps$1)(AppContainer);
