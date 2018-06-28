@@ -46,6 +46,7 @@ export class AppContainer extends PureComponent {
     actions: PropTypes.object.isRequired,
     callbacks: PropTypes.shape({
       onDateSelect: PropTypes.func,
+      onOrderComplete: PropTypes.func,
       onOrderChange: PropTypes.func,
       onProductLoad: PropTypes.func,
       onTimeSelect: PropTypes.func,
@@ -86,6 +87,9 @@ export class AppContainer extends PureComponent {
       if(data.order == null) actions.saveOrder(nextProps.data.order);
 
       if(callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
+      if(callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
+        callbacks.onOrderComplete(nextProps.data.order);
+      }
     }
 
     if(data.product == null && nextProps.data.product != null) {
