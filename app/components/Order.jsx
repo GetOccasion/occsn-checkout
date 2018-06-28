@@ -218,6 +218,7 @@ export default class Order extends PureComponent {
       }
 
       <section className="customer-container">
+        <a name="customer" id="customer-anchor"></a>
         { this.headerForSection('contact') }
         <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
       </section>
@@ -225,6 +226,7 @@ export default class Order extends PureComponent {
       {
         this.showQuestions() ? (
           <section className="questions-container">
+            <a name="questions" id="questions-anchor"></a>
             { this.headerForSection('questions') }
             <Questions subject={subject} questions={ product.questions().target() }></Questions>
           </section>
@@ -234,6 +236,7 @@ export default class Order extends PureComponent {
       {
         this.showAttendees() ? (
           <section className="attendees-container">
+            <a name="attendees" id="attendees-anchor"></a>
             { this.headerForSection('attendees') }
             <Attendees questions={product.attendeeQuestions} subject={subject}></Attendees>
           </section>
@@ -243,6 +246,7 @@ export default class Order extends PureComponent {
       {
         this.showRedeemables() ? (
           <section className="redeemables-container">
+            <a name="redeemables" id="redeemables-anchor"></a>
             { this.headerForSection('redeemables') }
             <Redeemables findRedeemable={findRedeemable} order={subject} onChange={afterUpdate} onErrors={afterError}></Redeemables>
           </section>
@@ -252,6 +256,7 @@ export default class Order extends PureComponent {
       {
         this.showPaymentForm() ? (
           <section className="payment-container">
+            <a name="payment" id="payment-anchor"></a>
             { this.headerForSection('payment') }
             <PaymentForm order={subject} ref={(form) => this.paymentForm = form }></PaymentForm>
           </section>
@@ -261,6 +266,7 @@ export default class Order extends PureComponent {
       {
         this.showPrice() ? (
           <section className="total-due-container">
+            <a name="total-due" id="total-due-anchor"></a>
             { this.headerForSection('totalDue') }
             <Pricing order={subject}></Pricing>
           </section>
@@ -268,6 +274,7 @@ export default class Order extends PureComponent {
       }
 
       <section className="missing-answers-container">
+        <a name="missing-answers"></a>
         <MissingAnswers order={subject} ref={(r) => this.missingAnswers = r }></MissingAnswers>
       </section>
 

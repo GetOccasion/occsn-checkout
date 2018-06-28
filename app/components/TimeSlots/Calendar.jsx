@@ -57,6 +57,7 @@ export default class Calendar extends PureComponent {
     }).flatten().toArray();
 
     return <section className="calendar">
+      <a name="calendar" id="calendar-anchor"></a>
       <FullCalendar
         header={false}
         dayClick={this.dateClicked}
