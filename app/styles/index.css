@@ -30,6 +30,6 @@
     display: block;
 }
 
-.attendees .card, .redeemables .card {
+.attendees .card, .calendar, .redeemables .card {
     margin-bottom: 10px;
 }
