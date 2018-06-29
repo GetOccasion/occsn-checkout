@@ -134,6 +134,7 @@ export class TimeSlotsContainer extends PureComponent {
             </Col>
           </Row>
           <Calendar onDateSelect={this.onDateSelect} calendarTimeSlots={data.activeTimeSlotsCollection}/>
+          <a name="time-slots-selector" id="time-slots-selector-anchor"></a>
           {
             data.timeSlotsFromCalendar.first() ? (
               <h3 className="calendar-date-selected">{data.timeSlotsFromCalendar.first().startsAt.format('dddd, MMMM Do')}</h3>
@@ -148,6 +149,7 @@ export class TimeSlotsContainer extends PureComponent {
               <p>Sessions are purchased together</p>
             ) : (null)
           }
+          <a name="time-slots-selector" id="time-slots-selector-anchor"></a>
           <TimeSlotsSelector disabled={data.product.sellsSessions} onSelect={this.onTimeSelect} subject={order} timeSlots={data.activeTimeSlotsCollection} />
           {
             !data.product.sellsSessions ? (

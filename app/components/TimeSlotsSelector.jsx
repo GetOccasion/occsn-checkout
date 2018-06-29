@@ -62,7 +62,6 @@ export default class TimeSlotsSelector extends PureComponent {
     }
 
     return <section className='time-slots-selector'>
-      <a name="time-slots" id="time-slots-anchor"></a>
       <section className="time-slots-selector-buttons">
         { timeSlots.map((timeSlot) => {
           return (

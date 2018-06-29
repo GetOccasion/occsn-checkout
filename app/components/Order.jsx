@@ -211,6 +211,7 @@ export default class Order extends PureComponent {
       {
         product.firstTimeSlotStartsAt ? (
           <section className="time-slots-container">
+            <a name="time-slots" id="time-slots-anchor"></a>
             { this.headerForSection('timeSlots') }
             <TimeSlotsContainer order={subject} />
           </section>
