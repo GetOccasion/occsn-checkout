@@ -52,6 +52,7 @@ export class TimeSlotsContainer extends PureComponent {
 
   static contextTypes = {
     callbackProps: PropTypes.object,
+    componentProps: PropTypes.object,
   };
 
   constructor() {
@@ -114,8 +115,16 @@ export class TimeSlotsContainer extends PureComponent {
   }
 
   renderLoadingScreen() {
+    const { componentProps } = this.context;
+
+    var loadingComponent;
+
+    if(componentProps.timeSlotsLoading) {
+      loadingComponent = React.createElement(componentProps.timeSlotsLoading);
+    }
+
     return <section className="time-slots-loading">
-        <p>Loading...</p>
+      {loadingComponent}
     </section>;
   }
 

@@ -51,6 +51,10 @@ export class AppContainer extends PureComponent {
       onProductLoad: PropTypes.func,
       onTimeSelect: PropTypes.func,
     }),
+    components: PropTypes.shape({
+      orderLoading: PropTypes.func,
+      timeSlotsLoading: PropTypes.func,
+    }),
     data: PropTypes.object.isRequired,
     format: PropTypes.shape({
       calendarTimeSlotsSelector: PropTypes.string,
@@ -60,6 +64,7 @@ export class AppContainer extends PureComponent {
 
   static childContextTypes = {
     callbackProps: PropTypes.object,
+    componentProps: PropTypes.object,
     formatProps: PropTypes.object,
   };
 
@@ -100,6 +105,7 @@ export class AppContainer extends PureComponent {
   getChildContext() {
     return {
       callbackProps: this.props.callbacks || {},
+      componentProps: this.props.components || {},
       formatProps: this.props.format || {},
     }
   }
@@ -124,8 +130,16 @@ export class AppContainer extends PureComponent {
   }
 
   renderLoadingScreen() {
+    const { components } = this.props;
+
+    var loadingComponent;
+
+    if(components && components.orderLoading) {
+      loadingComponent = React.createElement(components.orderLoading);
+    }
+
     return <section className="order-loading">
-        <p>Loading...</p>
+      {loadingComponent}
     </section>;
   }
 
