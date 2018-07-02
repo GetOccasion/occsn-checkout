@@ -28,7 +28,8 @@ export default class MissingAnswers extends PureComponent {
     .select((a) => {
       return a.question().required &&
         ((a.question().optionable && !a.option()) ||
-          (!a.question().optionable && !a.value))
+          (!a.question().optionable && !a.value)) ||
+          (a.question().formControl == 'waiver' && !a.value)
     });
   };
 
