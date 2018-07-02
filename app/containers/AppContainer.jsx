@@ -77,6 +77,7 @@ export class AppContainer extends PureComponent {
       'renderBookingScreen',
       'renderCompleteScreen',
       'renderLoadingScreen',
+      'setSelectedTimeSlot',
     )
   }
 
@@ -89,7 +90,13 @@ export class AppContainer extends PureComponent {
     const { actions, callbacks, data } = this.props;
 
     if(nextProps.data.order != null) {
-      if(data.order == null) actions.saveOrder(nextProps.data.order);
+      if(data.order == null) {
+        actions.saveOrder(nextProps.data.order);
+
+        if(window.OCCSN.time_slot_id) {
+          this.setSelectedTimeSlot(nextProps.data.product, nextProps.data.order, window.OCCSN.time_slot_id);
+        }
+      }
 
       if(callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
       if(callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
@@ -169,6 +176,20 @@ export class AppContainer extends PureComponent {
     const { data } = this.props;
 
     return <OrderComplete order={ data.order}></OrderComplete>;
+  }
+
+  setSelectedTimeSlot(product, order, timeSlotId) {
+    const { actions } = this.props;
+
+    product.timeSlots()
+    .includes({ product: 'merchant' })
+    .where({ status: 'bookable' })
+    .find(timeSlotId)
+    .then((timeSlot) => {
+      actions.saveOrder(order.assignAttributes({
+        timeSlots: [timeSlot]
+      }))
+    })
   }
 }
 

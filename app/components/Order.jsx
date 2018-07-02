@@ -140,14 +140,15 @@ export default class Order extends PureComponent {
   }
 
   // Determines if should show TimeSlotsContainer
-  // @note If the product hasTimeSlots then show TimeSlotsContainer
+  // @note If the product has firstTimeSlotStartsAt and requiresTimeSlotSelection, and a timeSlot has not been
+  //   pre-selected via window.OCCSN.time_slot_id, then show TimeSlotsContainer
   //
   // @return [Boolean] whether or not to show TimeSlotsContainer
   showTimeSlots() {
     let { subject } = this.props;
     let product = subject.product();
 
-    return product.hasTimeSlots;
+    return product.firstTimeSlotStartsAt && product.requiresTimeSlotSelection && !window.OCCSN.time_slot_id;
   }
 
   // Determines if should show Questions
@@ -209,7 +210,7 @@ export default class Order extends PureComponent {
 
     return <section className="order-container">
       {
-        product.firstTimeSlotStartsAt ? (
+        this.showTimeSlots() ? (
           <section className="time-slots-container">
             <a name="time-slots" id="time-slots-anchor"></a>
             { this.headerForSection('timeSlots') }
