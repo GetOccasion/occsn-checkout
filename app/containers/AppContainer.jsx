@@ -20,6 +20,7 @@ import OrderComplete from '../components/Order/Complete.jsx';
 function stateToProps(state) {
   return {
     data: {
+      bookingOrder: state.$$appStore.get('bookingOrder'),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
       activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
@@ -52,6 +53,7 @@ export class AppContainer extends PureComponent {
       onTimeSelect: PropTypes.func,
     }),
     components: PropTypes.shape({
+      orderBooking: PropTypes.func,
       orderLoading: PropTypes.func,
       timeSlotsLoading: PropTypes.func,
     }),
@@ -160,8 +162,9 @@ export class AppContainer extends PureComponent {
           afterUpdate={ actions.saveOrder }
           component={ Order }
           componentProps={ {
-            findRedeemable: actions.findRedeemable,
             activeTimeSlotsCollection: data.activeTimeSlotsCollection,
+            bookingOrder: data.bookingOrder,
+            findRedeemable: actions.findRedeemable,
             timeSlotsFromCalendar: data.timeSlotsFromCalendar
           } }
           onSubmit={ actions.bookOrder }

@@ -34,6 +34,10 @@ export default class Order extends PureComponent {
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
   };
 
+  static contextTypes = {
+    componentProps: PropTypes.object,
+  };
+
   constructor() {
     super();
     _.bindAll(this,
@@ -203,7 +207,8 @@ export default class Order extends PureComponent {
   }
 
   render() {
-    let { afterError, afterUpdate, findRedeemable, subject } = this.props;
+    let { afterError, afterUpdate, bookingOrder, findRedeemable, subject } = this.props;
+    let { componentProps } = this.context;
 
     let customer = subject.customer();
     let product = subject.product();
@@ -290,7 +295,14 @@ export default class Order extends PureComponent {
           type="submit"
           disabled={ !this.allowedToBookOrder() }
         >
-          { product.orderButtonText }
+          { bookingOrder ? (
+              componentProps.orderBooking ? (
+                React.createElement(componentProps.orderBooking)
+              ) : (null)
+            ) : (
+              <span>{ product.orderButtonText }</span>
+            )
+          }
         </Button>
       </section>
     </section>;
