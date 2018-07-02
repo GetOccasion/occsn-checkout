@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.8
+ * occsn-checkout v0.0.9
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -506,10 +506,7 @@ function (_PureComponent) {
 
       return React__default.createElement("section", {
         className: "time-slots-selector"
-      }, React__default.createElement("a", {
-        name: "time-slots",
-        id: "time-slots-anchor"
-      }), React__default.createElement("section", {
+      }, React__default.createElement("section", {
         className: "time-slots-selector-buttons"
       }, timeSlots.map(function (timeSlot) {
         return React__default.createElement(reactstrap.Button, {
@@ -593,10 +590,7 @@ function (_PureComponent) {
       }).flatten().toArray();
       return React__default.createElement("section", {
         className: "calendar"
-      }, React__default.createElement("a", {
-        name: "calendar",
-        id: "calendar-anchor"
-      }), React__default.createElement(FullCalendar, {
+      }, React__default.createElement(FullCalendar, {
         header: false,
         dayClick: this.dateClicked,
         defaultDate: calendarTimeSlots.first().day,
@@ -799,9 +793,16 @@ function (_PureComponent) {
   }, {
     key: "renderLoadingScreen",
     value: function renderLoadingScreen() {
+      var componentProps = this.context.componentProps;
+      var loadingComponent;
+
+      if (componentProps.timeSlotsLoading) {
+        loadingComponent = React__default.createElement(componentProps.timeSlotsLoading);
+      }
+
       return React__default.createElement("section", {
         className: "time-slots-loading"
-      }, React__default.createElement("p", null, "Loading..."));
+      }, loadingComponent);
     }
   }, {
     key: "renderTimeSlotsScreen",
@@ -826,6 +827,9 @@ function (_PureComponent) {
           }))), React__default.createElement(Calendar, {
             onDateSelect: this.onDateSelect,
             calendarTimeSlots: data.activeTimeSlotsCollection
+          }), React__default.createElement("a", {
+            name: "time-slots-selector",
+            id: "time-slots-selector-anchor"
           }), data.timeSlotsFromCalendar.first() ? React__default.createElement("h3", {
             className: "calendar-date-selected"
           }, data.timeSlotsFromCalendar.first().startsAt.format('dddd, MMMM Do')) : null, React__default.createElement(TimeSlotsSelector, {
@@ -838,7 +842,10 @@ function (_PureComponent) {
         case 'list':
           return React__default.createElement("section", {
             className: "list-view"
-          }, data.product.sellsSessions ? React__default.createElement("p", null, "Sessions are purchased together") : null, React__default.createElement(TimeSlotsSelector, {
+          }, data.product.sellsSessions ? React__default.createElement("p", null, "Sessions are purchased together") : null, React__default.createElement("a", {
+            name: "time-slots-selector",
+            id: "time-slots-selector-anchor"
+          }), React__default.createElement(TimeSlotsSelector, {
             disabled: data.product.sellsSessions,
             onSelect: this.onTimeSelect,
             subject: order,
@@ -867,7 +874,8 @@ _defineProperty(_defineProperty(TimeSlotsContainer, "propTypes", {
   order: PropTypes.instanceOf(occsn.Order),
   onSelect: PropTypes.func
 }), "contextTypes", {
-  callbackProps: PropTypes.object
+  callbackProps: PropTypes.object,
+  componentProps: PropTypes.object
 });
 
 var TimeSlotsContainer$1 = reactRedux.connect(stateToProps, dispatchToProps)(TimeSlotsContainer);
@@ -2462,7 +2470,8 @@ function (_PureComponent) {
       if (subject.newResource()) return false;
       return !product.attendeeQuestions.empty() && subject.quantity > 0;
     } // Determines if should show TimeSlotsContainer
-    // @note If the product hasTimeSlots then show TimeSlotsContainer
+    // @note If the product has firstTimeSlotStartsAt and requiresTimeSlotSelection, and a timeSlot has not been
+    //   pre-selected via window.OCCSN.time_slot_id, then show TimeSlotsContainer
     //
     // @return [Boolean] whether or not to show TimeSlotsContainer
 
@@ -2471,7 +2480,7 @@ function (_PureComponent) {
     value: function showTimeSlots() {
       var subject = this.props.subject;
       var product = subject.product();
-      return product.hasTimeSlots;
+      return product.firstTimeSlotStartsAt && product.requiresTimeSlotSelection && !window.OCCSN.time_slot_id;
     } // Determines if should show Questions
     // @note If the product.questions() is empty, don't show questions
     //
@@ -2535,9 +2544,12 @@ function (_PureComponent) {
       var product = subject.product();
       return React__default.createElement("section", {
         className: "order-container"
-      }, product.firstTimeSlotStartsAt ? React__default.createElement("section", {
+      }, this.showTimeSlots() ? React__default.createElement("section", {
         className: "time-slots-container"
-      }, this.headerForSection('timeSlots'), React__default.createElement(TimeSlotsContainer$1, {
+      }, React__default.createElement("a", {
+        name: "time-slots",
+        id: "time-slots-anchor"
+      }), this.headerForSection('timeSlots'), React__default.createElement(TimeSlotsContainer$1, {
         order: subject
       })) : null, React__default.createElement("section", {
         className: "customer-container"
@@ -2716,7 +2728,7 @@ function (_PureComponent) {
     _this = _possibleConstructorReturn(this, (AppContainer.__proto__ || Object.getPrototypeOf(AppContainer)).call(this, props));
     console.log(props);
 
-    _.bindAll(_assertThisInitialized(_this), 'renderBookingScreen', 'renderCompleteScreen', 'renderLoadingScreen');
+    _.bindAll(_assertThisInitialized(_this), 'renderBookingScreen', 'renderCompleteScreen', 'renderLoadingScreen', 'setSelectedTimeSlot');
 
     return _this;
   }
@@ -2736,7 +2748,14 @@ function (_PureComponent) {
           data = _this$props.data;
 
       if (nextProps.data.order != null) {
-        if (data.order == null) actions.saveOrder(nextProps.data.order);
+        if (data.order == null) {
+          actions.saveOrder(nextProps.data.order);
+
+          if (window.OCCSN.time_slot_id) {
+            this.setSelectedTimeSlot(nextProps.data.product, nextProps.data.order, window.OCCSN.time_slot_id);
+          }
+        }
+
         if (callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
 
         if (callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
@@ -2753,6 +2772,7 @@ function (_PureComponent) {
     value: function getChildContext() {
       return {
         callbackProps: this.props.callbacks || {},
+        componentProps: this.props.components || {},
         formatProps: this.props.format || {}
       };
     }
@@ -2781,9 +2801,16 @@ function (_PureComponent) {
   }, {
     key: "renderLoadingScreen",
     value: function renderLoadingScreen() {
+      var components = this.props.components;
+      var loadingComponent;
+
+      if (components && components.orderLoading) {
+        loadingComponent = React__default.createElement(components.orderLoading);
+      }
+
       return React__default.createElement("section", {
         className: "order-loading"
-      }, React__default.createElement("p", null, "Loading..."));
+      }, loadingComponent);
     }
   }, {
     key: "renderBookingScreen",
@@ -2815,6 +2842,20 @@ function (_PureComponent) {
         order: data.order
       });
     }
+  }, {
+    key: "setSelectedTimeSlot",
+    value: function setSelectedTimeSlot(product, order, timeSlotId) {
+      var actions = this.props.actions;
+      product.timeSlots().includes({
+        product: 'merchant'
+      }).where({
+        status: 'bookable'
+      }).find(timeSlotId).then(function (timeSlot) {
+        actions.saveOrder(order.assignAttributes({
+          timeSlots: [timeSlot]
+        }));
+      });
+    }
   }]);
 
   return AppContainer;
@@ -2829,6 +2870,10 @@ _defineProperty(_defineProperty(AppContainer, "propTypes", {
     onProductLoad: PropTypes.func,
     onTimeSelect: PropTypes.func
   }),
+  components: PropTypes.shape({
+    orderLoading: PropTypes.func,
+    timeSlotsLoading: PropTypes.func
+  }),
   data: PropTypes.object.isRequired,
   format: PropTypes.shape({
     calendarTimeSlotsSelector: PropTypes.string,
@@ -2836,6 +2881,7 @@ _defineProperty(_defineProperty(AppContainer, "propTypes", {
   })
 }), "childContextTypes", {
   callbackProps: PropTypes.object,
+  componentProps: PropTypes.object,
   formatProps: PropTypes.object
 });
 

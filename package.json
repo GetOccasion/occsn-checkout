@@ -1,6 +1,6 @@
 {
   "name": "occsn-checkout",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Occasion checkout experience boilerplate component built using React-Redux and Mitragyna",
   "main": "dist/occsn-checkout.js",
   "scripts": {
