@@ -148,7 +148,7 @@ export default class Order extends PureComponent {
     let { subject } = this.props;
     let product = subject.product();
 
-    return product.firstTimeSlotStartsAt && product.requiresTimeSlotSelection && !window.OCCSN.time_slot_id;
+    return product.firstTimeSlotStartsAt && (product.requiresTimeSlotSelection || product.sellsSessions) && !window.OCCSN.time_slot_id;
   }
 
   // Determines if should show Questions
