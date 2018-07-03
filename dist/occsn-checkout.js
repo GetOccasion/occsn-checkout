@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.10
+ * occsn-checkout v0.0.11
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -1069,7 +1069,7 @@ function (_PureComponent) {
     value: function missingRequiredAnswers() {
       var order = this.props.order;
       return order.answers().target().select(function (a) {
-        return a.question().required && (a.question().optionable && !a.option() || !a.question().optionable && !a.value);
+        return a.question().required && (a.question().optionable && !a.option() || !a.question().optionable && !a.value) || a.question().formControl == 'waiver' && !a.value;
       });
     }
   }, {
@@ -2480,7 +2480,7 @@ function (_PureComponent) {
     value: function showTimeSlots() {
       var subject = this.props.subject;
       var product = subject.product();
-      return product.firstTimeSlotStartsAt && product.requiresTimeSlotSelection && !window.OCCSN.time_slot_id;
+      return product.firstTimeSlotStartsAt && (product.requiresTimeSlotSelection || product.sellsSessions) && !window.OCCSN.time_slot_id;
     } // Determines if should show Questions
     // @note If the product.questions() is empty, don't show questions
     //
@@ -2538,8 +2538,10 @@ function (_PureComponent) {
       var _this$props = this.props,
           afterError = _this$props.afterError,
           afterUpdate = _this$props.afterUpdate,
+          bookingOrder = _this$props.bookingOrder,
           findRedeemable = _this$props.findRedeemable,
           subject = _this$props.subject;
+      var componentProps = this.context.componentProps;
       var customer = subject.customer();
       var product = subject.product();
       return React__default.createElement("section", {
@@ -2622,14 +2624,14 @@ function (_PureComponent) {
         size: "lg",
         type: "submit",
         disabled: !this.allowedToBookOrder()
-      }, product.orderButtonText)));
+      }, bookingOrder ? componentProps.orderBooking ? React__default.createElement(componentProps.orderBooking) : null : React__default.createElement("span", null, product.orderButtonText))));
     }
   }]);
 
   return Order;
 }(React.PureComponent);
 
-_defineProperty(Order, "propTypes", {
+_defineProperty(_defineProperty(Order, "propTypes", {
   activeTimeSlotsCollection: PropTypes.shape({
     __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
   }),
@@ -2641,6 +2643,8 @@ _defineProperty(Order, "propTypes", {
   bookingOrder: PropTypes.bool,
   findRedeemable: PropTypes.func.isRequired,
   subject: PropTypes.instanceOf(occsn.Order).isRequired
+}), "contextTypes", {
+  componentProps: PropTypes.object
 });
 
 var OrderComplete =
@@ -2684,6 +2688,7 @@ _defineProperty(OrderComplete, "propTypes", {
 function stateToProps$1(state) {
   return {
     data: {
+      bookingOrder: state.$$appStore.get('bookingOrder'),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
       activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
@@ -2825,8 +2830,9 @@ function (_PureComponent) {
         afterUpdate: actions.saveOrder,
         component: Order,
         componentProps: {
-          findRedeemable: actions.findRedeemable,
           activeTimeSlotsCollection: data.activeTimeSlotsCollection,
+          bookingOrder: data.bookingOrder,
+          findRedeemable: actions.findRedeemable,
           timeSlotsFromCalendar: data.timeSlotsFromCalendar
         },
         onSubmit: actions.bookOrder,
@@ -2871,6 +2877,7 @@ _defineProperty(_defineProperty(AppContainer, "propTypes", {
     onTimeSelect: PropTypes.func
   }),
   components: PropTypes.shape({
+    orderBooking: PropTypes.func,
     orderLoading: PropTypes.func,
     timeSlotsLoading: PropTypes.func
   }),
