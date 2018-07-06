@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.11
+ * occsn-checkout v0.0.12
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -24,7 +24,7 @@ require('fullcalendar-reactwrapper/dist/css/fullcalendar.min.css');
 var reactRedux = require('react-redux');
 var s = _interopDefault(require('underscore.string'));
 var Currency = _interopDefault(require('react-currency-formatter'));
-var Decimal = _interopDefault(require('decimal.js'));
+var Decimal = _interopDefault(require('decimal.js-light'));
 var Q = _interopDefault(require('q'));
 var SpreedlyAPI = _interopDefault(require('spreedly'));
 var SquareAPI = _interopDefault(require('square'));
@@ -1131,7 +1131,7 @@ function (_PureComponent) {
           className: "coupon-discount"
         }, React__default.createElement("span", null, "Coupon Discount: "), React__default.createElement(Currency, {
           currency: currency,
-          quantity: Decimal(order.couponAmount).neg().toNumber()
+          quantity: order.couponAmount.neg().toNumber()
         })));
       }
 
@@ -1166,12 +1166,12 @@ function (_PureComponent) {
           className: "gift-card-amount"
         }, React__default.createElement("span", null, "Gift Cards: "), React__default.createElement(Currency, {
           currency: currency,
-          quantity: Decimal(order.giftCardAmount).neg().toNumber()
+          quantity: order.giftCardAmount.neg().toNumber()
         })), React__default.createElement("p", {
           className: "outstanding-balance"
         }, React__default.createElement("span", null, "Balance due today: "), React__default.createElement(Currency, {
           currency: currency,
-          quantity: Decimal(order.outstandingBalance).toNumber()
+          quantity: order.outstandingBalance.toNumber()
         })));
       }
 
@@ -1609,7 +1609,7 @@ function (_PureComponent) {
     value: function chargeOutstandingBalanceToPaymentMethod(subject) {
       return this.pspForm.buildPaymentMethod().then(function (paymentMethod) {
         var newSubject = subject.clone();
-        newSubject.charge(paymentMethod, newSubject.outstandingBalance);
+        newSubject.charge(paymentMethod, subject.outstandingBalance.toString());
         return newSubject;
       }).catch(function (errors) {
         var _subject$errors;
@@ -2117,6 +2117,7 @@ function (_PureComponent) {
       var _this$props = this.props,
           currency = _this$props.currency,
           subject = _this$props.subject;
+      var removeRedeemable = this.context.removeRedeemable;
       var discount;
 
       if (!_.isNull(subject.discountFixed)) {
@@ -2128,12 +2129,17 @@ function (_PureComponent) {
         discount = React__default.createElement("span", null, subject.discountPercentage, "%");
       }
 
+      var onRemove = function onRemove() {
+        removeRedeemable(subject);
+      };
+
       return React__default.createElement(reactstrap.Card, {
         className: "coupon-container"
       }, React__default.createElement(reactstrap.CardBody, {
         className: "coupon"
       }, React__default.createElement(reactstrap.Button, {
-        className: "close"
+        className: "close",
+        onClick: onRemove
       }, React__default.createElement("span", {
         "aria-hidden": "true"
       }, "\xD7")), React__default.createElement(reactstrap.CardTitle, {
@@ -2147,9 +2153,11 @@ function (_PureComponent) {
   return Coupon;
 }(React.PureComponent);
 
-_defineProperty(Coupon, "propTypes", {
+_defineProperty(_defineProperty(Coupon, "propTypes", {
   currency: PropTypes.string.isRequired,
   subject: PropTypes.instanceOf(occsn.Coupon)
+}), "contextTypes", {
+  removeRedeemable: PropTypes.func
 });
 
 var GiftCard =
@@ -2169,16 +2177,23 @@ function (_PureComponent) {
       var _this$props = this.props,
           currency = _this$props.currency,
           subject = _this$props.subject;
+      var removeRedeemable = this.context.removeRedeemable;
       var giftCard = subject.paymentMethod();
-      var giftCardValue = Decimal(giftCard.value);
-      var transactionValue = Decimal(subject.amount);
+      var giftCardValue = new Decimal(giftCard.value);
+      var transactionValue = new Decimal(subject.amount);
       var remainingBalance = giftCardValue.minus(transactionValue);
+
+      var onRemove = function onRemove() {
+        removeRedeemable(giftCard);
+      };
+
       return React__default.createElement(reactstrap.Card, {
         className: "gift-card-container"
       }, React__default.createElement(reactstrap.CardBody, {
         className: "gift-card"
       }, React__default.createElement(reactstrap.Button, {
-        className: "close"
+        className: "close",
+        onClick: onRemove
       }, React__default.createElement("span", {
         "aria-hidden": "true"
       }, "\xD7")), React__default.createElement(reactstrap.CardText, {
@@ -2190,21 +2205,28 @@ function (_PureComponent) {
       }, "Remaining balance will be ", React__default.createElement(Currency, {
         currency: currency,
         quantity: remainingBalance.toNumber()
-      }), " after checkout.")), React__default.createElement(reactstrap.CardText, {
+      }), " after checkout."), React__default.createElement("span", {
+        className: "gift-card-amount"
+      }, React__default.createElement(Currency, {
+        currency: currency,
+        quantity: transactionValue.toNumber()
+      }), "\xA0/\xA0"), React__default.createElement("span", {
         className: "gift-card-value"
       }, React__default.createElement(Currency, {
         currency: currency,
         quantity: giftCardValue.toNumber()
-      }))));
+      })))));
     }
   }]);
 
   return GiftCard;
 }(React.PureComponent);
 
-_defineProperty(GiftCard, "propTypes", {
+_defineProperty(_defineProperty(GiftCard, "propTypes", {
   currency: PropTypes.string.isRequired,
   subject: PropTypes.instanceOf(occsn.Transaction)
+}), "contextTypes", {
+  removeRedeemable: PropTypes.func
 });
 
 var Redeemables =
@@ -2219,7 +2241,7 @@ function (_PureComponent) {
 
     _this = _possibleConstructorReturn(this, (Redeemables.__proto__ || Object.getPrototypeOf(Redeemables)).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'addErrors', 'addRedeemable', 'checkForRedeemable', 'handleChange', 'showInput');
+    _.bindAll(_assertThisInitialized(_this), 'addErrors', 'addRedeemable', 'checkForRedeemable', 'handleChange', 'showInput', 'removeRedeemable');
 
     return _this;
   }
@@ -2237,13 +2259,17 @@ function (_PureComponent) {
       var _this$props = this.props,
           onErrors = _this$props.onErrors,
           order = _this$props.order;
-      order = order.clone();
-      order.errors().clear();
+      var newOrder = order.clone(); // TODO: Remove when there is better way to copy these read-only attributes of order
+
+      ActiveResource.Collection.build(['subtotal', 'couponAmount', 'tax', 'taxPercentage', 'giftCardAmount', 'price', 'total', 'outstandingBalance', 'quantity']).each(function (attr) {
+        newOrder[attr] = order[attr];
+      });
+      newOrder.errors().clear();
       errors.each(function (e) {
         e.field = 'redeemables.' + e.parameter.replace('filter/', '');
-        order.errors().push(e);
+        newOrder.errors().push(e);
       });
-      onErrors(order);
+      onErrors(newOrder);
     }
   }, {
     key: "addRedeemable",
@@ -2260,9 +2286,8 @@ function (_PureComponent) {
           coupon: redeemable
         }));
       } else if (redeemable.isA(occsn.GiftCard)) {
-        order = order.clone();
-        var outstandingBalance = Decimal(order.outstandingBalance);
-        var giftCardValue = Decimal(redeemable.value);
+        var outstandingBalance = order.outstandingBalance;
+        var giftCardValue = new Decimal(redeemable.value);
         var transactionAmount;
 
         if (outstandingBalance.greaterThan(giftCardValue)) {
@@ -2271,6 +2296,7 @@ function (_PureComponent) {
           transactionAmount = outstandingBalance;
         }
 
+        order = order.clone();
         order.charge(redeemable, transactionAmount.toString());
         onChange(order);
       }
@@ -2282,6 +2308,13 @@ function (_PureComponent) {
           findRedeemable = _this$props3.findRedeemable,
           order = _this$props3.order;
       findRedeemable(order.product(), code, this.addRedeemable, this.addErrors);
+    }
+  }, {
+    key: "getChildContext",
+    value: function getChildContext() {
+      return {
+        removeRedeemable: this.removeRedeemable
+      };
     }
   }, {
     key: "handleChange",
@@ -2301,7 +2334,24 @@ function (_PureComponent) {
     key: "showInput",
     value: function showInput() {
       var order = this.props.order;
-      return !Decimal(order.outstandingBalance).isZero() || _.isNull(order.coupon());
+      return !order.outstandingBalance.isZero() || _.isNull(order.coupon());
+    }
+  }, {
+    key: "removeRedeemable",
+    value: function removeRedeemable(redeemable) {
+      var _this$props4 = this.props,
+          onChange = _this$props4.onChange,
+          order = _this$props4.order;
+
+      if (redeemable.isA(occsn.Coupon)) {
+        onChange(order.assignAttributes({
+          coupon: null
+        }));
+      } else if (redeemable.isA(occsn.GiftCard)) {
+        order = order.clone();
+        order.removeCharge(redeemable);
+        onChange(order);
+      }
     }
   }, {
     key: "render",
@@ -2359,11 +2409,13 @@ function (_PureComponent) {
   return Redeemables;
 }(React.PureComponent);
 
-_defineProperty(Redeemables, "propTypes", {
+_defineProperty(_defineProperty(Redeemables, "propTypes", {
   findRedeemable: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onErrors: PropTypes.func.isRequired,
   order: PropTypes.instanceOf(occsn.Order).isRequired
+}), "childContextTypes", {
+  removeRedeemable: PropTypes.func
 });
 
 var Order =
@@ -2401,7 +2453,7 @@ function (_PureComponent) {
   }, {
     key: "beforeSubmit",
     value: function beforeSubmit(subject) {
-      if (this.acceptsPayment() && !Decimal(subject.outstandingBalance).isZero()) {
+      if (this.acceptsPayment() && !subject.outstandingBalance.isZero()) {
         return this.paymentForm.chargeOutstandingBalanceToPaymentMethod(subject);
       } else {
         return subject;
@@ -2503,7 +2555,7 @@ function (_PureComponent) {
       var subject = this.props.subject;
       var product = subject.product();
       if (subject.newResource()) return false;
-      return !product.free && product.hasRedeemables && !Decimal(subject.subtotal || '0.0').isZero();
+      return !product.free && product.hasRedeemables && subject.subtotal && !subject.subtotal.isZero();
     } // Determines if should show the payment form
     // @note If the product is free or outstandingBalance is zero, do not show the payment form
     //
@@ -2515,7 +2567,7 @@ function (_PureComponent) {
       var subject = this.props.subject;
       var product = subject.product();
       if (subject.newResource()) return false;
-      return !(product.free || Decimal(subject.outstandingBalance || '0.0').isZero());
+      return !(product.free || !subject.outstandingBalance || subject.outstandingBalance.isZero());
     } // Determines if should show the price output
     // @note If the product is free or price is null (required price-calculating questions are missing answers),
     //   do not show the price display
