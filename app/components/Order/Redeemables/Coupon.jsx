@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import _ from 'underscore';
-import Decimal from 'decimal.js';
+import Decimal from 'decimal.js-light';
 
 import occsn from '../../../libs/Occasion';
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import _ from 'underscore';
-import Decimal from 'decimal.js';
+import Decimal from 'decimal.js-light';
 
 import occsn from '../../../libs/Occasion';
 
@@ -20,9 +20,9 @@ export default class GiftCard extends PureComponent {
     let { currency, subject } = this.props;
 
     let giftCard = subject.paymentMethod();
-    let giftCardValue = Decimal(giftCard.value);
+    let giftCardValue = new Decimal(giftCard.value);
 
-    let transactionValue = Decimal(subject.amount);
+    let transactionValue = new Decimal(subject.amount);
 
     let remainingBalance = giftCardValue.minus(transactionValue);
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Currency from 'react-currency-formatter';
-import Decimal from 'decimal.js';
+import Decimal from 'decimal.js-light';
 import _ from 'underscore';
 
 import { Card, CardBody, CardText } from 'reactstrap';
@@ -29,7 +29,7 @@ export default class Pricing extends PureComponent {
       rows.push(
         <p className="coupon-discount">
           <span>Coupon Discount: </span>
-          <Currency currency={currency} quantity={Decimal(order.couponAmount).neg().toNumber()} />
+          <Currency currency={currency} quantity={order.couponAmount.neg().toNumber()} />
         </p>
       );
     }
@@ -64,11 +64,11 @@ export default class Pricing extends PureComponent {
       rows.push(
         <p className="gift-card-amount">
           <span>Gift Cards: </span>
-          <Currency currency={currency} quantity={Decimal(order.giftCardAmount).neg().toNumber()} />
+          <Currency currency={currency} quantity={order.giftCardAmount.neg().toNumber()} />
         </p>,
         <p className="outstanding-balance">
           <span>Balance due today: </span>
-          <Currency currency={currency} quantity={Decimal(order.outstandingBalance).toNumber()} />
+          <Currency currency={currency} quantity={order.outstandingBalance.toNumber()} />
         </p>,
       );
     }

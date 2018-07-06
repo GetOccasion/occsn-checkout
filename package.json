@@ -25,7 +25,7 @@
     "active-resource": "git+https://github.com/nicklandgrebe/activeresource.js.git#feature/immutable",
     "bootstrap": "^4.0.0",
     "classnames": "^2.2.5",
-    "decimal.js": "^10.0.0",
+    "decimal.js-light": "^2.4.1",
     "es6-promise": "^4.2.4",
     "fullcalendar-reactwrapper": "^1.0.7",
     "immutable": "^3.8.2",

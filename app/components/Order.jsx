@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Decimal from 'decimal.js';
+import Decimal from 'decimal.js-light';
 import _ from 'underscore';
 
 import { Resource } from 'mitragyna';
@@ -66,7 +66,7 @@ export default class Order extends PureComponent {
 
   // Mitragyna callback
   beforeSubmit(subject) {
-    if(this.acceptsPayment() && !Decimal(subject.outstandingBalance).isZero()) {
+    if(this.acceptsPayment() && !subject.outstandingBalance.isZero()) {
       return this.paymentForm.chargeOutstandingBalanceToPaymentMethod(subject);
     } else {
       return subject;
@@ -176,7 +176,7 @@ export default class Order extends PureComponent {
 
     if(subject.newResource()) return false;
 
-    return !product.free && product.hasRedeemables && !Decimal(subject.subtotal || '0.0').isZero();
+    return !product.free && product.hasRedeemables && subject.subtotal && !subject.subtotal.isZero();
   }
 
   // Determines if should show the payment form
@@ -189,7 +189,7 @@ export default class Order extends PureComponent {
 
     if(subject.newResource()) return false;
 
-    return !(product.free || Decimal(subject.outstandingBalance || '0.0').isZero());
+    return !(product.free || !subject.outstandingBalance || subject.outstandingBalance.isZero());
   }
 
   // Determines if should show the price output

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Decimal from 'decimal.js';
+import Decimal from 'decimal.js-light';
 
 import ActiveResource from 'active-resource';
 import { Resource } from 'mitragyna';
@@ -170,7 +170,7 @@ describe('Order', () => {
         });
 
         it('calls saveOrder with order with transaction with amount equal to order.outstandingBalance', () => {
-          expect(mockSaveOrder.mock.calls[0][0].transactions().target().first().amount).toEqual(Decimal(order.outstandingBalance).toString());
+          expect(mockSaveOrder.mock.calls[0][0].transactions().target().first().amount).toEqual(order.outstandingBalance.toString());
         });
       });
     });

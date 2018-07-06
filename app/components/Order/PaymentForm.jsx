@@ -27,7 +27,7 @@ export default class PaymentForm extends PureComponent {
     return this.pspForm.buildPaymentMethod()
     .then((paymentMethod) => {
       var newSubject = subject.clone();
-      newSubject.charge(paymentMethod, newSubject.outstandingBalance);
+      newSubject.charge(paymentMethod, subject.outstandingBalance.toString());
       return newSubject;
     })
     .catch((errors) => {

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Decimal from 'decimal.js';
+import Decimal from 'decimal.js-light';
 import { Field } from 'mitragyna';
 import { FormGroup, Label, Input } from 'reactstrap';
 

@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Decimal from 'decimal.js';
+import Decimal from 'decimal.js-light';
 import _ from 'underscore';
+
+import ActiveResource from 'active-resource';
 
 import occsn from '../../libs/Occasion'
 
@@ -39,13 +41,30 @@ export default class Redeemables extends PureComponent {
   addErrors(errors) {
     let { onErrors, order } = this.props;
 
-    order = order.clone();
-    order.errors().clear();
+    let newOrder = order.clone();
+
+    // TODO: Remove when there is better way to copy these read-only attributes of order
+    ActiveResource.Collection.build([
+      'subtotal',
+      'couponAmount',
+      'tax',
+      'taxPercentage',
+      'giftCardAmount',
+      'price',
+      'total',
+      'outstandingBalance',
+      'quantity',
+    ])
+    .each((attr) => {
+      newOrder[attr] = order[attr];
+    });
+
+    newOrder.errors().clear();
     errors.each((e) => {
       e.field = 'redeemables.' + e.parameter.replace('filter/', '');
-      order.errors().push(e);
+      newOrder.errors().push(e);
     });
-    onErrors(order);
+    onErrors(newOrder);
   }
 
   addRedeemable(redeemable) {
@@ -56,10 +75,8 @@ export default class Redeemables extends PureComponent {
     if(redeemable.isA(occsn.Coupon)) {
       onChange(order.assignAttributes({ coupon: redeemable }))
     } else if(redeemable.isA(occsn.GiftCard)) {
-      order = order.clone();
-
-      var outstandingBalance = Decimal(order.outstandingBalance);
-      var giftCardValue = Decimal(redeemable.value);
+      var outstandingBalance = order.outstandingBalance;
+      var giftCardValue = new Decimal(redeemable.value);
 
       var transactionAmount;
       if(outstandingBalance.greaterThan(giftCardValue)) {
@@ -67,6 +84,8 @@ export default class Redeemables extends PureComponent {
       } else {
         transactionAmount = outstandingBalance;
       }
+
+      order = order.clone();
 
       order.charge(redeemable, transactionAmount.toString());
 
@@ -94,7 +113,7 @@ export default class Redeemables extends PureComponent {
   showInput() {
     const { order } = this.props;
 
-    return !Decimal(order.outstandingBalance).isZero() ||  _.isNull(order.coupon())
+    return !order.outstandingBalance.isZero() || _.isNull(order.coupon())
   }
 
   render() {
