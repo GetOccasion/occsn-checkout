@@ -38,9 +38,12 @@ export default class GiftCard extends PureComponent {
           <FormText className="gift-card-remaining-balance">
             Remaining balance will be <Currency currency={currency} quantity={ remainingBalance.toNumber() }></Currency> after checkout.
           </FormText>
-        </CardText>
-        <CardText className="gift-card-value">
-          <Currency currency={currency} quantity={ giftCardValue.toNumber() }></Currency>
+          <span className="gift-card-amount">
+            <Currency currency={currency} quantity={ transactionValue.toNumber() }></Currency>&nbsp;/&nbsp;
+          </span>
+          <span className="gift-card-value">
+            <Currency currency={currency} quantity={ giftCardValue.toNumber() }></Currency>
+          </span>
         </CardText>
       </CardBody>
     </Card>
