@@ -16,8 +16,13 @@ export default class GiftCard extends PureComponent {
     subject: PropTypes.instanceOf(occsn.Transaction),
   };
 
+  static contextTypes = {
+    removeRedeemable: PropTypes.func,
+  };
+
   render() {
     let { currency, subject } = this.props;
+    let { removeRedeemable } = this.context;
 
     let giftCard = subject.paymentMethod();
     let giftCardValue = new Decimal(giftCard.value);
@@ -26,9 +31,13 @@ export default class GiftCard extends PureComponent {
 
     let remainingBalance = giftCardValue.minus(transactionValue);
 
+    let onRemove = () => {
+      removeRedeemable(giftCard)
+    };
+
     return <Card className="gift-card-container">
       <CardBody className="gift-card">
-        <Button className="close">
+        <Button className="close" onClick={onRemove}>
           <span aria-hidden="true">&times;</span>
         </Button>
         <CardText className="gift-card-messages">

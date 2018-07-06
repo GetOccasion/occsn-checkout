@@ -16,8 +16,13 @@ export default class Coupon extends PureComponent {
     subject: PropTypes.instanceOf(occsn.Coupon),
   };
 
+  static contextTypes = {
+    removeRedeemable: PropTypes.func,
+  };
+
   render() {
     let { currency, subject } = this.props;
+    let { removeRedeemable } = this.context;
 
     let discount;
     if(!_.isNull(subject.discountFixed)) {
@@ -26,9 +31,13 @@ export default class Coupon extends PureComponent {
       discount = <span>{subject.discountPercentage}%</span>;
     }
 
+    let onRemove = () => {
+      removeRedeemable(subject)
+    };
+
     return <Card className="coupon-container">
       <CardBody className="coupon">
-        <Button className="close">
+        <Button className="close" onClick={onRemove}>
           <span aria-hidden="true">&times;</span>
         </Button>
         <CardTitle className="coupon-title">

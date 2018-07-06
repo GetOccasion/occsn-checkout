@@ -22,6 +22,10 @@ export default class Redeemables extends PureComponent {
     order: PropTypes.instanceOf(occsn.Order).isRequired,
   };
 
+  static childContextTypes = {
+    removeRedeemable: PropTypes.func,
+  };
+
   constructor() {
     super();
 
@@ -31,6 +35,7 @@ export default class Redeemables extends PureComponent {
       'checkForRedeemable',
       'handleChange',
       'showInput',
+      'removeRedeemable',
     );
   }
 
@@ -99,6 +104,12 @@ export default class Redeemables extends PureComponent {
     findRedeemable(order.product(), code, this.addRedeemable, this.addErrors);
   }
 
+  getChildContext() {
+    return {
+      removeRedeemable: this.removeRedeemable,
+    }
+  }
+
   handleChange(e) {
     this.setState({ code: e.target.value });
   }
@@ -114,6 +125,20 @@ export default class Redeemables extends PureComponent {
     const { order } = this.props;
 
     return !order.outstandingBalance.isZero() || _.isNull(order.coupon())
+  }
+
+  removeRedeemable(redeemable) {
+    let { onChange, order } = this.props;
+
+    if(redeemable.isA(occsn.Coupon)) {
+      onChange(order.assignAttributes({ coupon: null }))
+    } else if(redeemable.isA(occsn.GiftCard)) {
+      order = order.clone();
+
+      order.removeCharge(redeemable);
+
+      onChange(order);
+    }
   }
 
   render() {
