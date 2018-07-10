@@ -175,7 +175,7 @@ export default class Order extends PureComponent {
 
     if(subject.newResource()) return false;
 
-    return !product.free && product.hasRedeemables && subject.subtotal && !subject.subtotal.isZero();
+    return !product.free && product.hasRedeemables && ((subject.subtotal && !subject.subtotal.isZero()) || window.OCCSN.coupon_code);
   }
 
   // Determines if should show the payment form

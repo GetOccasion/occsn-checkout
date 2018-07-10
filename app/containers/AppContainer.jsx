@@ -8,6 +8,8 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { Resource } from 'mitragyna';
 
+import occsn from '../libs/Occasion';
+
 import * as appActions from '../actions/appActions';
 
 import '../styles/index.css'
@@ -21,6 +23,7 @@ function stateToProps(state) {
   return {
     data: {
       bookingOrder: state.$$appStore.get('bookingOrder'),
+      savingOrder: state.$$appStore.get('savingOrder'),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
       activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
@@ -79,12 +82,14 @@ export class AppContainer extends PureComponent {
       'renderBookingScreen',
       'renderCompleteScreen',
       'renderLoadingScreen',
-      'setSelectedTimeSlot',
+      'checkPrefilledAttributes',
+      'setPrefilledAttributes',
     )
   }
 
   componentDidMount() {
     const { actions } = this.props;
+
     actions.loadProduct();
   }
 
@@ -94,10 +99,7 @@ export class AppContainer extends PureComponent {
     if(nextProps.data.order != null) {
       if(data.order == null) {
         actions.saveOrder(nextProps.data.order);
-
-        if(window.OCCSN.time_slot_id) {
-          this.setSelectedTimeSlot(nextProps.data.product, nextProps.data.order, window.OCCSN.time_slot_id);
-        }
+        this.checkPrefilledAttributes(nextProps.data.product);
       }
 
       if(callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
@@ -178,22 +180,58 @@ export class AppContainer extends PureComponent {
   renderCompleteScreen() {
     const { data } = this.props;
 
-    return <OrderComplete order={ data.order}></OrderComplete>;
+    return <OrderComplete order={data.order}></OrderComplete>;
   }
 
-  setSelectedTimeSlot(product, order, timeSlotId) {
+  checkPrefilledAttributes(product) {
     const { actions } = this.props;
 
-    product.timeSlots()
-    .includes({ product: 'merchant' })
-    .where({ status: 'bookable' })
-    .find(timeSlotId)
-    .then((timeSlot) => {
-      actions.saveOrder(order.assignAttributes({
-        timeSlots: [timeSlot]
-      }))
-    })
+    let promises = [];
+
+    if(window.OCCSN.coupon_code) {
+      promises.push(new Promise((resolve) => {
+        actions.findRedeemable(
+          product,
+          window.OCCSN.coupon_code,
+          (coupon) => resolve(coupon),
+          null
+        )
+      }));
+    } else {
+      promises.push(new Promise((resolve) => resolve()));
+    }
+
+    if(window.OCCSN.time_slot_id) {
+      promises.push(
+        product.timeSlots()
+        .includes({ product: 'merchant' })
+        .where({ status: 'bookable' })
+        .find(window.OCCSN.time_slot_id)
+      );
+    }
+
+    if(promises.size == 0) return;
+
+    Promise.all(promises).then(this.setPrefilledAttributes);
   }
+
+  setPrefilledAttributes(prefills) {
+    const { actions, data } = this.props;
+
+    let attributes = {};
+
+    if(prefills[0]) {
+      attributes.coupon = prefills[0];
+    }
+
+    if(prefills[1]) {
+      attributes.timeSlots = [prefills[1]];
+    }
+
+    if(attributes == {}) return;
+
+    actions.saveOrder(data.order.assignAttributes(attributes));
+  };
 }
 
 // See https://github.com/reactjs/react-redux/blob/master/docs/api.md#examples

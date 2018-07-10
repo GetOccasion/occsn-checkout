@@ -124,7 +124,7 @@ export default class Redeemables extends PureComponent {
   showInput() {
     const { order } = this.props;
 
-    return !order.outstandingBalance.isZero() || _.isNull(order.coupon())
+    return (order.outstandingBalance && !order.outstandingBalance.isZero()) || _.isNull(order.coupon())
   }
 
   removeRedeemable(redeemable) {
