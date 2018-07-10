@@ -19,8 +19,8 @@ export default class OrderComplete extends PureComponent {
         <h4>{ order.timeSlots().target().first().startsAt.format('dddd MMMM Do, YYYY h:mm A') }</h4>
       </section>
       <section className="order-complete-messages">
-        <p className="post-transactional">{ order.product().postTransactionalMessage }</p>
-        <p className="confirmation">An order confirmation email with receipt has been sent to { order.customer().email }.</p>
+        <p className="custom-confirmation-message">{ order.product().customerConfirmationMessage }</p>
+        <p className="confirmation-email-message">An order confirmation email with receipt has been sent to { order.customer().email }.</p>
       </section>
     </section>;
   }

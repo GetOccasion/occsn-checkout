@@ -71,8 +71,8 @@ describe('Order', () => {
       expect(wrapper.find('.message')).toIncludeText(order.customer().email)
     });
 
-    it('displays product postTransactionalMessage in message', () => {
-      expect(wrapper.find('.message')).toIncludeText(order.product().postTransactionalMessage)
+    it('displays product customerConfirmationMessage in message', () => {
+      expect(wrapper.find('.message')).toIncludeText(order.product().customerConfirmationMessage)
     });
   });
 });
