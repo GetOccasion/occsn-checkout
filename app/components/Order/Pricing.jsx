@@ -60,7 +60,7 @@ export default class Pricing extends PureComponent {
       </p>
     );
 
-    if(!_.isNull(order.giftCardAmount)) {
+    if(order.giftCardAmount && !order.giftCardAmount.isZero()) {
       rows.push(
         <p className="gift-card-amount">
           <span>Gift Cards: </span>
