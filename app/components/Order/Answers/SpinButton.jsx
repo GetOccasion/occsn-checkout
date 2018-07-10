@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Decimal from 'decimal.js-light';
+import _ from 'underscore';
 
 import { Field } from 'mitragyna';
-import { FormGroup, FormText,Label, Input } from 'reactstrap';
+import { Button, FormGroup, FormText,Label, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import Currency from 'react-currency-formatter';
 
 import occsn from '../../../libs/Occasion';
@@ -13,6 +14,27 @@ export default class SpinButton extends PureComponent {
   static propTypes = {
     answer: PropTypes.instanceOf(occsn.Answer),
   };
+
+  constructor() {
+    super();
+
+    _.bindAll(this,
+      'decrementValue',
+      'incrementValue',
+    );
+  }
+
+  decrementValue() {
+    let currentValue = this.fieldRef.getValue();
+
+    this.fieldRef.setValue(currentValue - 1);
+  }
+
+  incrementValue() {
+    let currentValue = this.fieldRef.getValue();
+
+    this.fieldRef.setValue(currentValue + 1);
+  }
 
   render() {
     let { answer } = this.props;
@@ -43,7 +65,16 @@ export default class SpinButton extends PureComponent {
 
     return <FormGroup className="spin-button-container">
       <Label>{label}</Label>
-      <Field name="value" type="number" component={ Input } max={question.max} min={question.min}></Field>
+      <InputGroup>
+        <Field name="value" type="number" component={ Input }
+               max={question.max} min={question.min}
+               ref={(r) => this.fieldRef = r}>
+        </Field>
+        <InputGroupAddon addonType="append">
+          <Button className="spin-button-minus" color='secondary' onClick={this.decrementValue}>-</Button>
+          <Button className="spin-button-plus" color='secondary' onClick={this.incrementValue}>+</Button>
+        </InputGroupAddon>
+      </InputGroup>
       <FormText className="spin-button-calculation">{priceContribution}</FormText>
     </FormGroup>;
   }
