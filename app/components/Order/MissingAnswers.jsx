@@ -21,8 +21,10 @@ export default class MissingAnswers extends PureComponent {
     );
   }
 
-  missingRequiredAnswers() {
+  missingRequiredAnswers(override) {
     let { order } = this.props;
+
+    if(override) order = override;
 
     return order.answers().target()
     .select((a) => {

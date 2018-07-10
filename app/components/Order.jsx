@@ -56,12 +56,11 @@ export default class Order extends PureComponent {
   }
 
   allowedToBookOrder() {
-    const { bookingOrder } = this.props;
+    const { bookingOrder, subject } = this.props;
 
-    let missingAnswers = false;
-    if(this.missingAnswers && !this.missingAnswers.empty()) missingAnswers = true;
+    if(!subject || !this.missingAnswers) return false;
 
-    return !bookingOrder && !missingAnswers;
+    return !bookingOrder && this.missingAnswers.missingRequiredAnswers(subject).empty();
   }
 
   // Mitragyna callback
