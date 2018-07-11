@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import classnames from 'classnames';
+
 import _ from 'underscore';
 
 import { Container, Row, Col } from 'reactstrap';
@@ -76,8 +78,6 @@ export class AppContainer extends PureComponent {
   constructor(props) {
     super(props);
 
-    console.log(props);
-
     _.bindAll(this,
       'renderBookingScreen',
       'renderCompleteScreen',
@@ -124,20 +124,15 @@ export class AppContainer extends PureComponent {
   render() {
     const { actions, data } = this.props;
 
-    let body;
     if(data.product) {
       if(data.order != null && data.order.status == 'booked') {
-        body = this.renderCompleteScreen();
+        return this.renderCompleteScreen();
       } else {
-        body = this.renderBookingScreen();
+        return this.renderBookingScreen();
       }
     } else {
-      body = this.renderLoadingScreen();
-    }
-
-    return <Container fluid={true}>
-      { body }
-    </Container>;
+      return this.renderLoadingScreen();
+    };
   }
 
   renderLoadingScreen() {
@@ -155,9 +150,14 @@ export class AppContainer extends PureComponent {
   }
 
   renderBookingScreen() {
-    const { actions, data } = this.props;
+    const { actions, data, className } = this.props;
 
-    return <section className="occsn-app-container">
+    let classNames = classnames(
+      'occsn-app-container',
+      className
+    );
+
+    return <section className={classNames}>
       { data.order ? (
         <Resource
           afterError={ actions.setOrder }
