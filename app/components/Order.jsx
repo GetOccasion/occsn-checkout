@@ -218,6 +218,7 @@ export default class Order extends PureComponent {
           <section className="time-slots-container">
             <a name="time-slots" id="time-slots-anchor"></a>
             { this.headerForSection('timeSlots') }
+            <h6 className="container-description">Please select time and date:</h6>
             <TimeSlotsContainer order={subject} />
           </section>
         ) : (null)
@@ -226,6 +227,7 @@ export default class Order extends PureComponent {
       <section className="customer-container">
         <a name="customer" id="customer-anchor"></a>
         { this.headerForSection('contact') }
+        <h6 className="container-description">Please fill in your information to complete your order:</h6>
         <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
       </section>
 
