@@ -14,9 +14,11 @@ export default class TextArea extends PureComponent {
   render() {
     let { answer } = this.props;
 
+    let id = "answer-" + answer.question().id;
+
     return <FormGroup className="text-area-container">
-      <Label>{ answer.question().title }{ answer.question().required ? '*' : '' }</Label>
-      <Field name="value" type="textarea" component={ Input }></Field>
+      <Label for={id}>{ answer.question().title }{ answer.question().required ? '*' : '' }</Label>
+      <Field id={id} name="value" type="textarea" component={ Input }></Field>
     </FormGroup>;
   }
 }

@@ -16,6 +16,8 @@ export default class Waiver extends PureComponent {
   render() {
     let { answer } = this.props;
 
+    let id = "answer-" + answer.question().id;
+
     return <FormGroup className="waiver-container">
       <Card color="light">
         <CardBody>
@@ -25,8 +27,8 @@ export default class Waiver extends PureComponent {
         </CardBody>
       </Card>
       <FormGroup check>
-        <Label check className="mt-2">
-          <Field name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>
+        <Label for={id} check className="mt-2">
+          <Field id={id} name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>
           { answer.question().title }*
         </Label>
       </FormGroup>

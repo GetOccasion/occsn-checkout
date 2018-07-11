@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import s from 'underscore.string';
+
 import Decimal from 'decimal.js-light';
 
 import { Field } from 'mitragyna';
@@ -46,10 +48,12 @@ export default class Checkbox extends PureComponent {
       label.push(<span>&nbsp;*</span>);
     }
 
+    let id = "answer-" + answer.question().id;
+
     return <FormGroup className="checkbox-container">
       <FormGroup check>
-        <Label check>
-          <Field name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>
+        <Label check for={id}>
+          <Field id={id} name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>
           {label}
         </Label>
       </FormGroup>

@@ -63,10 +63,12 @@ export default class SpinButton extends PureComponent {
       </span>;
     }
 
+    let id = "answer-" + answer.question().id;
+
     return <FormGroup className="spin-button-container">
-      <Label>{label}</Label>
+      <Label for={id}>{label}</Label>
       <InputGroup>
-        <Field name="value" type="number" component={ Input }
+        <Field id={id} name="value" type="number" component={ Input }
                max={question.max} min={question.min}
                ref={(r) => this.fieldRef = r}>
         </Field>
