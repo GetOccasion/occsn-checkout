@@ -56,6 +56,7 @@ export class AppContainer extends PureComponent {
       onDateSelect: PropTypes.func,
       onOrderComplete: PropTypes.func,
       onOrderChange: PropTypes.func,
+      onPersonalInformationComplete: PropTypes.func,
       onProductLoad: PropTypes.func,
       onTimeSelect: PropTypes.func,
     }),
@@ -107,6 +108,17 @@ export class AppContainer extends PureComponent {
       if(callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
       if(callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
         callbacks.onOrderComplete(nextProps.data.order);
+      }
+
+      if(callbacks && callbacks.onPersonalInformationComplete) {
+        let order = nextProps.data.order;
+
+        if(order.customer().complete() &&
+          !order.answers().target().detect((a) => !a.valid()) &&
+          (nextProps.data.skipAttendees || !order.attendees().target().detect((a) => !a.complete()))
+        ) {
+          callbacks.onPersonalInformationComplete(nextProps.data.order);
+        }
       }
     }
 
