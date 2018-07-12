@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.14
+ * occsn-checkout v0.0.15
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -2952,6 +2952,18 @@ function (_PureComponent) {
         if (callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
           callbacks.onOrderComplete(nextProps.data.order);
         }
+
+        if (callbacks && callbacks.onPersonalInformationComplete) {
+          var order = nextProps.data.order;
+
+          if (order.customer().complete() && !order.answers().target().detect(function (a) {
+            return !a.valid();
+          }) && (nextProps.data.skipAttendees || !order.attendees().target().detect(function (a) {
+            return !a.complete();
+          }))) {
+            callbacks.onPersonalInformationComplete(nextProps.data.order);
+          }
+        }
       }
 
       if (data.product == null && nextProps.data.product != null) {
@@ -3092,6 +3104,7 @@ _defineProperty(_defineProperty(AppContainer, "propTypes", {
     onDateSelect: PropTypes.func,
     onOrderComplete: PropTypes.func,
     onOrderChange: PropTypes.func,
+    onPersonalInformationComplete: PropTypes.func,
     onProductLoad: PropTypes.func,
     onTimeSelect: PropTypes.func
   }),
