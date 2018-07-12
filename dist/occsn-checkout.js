@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.12
+ * occsn-checkout v0.0.13
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -15,7 +15,7 @@ var React__default = _interopDefault(React);
 var PropTypes = _interopDefault(require('prop-types'));
 var ReactHtmlParser = _interopDefault(require('react-html-parser'));
 var reactstrap = require('reactstrap');
-var classNames = _interopDefault(require('classnames'));
+var classnames = _interopDefault(require('classnames'));
 var _ = _interopDefault(require('underscore'));
 var mitragyna = require('mitragyna');
 var moment = _interopDefault(require('moment'));
@@ -198,7 +198,7 @@ if (url != undefined) {
 
 var occsn = Occasion.Client(options);
 
-var actionTypes = mirrorCreator(['OCCSN_BOOK_ORDER_REQUEST', 'OCCSN_BOOK_ORDER_REQUEST_COMPLETE', 'OCCSN_CONSTRUCT_ORDER_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST_COMPLETE', 'OCCSN_LOAD_PRODUCT_REQUEST', 'OCCSN_SAVE_ORDER_REQUEST', 'OCCSN_SAVE_ORDER_REQUEST_COMPLETE', 'OCCSN_SET_ORDER', 'OCCSN_SET_PRODUCT']);
+var actionTypes = mirrorCreator(['OCCSN_BOOK_ORDER_REQUEST', 'OCCSN_BOOK_ORDER_REQUEST_COMPLETE', 'OCCSN_CONSTRUCT_ORDER_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST_COMPLETE', 'OCCSN_LOAD_PRODUCT_REQUEST', 'OCCSN_SAVE_ORDER_REQUEST', 'OCCSN_SAVE_ORDER_REQUEST_COMPLETE', 'OCCSN_SET_ORDER', 'OCCSN_SET_PRODUCT', 'OCCSN_SET_SKIP_ATTENDEES']);
 
 function constructOrder(product) {
   return function (dispatch) {
@@ -367,6 +367,12 @@ function setProduct(product) {
     product: product
   };
 }
+function setSkipAttendees(skipAttendees) {
+  return {
+    type: actionTypes.OCCSN_SET_SKIP_ATTENDEES,
+    skipAttendees: skipAttendees
+  };
+}
 
 var Header =
 /*#__PURE__*/
@@ -456,8 +462,8 @@ function setTimeSlotsFromCalendar(timeSlots) {
 
 var TimeSlotsSelector =
 /*#__PURE__*/
-function (_PureComponent) {
-  _inherits(TimeSlotsSelector, _PureComponent);
+function (_React$Component) {
+  _inherits(TimeSlotsSelector, _React$Component);
 
   function TimeSlotsSelector() {
     var _this;
@@ -468,6 +474,9 @@ function (_PureComponent) {
 
     _.bindAll(_assertThisInitialized(_this), ['selectTimeSlot']);
 
+    _this.state = {
+      toolTips: {}
+    };
     return _this;
   }
 
@@ -483,17 +492,32 @@ function (_PureComponent) {
       onSelect(newSubject);
     }
   }, {
+    key: "toggleToolTip",
+    value: function toggleToolTip(id) {
+      var _this2 = this;
+
+      return function () {
+        var toolTips = _this2.state.toolTips;
+        toolTips[id] = !toolTips[id];
+
+        _this2.setState({
+          toolTips: toolTips
+        });
+      };
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$props2 = this.props,
           calendar = _this$props2.calendar,
           disabled = _this$props2.disabled,
           timeSlots = _this$props2.timeSlots,
+          showAvailability = _this$props2.showAvailability,
           subject = _this$props2.subject;
       var formatProps = this.context.formatProps;
-      var customControlInputClassNames = classNames('custom-control-input', {
+      var customControlInputClassNames = classnames('custom-control-input', {
         'is-invalid': !subject.errors().forField('timeSlots').empty()
       });
       var timeSlotFormat;
@@ -509,16 +533,22 @@ function (_PureComponent) {
       }, React__default.createElement("section", {
         className: "time-slots-selector-buttons"
       }, timeSlots.map(function (timeSlot) {
-        return React__default.createElement(reactstrap.Button, {
+        return React__default.createElement("span", null, React__default.createElement(reactstrap.Button, {
           className: subject.timeSlots().target().include(timeSlot) ? 'active' : '',
           color: "primary",
           disabled: disabled,
+          id: 'timeSlot-' + timeSlot.id.replace(/~/g, ''),
           key: timeSlot.id,
           onClick: function onClick() {
-            return _this2.selectTimeSlot(timeSlot);
+            return _this3.selectTimeSlot(timeSlot);
           },
           outline: true
-        }, timeSlot.startsAt.format(timeSlotFormat));
+        }, timeSlot.startsAt.format(timeSlotFormat)), showAvailability ? React__default.createElement(reactstrap.Tooltip, {
+          placement: "bottom",
+          isOpen: _this3.state.toolTips[timeSlot.id],
+          target: 'timeSlot-' + timeSlot.id.replace(/~/g, ''),
+          toggle: _this3.toggleToolTip(timeSlot.id)
+        }, timeSlot.spotsAvailable, " open spots") : null);
       }).toArray()), React__default.createElement("section", {
         className: "time-slots-selector-errors custom-control"
       }, React__default.createElement("div", {
@@ -531,13 +561,14 @@ function (_PureComponent) {
   }]);
 
   return TimeSlotsSelector;
-}(React.PureComponent);
+}(React__default.Component);
 
 _defineProperty(_defineProperty(TimeSlotsSelector, "propTypes", {
   calendar: PropTypes.bool,
   disabled: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
   subject: PropTypes.instanceOf(occsn.Order).isRequired,
+  showAvailability: PropTypes.bool,
   timeSlots: PropTypes.shape({
     __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
   }).isRequired
@@ -728,8 +759,8 @@ function dispatchToProps(dispatch) {
 
 var TimeSlotsContainer =
 /*#__PURE__*/
-function (_PureComponent) {
-  _inherits(TimeSlotsContainer, _PureComponent);
+function (_React$Component) {
+  _inherits(TimeSlotsContainer, _React$Component);
 
   function TimeSlotsContainer() {
     var _this;
@@ -835,6 +866,7 @@ function (_PureComponent) {
           }, data.timeSlotsFromCalendar.first().startsAt.format('dddd, MMMM Do')) : null, React__default.createElement(TimeSlotsSelector, {
             calendar: true,
             onSelect: this.onTimeSelect,
+            showAvailability: data.product.showOccurrenceAvailability,
             subject: order,
             timeSlots: data.timeSlotsFromCalendar
           }));
@@ -848,6 +880,7 @@ function (_PureComponent) {
           }), React__default.createElement(TimeSlotsSelector, {
             disabled: data.product.sellsSessions,
             onSelect: this.onTimeSelect,
+            showAvailability: data.product.showOccurrenceAvailability,
             subject: order,
             timeSlots: data.activeTimeSlotsCollection
           }), !data.product.sellsSessions ? React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
@@ -866,7 +899,7 @@ function (_PureComponent) {
   }]);
 
   return TimeSlotsContainer;
-}(React.PureComponent); // See https://github.com/reactjs/react-redux/blob/master/docs/api.md#examples
+}(React__default.Component); // See https://github.com/reactjs/react-redux/blob/master/docs/api.md#examples
 
 _defineProperty(_defineProperty(TimeSlotsContainer, "propTypes", {
   actions: PropTypes.object.isRequired,
@@ -934,27 +967,53 @@ function (_React$Component) {
   _inherits(Attendees, _React$Component);
 
   function Attendees() {
+    var _this;
+
     _classCallCheck(this, Attendees);
 
-    return _possibleConstructorReturn(this, (Attendees.__proto__ || Object.getPrototypeOf(Attendees)).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, (Attendees.__proto__ || Object.getPrototypeOf(Attendees)).call(this));
+
+    _.bindAll(_assertThisInitialized(_this), 'toggleSkipAttendees');
+
+    return _this;
   }
 
   _createClass(Attendees, [{
+    key: "toggleSkipAttendees",
+    value: function toggleSkipAttendees(e) {
+      var setSkipAttendees = this.props.setSkipAttendees;
+      setSkipAttendees(e.target.checked);
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
           questions = _this$props.questions,
+          skipAttendees = _this$props.skipAttendees,
           subject = _this$props.subject;
       return React__default.createElement("section", {
         className: "attendees"
-      }, React__default.createElement(mitragyna.Collection, {
+      }, React__default.createElement("div", {
+        className: "skip-attendees"
+      }, React__default.createElement(reactstrap.FormGroup, {
+        check: true
+      }, React__default.createElement(reactstrap.Label, {
+        check: true,
+        "for": "toggleAttendees"
+      }, React__default.createElement(reactstrap.Input, {
+        type: "checkbox",
+        id: "toggleAttendees",
+        name: "toggleAttendees",
+        checked: skipAttendees,
+        onChange: this.toggleSkipAttendees
+      }), "Skip attendees for now"))), !skipAttendees ? React__default.createElement(mitragyna.Collection, {
         component: Attendee,
         componentProps: {
           questions: questions
         },
         reflection: "attendees",
         subject: subject.attendees()
-      }));
+      }) : null);
     }
   }]);
 
@@ -965,6 +1024,8 @@ _defineProperty(Attendees, "propTypes", {
   questions: PropTypes.shape({
     __collection: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
+  setSkipAttendees: PropTypes.func,
+  skipAttendees: PropTypes.bool,
   subject: PropTypes.instanceOf(occsn.Order)
 });
 
@@ -990,7 +1051,7 @@ function (_PureComponent) {
         className: "customer-email-field",
         type: "email",
         name: "email",
-        placeholder: "Email",
+        placeholder: "Email*",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1003,7 +1064,7 @@ function (_PureComponent) {
         className: "customer-first-name-field",
         type: "text",
         name: "firstName",
-        placeholder: "First Name",
+        placeholder: "First Name*",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1016,7 +1077,7 @@ function (_PureComponent) {
         className: "customer-last-name-field",
         type: "text",
         name: "lastName",
-        placeholder: "Last Name",
+        placeholder: "Last Name*",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1029,7 +1090,7 @@ function (_PureComponent) {
         className: "customer-zip-field",
         type: "text",
         name: "zip",
-        placeholder: "Zip Code",
+        placeholder: "Zip Code*",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1066,8 +1127,9 @@ function (_PureComponent) {
 
   _createClass(MissingAnswers, [{
     key: "missingRequiredAnswers",
-    value: function missingRequiredAnswers() {
+    value: function missingRequiredAnswers(override) {
       var order = this.props.order;
+      if (override) order = override;
       return order.answers().target().select(function (a) {
         return a.question().required && (a.question().optionable && !a.option() || !a.question().optionable && !a.value) || a.question().formControl == 'waiver' && !a.value;
       });
@@ -1161,7 +1223,7 @@ function (_PureComponent) {
         quantity: order.price
       })));
 
-      if (!_.isNull(order.giftCardAmount)) {
+      if (order.giftCardAmount && !order.giftCardAmount.isZero()) {
         rows.push(React__default.createElement("p", {
           className: "gift-card-amount"
         }, React__default.createElement("span", null, "Gift Cards: "), React__default.createElement(Currency, {
@@ -1700,13 +1762,16 @@ function (_PureComponent) {
         label.push(React__default.createElement("span", null, "\xA0*"));
       }
 
+      var id = "answer-" + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "checkbox-container"
       }, React__default.createElement(reactstrap.FormGroup, {
         check: true
       }, React__default.createElement(reactstrap.Label, {
-        check: true
+        check: true,
+        "for": id
       }, React__default.createElement(mitragyna.Field, {
+        id: id,
         name: "value",
         type: "checkbox",
         component: reactstrap.Input,
@@ -1750,9 +1815,13 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
+      var id = "answer-" + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "dropdown-container"
-      }, React__default.createElement(reactstrap.Label, null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+      }, React__default.createElement(reactstrap.Label, {
+        "for": id
+      }, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+        id: id,
         name: "option",
         type: "select",
         component: reactstrap.Input,
@@ -1785,17 +1854,22 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
+      var id = "answer-" + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "option-list-container",
         tag: "fieldset"
-      }, React__default.createElement("label", null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+      }, React__default.createElement(reactstrap.Label, {
+        "for": id
+      }, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
         type: "radioGroup"
       }, answer.question().options().target().map(function (option) {
         return React__default.createElement(reactstrap.FormGroup, {
           check: true
         }, React__default.createElement(reactstrap.Label, {
+          "for": option.id,
           check: true
         }, React__default.createElement(mitragyna.Field, {
+          id: option.id,
           name: "option",
           type: "radio",
           component: reactstrap.Input,
@@ -1823,14 +1897,34 @@ function (_PureComponent) {
   _inherits(SpinButton, _PureComponent);
 
   function SpinButton() {
+    var _this;
+
     _classCallCheck(this, SpinButton);
 
-    return _possibleConstructorReturn(this, (SpinButton.__proto__ || Object.getPrototypeOf(SpinButton)).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, (SpinButton.__proto__ || Object.getPrototypeOf(SpinButton)).call(this));
+
+    _.bindAll(_assertThisInitialized(_this), 'decrementValue', 'incrementValue');
+
+    return _this;
   }
 
   _createClass(SpinButton, [{
+    key: "decrementValue",
+    value: function decrementValue() {
+      var currentValue = this.fieldRef.getValue();
+      this.fieldRef.setValue(currentValue - 1);
+    }
+  }, {
+    key: "incrementValue",
+    value: function incrementValue() {
+      var currentValue = this.fieldRef.getValue();
+      this.fieldRef.setValue(currentValue + 1);
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var answer = this.props.answer;
       var question = answer.question();
       var label = [React__default.createElement("span", {
@@ -1856,15 +1950,32 @@ function (_PureComponent) {
         }));
       }
 
+      var id = "answer-" + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "spin-button-container"
-      }, React__default.createElement(reactstrap.Label, null, label), React__default.createElement(mitragyna.Field, {
+      }, React__default.createElement(reactstrap.Label, {
+        "for": id
+      }, label), React__default.createElement(reactstrap.InputGroup, null, React__default.createElement(mitragyna.Field, {
+        id: id,
         name: "value",
         type: "number",
         component: reactstrap.Input,
         max: question.max,
-        min: question.min
-      }), React__default.createElement(reactstrap.FormText, {
+        min: question.min,
+        ref: function ref(r) {
+          return _this2.fieldRef = r;
+        }
+      }), React__default.createElement(reactstrap.InputGroupAddon, {
+        addonType: "append"
+      }, React__default.createElement(reactstrap.Button, {
+        className: "spin-button-minus",
+        color: "secondary",
+        onClick: this.decrementValue
+      }, "-"), React__default.createElement(reactstrap.Button, {
+        className: "spin-button-plus",
+        color: "secondary",
+        onClick: this.incrementValue
+      }, "+"))), React__default.createElement(reactstrap.FormText, {
         className: "spin-button-calculation"
       }, priceContribution));
     }
@@ -1892,9 +2003,13 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
+      var id = "answer-" + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "text-area-container"
-      }, React__default.createElement(reactstrap.Label, null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+      }, React__default.createElement(reactstrap.Label, {
+        "for": id
+      }, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+        id: id,
         name: "value",
         type: "textarea",
         component: reactstrap.Input
@@ -1924,9 +2039,13 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
+      var id = "answer-" + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "text-input-container"
-      }, React__default.createElement(reactstrap.Label, null, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+      }, React__default.createElement(reactstrap.Label, {
+        "for": id
+      }, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
+        id: id,
         name: "value",
         type: "text",
         component: reactstrap.Input
@@ -1956,6 +2075,7 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
+      var id = "answer-" + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "waiver-container"
       }, React__default.createElement(reactstrap.Card, {
@@ -1963,9 +2083,11 @@ function (_PureComponent) {
       }, React__default.createElement(reactstrap.CardBody, null, React__default.createElement(reactstrap.CardText, null, ReactHtmlParser(answer.question().waiverText)))), React__default.createElement(reactstrap.FormGroup, {
         check: true
       }, React__default.createElement(reactstrap.Label, {
+        "for": id,
         check: true,
         className: "mt-2"
       }, React__default.createElement(mitragyna.Field, {
+        id: id,
         name: "value",
         type: "checkbox",
         component: reactstrap.Input,
@@ -2334,7 +2456,7 @@ function (_PureComponent) {
     key: "showInput",
     value: function showInput() {
       var order = this.props.order;
-      return !order.outstandingBalance.isZero() || _.isNull(order.coupon());
+      return order.outstandingBalance && !order.outstandingBalance.isZero() || _.isNull(order.coupon());
     }
   }, {
     key: "removeRedeemable",
@@ -2444,10 +2566,11 @@ function (_PureComponent) {
   }, {
     key: "allowedToBookOrder",
     value: function allowedToBookOrder() {
-      var bookingOrder = this.props.bookingOrder;
-      var missingAnswers = false;
-      if (this.missingAnswers && !this.missingAnswers.empty()) missingAnswers = true;
-      return !bookingOrder && !missingAnswers;
+      var _this$props = this.props,
+          bookingOrder = _this$props.bookingOrder,
+          subject = _this$props.subject;
+      if (!subject || !this.missingAnswers) return false;
+      return !bookingOrder && this.missingAnswers.missingRequiredAnswers(subject).empty();
     } // Mitragyna callback
 
   }, {
@@ -2555,7 +2678,7 @@ function (_PureComponent) {
       var subject = this.props.subject;
       var product = subject.product();
       if (subject.newResource()) return false;
-      return !product.free && product.hasRedeemables && subject.subtotal && !subject.subtotal.isZero();
+      return !product.free && product.hasRedeemables && (subject.subtotal && !subject.subtotal.isZero() || window.OCCSN.coupon_code);
     } // Determines if should show the payment form
     // @note If the product is free or outstandingBalance is zero, do not show the payment form
     //
@@ -2587,12 +2710,14 @@ function (_PureComponent) {
     value: function render() {
       var _this2 = this;
 
-      var _this$props = this.props,
-          afterError = _this$props.afterError,
-          afterUpdate = _this$props.afterUpdate,
-          bookingOrder = _this$props.bookingOrder,
-          findRedeemable = _this$props.findRedeemable,
-          subject = _this$props.subject;
+      var _this$props2 = this.props,
+          afterError = _this$props2.afterError,
+          afterUpdate = _this$props2.afterUpdate,
+          bookingOrder = _this$props2.bookingOrder,
+          findRedeemable = _this$props2.findRedeemable,
+          setSkipAttendees = _this$props2.setSkipAttendees,
+          skipAttendees = _this$props2.skipAttendees,
+          subject = _this$props2.subject;
       var componentProps = this.context.componentProps;
       var customer = subject.customer();
       var product = subject.product();
@@ -2603,14 +2728,18 @@ function (_PureComponent) {
       }, React__default.createElement("a", {
         name: "time-slots",
         id: "time-slots-anchor"
-      }), this.headerForSection('timeSlots'), React__default.createElement(TimeSlotsContainer$1, {
+      }), this.headerForSection('timeSlots'), React__default.createElement("h6", {
+        className: "container-description"
+      }, "Please select time and date:"), React__default.createElement(TimeSlotsContainer$1, {
         order: subject
       })) : null, React__default.createElement("section", {
         className: "customer-container"
       }, React__default.createElement("a", {
         name: "customer",
         id: "customer-anchor"
-      }), this.headerForSection('contact'), React__default.createElement(mitragyna.Resource, {
+      }), this.headerForSection('contact'), React__default.createElement("h6", {
+        className: "container-description"
+      }, "Please fill in your information to complete your order:"), React__default.createElement(mitragyna.Resource, {
         component: Customer,
         reflection: "customer",
         subject: customer
@@ -2629,6 +2758,8 @@ function (_PureComponent) {
         id: "attendees-anchor"
       }), this.headerForSection('attendees'), React__default.createElement(Attendees, {
         questions: product.attendeeQuestions,
+        setSkipAttendees: setSkipAttendees,
+        skipAttendees: skipAttendees,
         subject: subject
       })) : null, this.showRedeemables() ? React__default.createElement("section", {
         className: "redeemables-container"
@@ -2694,6 +2825,8 @@ _defineProperty(_defineProperty(Order, "propTypes", {
   afterUpdate: PropTypes.func.isRequired,
   bookingOrder: PropTypes.bool,
   findRedeemable: PropTypes.func.isRequired,
+  setSkipAttendees: PropTypes.func,
+  skipAttendees: PropTypes.bool,
   subject: PropTypes.instanceOf(occsn.Order).isRequired
 }), "contextTypes", {
   componentProps: PropTypes.object
@@ -2723,9 +2856,9 @@ function (_PureComponent) {
       }, React__default.createElement("h4", null, order.timeSlots().target().first().startsAt.format('dddd MMMM Do, YYYY h:mm A'))), React__default.createElement("section", {
         className: "order-complete-messages"
       }, React__default.createElement("p", {
-        className: "post-transactional"
-      }, order.product().postTransactionalMessage), React__default.createElement("p", {
-        className: "confirmation"
+        className: "custom-confirmation-message"
+      }, order.product().customerConfirmationMessage), React__default.createElement("p", {
+        className: "confirmation-email-message"
       }, "An order confirmation email with receipt has been sent to ", order.customer().email, ".")));
     }
   }]);
@@ -2741,6 +2874,8 @@ function stateToProps$1(state) {
   return {
     data: {
       bookingOrder: state.$$appStore.get('bookingOrder'),
+      savingOrder: state.$$appStore.get('savingOrder'),
+      skipAttendees: state.$$appStore.get('skipAttendees'),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
       activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
@@ -2767,6 +2902,9 @@ function dispatchToProps$1(dispatch) {
       },
       setOrder: function setOrder$$1(order) {
         return dispatch(setOrder(order));
+      },
+      setSkipAttendees: function setSkipAttendees$$1(skip) {
+        return dispatch(setSkipAttendees(skip));
       }
     }
   };
@@ -2783,9 +2921,8 @@ function (_PureComponent) {
     _classCallCheck(this, AppContainer);
 
     _this = _possibleConstructorReturn(this, (AppContainer.__proto__ || Object.getPrototypeOf(AppContainer)).call(this, props));
-    console.log(props);
 
-    _.bindAll(_assertThisInitialized(_this), 'renderBookingScreen', 'renderCompleteScreen', 'renderLoadingScreen', 'setSelectedTimeSlot');
+    _.bindAll(_assertThisInitialized(_this), 'renderBookingScreen', 'renderCompleteScreen', 'renderLoadingScreen', 'checkPrefilledAttributes', 'setPrefilledAttributes');
 
     return _this;
   }
@@ -2807,10 +2944,7 @@ function (_PureComponent) {
       if (nextProps.data.order != null) {
         if (data.order == null) {
           actions.saveOrder(nextProps.data.order);
-
-          if (window.OCCSN.time_slot_id) {
-            this.setSelectedTimeSlot(nextProps.data.product, nextProps.data.order, window.OCCSN.time_slot_id);
-          }
+          this.checkPrefilledAttributes(nextProps.data.product);
         }
 
         if (callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
@@ -2839,21 +2973,16 @@ function (_PureComponent) {
       var _this$props2 = this.props,
           actions = _this$props2.actions,
           data = _this$props2.data;
-      var body;
 
       if (data.product) {
         if (data.order != null && data.order.status == 'booked') {
-          body = this.renderCompleteScreen();
+          return this.renderCompleteScreen();
         } else {
-          body = this.renderBookingScreen();
+          return this.renderBookingScreen();
         }
       } else {
-        body = this.renderLoadingScreen();
+        return this.renderLoadingScreen();
       }
-
-      return React__default.createElement(reactstrap.Container, {
-        fluid: true
-      }, body);
     }
   }, {
     key: "renderLoadingScreen",
@@ -2874,9 +3003,11 @@ function (_PureComponent) {
     value: function renderBookingScreen() {
       var _this$props3 = this.props,
           actions = _this$props3.actions,
-          data = _this$props3.data;
+          data = _this$props3.data,
+          className = _this$props3.className;
+      var classNames = classnames('occsn-app-container', className);
       return React__default.createElement("section", {
-        className: "occsn-app-container"
+        className: classNames
       }, data.order ? React__default.createElement(mitragyna.Resource, {
         afterError: actions.setOrder,
         afterUpdate: actions.saveOrder,
@@ -2885,6 +3016,8 @@ function (_PureComponent) {
           activeTimeSlotsCollection: data.activeTimeSlotsCollection,
           bookingOrder: data.bookingOrder,
           findRedeemable: actions.findRedeemable,
+          setSkipAttendees: actions.setSkipAttendees,
+          skipAttendees: data.skipAttendees,
           timeSlotsFromCalendar: data.timeSlotsFromCalendar
         },
         onSubmit: actions.bookOrder,
@@ -2901,18 +3034,52 @@ function (_PureComponent) {
       });
     }
   }, {
-    key: "setSelectedTimeSlot",
-    value: function setSelectedTimeSlot(product, order, timeSlotId) {
+    key: "checkPrefilledAttributes",
+    value: function checkPrefilledAttributes(product) {
       var actions = this.props.actions;
-      product.timeSlots().includes({
-        product: 'merchant'
-      }).where({
-        status: 'bookable'
-      }).find(timeSlotId).then(function (timeSlot) {
-        actions.saveOrder(order.assignAttributes({
-          timeSlots: [timeSlot]
+      var promises = [];
+
+      if (window.OCCSN.coupon_code) {
+        promises.push(new Promise(function (resolve) {
+          actions.findRedeemable(product, window.OCCSN.coupon_code, function (coupon) {
+            return resolve(coupon);
+          }, null);
         }));
-      });
+      } else {
+        promises.push(new Promise(function (resolve) {
+          return resolve();
+        }));
+      }
+
+      if (window.OCCSN.time_slot_id) {
+        promises.push(product.timeSlots().includes({
+          product: 'merchant'
+        }).where({
+          status: 'bookable'
+        }).find(window.OCCSN.time_slot_id));
+      }
+
+      if (promises.size == 0) return;
+      Promise.all(promises).then(this.setPrefilledAttributes);
+    }
+  }, {
+    key: "setPrefilledAttributes",
+    value: function setPrefilledAttributes(prefills) {
+      var _this$props4 = this.props,
+          actions = _this$props4.actions,
+          data = _this$props4.data;
+      var attributes = {};
+
+      if (prefills[0]) {
+        attributes.coupon = prefills[0];
+      }
+
+      if (prefills[1]) {
+        attributes.timeSlots = [prefills[1]];
+      }
+
+      if (attributes == {}) return;
+      actions.saveOrder(data.order.assignAttributes(attributes));
     }
   }]);
 
@@ -2950,7 +3117,8 @@ var $$initialState = Immutable.fromJS({
   bookingOrder: false,
   order: null,
   product: null,
-  savingOrder: false
+  savingOrder: false,
+  skipAttendees: false
 });
 function appReducer() {
   var $$state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : $$initialState;
@@ -2986,6 +3154,11 @@ function appReducer() {
     case actionTypes.OCCSN_SET_PRODUCT:
       return $$state.merge({
         product: action.product
+      });
+
+    case actionTypes.OCCSN_SET_SKIP_ATTENDEES:
+      return $$state.merge({
+        skipAttendees: action.skipAttendees
       });
 
     default:
