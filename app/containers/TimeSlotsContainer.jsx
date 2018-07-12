@@ -42,7 +42,7 @@ function dispatchToProps(dispatch) {
   };
 }
 
-export class TimeSlotsContainer extends PureComponent {
+export class TimeSlotsContainer extends React.Component {
   static propTypes = {
     actions: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
@@ -149,7 +149,13 @@ export class TimeSlotsContainer extends PureComponent {
               <h3 className="calendar-date-selected">{data.timeSlotsFromCalendar.first().startsAt.format('dddd, MMMM Do')}</h3>
             ) : null
           }
-          <TimeSlotsSelector calendar={true} onSelect={this.onTimeSelect} subject={order} timeSlots={data.timeSlotsFromCalendar} />
+          <TimeSlotsSelector
+            calendar={true}
+            onSelect={this.onTimeSelect}
+            showAvailability={data.product.showOccurrenceAvailability}
+            subject={order}
+            timeSlots={data.timeSlotsFromCalendar}
+          />
         </section>;
       case 'list':
         return <section className="list-view">
@@ -159,7 +165,13 @@ export class TimeSlotsContainer extends PureComponent {
             ) : (null)
           }
           <a name="time-slots-selector" id="time-slots-selector-anchor"></a>
-          <TimeSlotsSelector disabled={data.product.sellsSessions} onSelect={this.onTimeSelect} subject={order} timeSlots={data.activeTimeSlotsCollection} />
+          <TimeSlotsSelector
+            disabled={data.product.sellsSessions}
+            onSelect={this.onTimeSelect}
+            showAvailability={data.product.showOccurrenceAvailability}
+            subject={order}
+            timeSlots={data.activeTimeSlotsCollection}
+          />
           {
             !data.product.sellsSessions ? (
               <Row>

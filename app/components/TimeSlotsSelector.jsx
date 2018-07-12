@@ -5,16 +5,17 @@ import classNames from 'classnames';
 import _ from 'underscore';
 
 import { ErrorsFor } from 'mitragyna';
-import { Button, FormFeedback } from 'reactstrap';
+import { Button, FormFeedback, Tooltip } from 'reactstrap';
 
 import occsn from '../libs/Occasion';
 
-export default class TimeSlotsSelector extends PureComponent {
+export default class TimeSlotsSelector extends React.Component {
   static propTypes = {
     calendar: PropTypes.bool,
     disabled: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
+    showAvailability: PropTypes.bool,
     timeSlots: PropTypes.shape({
       __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
     }).isRequired,
@@ -30,6 +31,10 @@ export default class TimeSlotsSelector extends PureComponent {
     _.bindAll(this, [
       'selectTimeSlot'
     ]);
+
+    this.state = {
+      toolTips: {}
+    }
   }
 
   selectTimeSlot(timeSlot) {
@@ -42,8 +47,18 @@ export default class TimeSlotsSelector extends PureComponent {
     onSelect(newSubject);
   }
 
+  toggleToolTip(id) {
+    return () => {
+      let toolTips = this.state.toolTips;
+
+      toolTips[id] = !toolTips[id];
+      
+      this.setState({ toolTips });
+    }
+  }
+
   render() {
-    let { calendar, disabled, timeSlots, subject } = this.props;
+    let { calendar, disabled, timeSlots, showAvailability, subject } = this.props;
     let { formatProps } = this.context;
 
     var customControlInputClassNames = classNames(
@@ -65,16 +80,31 @@ export default class TimeSlotsSelector extends PureComponent {
       <section className="time-slots-selector-buttons">
         { timeSlots.map((timeSlot) => {
           return (
-            <Button
-              className={ subject.timeSlots().target().include(timeSlot) ? 'active' : '' }
-              color="primary"
-              disabled={disabled}
-              key={timeSlot.id}
-              onClick={() => this.selectTimeSlot(timeSlot)}
-              outline
-            >
-              { timeSlot.startsAt.format(timeSlotFormat) }
-            </Button>
+            <span>
+              <Button
+                className={ subject.timeSlots().target().include(timeSlot) ? 'active' : '' }
+                color="primary"
+                disabled={disabled}
+                id={'timeSlot-' + timeSlot.id.replace(/~/g,'')}
+                key={timeSlot.id}
+                onClick={() => this.selectTimeSlot(timeSlot)}
+                outline
+              >
+                { timeSlot.startsAt.format(timeSlotFormat) }
+              </Button>
+              {
+                showAvailability ? (
+                  <Tooltip
+                    placement="bottom"
+                    isOpen={this.state.toolTips[timeSlot.id]}
+                    target={'timeSlot-' + timeSlot.id.replace(/~/g,'')}
+                    toggle={this.toggleToolTip(timeSlot.id)}
+                  >
+                    { timeSlot.spotsAvailable } open spots
+                  </Tooltip>
+                ) : (null)
+              }
+            </span>
           )
         }).toArray()
         }
