@@ -69,7 +69,8 @@ export class AppContainer extends PureComponent {
     format: PropTypes.shape({
       calendarTimeSlotsSelector: PropTypes.string,
       listTimeSlotsSelector: PropTypes.string,
-    })
+    }),
+    formRef: PropTypes.func,
   };
 
   static childContextTypes = {
@@ -164,7 +165,7 @@ export class AppContainer extends PureComponent {
   }
 
   renderBookingScreen() {
-    const { actions, data, className } = this.props;
+    const { actions, data, className, formRef } = this.props;
 
     let classNames = classnames(
       'occsn-app-container',
@@ -185,6 +186,7 @@ export class AppContainer extends PureComponent {
             skipAttendees: data.skipAttendees,
             timeSlotsFromCalendar: data.timeSlotsFromCalendar
           } }
+          componentRef={formRef}
           onSubmit={ actions.bookOrder }
           onInvalidSubmit={ actions.setOrder }
           subject={ data.order }
