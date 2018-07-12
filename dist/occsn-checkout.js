@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.13
+ * occsn-checkout v0.0.14
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
