@@ -129,3 +129,10 @@ export function setProduct(product) {
     product
   };
 }
+
+export function setSkipAttendees(skipAttendees) {
+  return {
+    type: actionTypes.OCCSN_SET_SKIP_ATTENDEES,
+    skipAttendees
+  };
+}

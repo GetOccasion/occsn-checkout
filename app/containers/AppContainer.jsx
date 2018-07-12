@@ -26,6 +26,7 @@ function stateToProps(state) {
     data: {
       bookingOrder: state.$$appStore.get('bookingOrder'),
       savingOrder: state.$$appStore.get('savingOrder'),
+      skipAttendees: state.$$appStore.get('skipAttendees'),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
       activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
@@ -42,7 +43,8 @@ function dispatchToProps(dispatch) {
       findRedeemable: (product, code, onSuccess, onError) => dispatch(appActions.findRedeemable(product, code, onSuccess, onError)),
       loadProduct: () => dispatch(appActions.loadProduct(window.OCCSN.product_id)),
       saveOrder: (order) => dispatch(appActions.saveOrder(order)),
-      setOrder: (order) => dispatch(appActions.setOrder(order))
+      setOrder: (order) => dispatch(appActions.setOrder(order)),
+      setSkipAttendees: (skip) => dispatch(appActions.setSkipAttendees(skip))
     }
   }
 }
@@ -167,6 +169,8 @@ export class AppContainer extends PureComponent {
             activeTimeSlotsCollection: data.activeTimeSlotsCollection,
             bookingOrder: data.bookingOrder,
             findRedeemable: actions.findRedeemable,
+            setSkipAttendees: actions.setSkipAttendees,
+            skipAttendees: data.skipAttendees,
             timeSlotsFromCalendar: data.timeSlotsFromCalendar
           } }
           onSubmit={ actions.bookOrder }

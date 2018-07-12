@@ -52,7 +52,7 @@ export default class TimeSlotsSelector extends React.Component {
       let toolTips = this.state.toolTips;
 
       toolTips[id] = !toolTips[id];
-      
+
       this.setState({ toolTips });
     }
   }
