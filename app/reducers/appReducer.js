@@ -4,8 +4,10 @@ import actionTypes from '../constants/appConstants';
 
 export const $$initialState = Immutable.fromJS({
   bookingOrder: false,
+  loadingProduct: false,
   order: null,
   product: null,
+  productNotFound: false,
   savingOrder: false,
   skipAttendees: false
 });
@@ -18,6 +20,10 @@ export default function appReducer($$state = $$initialState, action) {
       return $$state.merge({ bookingOrder: true });
     case actionTypes.OCCSN_BOOK_ORDER_REQUEST_COMPLETE:
       return $$state.merge({ bookingOrder: false });
+    case actionTypes.OCCSN_LOAD_PRODUCT_REQUEST:
+      return $$state.merge({ loadingProduct: true });
+    case actionTypes.OCCSN_LOAD_PRODUCT_REQUEST_COMPLETE:
+      return $$state.merge({ loadingProduct: false });
     case actionTypes.OCCSN_SAVE_ORDER_REQUEST:
       return $$state.merge({ savingOrder: true });
     case actionTypes.OCCSN_SAVE_ORDER_REQUEST_COMPLETE:
@@ -26,6 +32,8 @@ export default function appReducer($$state = $$initialState, action) {
       return $$state.merge({ order: action.order });
     case actionTypes.OCCSN_SET_PRODUCT:
       return $$state.merge({ product: action.product });
+    case actionTypes.OCCSN_SET_PRODUCT_NOT_FOUND:
+      return $$state.merge({ productNotFound: true });
     case actionTypes.OCCSN_SET_SKIP_ATTENDEES:
       return $$state.merge({ skipAttendees: action.skipAttendees });
     default:

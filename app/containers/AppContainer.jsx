@@ -26,9 +26,11 @@ function stateToProps(state) {
     data: {
       bookingOrder: state.$$appStore.get('bookingOrder'),
       savingOrder: state.$$appStore.get('savingOrder'),
+      loadingProduct: state.$$appStore.get('loadingProduct'),
       skipAttendees: state.$$appStore.get('skipAttendees'),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
+      productNotFound: state.$$appStore.get('productNotFound'),
       activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
       timeSlotsFromCalendar: state.$$calendarStore.get('timeSlotsFromCalendar'),
     }
@@ -58,6 +60,7 @@ export class AppContainer extends PureComponent {
       onOrderChange: PropTypes.func,
       onPersonalInformationComplete: PropTypes.func,
       onProductLoad: PropTypes.func,
+      onProductNotFound: PropTypes.func,
       onTimeSelect: PropTypes.func,
     }),
     components: PropTypes.shape({
@@ -125,6 +128,8 @@ export class AppContainer extends PureComponent {
 
     if(data.product == null && nextProps.data.product != null) {
       if(callbacks && callbacks.onProductLoad) callbacks.onProductLoad(nextProps.data.product);
+    } else if(data.productNotFound) {
+      if(callbacks && callbacks.onProductNotFound) callbacks.onProductNotFound();
     }
   }
 

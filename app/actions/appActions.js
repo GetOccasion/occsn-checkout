@@ -83,6 +83,10 @@ export function loadProduct(id) {
       dispatch(setProduct(product));
 
       dispatch(constructOrder(product));
+    }).catch(error => {
+      dispatch(setProductNotFound());
+    }).finally(() => {
+      dispatch(loadProductRequestComplete());
     });
   };
 }
@@ -90,6 +94,12 @@ export function loadProduct(id) {
 export function loadProductRequest() {
   return {
     type: actionTypes.OCCSN_LOAD_PRODUCT_REQUEST
+  };
+}
+
+export function loadProductRequestComplete() {
+  return {
+    type: actionTypes.OCCSN_LOAD_PRODUCT_REQUEST_COMPLETE
   };
 }
 
@@ -127,6 +137,12 @@ export function setProduct(product) {
   return {
     type: actionTypes.OCCSN_SET_PRODUCT,
     product
+  };
+}
+
+export function setProductNotFound() {
+  return {
+    type: actionTypes.OCCSN_SET_PRODUCT_NOT_FOUND,
   };
 }
 
