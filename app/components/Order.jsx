@@ -81,53 +81,82 @@ export default class Order extends PureComponent {
 
     switch(section) {
       case 'contact':
-        return <h2 className="container-title" id="widgetContactTitle">
-          { _.isNull(product.widgetContactTitle) ? (
-            "Contact Information"
-          ) : (
-            product.widgetContactTitle
-          )}
-        </h2>;
+        return <div className="container-title" id="widgetContactTitle">
+          <h6 className="pt-3 text-uppercase">
+            Contact Information
+          </h6>
+          <h4>
+            { _.isNull(product.widgetContactTitle) ? (
+              "Please give us your personal information"
+            ) : (
+              product.widgetContactTitle
+            )}
+          </h4>
+          <hr className="pb-3"/>
+        </div>;
       case 'timeSlots':
-        return <h2 className="container-title" id="widgetTimeSlotsTitle">
-          { _.isNull(product.widgetTimeSlotsTitle) ? (
-            "Time Slots"
-          ) : (
-            product.widgetTimeSlotsTitle
-          )}
-        </h2>;
+        return <div className="container-title" id="widgetTimeSlotsTitle">
+          <h6 className="pt-3 text-uppercase">
+            Time Slots
+          </h6>
+          <h4>
+            { _.isNull(product.widgetTimeSlotsTitle) ? (
+              "Please select a date and time so complete your booking"
+            ) : (
+              product.widgetTimeSlotsTitle
+            )}
+          </h4>
+          <hr className="pb-3"/>
+        </div>;
       case 'questions':
-        return <h2 className="container-title" id="widgetQuestionsTitle">
-          { _.isNull(product.widgetQuestionsTitle) ? (
-            "Additional Information"
-          ) : (
-            product.widgetQuestionsTitle
-          )}
-        </h2>;
+        return <div className="container-title" id="widgetQuestionsTitle">
+          <h6 className="pt-3 text-uppercase">
+            Additional Information
+          </h6>
+          <h4>
+            { _.isNull(product.widgetQuestionsTitle) ? (
+              "We need to collect some information from you to confirm booking"
+            ) : (
+              product.widgetQuestionsTitle
+            )}
+          </h4>
+          <hr className="pb-3"/>
+        </div>;
       case 'attendees':
-        return <h2 className="container-title" id="widgetAttendeesTitle">
-          Attendee Information
-        </h2>;
+        return <div className="container-title" id="widgetAttendeesTitle">
+          <h4>Attendee Information</h4>
+          <hr className="pb-3"/>
+        </div>;
       case 'payment':
-        return <h2 className="container-title" id="widgetPaymentTitle">
-          { _.isNull(product.widgetPaymentTitle) ? (
-            "Payment Information"
-          ) : (
-            product.widgetPaymentTitle
-          )}
-        </h2>;
+        return <div className="container-title" id="widgetPaymentTitle">
+          <h6 className="pt-3 text-uppercase">
+            Payment Information
+          </h6>
+          <h4>
+            { _.isNull(product.widgetPaymentTitle) ? (
+              "Please provide your payment details to complete your booking"
+            ) : (
+              product.widgetPaymentTitle
+            )}
+          </h4>
+          <hr className="pb-3"/>
+        </div>;
       case 'redeemables':
-        return <h2 className="container-title" id="widgetRedeemableTitle">
-            Coupons and Gift Cards
-        </h2>;
+        return <div className="container-title" id="widgetRedeemableTitle">
+            <h4>Coupons and Gift Cards</h4>
+            <hr className="pb-3"/>
+        </div>;
       case 'totalDue':
-        return <h2 className="container-title" id="widgetTotalDueTitle">
-          { _.isNull(product.widgetTotalDueTitle) ? (
-            "Total Due Today"
-          ) : (
-            product.widgetTotalDueTitle
-          )}
-        </h2>;
+        return <div className="container-title" id="widgetTotalDueTitle">
+          <h4>
+            { _.isNull(product.widgetTotalDueTitle) ? (
+              "Total Due Today"
+            ) : (
+              product.widgetTotalDueTitle
+            )}
+          </h4>
+          <hr className="pb-3"/>
+        </div>;
     }
   }
 
@@ -220,7 +249,6 @@ export default class Order extends PureComponent {
           <section className="time-slots-container">
             <a name="time-slots" id="time-slots-anchor"></a>
             { this.headerForSection('timeSlots') }
-            <h6 className="container-description">Please select time and date:</h6>
             <TimeSlotsContainer order={subject} />
           </section>
         ) : (null)
@@ -229,7 +257,6 @@ export default class Order extends PureComponent {
       <section className="customer-container">
         <a name="customer" id="customer-anchor"></a>
         { this.headerForSection('contact') }
-        <h6 className="container-description">Please fill in your information to complete your order:</h6>
         <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
       </section>
 
