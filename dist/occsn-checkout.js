@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.15
+ * occsn-checkout v0.0.16
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -939,10 +939,12 @@ function (_PureComponent) {
       }, "Attendee ", indexOf + 1), questions.map(function (q) {
         return React__default.createElement(reactstrap.FormGroup, {
           className: "attendee-input-container"
-        }, React__default.createElement(mitragyna.Field, {
+        }, React__default.createElement(reactstrap.Label, {
+          "for": 'attendee-' + indexOf + '-' + q
+        }, s.humanize(q)), React__default.createElement(mitragyna.Field, {
           type: "text",
           name: q,
-          placeholder: s.humanize(q),
+          id: 'attendee-' + indexOf + '-' + q,
           component: reactstrap.Input,
           invalidClassName: "is-invalid"
         }));
@@ -1047,11 +1049,13 @@ function (_PureComponent) {
         className: "customer"
       }, React__default.createElement(reactstrap.FormGroup, {
         className: "customer-email-form-group"
-      }, React__default.createElement(mitragyna.Field, {
+      }, React__default.createElement(reactstrap.Label, {
+        "for": "email"
+      }, "Email*"), React__default.createElement(mitragyna.Field, {
         className: "customer-email-field",
         type: "email",
         name: "email",
-        placeholder: "Email*",
+        id: "email",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1060,11 +1064,13 @@ function (_PureComponent) {
         field: "email"
       })), React__default.createElement(reactstrap.FormGroup, {
         className: "customer-first-name-form-group"
-      }, React__default.createElement(mitragyna.Field, {
+      }, React__default.createElement(reactstrap.Label, {
+        "for": "firstName"
+      }, "First Name*"), React__default.createElement(mitragyna.Field, {
         className: "customer-first-name-field",
         type: "text",
         name: "firstName",
-        placeholder: "First Name*",
+        id: "firstName",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1073,11 +1079,13 @@ function (_PureComponent) {
         field: "firstName"
       })), React__default.createElement(reactstrap.FormGroup, {
         className: "customer-last-name-form-group"
-      }, React__default.createElement(mitragyna.Field, {
+      }, React__default.createElement(reactstrap.Label, {
+        "for": "lastName"
+      }, "Last Name*"), React__default.createElement(mitragyna.Field, {
         className: "customer-last-name-field",
         type: "text",
         name: "lastName",
-        placeholder: "Last Name*",
+        id: "lastName",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1086,11 +1094,13 @@ function (_PureComponent) {
         field: "lastName"
       })), React__default.createElement(reactstrap.FormGroup, {
         className: "customer-zip-form-group"
-      }, React__default.createElement(mitragyna.Field, {
+      }, React__default.createElement(reactstrap.Label, {
+        "for": "zip"
+      }, "Zip Code*"), React__default.createElement(mitragyna.Field, {
         className: "customer-zip-field",
         type: "text",
         name: "zip",
-        placeholder: "Zip Code*",
+        id: "zip",
         component: reactstrap.Input,
         invalidClassName: "is-invalid"
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -3016,7 +3026,8 @@ function (_PureComponent) {
       var _this$props3 = this.props,
           actions = _this$props3.actions,
           data = _this$props3.data,
-          className = _this$props3.className;
+          className = _this$props3.className,
+          formRef = _this$props3.formRef;
       var classNames = classnames('occsn-app-container', className);
       return React__default.createElement("section", {
         className: classNames
@@ -3032,6 +3043,7 @@ function (_PureComponent) {
           skipAttendees: data.skipAttendees,
           timeSlotsFromCalendar: data.timeSlotsFromCalendar
         },
+        componentRef: formRef,
         onSubmit: actions.bookOrder,
         onInvalidSubmit: actions.setOrder,
         subject: data.order
@@ -3117,7 +3129,8 @@ _defineProperty(_defineProperty(AppContainer, "propTypes", {
   format: PropTypes.shape({
     calendarTimeSlotsSelector: PropTypes.string,
     listTimeSlotsSelector: PropTypes.string
-  })
+  }),
+  formRef: PropTypes.func
 }), "childContextTypes", {
   callbackProps: PropTypes.object,
   componentProps: PropTypes.object,
