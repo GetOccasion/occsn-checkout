@@ -7,7 +7,7 @@ import s from 'underscore.string';
 
 import occsn from '../../../libs/Occasion';
 
-import { Card, CardBody, CardTitle, CardText, FormGroup, Input } from 'reactstrap';
+import { Card, CardBody, CardTitle, Label, FormGroup, Input } from 'reactstrap';
 
 export default class Attendee extends PureComponent {
   static propTypes = {
@@ -29,7 +29,8 @@ export default class Attendee extends PureComponent {
         {
           questions.map((q) => {
             return <FormGroup className="attendee-input-container">
-              <Field type='text' name={q} placeholder={s.humanize(q)} component={Input} invalidClassName='is-invalid'></Field>
+              <Label for={'attendee-' + indexOf + '-' + q}>{s.humanize(q)}</Label>
+              <Field type='text' name={q} id={'attendee-' + indexOf + '-' + q} component={Input} invalidClassName='is-invalid'></Field>
             </FormGroup>;
           }).toArray()
         }
