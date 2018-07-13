@@ -2,7 +2,13 @@
 
 An importable boilerplate Occasion checkout experience using React, the Occasion SDK, and Mitragyna
 
-## Development
+## Install
+
+```bash
+$ yarn
+```
+
+## Develop
 
 First, modify `index.html` with your merchant API login and product ID:
 
@@ -18,12 +24,16 @@ First, modify `index.html` with your merchant API login and product ID:
 
 Then, run poi to start a local webpack hot-reloading build:
 
-```shell
-poi
+```bash
+$ yarn poi
 ```
+
+
+## Build
 
 To build changes to be merged into the production experience, run:
 
-```shell
-poi build
+```bash
+$ yarn poi build
+$ yarn bili
 ```

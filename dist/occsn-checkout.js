@@ -34,6 +34,22 @@ var reduxDevtoolsExtension = require('redux-devtools-extension');
 var thunkMiddleware = _interopDefault(require('redux-thunk'));
 require('bootstrap/dist/css/bootstrap.css');
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
 function _asyncToGenerator(fn) {
   return function () {
     var self = this,
@@ -41,31 +57,15 @@ function _asyncToGenerator(fn) {
     return new Promise(function (resolve, reject) {
       var gen = fn.apply(self, args);
 
-      function step(key, arg) {
-        try {
-          var info = gen[key](arg);
-          var value = info.value;
-        } catch (error) {
-          reject(error);
-          return;
-        }
-
-        if (info.done) {
-          resolve(value);
-        } else {
-          Promise.resolve(value).then(_next, _throw);
-        }
-      }
-
       function _next(value) {
-        step("next", value);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
       }
 
       function _throw(err) {
-        step("throw", err);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
       }
 
-      _next();
+      _next(undefined);
     });
   };
 }
@@ -139,6 +139,13 @@ function _inherits(subClass, superClass) {
     }
   });
   if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
 }
 
 function _setPrototypeOf(o, p) {
@@ -382,7 +389,7 @@ function (_PureComponent) {
   function Header() {
     _classCallCheck(this, Header);
 
-    return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Header).apply(this, arguments));
   }
 
   _createClass(Header, [{
@@ -470,9 +477,9 @@ function (_React$Component) {
 
     _classCallCheck(this, TimeSlotsSelector);
 
-    _this = _possibleConstructorReturn(this, (TimeSlotsSelector.__proto__ || Object.getPrototypeOf(TimeSlotsSelector)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TimeSlotsSelector).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), ['selectTimeSlot']);
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), ['selectTimeSlot']);
 
     _this.state = {
       toolTips: {}
@@ -563,7 +570,7 @@ function (_React$Component) {
   return TimeSlotsSelector;
 }(React__default.Component);
 
-_defineProperty(_defineProperty(TimeSlotsSelector, "propTypes", {
+_defineProperty(TimeSlotsSelector, "propTypes", {
   calendar: PropTypes.bool,
   disabled: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
@@ -572,7 +579,9 @@ _defineProperty(_defineProperty(TimeSlotsSelector, "propTypes", {
   timeSlots: PropTypes.shape({
     __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
   }).isRequired
-}), "contextTypes", {
+});
+
+_defineProperty(TimeSlotsSelector, "contextTypes", {
   formatProps: PropTypes.object
 });
 
@@ -586,9 +595,9 @@ function (_PureComponent) {
 
     _classCallCheck(this, Calendar);
 
-    _this = _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Calendar).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'dateClicked');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'dateClicked');
 
     return _this;
   }
@@ -659,9 +668,9 @@ function (_PureComponent) {
 
     _classCallCheck(this, Paginator);
 
-    _this = _possibleConstructorReturn(this, (Paginator.__proto__ || Object.getPrototypeOf(Paginator)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Paginator).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'nextClicked', 'prevClicked');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'nextClicked', 'prevClicked');
 
     return _this;
   }
@@ -767,9 +776,9 @@ function (_React$Component) {
 
     _classCallCheck(this, TimeSlotsContainer);
 
-    _this = _possibleConstructorReturn(this, (TimeSlotsContainer.__proto__ || Object.getPrototypeOf(TimeSlotsContainer)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(TimeSlotsContainer).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'onDateSelect', 'onTimeSelect');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'onDateSelect', 'onTimeSelect');
 
     return _this;
   }
@@ -901,12 +910,14 @@ function (_React$Component) {
   return TimeSlotsContainer;
 }(React__default.Component); // See https://github.com/reactjs/react-redux/blob/master/docs/api.md#examples
 
-_defineProperty(_defineProperty(TimeSlotsContainer, "propTypes", {
+_defineProperty(TimeSlotsContainer, "propTypes", {
   actions: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   order: PropTypes.instanceOf(occsn.Order),
   onSelect: PropTypes.func
-}), "contextTypes", {
+});
+
+_defineProperty(TimeSlotsContainer, "contextTypes", {
   callbackProps: PropTypes.object,
   componentProps: PropTypes.object
 });
@@ -921,7 +932,7 @@ function (_PureComponent) {
   function Attendee() {
     _classCallCheck(this, Attendee);
 
-    return _possibleConstructorReturn(this, (Attendee.__proto__ || Object.getPrototypeOf(Attendee)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Attendee).apply(this, arguments));
   }
 
   _createClass(Attendee, [{
@@ -940,7 +951,7 @@ function (_PureComponent) {
         return React__default.createElement(reactstrap.FormGroup, {
           className: "attendee-input-container"
         }, React__default.createElement(reactstrap.Label, {
-          "for": 'attendee-' + indexOf + '-' + q
+          for: 'attendee-' + indexOf + '-' + q
         }, s.humanize(q)), React__default.createElement(mitragyna.Field, {
           type: "text",
           name: q,
@@ -973,9 +984,9 @@ function (_React$Component) {
 
     _classCallCheck(this, Attendees);
 
-    _this = _possibleConstructorReturn(this, (Attendees.__proto__ || Object.getPrototypeOf(Attendees)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Attendees).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'toggleSkipAttendees');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'toggleSkipAttendees');
 
     return _this;
   }
@@ -1001,7 +1012,7 @@ function (_React$Component) {
         check: true
       }, React__default.createElement(reactstrap.Label, {
         check: true,
-        "for": "toggleAttendees"
+        for: "toggleAttendees"
       }, React__default.createElement(reactstrap.Input, {
         type: "checkbox",
         id: "toggleAttendees",
@@ -1039,7 +1050,7 @@ function (_PureComponent) {
   function Customer() {
     _classCallCheck(this, Customer);
 
-    return _possibleConstructorReturn(this, (Customer.__proto__ || Object.getPrototypeOf(Customer)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Customer).apply(this, arguments));
   }
 
   _createClass(Customer, [{
@@ -1050,7 +1061,7 @@ function (_PureComponent) {
       }, React__default.createElement(reactstrap.FormGroup, {
         className: "customer-email-form-group"
       }, React__default.createElement(reactstrap.Label, {
-        "for": "email"
+        for: "email"
       }, "Email*"), React__default.createElement(mitragyna.Field, {
         className: "customer-email-field",
         type: "email",
@@ -1065,7 +1076,7 @@ function (_PureComponent) {
       })), React__default.createElement(reactstrap.FormGroup, {
         className: "customer-first-name-form-group"
       }, React__default.createElement(reactstrap.Label, {
-        "for": "firstName"
+        for: "firstName"
       }, "First Name*"), React__default.createElement(mitragyna.Field, {
         className: "customer-first-name-field",
         type: "text",
@@ -1080,7 +1091,7 @@ function (_PureComponent) {
       })), React__default.createElement(reactstrap.FormGroup, {
         className: "customer-last-name-form-group"
       }, React__default.createElement(reactstrap.Label, {
-        "for": "lastName"
+        for: "lastName"
       }, "Last Name*"), React__default.createElement(mitragyna.Field, {
         className: "customer-last-name-field",
         type: "text",
@@ -1095,7 +1106,7 @@ function (_PureComponent) {
       })), React__default.createElement(reactstrap.FormGroup, {
         className: "customer-zip-form-group"
       }, React__default.createElement(reactstrap.Label, {
-        "for": "zip"
+        for: "zip"
       }, "Zip Code*"), React__default.createElement(mitragyna.Field, {
         className: "customer-zip-field",
         type: "text",
@@ -1128,9 +1139,9 @@ function (_PureComponent) {
 
     _classCallCheck(this, MissingAnswers);
 
-    _this = _possibleConstructorReturn(this, (MissingAnswers.__proto__ || Object.getPrototypeOf(MissingAnswers)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MissingAnswers).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'empty', 'missingRequiredAnswers');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'empty', 'missingRequiredAnswers');
 
     return _this;
   }
@@ -1186,7 +1197,7 @@ function (_PureComponent) {
   function Pricing() {
     _classCallCheck(this, Pricing);
 
-    return _possibleConstructorReturn(this, (Pricing.__proto__ || Object.getPrototypeOf(Pricing)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Pricing).apply(this, arguments));
   }
 
   _createClass(Pricing, [{
@@ -1274,11 +1285,11 @@ function (_PureComponent) {
 
     _classCallCheck(this, PaymentServiceProvider);
 
-    _this = _possibleConstructorReturn(this, (PaymentServiceProvider.__proto__ || Object.getPrototypeOf(PaymentServiceProvider)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PaymentServiceProvider).call(this));
 
     _this.reset();
 
-    _.bindAll(_assertThisInitialized(_this), 'buildPaymentMethod', 'initializeForm', 'tokenizePaymentMethodData', 'reset');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'buildPaymentMethod', 'initializeForm', 'tokenizePaymentMethodData', 'reset');
 
     return _this;
   }
@@ -1329,7 +1340,7 @@ function (_PaymentServiceProvid) {
   function Cash() {
     _classCallCheck(this, Cash);
 
-    return _possibleConstructorReturn(this, (Cash.__proto__ || Object.getPrototypeOf(Cash)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Cash).apply(this, arguments));
   }
 
   _createClass(Cash, [{
@@ -1360,9 +1371,9 @@ function (_PaymentServiceProvid) {
 
     _classCallCheck(this, Spreedly);
 
-    _this = _possibleConstructorReturn(this, (Spreedly.__proto__ || Object.getPrototypeOf(Spreedly)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Spreedly).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'handleChange');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'handleChange');
 
     _this.state = {
       month: null,
@@ -1457,7 +1468,7 @@ function (_PaymentServiceProvid) {
       })), React__default.createElement(reactstrap.FormGroup, {
         className: "spreedly-card-number"
       }, React__default.createElement(reactstrap.Label, null, "Credit Card Number"), React__default.createElement("div", {
-        "class": "custom-file"
+        class: "custom-file"
       }, React__default.createElement("div", {
         className: "custom-file-input is-invalid",
         style: {
@@ -1532,7 +1543,7 @@ function (_PaymentServiceProvid) {
   function Square() {
     _classCallCheck(this, Square);
 
-    return _possibleConstructorReturn(this, (Square.__proto__ || Object.getPrototypeOf(Square)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Square).apply(this, arguments));
   }
 
   _createClass(Square, [{
@@ -1602,7 +1613,7 @@ function (_PaymentServiceProvid) {
       }, React__default.createElement(reactstrap.FormGroup, {
         className: "square-card-number"
       }, React__default.createElement(reactstrap.Label, null, "Card Number"), React__default.createElement("div", {
-        "class": "custom-file"
+        class: "custom-file"
       }, React__default.createElement("div", {
         className: "custom-file-input is-invalid",
         style: {
@@ -1620,7 +1631,7 @@ function (_PaymentServiceProvid) {
         className: "square-expiration",
         xs: "6"
       }, React__default.createElement(reactstrap.Label, null, "Expiration Date"), React__default.createElement("div", {
-        "class": "custom-file"
+        class: "custom-file"
       }, React__default.createElement("div", {
         className: "custom-file-input is-invalid",
         style: {
@@ -1640,7 +1651,7 @@ function (_PaymentServiceProvid) {
       })))), React__default.createElement(reactstrap.FormGroup, {
         className: "square-postal-code"
       }, React__default.createElement(reactstrap.Label, null, "Postal Code"), React__default.createElement("div", {
-        "class": "custom-file"
+        class: "custom-file"
       }, React__default.createElement("div", {
         className: "custom-file-input is-invalid",
         style: {
@@ -1669,9 +1680,9 @@ function (_PureComponent) {
 
     _classCallCheck(this, PaymentForm);
 
-    _this = _possibleConstructorReturn(this, (PaymentForm.__proto__ || Object.getPrototypeOf(PaymentForm)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PaymentForm).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'chargeOutstandingBalanceToPaymentMethod', 'paymentServiceProvider');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'chargeOutstandingBalanceToPaymentMethod', 'paymentServiceProvider');
 
     return _this;
   }
@@ -1733,7 +1744,7 @@ function (_PureComponent) {
   function Checkbox() {
     _classCallCheck(this, Checkbox);
 
-    return _possibleConstructorReturn(this, (Checkbox.__proto__ || Object.getPrototypeOf(Checkbox)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Checkbox).apply(this, arguments));
   }
 
   _createClass(Checkbox, [{
@@ -1779,7 +1790,7 @@ function (_PureComponent) {
         check: true
       }, React__default.createElement(reactstrap.Label, {
         check: true,
-        "for": id
+        for: id
       }, React__default.createElement(mitragyna.Field, {
         id: id,
         name: "value",
@@ -1806,7 +1817,7 @@ function (_PureComponent) {
   function DropDown() {
     _classCallCheck(this, DropDown);
 
-    return _possibleConstructorReturn(this, (DropDown.__proto__ || Object.getPrototypeOf(DropDown)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(DropDown).apply(this, arguments));
   }
 
   _createClass(DropDown, [{
@@ -1829,7 +1840,7 @@ function (_PureComponent) {
       return React__default.createElement(reactstrap.FormGroup, {
         className: "dropdown-container"
       }, React__default.createElement(reactstrap.Label, {
-        "for": id
+        for: id
       }, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
         id: id,
         name: "option",
@@ -1857,7 +1868,7 @@ function (_PureComponent) {
   function OptionList() {
     _classCallCheck(this, OptionList);
 
-    return _possibleConstructorReturn(this, (OptionList.__proto__ || Object.getPrototypeOf(OptionList)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(OptionList).apply(this, arguments));
   }
 
   _createClass(OptionList, [{
@@ -1869,14 +1880,14 @@ function (_PureComponent) {
         className: "option-list-container",
         tag: "fieldset"
       }, React__default.createElement(reactstrap.Label, {
-        "for": id
+        for: id
       }, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
         type: "radioGroup"
       }, answer.question().options().target().map(function (option) {
         return React__default.createElement(reactstrap.FormGroup, {
           check: true
         }, React__default.createElement(reactstrap.Label, {
-          "for": option.id,
+          for: option.id,
           check: true
         }, React__default.createElement(mitragyna.Field, {
           id: option.id,
@@ -1911,9 +1922,9 @@ function (_PureComponent) {
 
     _classCallCheck(this, SpinButton);
 
-    _this = _possibleConstructorReturn(this, (SpinButton.__proto__ || Object.getPrototypeOf(SpinButton)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SpinButton).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'decrementValue', 'incrementValue');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'decrementValue', 'incrementValue');
 
     return _this;
   }
@@ -1964,7 +1975,7 @@ function (_PureComponent) {
       return React__default.createElement(reactstrap.FormGroup, {
         className: "spin-button-container"
       }, React__default.createElement(reactstrap.Label, {
-        "for": id
+        for: id
       }, label), React__default.createElement(reactstrap.InputGroup, null, React__default.createElement(mitragyna.Field, {
         id: id,
         name: "value",
@@ -2006,7 +2017,7 @@ function (_PureComponent) {
   function TextArea() {
     _classCallCheck(this, TextArea);
 
-    return _possibleConstructorReturn(this, (TextArea.__proto__ || Object.getPrototypeOf(TextArea)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(TextArea).apply(this, arguments));
   }
 
   _createClass(TextArea, [{
@@ -2017,7 +2028,7 @@ function (_PureComponent) {
       return React__default.createElement(reactstrap.FormGroup, {
         className: "text-area-container"
       }, React__default.createElement(reactstrap.Label, {
-        "for": id
+        for: id
       }, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
         id: id,
         name: "value",
@@ -2042,7 +2053,7 @@ function (_PureComponent) {
   function TextInput() {
     _classCallCheck(this, TextInput);
 
-    return _possibleConstructorReturn(this, (TextInput.__proto__ || Object.getPrototypeOf(TextInput)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(TextInput).apply(this, arguments));
   }
 
   _createClass(TextInput, [{
@@ -2053,7 +2064,7 @@ function (_PureComponent) {
       return React__default.createElement(reactstrap.FormGroup, {
         className: "text-input-container"
       }, React__default.createElement(reactstrap.Label, {
-        "for": id
+        for: id
       }, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
         id: id,
         name: "value",
@@ -2078,7 +2089,7 @@ function (_PureComponent) {
   function Waiver() {
     _classCallCheck(this, Waiver);
 
-    return _possibleConstructorReturn(this, (Waiver.__proto__ || Object.getPrototypeOf(Waiver)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Waiver).apply(this, arguments));
   }
 
   _createClass(Waiver, [{
@@ -2093,7 +2104,7 @@ function (_PureComponent) {
       }, React__default.createElement(reactstrap.CardBody, null, React__default.createElement(reactstrap.CardText, null, ReactHtmlParser(answer.question().waiverText)))), React__default.createElement(reactstrap.FormGroup, {
         check: true
       }, React__default.createElement(reactstrap.Label, {
-        "for": id,
+        for: id,
         check: true,
         className: "mt-2"
       }, React__default.createElement(mitragyna.Field, {
@@ -2122,7 +2133,7 @@ function (_PureComponent) {
   function Answer() {
     _classCallCheck(this, Answer);
 
-    return _possibleConstructorReturn(this, (Answer.__proto__ || Object.getPrototypeOf(Answer)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Answer).apply(this, arguments));
   }
 
   _createClass(Answer, [{
@@ -2174,7 +2185,7 @@ function (_PureComponent) {
   function Questions() {
     _classCallCheck(this, Questions);
 
-    return _possibleConstructorReturn(this, (Questions.__proto__ || Object.getPrototypeOf(Questions)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Questions).apply(this, arguments));
   }
 
   _createClass(Questions, [{
@@ -2240,7 +2251,7 @@ function (_PureComponent) {
   function Coupon() {
     _classCallCheck(this, Coupon);
 
-    return _possibleConstructorReturn(this, (Coupon.__proto__ || Object.getPrototypeOf(Coupon)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Coupon).apply(this, arguments));
   }
 
   _createClass(Coupon, [{
@@ -2285,10 +2296,12 @@ function (_PureComponent) {
   return Coupon;
 }(React.PureComponent);
 
-_defineProperty(_defineProperty(Coupon, "propTypes", {
+_defineProperty(Coupon, "propTypes", {
   currency: PropTypes.string.isRequired,
   subject: PropTypes.instanceOf(occsn.Coupon)
-}), "contextTypes", {
+});
+
+_defineProperty(Coupon, "contextTypes", {
   removeRedeemable: PropTypes.func
 });
 
@@ -2300,7 +2313,7 @@ function (_PureComponent) {
   function GiftCard() {
     _classCallCheck(this, GiftCard);
 
-    return _possibleConstructorReturn(this, (GiftCard.__proto__ || Object.getPrototypeOf(GiftCard)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(GiftCard).apply(this, arguments));
   }
 
   _createClass(GiftCard, [{
@@ -2354,10 +2367,12 @@ function (_PureComponent) {
   return GiftCard;
 }(React.PureComponent);
 
-_defineProperty(_defineProperty(GiftCard, "propTypes", {
+_defineProperty(GiftCard, "propTypes", {
   currency: PropTypes.string.isRequired,
   subject: PropTypes.instanceOf(occsn.Transaction)
-}), "contextTypes", {
+});
+
+_defineProperty(GiftCard, "contextTypes", {
   removeRedeemable: PropTypes.func
 });
 
@@ -2371,9 +2386,9 @@ function (_PureComponent) {
 
     _classCallCheck(this, Redeemables);
 
-    _this = _possibleConstructorReturn(this, (Redeemables.__proto__ || Object.getPrototypeOf(Redeemables)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Redeemables).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'addErrors', 'addRedeemable', 'checkForRedeemable', 'handleChange', 'showInput', 'removeRedeemable');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'addErrors', 'addRedeemable', 'checkForRedeemable', 'handleChange', 'showInput', 'removeRedeemable');
 
     return _this;
   }
@@ -2541,12 +2556,14 @@ function (_PureComponent) {
   return Redeemables;
 }(React.PureComponent);
 
-_defineProperty(_defineProperty(Redeemables, "propTypes", {
+_defineProperty(Redeemables, "propTypes", {
   findRedeemable: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onErrors: PropTypes.func.isRequired,
   order: PropTypes.instanceOf(occsn.Order).isRequired
-}), "childContextTypes", {
+});
+
+_defineProperty(Redeemables, "childContextTypes", {
   removeRedeemable: PropTypes.func
 });
 
@@ -2560,9 +2577,9 @@ function (_PureComponent) {
 
     _classCallCheck(this, Order);
 
-    _this = _possibleConstructorReturn(this, (Order.__proto__ || Object.getPrototypeOf(Order)).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Order).call(this));
 
-    _.bindAll(_assertThisInitialized(_this), 'acceptsPayment', 'allowedToBookOrder', 'headerForSection', 'showPaymentForm', 'showPrice');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'acceptsPayment', 'allowedToBookOrder', 'headerForSection', 'showPaymentForm', 'showPrice');
 
     return _this;
   }
@@ -2601,46 +2618,68 @@ function (_PureComponent) {
 
       switch (section) {
         case 'contact':
-          return React__default.createElement("h2", {
+          return React__default.createElement("div", {
             className: "container-title",
             id: "widgetContactTitle"
-          }, _.isNull(product.widgetContactTitle) ? "Contact Information" : product.widgetContactTitle);
+          }, React__default.createElement("h6", {
+            className: "pt-3 text-uppercase"
+          }, "Contact Information"), React__default.createElement("h4", null, _.isNull(product.widgetContactTitle) ? "Please give us your personal information" : product.widgetContactTitle), React__default.createElement("hr", {
+            className: "pb-3"
+          }));
 
         case 'timeSlots':
-          return React__default.createElement("h2", {
+          return React__default.createElement("div", {
             className: "container-title",
             id: "widgetTimeSlotsTitle"
-          }, _.isNull(product.widgetTimeSlotsTitle) ? "Time Slots" : product.widgetTimeSlotsTitle);
+          }, React__default.createElement("h6", {
+            className: "pt-3 text-uppercase"
+          }, "Time Slots"), React__default.createElement("h4", null, _.isNull(product.widgetTimeSlotsTitle) ? "Please select a date and time so complete your booking" : product.widgetTimeSlotsTitle), React__default.createElement("hr", {
+            className: "pb-3"
+          }));
 
         case 'questions':
-          return React__default.createElement("h2", {
+          return React__default.createElement("div", {
             className: "container-title",
             id: "widgetQuestionsTitle"
-          }, _.isNull(product.widgetQuestionsTitle) ? "Additional Information" : product.widgetQuestionsTitle);
+          }, React__default.createElement("h6", {
+            className: "pt-3 text-uppercase"
+          }, "Additional Information"), React__default.createElement("h4", null, _.isNull(product.widgetQuestionsTitle) ? "We need to collect some information from you to confirm booking" : product.widgetQuestionsTitle), React__default.createElement("hr", {
+            className: "pb-3"
+          }));
 
         case 'attendees':
-          return React__default.createElement("h2", {
+          return React__default.createElement("div", {
             className: "container-title",
             id: "widgetAttendeesTitle"
-          }, "Attendee Information");
+          }, React__default.createElement("h4", null, "Attendee Information"), React__default.createElement("hr", {
+            className: "pb-3"
+          }));
 
         case 'payment':
-          return React__default.createElement("h2", {
+          return React__default.createElement("div", {
             className: "container-title",
             id: "widgetPaymentTitle"
-          }, _.isNull(product.widgetPaymentTitle) ? "Payment Information" : product.widgetPaymentTitle);
+          }, React__default.createElement("h6", {
+            className: "pt-3 text-uppercase"
+          }, "Payment Information"), React__default.createElement("h4", null, _.isNull(product.widgetPaymentTitle) ? "Please provide your payment details to complete your booking" : product.widgetPaymentTitle), React__default.createElement("hr", {
+            className: "pb-3"
+          }));
 
         case 'redeemables':
-          return React__default.createElement("h2", {
+          return React__default.createElement("div", {
             className: "container-title",
             id: "widgetRedeemableTitle"
-          }, "Coupons and Gift Cards");
+          }, React__default.createElement("h4", null, "Coupons and Gift Cards"), React__default.createElement("hr", {
+            className: "pb-3"
+          }));
 
         case 'totalDue':
-          return React__default.createElement("h2", {
+          return React__default.createElement("div", {
             className: "container-title",
             id: "widgetTotalDueTitle"
-          }, _.isNull(product.widgetTotalDueTitle) ? "Total Due Today" : product.widgetTotalDueTitle);
+          }, React__default.createElement("h4", null, _.isNull(product.widgetTotalDueTitle) ? "Total Due Today" : product.widgetTotalDueTitle), React__default.createElement("hr", {
+            className: "pb-3"
+          }));
       }
     } // Determines if should show Attendees
     // @note If the product is quantity aware && has attendeeQuestions, and order.quantity > 0, show Attendees
@@ -2738,18 +2777,14 @@ function (_PureComponent) {
       }, React__default.createElement("a", {
         name: "time-slots",
         id: "time-slots-anchor"
-      }), this.headerForSection('timeSlots'), React__default.createElement("h6", {
-        className: "container-description"
-      }, "Please select time and date:"), React__default.createElement(TimeSlotsContainer$1, {
+      }), this.headerForSection('timeSlots'), React__default.createElement(TimeSlotsContainer$1, {
         order: subject
       })) : null, React__default.createElement("section", {
         className: "customer-container"
       }, React__default.createElement("a", {
         name: "customer",
         id: "customer-anchor"
-      }), this.headerForSection('contact'), React__default.createElement("h6", {
-        className: "container-description"
-      }, "Please fill in your information to complete your order:"), React__default.createElement(mitragyna.Resource, {
+      }), this.headerForSection('contact'), React__default.createElement(mitragyna.Resource, {
         component: Customer,
         reflection: "customer",
         subject: customer
@@ -2824,7 +2859,7 @@ function (_PureComponent) {
   return Order;
 }(React.PureComponent);
 
-_defineProperty(_defineProperty(Order, "propTypes", {
+_defineProperty(Order, "propTypes", {
   activeTimeSlotsCollection: PropTypes.shape({
     __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
   }),
@@ -2838,7 +2873,9 @@ _defineProperty(_defineProperty(Order, "propTypes", {
   setSkipAttendees: PropTypes.func,
   skipAttendees: PropTypes.bool,
   subject: PropTypes.instanceOf(occsn.Order).isRequired
-}), "contextTypes", {
+});
+
+_defineProperty(Order, "contextTypes", {
   componentProps: PropTypes.object
 });
 
@@ -2850,7 +2887,7 @@ function (_PureComponent) {
   function OrderComplete() {
     _classCallCheck(this, OrderComplete);
 
-    return _possibleConstructorReturn(this, (OrderComplete.__proto__ || Object.getPrototypeOf(OrderComplete)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(OrderComplete).apply(this, arguments));
   }
 
   _createClass(OrderComplete, [{
@@ -2930,9 +2967,9 @@ function (_PureComponent) {
 
     _classCallCheck(this, AppContainer);
 
-    _this = _possibleConstructorReturn(this, (AppContainer.__proto__ || Object.getPrototypeOf(AppContainer)).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AppContainer).call(this, props));
 
-    _.bindAll(_assertThisInitialized(_this), 'renderBookingScreen', 'renderCompleteScreen', 'renderLoadingScreen', 'checkPrefilledAttributes', 'setPrefilledAttributes');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'renderBookingScreen', 'renderCompleteScreen', 'renderLoadingScreen', 'checkPrefilledAttributes', 'setPrefilledAttributes');
 
     return _this;
   }
@@ -3110,7 +3147,7 @@ function (_PureComponent) {
   return AppContainer;
 }(React.PureComponent); // See https://github.com/reactjs/react-redux/blob/master/docs/api.md#examples
 
-_defineProperty(_defineProperty(AppContainer, "propTypes", {
+_defineProperty(AppContainer, "propTypes", {
   actions: PropTypes.object.isRequired,
   callbacks: PropTypes.shape({
     onDateSelect: PropTypes.func,
@@ -3131,7 +3168,9 @@ _defineProperty(_defineProperty(AppContainer, "propTypes", {
     listTimeSlotsSelector: PropTypes.string
   }),
   formRef: PropTypes.func
-}), "childContextTypes", {
+});
+
+_defineProperty(AppContainer, "childContextTypes", {
   callbackProps: PropTypes.object,
   componentProps: PropTypes.object,
   formatProps: PropTypes.object
@@ -3253,7 +3292,7 @@ function (_React$Component) {
   function OccsnCheckout() {
     _classCallCheck(this, OccsnCheckout);
 
-    return _possibleConstructorReturn(this, (OccsnCheckout.__proto__ || Object.getPrototypeOf(OccsnCheckout)).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(OccsnCheckout).apply(this, arguments));
   }
 
   _createClass(OccsnCheckout, [{
