@@ -11,6 +11,11 @@ import { Col, FormGroup, Input, Label, Row, FormFeedback } from 'reactstrap';
 
 import PaymentServiceProvider from './PaymentServiceProvider.jsx';
 
+import CardNumber from './Square/CardNumber.jsx';
+import ExpirationDate from './Square/ExpirationDate.jsx';
+import CVV from './Square/CVV.jsx';
+import PostalCode from './Square/PostalCode.jsx';
+
 export default class Square extends PaymentServiceProvider {
   // Initializes the iFrame using the global SqPaymentForm library imported as SquareAPI
   initializeForm() {
@@ -79,7 +84,7 @@ export default class Square extends PaymentServiceProvider {
           <Label>Card Number</Label>
           <div class="custom-file">
             <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
-              <div id="sq-card-number"></div>
+              <CardNumber />
             </div>
             <ErrorsFor className="square-card-number-errors" component={FormFeedback} field='creditCard.cardNumber'></ErrorsFor>
           </div>
@@ -91,14 +96,14 @@ export default class Square extends PaymentServiceProvider {
               <Label>Expiration Date</Label>
               <div class="custom-file">
                 <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
-                  <div id="sq-expiration-date"></div>
+                  <ExpirationDate />
                 </div>
                 <ErrorsFor className="square-expiration-errors" component={FormFeedback} field='creditCard.expirationDate'></ErrorsFor>
               </div>
             </Col>
             <Col className="square-cvv" xs="3">
               <Label>CVV</Label>
-              <div id="sq-cvv"></div>
+              <CVV />
             </Col>
           </Row>
         </FormGroup>
@@ -107,7 +112,7 @@ export default class Square extends PaymentServiceProvider {
           <Label>Postal Code</Label>
           <div class="custom-file">
             <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
-              <div id="sq-postal-code"></div>
+              <PostalCode />
             </div>
             <ErrorsFor className="square-postal-code-errors" component={FormFeedback} field='creditCard.postalCode'></ErrorsFor>
           </div>

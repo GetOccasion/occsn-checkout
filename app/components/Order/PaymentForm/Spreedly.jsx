@@ -12,6 +12,8 @@ import SpreedlyAPI from 'spreedly';
 import { Col, FormGroup, Input, Label, Row, FormFeedback } from 'reactstrap';
 
 import PaymentServiceProvider from './PaymentServiceProvider.jsx';
+import CardNumber from './Spreedly/CardNumber.jsx';
+import CVV from './Spreedly/CVV.jsx';
 
 export default class Spreedly extends PaymentServiceProvider {
   constructor() {
@@ -121,7 +123,7 @@ export default class Spreedly extends PaymentServiceProvider {
         <Label>Credit Card Number</Label>
         <div class="custom-file">
           <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
-            <div id="spreedly-number" style={{ height: '48px' }}></div>
+            <CardNumber />
           </div>
           <ErrorsFor className="spreedly-card-number-errors" component={FormFeedback} field='creditCard.number'></ErrorsFor>
         </div>
@@ -149,8 +151,7 @@ export default class Spreedly extends PaymentServiceProvider {
             </Row>
           </Col>
           <Col className="spreedly-cvv" xs="3">
-            <Label>CVV</Label>
-            <div id="spreedly-cvv" style={{ height: '48px' }}></div>
+            <CVV />
           </Col>
         </Row>
       </FormGroup>
