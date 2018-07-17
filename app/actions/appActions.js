@@ -84,7 +84,7 @@ export function loadProduct(id) {
 
       dispatch(constructOrder(product));
     }).catch(error => {
-      dispatch(setProductNotFound());
+      dispatch(productNotFoundError(error));
     }).finally(() => {
       dispatch(loadProductRequestComplete());
     });
@@ -140,9 +140,10 @@ export function setProduct(product) {
   };
 }
 
-export function setProductNotFound() {
+export function productNotFoundError(error) {
   return {
-    type: actionTypes.OCCSN_SET_PRODUCT_NOT_FOUND,
+    type: actionTypes.OCCSN_SET_PRODUCT_NOT_FOUND_ERROR,
+    error
   };
 }
 

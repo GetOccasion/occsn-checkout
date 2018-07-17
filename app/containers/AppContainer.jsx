@@ -30,7 +30,7 @@ function stateToProps(state) {
       skipAttendees: state.$$appStore.get('skipAttendees'),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
-      productNotFound: state.$$appStore.get('productNotFound'),
+      productNotFoundError: state.$$appStore.get('productNotFoundError'),
       activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
       timeSlotsFromCalendar: state.$$calendarStore.get('timeSlotsFromCalendar'),
     }
@@ -128,8 +128,8 @@ export class AppContainer extends PureComponent {
 
     if(data.product == null && nextProps.data.product != null) {
       if(callbacks && callbacks.onProductLoad) callbacks.onProductLoad(nextProps.data.product);
-    } else if(data.productNotFound) {
-      if(callbacks && callbacks.onProductNotFound) callbacks.onProductNotFound();
+    } else if(data.productNotFoundError) {
+      if(callbacks && callbacks.onProductNotFound) callbacks.onProductNotFound(data.productNotFoundError);
     }
   }
 
