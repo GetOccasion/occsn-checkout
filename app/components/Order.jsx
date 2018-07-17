@@ -67,6 +67,11 @@ export default class Order extends PureComponent {
 
   // Mitragyna callback
   beforeSubmit(subject) {
+    if(this.redeemables.state.focused) {
+      this.redeemables.checkForRedeemable(this.redeemables.state.code);
+      Promise.reject(subject);
+    }
+
     if(this.acceptsPayment() && !subject.outstandingBalance.isZero()) {
       return this.paymentForm.chargeOutstandingBalanceToPaymentMethod(subject);
     } else {
@@ -290,6 +295,7 @@ export default class Order extends PureComponent {
               order={subject}
               onChange={afterUpdate}
               onErrors={afterError}
+              ref={(r) => this.redeemables = r}
             ></Redeemables>
           </section>
         ) : null

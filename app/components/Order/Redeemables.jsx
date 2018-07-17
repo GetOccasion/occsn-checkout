@@ -40,29 +40,13 @@ export default class Redeemables extends PureComponent {
   }
 
   componentWillMount() {
-    this.setState({ code: '' });
+    this.setState({ code: '', focused: false });
   }
 
   addErrors(errors) {
     let { onErrors, order } = this.props;
 
     let newOrder = order.clone();
-
-    // TODO: Remove when there is better way to copy these read-only attributes of order
-    ActiveResource.Collection.build([
-      'subtotal',
-      'couponAmount',
-      'tax',
-      'taxPercentage',
-      'giftCardAmount',
-      'price',
-      'total',
-      'outstandingBalance',
-      'quantity',
-    ])
-    .each((attr) => {
-      newOrder[attr] = order[attr];
-    });
 
     newOrder.errors().clear();
     errors.each((e) => {
@@ -168,7 +152,13 @@ export default class Redeemables extends PureComponent {
       { this.showInput() ? (
         <FormGroup className="redeemable-code">
           <InputGroup className={ order.errors().forField('redeemables.code').empty() ? '' : 'is-invalid' }>
-            <Input className="redeemable-code-input" onChange={ this.handleChange } value={ code } />
+            <Input
+              className="redeemable-code-input"
+              onChange={ this.handleChange }
+              onFocus={() => this.setState({ focused: true }) }
+              onBlur={() => this.setState({ focused: false }) }
+              value={ code }
+            />
             <InputGroupAddon addonType="append">
               <Button className="redeemable-code-input-button" onClick={ () => this.checkForRedeemable(code) }>Search</Button>
             </InputGroupAddon>
