@@ -69,7 +69,7 @@ export default class Order extends PureComponent {
   beforeSubmit(subject) {
     if(this.redeemables.state.focused) {
       this.redeemables.checkForRedeemable(this.redeemables.state.code);
-      Promise.reject(subject);
+      throw subject;
     }
 
     if(this.acceptsPayment() && !subject.outstandingBalance.isZero()) {
