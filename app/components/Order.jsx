@@ -14,6 +14,7 @@ import TimeSlotsContainer from '../containers/TimeSlotsContainer.jsx';
 import Attendees from './Order/Attendees.jsx';
 import Customer from './Order/Customer.jsx';
 import MissingAnswers from './Order/MissingAnswers.jsx';
+import OrderErrors from './Order/OrderErrors.jsx';
 import Pricing from './Order/Pricing.jsx';
 import PaymentForm from './Order/PaymentForm.jsx';
 import Questions from './Order/Questions.jsx';
@@ -324,6 +325,11 @@ export default class Order extends PureComponent {
       <section className="missing-answers-container">
         <a name="missing-answers"></a>
         <MissingAnswers order={subject} ref={(r) => this.missingAnswers = r }></MissingAnswers>
+      </section>
+
+      <section className="order-errors-container">
+        <a name="order-errors"></a>
+        <OrderErrors order={subject}></OrderErrors>
       </section>
 
       <section className="book-order-container">
