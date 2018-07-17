@@ -104,6 +104,7 @@ export class AppContainer extends PureComponent {
     }
   }
 
+  // @todo Only execute the relevant parts based on the props that actually changed
   componentWillReceiveProps(nextProps) {
     const { actions, callbacks, data } = this.props;
 
@@ -123,7 +124,8 @@ export class AppContainer extends PureComponent {
 
         if(order.customer().complete() &&
           !order.answers().target().detect((a) => !a.valid()) &&
-          (nextProps.data.skipAttendees || !order.attendees().target().detect((a) => !a.complete()))
+          (nextProps.data.skipAttendees || !order.attendees().target().detect((a) => !a.complete())) &&
+          nextProps.data.order.status == 'initialized'
         ) {
           callbacks.onPersonalInformationComplete(nextProps.data.order);
         }
