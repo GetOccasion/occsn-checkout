@@ -105,11 +105,7 @@ export class TimeSlotsContainer extends React.Component {
 
     return <section className="time-slots">
       {
-        data.activeTimeSlotsCollection.empty() ? (
-          this.renderLoadingScreen()
-        ) : (
-          this.renderTimeSlotsScreen()
-        )
+        this.renderTimeSlotsScreen()
       }
     </section>;
   }
@@ -136,7 +132,7 @@ export class TimeSlotsContainer extends React.Component {
         return <section className="calendar-view">
           <Row>
             <Col xs="9">
-              <h3>{ data.activeTimeSlotsCollection.first().day.format('MMMM YYYY') }</h3>
+              <h3>{ data.activeTimeSlotsCollection.first() && data.activeTimeSlotsCollection.first().day.format('MMMM YYYY') }</h3>
             </Col>
             <Col xs="3">
               <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
@@ -156,6 +152,11 @@ export class TimeSlotsContainer extends React.Component {
             subject={order}
             timeSlots={data.timeSlotsFromCalendar}
           />
+          {
+            data.activeTimeSlotsCollection.empty() ? (
+              this.renderLoadingScreen()
+            ) : (null)
+          }
         </section>;
       case 'list':
         return <section className="list-view">
@@ -181,6 +182,11 @@ export class TimeSlotsContainer extends React.Component {
                   <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
                 </Col>
               </Row>
+            ) : (null)
+          }
+          {
+            data.activeTimeSlotsCollection.empty() ? (
+              this.renderLoadingScreen()
             ) : (null)
           }
         </section>;

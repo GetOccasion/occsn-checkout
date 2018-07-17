@@ -285,7 +285,12 @@ export default class Order extends PureComponent {
           <section className="redeemables-container">
             <a name="redeemables" id="redeemables-anchor"></a>
             { this.headerForSection('redeemables') }
-            <Redeemables findRedeemable={findRedeemable} order={subject} onChange={afterUpdate} onErrors={afterError}></Redeemables>
+            <Redeemables
+              findRedeemable={findRedeemable}
+              order={subject}
+              onChange={afterUpdate}
+              onErrors={afterError}
+            ></Redeemables>
           </section>
         ) : null
       }
@@ -325,13 +330,11 @@ export default class Order extends PureComponent {
           type="submit"
           disabled={ !this.allowedToBookOrder() }
         >
-          { bookingOrder ? (
-              componentProps.orderBooking ? (
-                React.createElement(componentProps.orderBooking)
-              ) : (null)
-            ) : (
-              <span>{ product.orderButtonText }</span>
-            )
+          <span>{ product.orderButtonText }</span>
+          {
+            bookingOrder && componentProps.orderBooking ? (
+              React.createElement(componentProps.orderBooking)
+            ) : (null)
           }
         </Button>
       </section>

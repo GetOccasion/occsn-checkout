@@ -60,7 +60,7 @@ export default class Calendar extends PureComponent {
       <FullCalendar
         header={false}
         dayClick={this.dateClicked}
-        defaultDate={calendarTimeSlots.first().day}
+        defaultDate={calendarTimeSlots.first() && calendarTimeSlots.first().day}
         events={events}
         fixedWeekCount={5}
         ref={(r) => this.fullCalendar = r}
