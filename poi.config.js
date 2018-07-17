@@ -15,7 +15,7 @@ module.exports = {
   outDir: 'lib/assets',
 
   plugins: [
-    require('poi-preset-react')(),
+    require('poi-plugin-react')(),
     require('poi-plugin-resolve-alias')({
       'active-resource': path.join(process.cwd(), 'node_modules', 'active-resource', 'build', 'active-resource.js'),
       'mitragyna': path.join(process.cwd(), 'node_modules', 'mitragyna', 'build', 'mitragyna.min.js'),
