@@ -95,9 +95,13 @@ export class AppContainer extends PureComponent {
   }
 
   componentDidMount() {
-    const { actions } = this.props;
+    const { actions, callbacks } = this.props;
 
     actions.loadProduct();
+
+    if(callbacks && callbacks.onOrderChange) {
+      this.onOrderChange = _.debounce(callbacks.onOrderChange, 500);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -109,7 +113,7 @@ export class AppContainer extends PureComponent {
         this.checkPrefilledAttributes(nextProps.data.product);
       }
 
-      if(callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
+      if(this.onOrderChange) this.onOrderChange(nextProps.data.order);
       if(callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
         callbacks.onOrderComplete(nextProps.data.order);
       }

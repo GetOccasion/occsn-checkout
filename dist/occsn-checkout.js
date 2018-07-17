@@ -3228,16 +3228,22 @@ function (_PureComponent) {
   _createClass(AppContainer, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var actions = this.props.actions;
+      var _this$props = this.props,
+          actions = _this$props.actions,
+          callbacks = _this$props.callbacks;
       actions.loadProduct();
+
+      if (callbacks && callbacks.onOrderChange) {
+        this.onOrderChange = _.debounce(callbacks.onOrderChange, 500);
+      }
     }
   }, {
     key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
-      var _this$props = this.props,
-          actions = _this$props.actions,
-          callbacks = _this$props.callbacks,
-          data = _this$props.data;
+      var _this$props2 = this.props,
+          actions = _this$props2.actions,
+          callbacks = _this$props2.callbacks,
+          data = _this$props2.data;
 
       if (nextProps.data.order != null) {
         if (data.order == null) {
@@ -3245,7 +3251,7 @@ function (_PureComponent) {
           this.checkPrefilledAttributes(nextProps.data.product);
         }
 
-        if (callbacks && callbacks.onOrderChange) callbacks.onOrderChange(nextProps.data.order);
+        if (this.onOrderChange) this.onOrderChange(nextProps.data.order);
 
         if (callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
           callbacks.onOrderComplete(nextProps.data.order);
@@ -3282,9 +3288,9 @@ function (_PureComponent) {
   }, {
     key: "render",
     value: function render() {
-      var _this$props2 = this.props,
-          actions = _this$props2.actions,
-          data = _this$props2.data;
+      var _this$props3 = this.props,
+          actions = _this$props3.actions,
+          data = _this$props3.data;
 
       if (data.product) {
         if (data.order != null && data.order.status == 'booked') {
@@ -3313,11 +3319,11 @@ function (_PureComponent) {
   }, {
     key: "renderBookingScreen",
     value: function renderBookingScreen() {
-      var _this$props3 = this.props,
-          actions = _this$props3.actions,
-          data = _this$props3.data,
-          className = _this$props3.className,
-          formRef = _this$props3.formRef;
+      var _this$props4 = this.props,
+          actions = _this$props4.actions,
+          data = _this$props4.data,
+          className = _this$props4.className,
+          formRef = _this$props4.formRef;
       var classNames = classnames('occsn-app-container', className);
       return React__default.createElement("section", {
         className: classNames
@@ -3379,9 +3385,9 @@ function (_PureComponent) {
   }, {
     key: "setPrefilledAttributes",
     value: function setPrefilledAttributes(prefills) {
-      var _this$props4 = this.props,
-          actions = _this$props4.actions,
-          data = _this$props4.data;
+      var _this$props5 = this.props,
+          actions = _this$props5.actions,
+          data = _this$props5.data;
       var attributes = {};
 
       if (prefills[0]) {
