@@ -138,7 +138,7 @@ export default class Redeemables extends PureComponent {
 
     let giftCardTransactions =
       order.transactions().target()
-      .select((t) => { return t.paymentMethod().isA(occsn.GiftCard) });
+      .select((t) => { return t.paymentMethod() && t.paymentMethod().isA(occsn.GiftCard) });
 
     giftCardTransactions.each((giftCardTransaction) => {
       redeemables.push(<GiftCard currency={currency.name} subject={giftCardTransaction}></GiftCard>);

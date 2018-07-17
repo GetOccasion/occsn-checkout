@@ -44,18 +44,11 @@ export default class Order extends PureComponent {
   constructor() {
     super();
     _.bindAll(this,
-      'acceptsPayment',
       'allowedToBookOrder',
       'headerForSection',
       'showPaymentForm',
       'showPrice',
     );
-  }
-
-  acceptsPayment() {
-    const { subject } = this.props;
-
-    return subject.product().merchant().pspName != 'cash';
   }
 
   allowedToBookOrder() {
@@ -73,7 +66,12 @@ export default class Order extends PureComponent {
       throw subject;
     }
 
-    if(this.acceptsPayment() && !subject.outstandingBalance.isZero()) {
+    if(!subject.outstandingBalance.isZero()) {
+      let balanceTransaction =
+        subject.transactions().target().detect((t) => !(t.paymentMethod() && t.paymentMethod(occsn.GiftCard)));
+
+      if(balanceTransaction) subject.transactions().target().delete(balanceTransaction);
+
       return this.paymentForm.chargeOutstandingBalanceToPaymentMethod(subject);
     } else {
       return subject;

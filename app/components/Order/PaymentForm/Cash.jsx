@@ -9,6 +9,10 @@ import PaymentServiceProvider from './PaymentServiceProvider.jsx';
 export default class Cash extends PaymentServiceProvider {
   initializeForm() {}
 
+  tokenizePaymentMethodData() {
+    this.paymentMethodDeferred.resolve(null);
+  }
+
   render() {
     return <section className="cash-container">
       <Alert color="warning" className="cash">

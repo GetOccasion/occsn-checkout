@@ -53,7 +53,7 @@ export default class PaymentForm extends PureComponent {
     return <section className="payment">
       {
         {
-          cash: <Cash></Cash>,
+          cash: <Cash {...pspFormProps}></Cash>,
           spreedly: <Spreedly {...pspFormProps}></Spreedly>,
           square: <Square {...pspFormProps}></Square>,
         }[this.paymentServiceProvider()]
