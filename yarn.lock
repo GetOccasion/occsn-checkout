@@ -6406,6 +6406,10 @@ pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
 
+"poi-plugin-react@git+https://github.com/nicklandgrebe/poi-plugin-react":
+  version "0.0.1"
+  resolved "git+https://github.com/nicklandgrebe/poi-plugin-react#24b6542a9c804d6be88f4a6cd505c3a67a974f98"
+
 poi-plugin-resolve-alias@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/poi-plugin-resolve-alias/-/poi-plugin-resolve-alias-2.0.0.tgz#e7bb90fa76c186aea031ecb1c82c6cde8290428d"

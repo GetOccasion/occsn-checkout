@@ -34,6 +34,22 @@ var reduxDevtoolsExtension = require('redux-devtools-extension');
 var thunkMiddleware = _interopDefault(require('redux-thunk'));
 require('bootstrap/dist/css/bootstrap.css');
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
 function _asyncToGenerator(fn) {
   return function () {
     var self = this,
@@ -41,31 +57,15 @@ function _asyncToGenerator(fn) {
     return new Promise(function (resolve, reject) {
       var gen = fn.apply(self, args);
 
-      function step(key, arg) {
-        try {
-          var info = gen[key](arg);
-          var value = info.value;
-        } catch (error) {
-          reject(error);
-          return;
-        }
-
-        if (info.done) {
-          resolve(value);
-        } else {
-          Promise.resolve(value).then(_next, _throw);
-        }
-      }
-
       function _next(value) {
-        step("next", value);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
       }
 
       function _throw(err) {
-        step("throw", err);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
       }
 
-      _next();
+      _next(undefined);
     });
   };
 }
@@ -3236,7 +3236,8 @@ function (_PureComponent) {
       if (callbacks && callbacks.onOrderChange) {
         this.onOrderChange = _.debounce(callbacks.onOrderChange, 500);
       }
-    }
+    } // @todo Only execute the relevant parts based on the props that actually changed
+
   }, {
     key: "componentWillReceiveProps",
     value: function componentWillReceiveProps(nextProps) {
@@ -3264,7 +3265,7 @@ function (_PureComponent) {
             return !a.valid();
           }) && (nextProps.data.skipAttendees || !order.attendees().target().detect(function (a) {
             return !a.complete();
-          }))) {
+          })) && nextProps.data.order.status == 'initialized') {
             callbacks.onPersonalInformationComplete(nextProps.data.order);
           }
         }
