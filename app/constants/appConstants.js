@@ -13,7 +13,7 @@ const actionTypes = mirrorCreator([
   'OCCSN_SET_ORDER',
   'OCCSN_SET_PRODUCT',
   'OCCSN_SET_PRODUCT_NOT_FOUND_ERROR',
-  'OCCSN_SET_SKIP_ATTENDEES',
+  'OCCSN_SET_SKIP_ATTENDEE',
 ]);
 
 export default actionTypes;

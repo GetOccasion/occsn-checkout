@@ -147,9 +147,10 @@ export function productNotFoundError(error) {
   };
 }
 
-export function setSkipAttendees(skipAttendees) {
+export function setSkipAttendee(attendee, skip) {
   return {
-    type: actionTypes.OCCSN_SET_SKIP_ATTENDEES,
-    skipAttendees
+    type: actionTypes.OCCSN_SET_SKIP_ATTENDEE,
+    attendee,
+    skip
   };
 }

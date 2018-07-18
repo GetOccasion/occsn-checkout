@@ -46,7 +46,7 @@ function dispatchToProps(dispatch) {
       loadProduct: () => dispatch(appActions.loadProduct(window.OCCSN.product_id)),
       saveOrder: (order) => dispatch(appActions.saveOrder(order)),
       setOrder: (order) => dispatch(appActions.setOrder(order)),
-      setSkipAttendees: (skip) => dispatch(appActions.setSkipAttendees(skip))
+      setSkipAttendee: (attendee, skip) => dispatch(appActions.setSkipAttendee(attendee, skip))
     }
   }
 }
@@ -193,7 +193,7 @@ export class AppContainer extends PureComponent {
             activeTimeSlotsCollection: data.activeTimeSlotsCollection,
             bookingOrder: data.bookingOrder,
             findRedeemable: actions.findRedeemable,
-            setSkipAttendees: actions.setSkipAttendees,
+            setSkipAttendee: actions.setSkipAttendee,
             skipAttendees: data.skipAttendees,
             timeSlotsFromCalendar: data.timeSlotsFromCalendar
           } }
