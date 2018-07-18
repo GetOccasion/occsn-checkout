@@ -124,7 +124,7 @@ export class AppContainer extends PureComponent {
 
         if(order.customer().complete() &&
           !order.answers().target().detect((a) => !a.valid()) &&
-          (nextProps.data.skipAttendees || !order.attendees().target().detect((a) => !a.complete())) &&
+          !order.attendees().target().detect((a, index) => !(a.complete() || nextProps.data.skipAttendees[index])) &&
           nextProps.data.order.status == 'initialized'
         ) {
           callbacks.onPersonalInformationComplete(nextProps.data.order);
