@@ -20,10 +20,10 @@ export default class Attendees extends React.Component {
   };
 
   render() {
-    let { questions, skipAttendees, subject } = this.props;
+    let { questions, skipAttendees, setSkipAttendee, subject } = this.props;
 
     return <section className="attendees">
-      <Collection component={Attendee} componentProps={{ questions, skipAttendees }}
+      <Collection component={Attendee} componentProps={{ questions, skipAttendees, setSkipAttendee }}
                   reflection='attendees' subject={subject.attendees()}>
       </Collection>
     </section>;

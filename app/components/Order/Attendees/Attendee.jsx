@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Field } from 'mitragyna';
 
-import s from 'underscore.string';
+import _ from 'underscore.string';
 
 import occsn from '../../../libs/Occasion';
 
@@ -19,21 +19,32 @@ export default class Attendee extends PureComponent {
   };
 
   render() {
-    let { indexOf, questions } = this.props;
+    let { indexOf, questions, skipAttendees, setSkipAttendee } = this.props;
 
     return <Card className="attendee-container">
       <CardBody className="attendee">
-        <CardTitle className="attendee-title">
-          Attendee { indexOf + 1 }
+        <CardTitle className="attendee-title d-flex flex-row justify-content-between">
+          <div>Attendee {indexOf + 1}</div>
+          <small>
+            <Label check for='toggleAttendee'>
+              <Input type="checkbox" id={'toggleAttendee_' + indexOf + 1} name="toggleAttendees"
+                     checked={skipAttendees[indexOf]}
+                     onChange={(e) => setSkipAttendee(indexOf, e.target.checked)}
+              />
+            Skip this attendee for now
+            </Label>
+          </small>
         </CardTitle>
-        {
-          questions.map((q) => {
-            return <FormGroup className="attendee-input-container">
-              <Label for={'attendee-' + indexOf + '-' + q}>{s.humanize(q)}</Label>
-              <Field type='text' name={q} id={'attendee-' + indexOf + '-' + q} component={Input} invalidClassName='is-invalid'></Field>
-            </FormGroup>;
-          }).toArray()
-        }
+        <div className={skipAttendees[indexOf] ? 'd-none wel' : 'niet'}>
+          {
+            questions.map((q) => {
+              return <FormGroup className="attendee-input-container">
+                <Label for={'attendee-' + indexOf + '-' + q}>{_.humanize(q)}</Label>
+                <Field type='text' name={q} id={'attendee-' + indexOf + '-' + q} component={Input} invalidClassName='is-invalid'></Field>
+              </FormGroup>;
+            }).toArray()
+          }
+        </div>
       </CardBody>
     </Card>;
   }

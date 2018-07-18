@@ -27,7 +27,7 @@ function stateToProps(state) {
       bookingOrder: state.$$appStore.get('bookingOrder'),
       savingOrder: state.$$appStore.get('savingOrder'),
       loadingProduct: state.$$appStore.get('loadingProduct'),
-      skipAttendees: state.$$appStore.get('skipAttendees'),
+      skipAttendees: state.$$appStore.get('skipAttendees').toObject(),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
       productNotFoundError: state.$$appStore.get('productNotFoundError'),
