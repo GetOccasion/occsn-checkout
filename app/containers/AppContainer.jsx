@@ -100,7 +100,11 @@ export class AppContainer extends PureComponent {
     actions.loadProduct();
 
     if(callbacks && callbacks.onOrderChange) {
-      this.onOrderChange = _.debounce(callbacks.onOrderChange, 500);
+      this.onOrderChange = _.debounce(callbacks.onOrderChange, 25);
+    }
+
+    if(callbacks && callbacks.onOrderComplete) {
+      this.onOrderComplete = _.debounce(callbacks.onOrderComplete, 25);
     }
   }
 
@@ -115,8 +119,8 @@ export class AppContainer extends PureComponent {
       }
 
       if(this.onOrderChange) this.onOrderChange(nextProps.data.order);
-      if(callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
-        callbacks.onOrderComplete(nextProps.data.order);
+      if(this.onOrderComplete && nextProps.data.order.status == 'booked') {
+        this.onOrderComplete(nextProps.data.order);
       }
 
       if(callbacks && callbacks.onPersonalInformationComplete) {
