@@ -33,8 +33,8 @@ export default class Order extends PureComponent {
     bookingOrder: PropTypes.bool,
     findRedeemable: PropTypes.func.isRequired,
     saveOrder: PropTypes.func,
-    setSkipAttendees: PropTypes.func,
-    skipAttendees: PropTypes.bool,
+    setSkipAttendee: PropTypes.func,
+    skipAttendees: PropTypes.object,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
   };
 
@@ -242,7 +242,7 @@ export default class Order extends PureComponent {
   }
 
   render() {
-    let { afterError, saveOrder, bookingOrder, findRedeemable, setSkipAttendees, skipAttendees, subject } = this.props;
+    let { afterError, saveOrder, bookingOrder, findRedeemable, setSkipAttendee, skipAttendees, subject } = this.props;
     let { componentProps } = this.context;
 
     let customer = subject.customer();
@@ -280,7 +280,7 @@ export default class Order extends PureComponent {
           <section className="attendees-container">
             <a name="attendees" id="attendees-anchor"></a>
             { this.headerForSection('attendees') }
-            <Attendees questions={product.attendeeQuestions} setSkipAttendees={setSkipAttendees} skipAttendees={skipAttendees} subject={subject}></Attendees>
+            <Attendees questions={product.attendeeQuestions} setSkipAttendee={setSkipAttendee} skipAttendees={skipAttendees} subject={subject}></Attendees>
           </section>
         ) : null
       }

@@ -34,6 +34,22 @@ var reduxDevtoolsExtension = require('redux-devtools-extension');
 var thunkMiddleware = _interopDefault(require('redux-thunk'));
 require('bootstrap/dist/css/bootstrap.css');
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
 function _asyncToGenerator(fn) {
   return function () {
     var self = this,
@@ -41,31 +57,15 @@ function _asyncToGenerator(fn) {
     return new Promise(function (resolve, reject) {
       var gen = fn.apply(self, args);
 
-      function step(key, arg) {
-        try {
-          var info = gen[key](arg);
-          var value = info.value;
-        } catch (error) {
-          reject(error);
-          return;
-        }
-
-        if (info.done) {
-          resolve(value);
-        } else {
-          Promise.resolve(value).then(_next, _throw);
-        }
-      }
-
       function _next(value) {
-        step("next", value);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
       }
 
       function _throw(err) {
-        step("throw", err);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
       }
 
-      _next();
+      _next(undefined);
     });
   };
 }
@@ -205,7 +205,7 @@ if (url != undefined) {
 
 var occsn = Occasion.Client(options);
 
-var actionTypes = mirrorCreator(['OCCSN_BOOK_ORDER_REQUEST', 'OCCSN_BOOK_ORDER_REQUEST_COMPLETE', 'OCCSN_CONSTRUCT_ORDER_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST_COMPLETE', 'OCCSN_LOAD_PRODUCT_REQUEST', 'OCCSN_LOAD_PRODUCT_REQUEST_COMPLETE', 'OCCSN_SAVE_ORDER_REQUEST', 'OCCSN_SAVE_ORDER_REQUEST_COMPLETE', 'OCCSN_SET_ORDER', 'OCCSN_SET_PRODUCT', 'OCCSN_SET_PRODUCT_NOT_FOUND_ERROR', 'OCCSN_SET_SKIP_ATTENDEES']);
+var actionTypes = mirrorCreator(['OCCSN_BOOK_ORDER_REQUEST', 'OCCSN_BOOK_ORDER_REQUEST_COMPLETE', 'OCCSN_CONSTRUCT_ORDER_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST', 'OCCSN_FIND_REDEEMABLE_REQUEST_COMPLETE', 'OCCSN_LOAD_PRODUCT_REQUEST', 'OCCSN_LOAD_PRODUCT_REQUEST_COMPLETE', 'OCCSN_SAVE_ORDER_REQUEST', 'OCCSN_SAVE_ORDER_REQUEST_COMPLETE', 'OCCSN_SET_ORDER', 'OCCSN_SET_PRODUCT', 'OCCSN_SET_PRODUCT_NOT_FOUND_ERROR', 'OCCSN_SET_SKIP_ATTENDEE']);
 
 function constructOrder(product) {
   return function (dispatch) {
@@ -389,10 +389,11 @@ function productNotFoundError(error) {
     error: error
   };
 }
-function setSkipAttendees(skipAttendees) {
+function setSkipAttendee(attendee, skip) {
   return {
-    type: actionTypes.OCCSN_SET_SKIP_ATTENDEES,
-    skipAttendees: skipAttendees
+    type: actionTypes.OCCSN_SET_SKIP_ATTENDEE,
+    attendee: attendee,
+    skip: skip
   };
 }
 
@@ -955,14 +956,29 @@ function (_PureComponent) {
     value: function render() {
       var _this$props = this.props,
           indexOf = _this$props.indexOf,
-          questions = _this$props.questions;
+          questions = _this$props.questions,
+          skipAttendees = _this$props.skipAttendees,
+          setSkipAttendee = _this$props.setSkipAttendee;
       return React__default.createElement(reactstrap.Card, {
         className: "attendee-container"
       }, React__default.createElement(reactstrap.CardBody, {
         className: "attendee"
       }, React__default.createElement(reactstrap.CardTitle, {
-        className: "attendee-title"
-      }, "Attendee ", indexOf + 1), questions.map(function (q) {
+        className: "attendee-title d-flex flex-row justify-content-between"
+      }, React__default.createElement("div", null, "Attendee ", indexOf + 1), React__default.createElement("small", null, React__default.createElement(reactstrap.Label, {
+        check: true,
+        for: "toggleAttendee"
+      }, React__default.createElement(reactstrap.Input, {
+        type: "checkbox",
+        id: 'toggleAttendee_' + indexOf + 1,
+        name: "toggleAttendees",
+        checked: skipAttendees[indexOf],
+        onChange: function onChange(e) {
+          return setSkipAttendee(indexOf, e.target.checked);
+        }
+      }), "Skip this attendee for now"))), React__default.createElement("div", {
+        className: skipAttendees[indexOf] ? 'd-none wel' : 'niet'
+      }, questions.map(function (q) {
         return React__default.createElement(reactstrap.FormGroup, {
           className: "attendee-input-container"
         }, React__default.createElement(reactstrap.Label, {
@@ -974,7 +990,7 @@ function (_PureComponent) {
           component: reactstrap.Input,
           invalidClassName: "is-invalid"
         }));
-      }).toArray()));
+      }).toArray())));
     }
   }]);
 
@@ -995,53 +1011,31 @@ function (_React$Component) {
   _inherits(Attendees, _React$Component);
 
   function Attendees() {
-    var _this;
-
     _classCallCheck(this, Attendees);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Attendees).call(this));
-
-    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'toggleSkipAttendees');
-
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(Attendees).apply(this, arguments));
   }
 
   _createClass(Attendees, [{
-    key: "toggleSkipAttendees",
-    value: function toggleSkipAttendees(e) {
-      var setSkipAttendees = this.props.setSkipAttendees;
-      setSkipAttendees(e.target.checked);
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
           questions = _this$props.questions,
           skipAttendees = _this$props.skipAttendees,
+          setSkipAttendee = _this$props.setSkipAttendee,
           subject = _this$props.subject;
       return React__default.createElement("section", {
         className: "attendees"
-      }, React__default.createElement("div", {
-        className: "skip-attendees"
-      }, React__default.createElement(reactstrap.FormGroup, {
-        check: true
-      }, React__default.createElement(reactstrap.Label, {
-        check: true,
-        for: "toggleAttendees"
-      }, React__default.createElement(reactstrap.Input, {
-        type: "checkbox",
-        id: "toggleAttendees",
-        name: "toggleAttendees",
-        checked: skipAttendees,
-        onChange: this.toggleSkipAttendees
-      }), "Skip attendees for now"))), !skipAttendees ? React__default.createElement(mitragyna.Collection, {
+      }, React__default.createElement(mitragyna.Collection, {
         component: Attendee,
         componentProps: {
-          questions: questions
+          questions: questions,
+          skipAttendees: skipAttendees,
+          setSkipAttendee: setSkipAttendee
         },
         reflection: "attendees",
         subject: subject.attendees()
-      }) : null);
+      }));
     }
   }]);
 
@@ -1052,8 +1046,8 @@ _defineProperty(Attendees, "propTypes", {
   questions: PropTypes.shape({
     __collection: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
-  setSkipAttendees: PropTypes.func,
-  skipAttendees: PropTypes.bool,
+  setSkipAttendee: PropTypes.func,
+  skipAttendees: PropTypes.object,
   subject: PropTypes.instanceOf(occsn.Order)
 });
 
@@ -3012,7 +3006,7 @@ function (_PureComponent) {
           saveOrder = _this$props2.saveOrder,
           bookingOrder = _this$props2.bookingOrder,
           findRedeemable = _this$props2.findRedeemable,
-          setSkipAttendees = _this$props2.setSkipAttendees,
+          setSkipAttendee = _this$props2.setSkipAttendee,
           skipAttendees = _this$props2.skipAttendees,
           subject = _this$props2.subject;
       var componentProps = this.context.componentProps;
@@ -3051,7 +3045,7 @@ function (_PureComponent) {
         id: "attendees-anchor"
       }), this.headerForSection('attendees'), React__default.createElement(Attendees, {
         questions: product.attendeeQuestions,
-        setSkipAttendees: setSkipAttendees,
+        setSkipAttendee: setSkipAttendee,
         skipAttendees: skipAttendees,
         subject: subject
       })) : null, this.showRedeemables() ? React__default.createElement("section", {
@@ -3128,8 +3122,8 @@ _defineProperty(Order, "propTypes", {
   bookingOrder: PropTypes.bool,
   findRedeemable: PropTypes.func.isRequired,
   saveOrder: PropTypes.func,
-  setSkipAttendees: PropTypes.func,
-  skipAttendees: PropTypes.bool,
+  setSkipAttendee: PropTypes.func,
+  skipAttendees: PropTypes.object,
   subject: PropTypes.instanceOf(occsn.Order).isRequired
 });
 
@@ -3181,7 +3175,7 @@ function stateToProps$1(state) {
       bookingOrder: state.$$appStore.get('bookingOrder'),
       savingOrder: state.$$appStore.get('savingOrder'),
       loadingProduct: state.$$appStore.get('loadingProduct'),
-      skipAttendees: state.$$appStore.get('skipAttendees'),
+      skipAttendees: state.$$appStore.get('skipAttendees').toObject(),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
       productNotFoundError: state.$$appStore.get('productNotFoundError'),
@@ -3210,8 +3204,8 @@ function dispatchToProps$1(dispatch) {
       setOrder: function setOrder$$1(order) {
         return dispatch(setOrder(order));
       },
-      setSkipAttendees: function setSkipAttendees$$1(skip) {
-        return dispatch(setSkipAttendees(skip));
+      setSkipAttendee: function setSkipAttendee$$1(attendee, skip) {
+        return dispatch(setSkipAttendee(attendee, skip));
       }
     }
   };
@@ -3276,9 +3270,9 @@ function (_PureComponent) {
 
           if (order.customer().complete() && !order.answers().target().detect(function (a) {
             return !a.valid();
-          }) && (nextProps.data.skipAttendees || !order.attendees().target().detect(function (a) {
-            return !a.complete();
-          })) && nextProps.data.order.status == 'initialized') {
+          }) && !order.attendees().target().detect(function (a, index) {
+            return !(a.complete() || nextProps.data.skipAttendees[index]);
+          }) && nextProps.data.order.status == 'initialized') {
             callbacks.onPersonalInformationComplete(nextProps.data.order);
           }
         }
@@ -3350,7 +3344,7 @@ function (_PureComponent) {
           bookingOrder: data.bookingOrder,
           findRedeemable: actions.findRedeemable,
           saveOrder: actions.saveOrder,
-          setSkipAttendees: actions.setSkipAttendees,
+          setSkipAttendee: actions.setSkipAttendee,
           skipAttendees: data.skipAttendees,
           timeSlotsFromCalendar: data.timeSlotsFromCalendar
         },
@@ -3460,8 +3454,13 @@ var $$initialState = Immutable.fromJS({
   product: null,
   productNotFoundError: false,
   savingOrder: false,
-  skipAttendees: false
+  skipAttendees: {}
 });
+
+function setSkipAttendee$1(attendees, attendee, skip) {
+  return attendees.set(attendee, skip);
+}
+
 function appReducer() {
   var $$state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : $$initialState;
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -3513,9 +3512,9 @@ function appReducer() {
         productNotFoundError: action.error
       });
 
-    case actionTypes.OCCSN_SET_SKIP_ATTENDEES:
+    case actionTypes.OCCSN_SET_SKIP_ATTENDEE:
       return $$state.merge({
-        skipAttendees: action.skipAttendees
+        skipAttendees: setSkipAttendee$1($$state.get('skipAttendees'), action.attendee, action.skip)
       });
 
     default:

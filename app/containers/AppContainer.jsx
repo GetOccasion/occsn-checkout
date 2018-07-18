@@ -27,7 +27,7 @@ function stateToProps(state) {
       bookingOrder: state.$$appStore.get('bookingOrder'),
       savingOrder: state.$$appStore.get('savingOrder'),
       loadingProduct: state.$$appStore.get('loadingProduct'),
-      skipAttendees: state.$$appStore.get('skipAttendees'),
+      skipAttendees: state.$$appStore.get('skipAttendees').toObject(),
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
       productNotFoundError: state.$$appStore.get('productNotFoundError'),
@@ -46,7 +46,7 @@ function dispatchToProps(dispatch) {
       loadProduct: () => dispatch(appActions.loadProduct(window.OCCSN.product_id)),
       saveOrder: (order) => dispatch(appActions.saveOrder(order)),
       setOrder: (order) => dispatch(appActions.setOrder(order)),
-      setSkipAttendees: (skip) => dispatch(appActions.setSkipAttendees(skip))
+      setSkipAttendee: (attendee, skip) => dispatch(appActions.setSkipAttendee(attendee, skip))
     }
   }
 }
@@ -128,7 +128,7 @@ export class AppContainer extends PureComponent {
 
         if(order.customer().complete() &&
           !order.answers().target().detect((a) => !a.valid()) &&
-          (nextProps.data.skipAttendees || !order.attendees().target().detect((a) => !a.complete())) &&
+          !order.attendees().target().detect((a, index) => !(a.complete() || nextProps.data.skipAttendees[index])) &&
           nextProps.data.order.status == 'initialized'
         ) {
           callbacks.onPersonalInformationComplete(nextProps.data.order);
@@ -198,7 +198,7 @@ export class AppContainer extends PureComponent {
             bookingOrder: data.bookingOrder,
             findRedeemable: actions.findRedeemable,
             saveOrder: actions.saveOrder,
-            setSkipAttendees: actions.setSkipAttendees,
+            setSkipAttendee: actions.setSkipAttendee,
             skipAttendees: data.skipAttendees,
             timeSlotsFromCalendar: data.timeSlotsFromCalendar
           } }

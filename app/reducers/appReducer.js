@@ -9,8 +9,13 @@ export const $$initialState = Immutable.fromJS({
   product: null,
   productNotFoundError: false,
   savingOrder: false,
-  skipAttendees: false
+  skipAttendees: {}
 });
+
+function setSkipAttendee(attendees, attendee, skip) {
+  return attendees.set(attendee, skip)
+}
+
 
 export default function appReducer($$state = $$initialState, action) {
   const { type } = action;
@@ -34,8 +39,8 @@ export default function appReducer($$state = $$initialState, action) {
       return $$state.merge({ product: action.product });
     case actionTypes.OCCSN_SET_PRODUCT_NOT_FOUND_ERROR:
       return $$state.merge({ productNotFoundError: action.error });
-    case actionTypes.OCCSN_SET_SKIP_ATTENDEES:
-      return $$state.merge({ skipAttendees: action.skipAttendees });
+    case actionTypes.OCCSN_SET_SKIP_ATTENDEE:
+      return $$state.merge({ skipAttendees: setSkipAttendee($$state.get('skipAttendees'), action.attendee, action.skip) });
     default:
       return $$state;
   }
