@@ -24,14 +24,24 @@ export default class SpinButton extends PureComponent {
     );
   }
 
+  componentDidMount() {
+    const { answer } = this.props;
+
+    this.fieldRef.setValue(answer.question().min);
+  }
+
   decrementValue() {
     let currentValue = this.fieldRef.getValue();
+
+    if(_.isString(currentValue)) currentValue = parseInt(currentValue);
 
     this.fieldRef.setValue(currentValue - 1);
   }
 
   incrementValue() {
     let currentValue = this.fieldRef.getValue();
+
+    if(_.isString(currentValue)) currentValue = parseInt(currentValue);
 
     this.fieldRef.setValue(currentValue + 1);
   }

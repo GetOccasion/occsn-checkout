@@ -32,6 +32,7 @@ export default class Order extends PureComponent {
     afterUpdate: PropTypes.func.isRequired,
     bookingOrder: PropTypes.bool,
     findRedeemable: PropTypes.func.isRequired,
+    saveOrder: PropTypes.func,
     setSkipAttendee: PropTypes.func,
     skipAttendees: PropTypes.object,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
@@ -241,7 +242,7 @@ export default class Order extends PureComponent {
   }
 
   render() {
-    let { afterError, afterUpdate, bookingOrder, findRedeemable, setSkipAttendee, skipAttendees, subject } = this.props;
+    let { afterError, saveOrder, bookingOrder, findRedeemable, setSkipAttendee, skipAttendees, subject } = this.props;
     let { componentProps } = this.context;
 
     let customer = subject.customer();
@@ -292,7 +293,7 @@ export default class Order extends PureComponent {
             <Redeemables
               findRedeemable={findRedeemable}
               order={subject}
-              onChange={afterUpdate}
+              onChange={saveOrder}
               onErrors={afterError}
               ref={(r) => this.redeemables = r}
             ></Redeemables>
