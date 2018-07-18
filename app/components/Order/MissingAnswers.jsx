@@ -27,12 +27,7 @@ export default class MissingAnswers extends PureComponent {
     if(override) order = override;
 
     return order.answers().target()
-    .select((a) => {
-      return a.question().required &&
-        ((a.question().optionable && !a.option()) ||
-          (!a.question().optionable && !a.value)) ||
-          (a.question().formControl == 'waiver' && !a.value)
-    });
+    .select((a) => !a.valid());
   };
 
   empty() {
