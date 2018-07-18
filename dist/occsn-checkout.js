@@ -34,22 +34,6 @@ var reduxDevtoolsExtension = require('redux-devtools-extension');
 var thunkMiddleware = _interopDefault(require('redux-thunk'));
 require('bootstrap/dist/css/bootstrap.css');
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
 function _asyncToGenerator(fn) {
   return function () {
     var self = this,
@@ -57,15 +41,31 @@ function _asyncToGenerator(fn) {
     return new Promise(function (resolve, reject) {
       var gen = fn.apply(self, args);
 
+      function step(key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+
+        if (info.done) {
+          resolve(value);
+        } else {
+          Promise.resolve(value).then(_next, _throw);
+        }
+      }
+
       function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+        step("next", value);
       }
 
       function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+        step("throw", err);
       }
 
-      _next(undefined);
+      _next();
     });
   };
 }
@@ -1167,7 +1167,7 @@ function (_PureComponent) {
       var order = this.props.order;
       if (override) order = override;
       return order.answers().target().select(function (a) {
-        return a.question().required && (a.question().optionable && !a.option() || !a.question().optionable && !a.value) || a.question().formControl == 'waiver' && !a.value;
+        return !a.valid();
       });
     }
   }, {
@@ -2160,15 +2160,23 @@ function (_PureComponent) {
   }
 
   _createClass(SpinButton, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var answer = this.props.answer;
+      this.fieldRef.setValue(answer.question().min);
+    }
+  }, {
     key: "decrementValue",
     value: function decrementValue() {
       var currentValue = this.fieldRef.getValue();
+      if (_.isString(currentValue)) currentValue = parseInt(currentValue);
       this.fieldRef.setValue(currentValue - 1);
     }
   }, {
     key: "incrementValue",
     value: function incrementValue() {
       var currentValue = this.fieldRef.getValue();
+      if (_.isString(currentValue)) currentValue = parseInt(currentValue);
       this.fieldRef.setValue(currentValue + 1);
     }
   }, {
@@ -3001,7 +3009,7 @@ function (_PureComponent) {
 
       var _this$props2 = this.props,
           afterError = _this$props2.afterError,
-          afterUpdate = _this$props2.afterUpdate,
+          saveOrder = _this$props2.saveOrder,
           bookingOrder = _this$props2.bookingOrder,
           findRedeemable = _this$props2.findRedeemable,
           setSkipAttendees = _this$props2.setSkipAttendees,
@@ -3054,7 +3062,7 @@ function (_PureComponent) {
       }), this.headerForSection('redeemables'), React__default.createElement(Redeemables, {
         findRedeemable: findRedeemable,
         order: subject,
-        onChange: afterUpdate,
+        onChange: saveOrder,
         onErrors: afterError,
         ref: function ref(r) {
           return _this2.redeemables = r;
@@ -3119,6 +3127,7 @@ _defineProperty(Order, "propTypes", {
   afterUpdate: PropTypes.func.isRequired,
   bookingOrder: PropTypes.bool,
   findRedeemable: PropTypes.func.isRequired,
+  saveOrder: PropTypes.func,
   setSkipAttendees: PropTypes.func,
   skipAttendees: PropTypes.bool,
   subject: PropTypes.instanceOf(occsn.Order).isRequired
@@ -3234,7 +3243,11 @@ function (_PureComponent) {
       actions.loadProduct();
 
       if (callbacks && callbacks.onOrderChange) {
-        this.onOrderChange = _.debounce(callbacks.onOrderChange, 500);
+        this.onOrderChange = _.debounce(callbacks.onOrderChange, 25);
+      }
+
+      if (callbacks && callbacks.onOrderComplete) {
+        this.onOrderComplete = _.debounce(callbacks.onOrderComplete, 25);
       }
     } // @todo Only execute the relevant parts based on the props that actually changed
 
@@ -3254,8 +3267,8 @@ function (_PureComponent) {
 
         if (this.onOrderChange) this.onOrderChange(nextProps.data.order);
 
-        if (callbacks && callbacks.onOrderComplete && nextProps.data.order.status == 'booked') {
-          callbacks.onOrderComplete(nextProps.data.order);
+        if (this.onOrderComplete && nextProps.data.order.status == 'booked') {
+          this.onOrderComplete(nextProps.data.order);
         }
 
         if (callbacks && callbacks.onPersonalInformationComplete) {
@@ -3336,6 +3349,7 @@ function (_PureComponent) {
           activeTimeSlotsCollection: data.activeTimeSlotsCollection,
           bookingOrder: data.bookingOrder,
           findRedeemable: actions.findRedeemable,
+          saveOrder: actions.saveOrder,
           setSkipAttendees: actions.setSkipAttendees,
           skipAttendees: data.skipAttendees,
           timeSlotsFromCalendar: data.timeSlotsFromCalendar
