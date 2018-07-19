@@ -1,29 +1,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import _ from 'underscore';
-
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 export default class Paginator extends PureComponent {
   static propTypes = {
     className: PropTypes.string.isRequired,
+    cached: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     timeSlotsCollection: PropTypes.shape({
       __collection: PropTypes.arrayOf(PropTypes.any)
     }).isRequired,
   };
 
-  constructor() {
-    super();
-
-    _.bindAll(this,
-      'nextClicked',
-      'prevClicked'
-    );
-  }
-
-  nextClicked() {
+  nextClicked = () => {
     const { onChange, timeSlotsCollection } = this.props;
 
     timeSlotsCollection.nextPage()
@@ -32,7 +22,7 @@ export default class Paginator extends PureComponent {
     });
   }
 
-  prevClicked() {
+  prevClicked = () => {
     const { onChange, timeSlotsCollection } = this.props;
 
     timeSlotsCollection.prevPage()
