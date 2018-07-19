@@ -168,7 +168,7 @@ export class TimeSlotsContainer extends React.Component {
                 <Col xs={{ offset: "9" }}>
                 </Col>
                 <Col xs="3">
-                  <Paginator className="float-right" cached={true} onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
+                  <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
                 </Col>
               </Row>
             ) : (null)
