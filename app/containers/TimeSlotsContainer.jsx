@@ -2,8 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import _ from 'underscore';
-
 import { Row, Col } from 'reactstrap';
 
 import { Resource } from 'mitragyna';
@@ -55,15 +53,6 @@ export class TimeSlotsContainer extends React.Component {
     componentProps: PropTypes.object,
   };
 
-  constructor() {
-    super();
-
-    _.bindAll(this,
-      'onDateSelect',
-      'onTimeSelect',
-    );
-  }
-
   componentDidMount() {
     const { actions, data, order } = this.props;
 
@@ -81,7 +70,7 @@ export class TimeSlotsContainer extends React.Component {
     }
   }
 
-  onDateSelect(timeSlotsFromCalendar) {
+  onDateSelect = (timeSlotsFromCalendar) => {
     const { actions } = this.props;
     const { callbackProps } = this.context;
 
@@ -90,7 +79,7 @@ export class TimeSlotsContainer extends React.Component {
     actions.setTimeSlotsFromCalendar(timeSlotsFromCalendar);
   }
 
-  onTimeSelect(order) {
+  onTimeSelect = (order) => {
     const { actions } = this.props;
     const { callbackProps } = this.context;
 
