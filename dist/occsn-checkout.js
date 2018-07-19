@@ -679,55 +679,105 @@ var Paginator =
 function (_PureComponent) {
   _inherits(Paginator, _PureComponent);
 
-  function Paginator() {
+  function Paginator(props) {
     var _this;
 
     _classCallCheck(this, Paginator);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Paginator).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Paginator).call(this, props));
 
-    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'nextClicked', 'prevClicked');
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "nextClicked", function () {
+      var _this$props = _this.props,
+          timeSlotsCollection = _this$props.timeSlotsCollection,
+          onChange = _this$props.onChange;
+      var _this$state = _this.state,
+          currentPage = _this$state.currentPage,
+          cachedPages = _this$state.cachedPages,
+          loading = _this$state.loading;
 
+      _this.setState({
+        currentPage: ++currentPage
+      });
+
+      if (cachedPages[currentPage]) {
+        if (!loading && cachedPages.length < currentPage + 5) {
+          _this.loadNextTimeSlotPages(5, cachedPages[cachedPages.length - 1]);
+        }
+
+        onChange(cachedPages[currentPage]);
+      }
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "prevClicked", function () {
+      var onChange = _this.props.onChange;
+      var _this$state2 = _this.state,
+          currentPage = _this$state2.currentPage,
+          cachedPages = _this$state2.cachedPages;
+
+      _this.setState({
+        currentPage: --currentPage
+      });
+
+      onChange(cachedPages[currentPage]);
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "loadNextTimeSlotPages", function (numberOfPages, collection, callback) {
+      var cachedPages = _this.state.cachedPages;
+
+      _this.setState({
+        loading: true
+      });
+
+      collection.nextPage().then(function (nextPage) {
+        cachedPages.push(nextPage);
+
+        _this.setState({
+          loading: false
+        });
+
+        if (numberOfPages) {
+          _this.loadNextTimeSlotPages(numberOfPages - 1, nextPage, callback);
+        } else {
+          if (callback !== undefined) callback();
+        }
+      });
+    });
+
+    _this.state = {
+      currentPage: 0,
+      cachedPages: [],
+      loading: false
+    };
     return _this;
   }
 
   _createClass(Paginator, [{
-    key: "nextClicked",
-    value: function nextClicked() {
-      var _this$props = this.props,
-          onChange = _this$props.onChange,
-          timeSlotsCollection = _this$props.timeSlotsCollection;
-      timeSlotsCollection.nextPage().then(function (nextTimeSlotsCollection) {
-        onChange(nextTimeSlotsCollection);
-      });
-    }
-  }, {
-    key: "prevClicked",
-    value: function prevClicked() {
-      var _this$props2 = this.props,
-          onChange = _this$props2.onChange,
-          timeSlotsCollection = _this$props2.timeSlotsCollection;
-      timeSlotsCollection.prevPage().then(function (prevTimeSlotsCollection) {
-        onChange(prevTimeSlotsCollection);
-      });
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var timeSlotsCollection = this.props.timeSlotsCollection;
+      this.loadNextTimeSlotPages(9, timeSlotsCollection);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this$props3 = this.props,
-          className = _this$props3.className,
-          timeSlotsCollection = _this$props3.timeSlotsCollection;
+      var _this$props2 = this.props,
+          className = _this$props2.className,
+          timeSlotsCollection = _this$props2.timeSlotsCollection;
+      var _this$state3 = this.state,
+          currentPage = _this$state3.currentPage,
+          cachedPages = _this$state3.cachedPages,
+          loading = _this$state3.loading;
       return React__default.createElement("section", {
         className: "time-slots-paginator"
       }, React__default.createElement(reactstrap.Pagination, {
         className: className
       }, React__default.createElement(reactstrap.PaginationItem, {
-        disabled: !timeSlotsCollection.hasPrevPage()
+        disabled: currentPage == 0
       }, React__default.createElement(reactstrap.PaginationLink, {
         previous: true,
         onClick: this.prevClicked
       })), React__default.createElement(reactstrap.PaginationItem, {
-        disabled: !timeSlotsCollection.hasNextPage()
+        disabled: !timeSlotsCollection.hasNextPage() || loading && currentPage >= cachedPages.length - 1
       }, React__default.createElement(reactstrap.PaginationLink, {
         next: true,
         onClick: this.nextClicked
@@ -788,13 +838,32 @@ function (_React$Component) {
   _inherits(TimeSlotsContainer, _React$Component);
 
   function TimeSlotsContainer() {
+    var _getPrototypeOf2;
+
     var _this;
 
     _classCallCheck(this, TimeSlotsContainer);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(TimeSlotsContainer).call(this));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'onDateSelect', 'onTimeSelect');
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(TimeSlotsContainer)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onDateSelect", function (timeSlotsFromCalendar) {
+      var actions = _this.props.actions;
+      var callbackProps = _this.context.callbackProps;
+      if (callbackProps.onDateSelect) callbackProps.onDateSelect(timeSlotsFromCalendar);
+      actions.setTimeSlotsFromCalendar(timeSlotsFromCalendar);
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "onTimeSelect", function (order) {
+      var actions = _this.props.actions;
+      var callbackProps = _this.context.callbackProps;
+      if (callbackProps.onTimeSelect) callbackProps.onTimeSelect(order);
+      actions.setOrder(order);
+      actions.saveOrder(order);
+    });
 
     return _this;
   }
@@ -820,23 +889,6 @@ function (_React$Component) {
       if (data.product.sellsSessions) {
         actions.setActiveTimeSlotsCollection(order.timeSlots().target().clone());
       }
-    }
-  }, {
-    key: "onDateSelect",
-    value: function onDateSelect(timeSlotsFromCalendar) {
-      var actions = this.props.actions;
-      var callbackProps = this.context.callbackProps;
-      if (callbackProps.onDateSelect) callbackProps.onDateSelect(timeSlotsFromCalendar);
-      actions.setTimeSlotsFromCalendar(timeSlotsFromCalendar);
-    }
-  }, {
-    key: "onTimeSelect",
-    value: function onTimeSelect(order) {
-      var actions = this.props.actions;
-      var callbackProps = this.context.callbackProps;
-      if (callbackProps.onTimeSelect) callbackProps.onTimeSelect(order);
-      actions.setOrder(order);
-      actions.saveOrder(order);
     }
   }, {
     key: "render",
