@@ -1543,6 +1543,10 @@ function (_React$Component) {
   return CardNumber;
 }(React__default.Component);
 
+function camelCaseToDash(str) {
+  return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
+}
+
 var Spreedly =
 /*#__PURE__*/
 function (_PaymentServiceProvid) {
@@ -1555,7 +1559,9 @@ function (_PaymentServiceProvid) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Spreedly).call(this));
 
-    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'handleChange');
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleChange", function (name, e) {
+      _this.setState(_defineProperty({}, name, e.target.value));
+    });
 
     _this.state = {
       month: null,
@@ -1577,15 +1583,39 @@ function (_PaymentServiceProvid) {
         "numberEl": "spreedly-number",
         "cvvEl": "spreedly-cvv"
       });
-      var defaultInputStyle = 'display: block;' + '  width: 80%;' + '  padding: 0.375rem 0.75rem;' + '  font-size: 1rem;' + '  line-height: 1.5;' + '  color: #495057;' + '  background-color: #fff;' + '  background-clip: padding-box;' + '  border: 1px solid #ced4da;' + '  border-radius: 0.25rem;' + '  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out';
+      var defaultInputStyle = {
+        display: 'block',
+        width: '80%',
+        padding: '0.375rem 0.75rem',
+        fontSize: '1rem',
+        lineHeight: 1.5,
+        color: '#495057',
+        backgroundColor: '#fff',
+        backgroundClip: 'padding-box',
+        border: '1px solid #ced4da',
+        borderRadius: '0.25rem',
+        transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out'
+      };
       var focusInputStyle = 'color: #495057;' + '  background-color: #fff;' + '  border-color: #80bdff;' + '  outline: 0;' + '  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)';
+
+      if (global.OCCSN.iframeInputStyles) {
+        Object.assign(defaultInputStyle, global.OCCSN.iframeInputStyles);
+      } // Covert to string and hyphen-case the keys
+
+
+      var inputStyleString = '';
+
+      for (var prop in defaultInputStyle) {
+        inputStyleString += "".concat(camelCaseToDash(prop), ": ").concat(defaultInputStyle[prop], ";");
+      }
+
       SpreedlyAPI.on("ready", function () {
         SpreedlyAPI.setFieldType("number", "text");
         SpreedlyAPI.setNumberFormat("prettyFormat");
         SpreedlyAPI.setPlaceholder("number", "•••• •••• •••• ••••");
         SpreedlyAPI.setPlaceholder("cvv", "•••");
-        SpreedlyAPI.setStyle("number", defaultInputStyle);
-        SpreedlyAPI.setStyle("cvv", defaultInputStyle);
+        SpreedlyAPI.setStyle("number", inputStyleString);
+        SpreedlyAPI.setStyle("cvv", inputStyleString);
       });
       SpreedlyAPI.on('fieldEvent', function (name, type, activeEl, inputProperties) {
         if (type == 'focus') {
@@ -1593,7 +1623,7 @@ function (_PaymentServiceProvid) {
         }
 
         if (type == 'blur') {
-          SpreedlyAPI.setStyle(name, defaultInputStyle);
+          SpreedlyAPI.setStyle(name, inputStyleString);
         }
       });
       SpreedlyAPI.on('errors', function (errors) {
@@ -1614,11 +1644,6 @@ function (_PaymentServiceProvid) {
     key: "tokenizePaymentMethodData",
     value: function tokenizePaymentMethodData() {
       SpreedlyAPI.tokenizeCreditCard(this.state);
-    }
-  }, {
-    key: "handleChange",
-    value: function handleChange(name, e) {
-      this.setState(_defineProperty({}, name, e.target.value));
     }
   }, {
     key: "render",
@@ -1836,17 +1861,23 @@ function (_PaymentServiceProvid) {
     value: function initializeForm() {
       var _this = this;
 
+      var defaultInputStyle = {
+        padding: '0.375em 0.75em',
+        fontSize: '1em',
+        lineHeight: 1.5,
+        color: '#495057',
+        backgroundColor: '#fff'
+      };
+
+      if (global.OCCSN.iframeInputStyles) {
+        Object.assign(defaultInputStyle, global.OCCSN.iframeInputStyles);
+      }
+
       this.sqPaymentForm = new SquareAPI({
         // Initialize the payment form elements
         applicationId: global.OCCSN.square_key,
         inputClass: 'form-control-square',
-        inputStyles: [{
-          padding: '0.375em 0.75em',
-          fontSize: '1em',
-          lineHeight: 1.5,
-          color: '#495057',
-          backgroundColor: '#fff'
-        }],
+        inputStyles: [defaultInputStyle],
         // Initialize the credit card placeholders
         cardNumber: {
           elementId: 'sq-card-number',
