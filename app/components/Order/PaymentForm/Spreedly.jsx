@@ -15,13 +15,13 @@ import PaymentServiceProvider from './PaymentServiceProvider.jsx';
 import CardNumber from './Spreedly/CardNumber.jsx';
 import CVV from './Spreedly/CVV.jsx';
 
+function camelCaseToDash (str) {
+  return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase()
+}
+
 export default class Spreedly extends PaymentServiceProvider {
   constructor() {
     super();
-
-    _.bindAll(this,
-      'handleChange'
-    );
 
     this.state = {
       month: null,
@@ -39,31 +39,41 @@ export default class Spreedly extends PaymentServiceProvider {
       "cvvEl": "spreedly-cvv"
     });
 
-    var defaultInputStyle = 'display: block;' +
-      '  width: 80%;' +
-      '  padding: 0.375rem 0.75rem;' +
-      '  font-size: 1rem;' +
-      '  line-height: 1.5;' +
-      '  color: #495057;' +
-      '  background-color: #fff;' +
-      '  background-clip: padding-box;' +
-      '  border: 1px solid #ced4da;' +
-      '  border-radius: 0.25rem;' +
-      '  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out';
+    let defaultInputStyle = {
+      display: 'block',
+      width: '80%',
+      padding: '0.375rem 0.75rem',
+      fontSize: '1rem',
+      lineHeight: 1.5,
+      color: '#495057',
+      backgroundColor: '#fff',
+      backgroundClip: 'padding-box',
+      border: '1px solid #ced4da',
+      borderRadius: '0.25rem',
+      transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out'
+    };
 
-    var focusInputStyle = 'color: #495057;' +
+    const focusInputStyle = 'color: #495057;' +
       '  background-color: #fff;' +
       '  border-color: #80bdff;' +
       '  outline: 0;' +
       '  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)';
+
+    if(global.OCCSN.iframeInputStyles) {
+      Object.assign(defaultInputStyle, global.OCCSN.iframeInputStyles);
+    }
+
+    // Covert to string and hyphen-case the keys
+    let inputStyleString = '';
+    for (let prop in defaultInputStyle) { inputStyleString += `${camelCaseToDash(prop)}: ${defaultInputStyle[prop]};` }
 
     SpreedlyAPI.on("ready", function () {
       SpreedlyAPI.setFieldType("number", "text");
       SpreedlyAPI.setNumberFormat("prettyFormat");
       SpreedlyAPI.setPlaceholder("number", "•••• •••• •••• ••••");
       SpreedlyAPI.setPlaceholder("cvv", "•••");
-      SpreedlyAPI.setStyle("number", defaultInputStyle);
-      SpreedlyAPI.setStyle("cvv", defaultInputStyle);
+      SpreedlyAPI.setStyle("number", inputStyleString);
+      SpreedlyAPI.setStyle("cvv", inputStyleString);
     });
 
     SpreedlyAPI.on('fieldEvent', function(name, type, activeEl, inputProperties) {
@@ -72,7 +82,7 @@ export default class Spreedly extends PaymentServiceProvider {
       }
 
       if(type == 'blur'){
-        SpreedlyAPI.setStyle(name, defaultInputStyle);
+        SpreedlyAPI.setStyle(name, inputStyleString);
       }
     });
 
@@ -99,7 +109,7 @@ export default class Spreedly extends PaymentServiceProvider {
     SpreedlyAPI.tokenizeCreditCard(this.state);
   }
 
-  handleChange(name, e) {
+  handleChange = (name, e) => {
     this.setState({
       [name]: e.target.value
     })

@@ -19,18 +19,24 @@ import PostalCode from './Square/PostalCode.jsx';
 export default class Square extends PaymentServiceProvider {
   // Initializes the iFrame using the global SqPaymentForm library imported as SquareAPI
   initializeForm() {
+    let defaultInputStyle = {
+      padding: '0.375em 0.75em',
+      fontSize: '1em',
+      lineHeight: 1.5,
+      color: '#495057',
+      backgroundColor: '#fff',
+    };
+
+    if(global.OCCSN.iframeInputStyles) {
+      Object.assign(defaultInputStyle, global.OCCSN.iframeInputStyles);
+    }
+    
     this.sqPaymentForm = new SquareAPI({
 
       // Initialize the payment form elements
       applicationId: global.OCCSN.square_key,
       inputClass: 'form-control-square',
-      inputStyles: [{
-        padding: '0.375em 0.75em',
-        fontSize: '1em',
-        lineHeight: 1.5,
-        color: '#495057',
-        backgroundColor: '#fff',
-      }],
+      inputStyles: [defaultInputStyle],
 
       // Initialize the credit card placeholders
       cardNumber: {
