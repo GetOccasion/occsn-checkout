@@ -107,6 +107,24 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
 function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
@@ -1583,7 +1601,7 @@ function (_PaymentServiceProvid) {
         "numberEl": "spreedly-number",
         "cvvEl": "spreedly-cvv"
       });
-      var iframeInputStyles = this.props.iframeInputStyles;
+      var spreedlyIframeInputStyles = this.props.spreedlyIframeInputStyles;
       var defaultInputStyle = {
         display: 'block',
         width: '80%',
@@ -1599,8 +1617,8 @@ function (_PaymentServiceProvid) {
       };
       var focusInputStyle = 'color: #495057;' + '  background-color: #fff;' + '  border-color: #80bdff;';
 
-      if (iframeInputStyles) {
-        Object.assign(defaultInputStyle, iframeInputStyles);
+      if (spreedlyIframeInputStyles) {
+        Object.assign(defaultInputStyle, spreedlyIframeInputStyles);
       } // Covert to string and hyphen-case the keys
 
 
@@ -1869,10 +1887,10 @@ function (_PaymentServiceProvid) {
         color: '#495057',
         backgroundColor: '#fff'
       };
-      var iframeInputStyles = this.props.iframeInputStyles;
+      var squareIframeInputStyles = this.props.squareIframeInputStyles;
 
-      if (iframeInputStyles) {
-        Object.assign(defaultInputStyle, iframeInputStyles);
+      if (squareIframeInputStyles) {
+        Object.assign(defaultInputStyle, squareIframeInputStyles);
       }
 
       this.sqPaymentForm = new SquareAPI({
@@ -2025,10 +2043,10 @@ function (_PureComponent) {
 
       var _this$props = this.props,
           order = _this$props.order,
-          iframeInputStyles = _this$props.iframeInputStyles;
+          spreedlyIframeInputStyles = _this$props.spreedlyIframeInputStyles,
+          squareIframeInputStyles = _this$props.squareIframeInputStyles;
       var pspFormProps = {
         order: order,
-        iframeInputStyles: iframeInputStyles,
         ref: function ref(form) {
           _this2.pspForm = form;
         }
@@ -2037,8 +2055,12 @@ function (_PureComponent) {
         className: "payment"
       }, {
         cash: React__default.createElement(Cash, pspFormProps),
-        spreedly: React__default.createElement(Spreedly, pspFormProps),
-        square: React__default.createElement(Square, pspFormProps)
+        spreedly: React__default.createElement(Spreedly, _extends({}, pspFormProps, {
+          spreedlyIframeInputStyles: spreedlyIframeInputStyles
+        })),
+        square: React__default.createElement(Square, _extends({}, pspFormProps, {
+          squareIframeInputStyles: squareIframeInputStyles
+        }))
       }[this.paymentServiceProvider()]);
     }
   }]);
@@ -2048,7 +2070,8 @@ function (_PureComponent) {
 
 _defineProperty(PaymentForm, "propTypes", {
   order: PropTypes.instanceOf(occsn.Order),
-  iframeInputStyles: PropTypes.object
+  spreedlyIframeInputStyles: PropTypes.object,
+  squareIframeInputStyles: PropTypes.object
 });
 
 var Checkbox =
@@ -3100,7 +3123,8 @@ function (_PureComponent) {
           setSkipAttendee = _this$props2.setSkipAttendee,
           skipAttendees = _this$props2.skipAttendees,
           subject = _this$props2.subject,
-          iframeInputStyles = _this$props2.iframeInputStyles;
+          spreedlyIframeInputStyles = _this$props2.spreedlyIframeInputStyles,
+          squareIframeInputStyles = _this$props2.squareIframeInputStyles;
       var componentProps = this.context.componentProps;
       var customer = subject.customer();
       var product = subject.product();
@@ -3160,7 +3184,8 @@ function (_PureComponent) {
         id: "payment-anchor"
       }), this.headerForSection('payment'), React__default.createElement(PaymentForm, {
         order: subject,
-        iframeInputStyles: iframeInputStyles,
+        spreedlyIframeInputStyles: spreedlyIframeInputStyles,
+        squareIframeInputStyles: squareIframeInputStyles,
         ref: function ref(form) {
           return _this2.paymentForm = form;
         }
@@ -3218,7 +3243,8 @@ _defineProperty(Order, "propTypes", {
   setSkipAttendee: PropTypes.func,
   skipAttendees: PropTypes.object,
   subject: PropTypes.instanceOf(occsn.Order).isRequired,
-  iframeInputStyles: PropTypes.object
+  spreedlyIframeInputStyles: PropTypes.object,
+  squareIframeInputStyles: PropTypes.object
 });
 
 _defineProperty(Order, "contextTypes", {
@@ -3426,7 +3452,8 @@ function (_PureComponent) {
           data = _this$props4.data,
           className = _this$props4.className,
           formRef = _this$props4.formRef,
-          iframeInputStyles = _this$props4.iframeInputStyles;
+          spreedlyIframeInputStyles = _this$props4.spreedlyIframeInputStyles,
+          squareIframeInputStyles = _this$props4.squareIframeInputStyles;
       var classNames = classnames('occsn-app-container', className);
       return React__default.createElement("section", {
         className: classNames
@@ -3442,7 +3469,8 @@ function (_PureComponent) {
           setSkipAttendee: actions.setSkipAttendee,
           skipAttendees: data.skipAttendees,
           timeSlotsFromCalendar: data.timeSlotsFromCalendar,
-          iframeInputStyles: iframeInputStyles
+          spreedlyIframeInputStyles: spreedlyIframeInputStyles,
+          squareIframeInputStyles: squareIframeInputStyles
         },
         componentRef: formRef,
         onSubmit: actions.bookOrder,
@@ -3533,7 +3561,8 @@ _defineProperty(AppContainer, "propTypes", {
     listTimeSlotsSelector: PropTypes.string
   }),
   formRef: PropTypes.func,
-  iframeInputStyles: PropTypes.object
+  spreedlyIframeInputStyles: PropTypes.object,
+  squareIframeInputStyles: PropTypes.object
 });
 
 _defineProperty(AppContainer, "childContextTypes", {
