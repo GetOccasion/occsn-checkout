@@ -2023,9 +2023,12 @@ function (_PureComponent) {
     value: function render() {
       var _this2 = this;
 
-      var order = this.props.order;
+      var _this$props = this.props,
+          order = _this$props.order,
+          iframeInputStyles = _this$props.iframeInputStyles;
       var pspFormProps = {
         order: order,
+        iframeInputStyles: iframeInputStyles,
         ref: function ref(form) {
           _this2.pspForm = form;
         }
@@ -3438,13 +3441,13 @@ function (_PureComponent) {
           saveOrder: actions.saveOrder,
           setSkipAttendee: actions.setSkipAttendee,
           skipAttendees: data.skipAttendees,
-          timeSlotsFromCalendar: data.timeSlotsFromCalendar
+          timeSlotsFromCalendar: data.timeSlotsFromCalendar,
+          iframeInputStyles: iframeInputStyles
         },
         componentRef: formRef,
         onSubmit: actions.bookOrder,
         onInvalidSubmit: actions.setOrder,
-        subject: data.order,
-        iframeInputStyles: iframeInputStyles
+        subject: data.order
       }) : null);
     }
   }, {
