@@ -1503,7 +1503,7 @@ function (_React$Component) {
       return React__default.createElement("div", {
         id: "spreedly-number",
         style: {
-          height: '48px'
+          height: '52px'
         }
       });
     }
@@ -1534,7 +1534,7 @@ function (_React$Component) {
       return React__default.createElement("div", null, React__default.createElement(reactstrap.Label, null, "CVV"), React__default.createElement("div", {
         id: "spreedly-cvv",
         style: {
-          height: '48px'
+          height: '52px'
         }
       }));
     }
@@ -1597,7 +1597,7 @@ function (_PaymentServiceProvid) {
         borderRadius: '0.25rem',
         transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out'
       };
-      var focusInputStyle = 'color: #495057;' + '  background-color: #fff;' + '  border-color: #80bdff;' + '  outline: 0;' + '  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)';
+      var focusInputStyle = 'color: #495057;' + '  background-color: #fff;' + '  border-color: #80bdff;';
 
       if (iframeInputStyles) {
         Object.assign(defaultInputStyle, iframeInputStyles);

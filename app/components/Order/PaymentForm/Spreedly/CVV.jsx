@@ -10,7 +10,7 @@ export default class CardNumber extends React.Component {
   render() {
     return <div>
       <Label>CVV</Label>
-      <div id="spreedly-cvv" style={{ height: '48px' }}></div>
+      <div id="spreedly-cvv" style={{ height: '52px' }}></div>
     </div>;
   }
 }

@@ -57,9 +57,7 @@ export default class Spreedly extends PaymentServiceProvider {
 
     const focusInputStyle = 'color: #495057;' +
       '  background-color: #fff;' +
-      '  border-color: #80bdff;' +
-      '  outline: 0;' +
-      '  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)';
+      '  border-color: #80bdff;'
 
     if(iframeInputStyles) {
       Object.assign(defaultInputStyle, iframeInputStyles);

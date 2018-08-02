@@ -10,6 +10,6 @@ export default class CardNumber extends React.Component {
   }
 
   render() {
-    return <div id="spreedly-number" style={{ height: '48px' }}></div>;
+    return <div id="spreedly-number" style={{ height: '52px' }}></div>;
   }
 }
