@@ -75,6 +75,7 @@ export class AppContainer extends PureComponent {
     }),
     formRef: PropTypes.func,
     spreedlyIframeInputStyles: PropTypes.object,
+    squareIframeInputStyles: PropTypes.object,
   };
 
   static childContextTypes = {
@@ -181,7 +182,7 @@ export class AppContainer extends PureComponent {
   }
 
   renderBookingScreen() {
-    const { actions, data, className, formRef, spreedlyIframeInputStyles } = this.props;
+    const { actions, data, className, formRef, spreedlyIframeInputStyles, squareIframeInputStyles } = this.props;
 
     let classNames = classnames(
       'occsn-app-container',
@@ -202,7 +203,8 @@ export class AppContainer extends PureComponent {
             setSkipAttendee: actions.setSkipAttendee,
             skipAttendees: data.skipAttendees,
             timeSlotsFromCalendar: data.timeSlotsFromCalendar,
-            spreedlyIframeInputStyles
+            spreedlyIframeInputStyles,
+            squareIframeInputStyles
           } }
           componentRef={formRef}
           onSubmit={ actions.bookOrder }

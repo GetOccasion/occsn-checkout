@@ -27,10 +27,10 @@ export default class Square extends PaymentServiceProvider {
       backgroundColor: '#fff',
     };
 
-    let { spreedlyIframeInputStyles } = this.props
+    let { squareIframeInputStyles } = this.props
 
-    if(spreedlyIframeInputStyles) {
-      Object.assign(defaultInputStyle, spreedlyIframeInputStyles);
+    if(squareIframeInputStyles) {
+      Object.assign(defaultInputStyle, squareIframeInputStyles);
     }
 
     this.sqPaymentForm = new SquareAPI({

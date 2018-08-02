@@ -13,6 +13,7 @@ export default class PaymentForm extends PureComponent {
   static propTypes = {
     order: PropTypes.instanceOf(occsn.Order),
     spreedlyIframeInputStyles: PropTypes.object,
+    squareIframeInputStyles: PropTypes.object,
   };
 
   chargeOutstandingBalanceToPaymentMethod = (subject) => {
@@ -35,11 +36,10 @@ export default class PaymentForm extends PureComponent {
   }
 
   render() {
-    let { order, spreedlyIframeInputStyles } = this.props;
+    let { order, spreedlyIframeInputStyles, squareIframeInputStyles } = this.props;
 
     let pspFormProps = {
       order,
-      spreedlyIframeInputStyles,
       ref: (form) => { this.pspForm = form },
     };
 
@@ -47,8 +47,8 @@ export default class PaymentForm extends PureComponent {
       {
         {
           cash: <Cash {...pspFormProps}></Cash>,
-          spreedly: <Spreedly {...pspFormProps}></Spreedly>,
-          square: <Square {...pspFormProps}></Square>,
+          spreedly: <Spreedly {...pspFormProps} spreedlyIframeInputStyles={spreedlyIframeInputStyles}></Spreedly>,
+          square: <Square {...pspFormProps} squareIframeInputStyles={squareIframeInputStyles}></Square>,
         }[this.paymentServiceProvider()]
       }
     </section>;
