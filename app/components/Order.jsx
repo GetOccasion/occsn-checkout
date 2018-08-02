@@ -36,7 +36,7 @@ export default class Order extends PureComponent {
     setSkipAttendee: PropTypes.func,
     skipAttendees: PropTypes.object,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
-    iframeInputStyles:  PropTypes.object,
+    spreedlyIframeInputStyles:  PropTypes.object,
   };
 
   static contextTypes = {
@@ -243,7 +243,7 @@ export default class Order extends PureComponent {
   }
 
   render() {
-    let { afterError, saveOrder, bookingOrder, findRedeemable, setSkipAttendee, skipAttendees, subject, iframeInputStyles } = this.props;
+    let { afterError, saveOrder, bookingOrder, findRedeemable, setSkipAttendee, skipAttendees, subject, spreedlyIframeInputStyles } = this.props;
     let { componentProps } = this.context;
 
     let customer = subject.customer();
@@ -307,7 +307,7 @@ export default class Order extends PureComponent {
           <section className="payment-container">
             <a name="payment" id="payment-anchor"></a>
             { this.headerForSection('payment') }
-            <PaymentForm order={subject} iframeInputStyles={iframeInputStyles} ref={(form) => this.paymentForm = form }></PaymentForm>
+            <PaymentForm order={subject} spreedlyIframeInputStyles={spreedlyIframeInputStyles} ref={(form) => this.paymentForm = form }></PaymentForm>
           </section>
         ) : null
       }

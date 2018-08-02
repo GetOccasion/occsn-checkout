@@ -39,7 +39,7 @@ export default class Spreedly extends PaymentServiceProvider {
       "cvvEl": "spreedly-cvv"
     });
 
-    let { iframeInputStyles } = this.props
+    let { spreedlyIframeInputStyles } = this.props
 
     let defaultInputStyle = {
       display: 'block',
@@ -59,8 +59,8 @@ export default class Spreedly extends PaymentServiceProvider {
       '  background-color: #fff;' +
       '  border-color: #80bdff;'
 
-    if(iframeInputStyles) {
-      Object.assign(defaultInputStyle, iframeInputStyles);
+    if(spreedlyIframeInputStyles) {
+      Object.assign(defaultInputStyle, spreedlyIframeInputStyles);
     }
 
     // Covert to string and hyphen-case the keys

@@ -12,7 +12,7 @@ import occsn from '../../libs/Occasion';
 export default class PaymentForm extends PureComponent {
   static propTypes = {
     order: PropTypes.instanceOf(occsn.Order),
-    iframeInputStyles: PropTypes.object,
+    spreedlyIframeInputStyles: PropTypes.object,
   };
 
   chargeOutstandingBalanceToPaymentMethod = (subject) => {
@@ -35,11 +35,11 @@ export default class PaymentForm extends PureComponent {
   }
 
   render() {
-    let { order, iframeInputStyles } = this.props;
+    let { order, spreedlyIframeInputStyles } = this.props;
 
     let pspFormProps = {
       order,
-      iframeInputStyles,
+      spreedlyIframeInputStyles,
       ref: (form) => { this.pspForm = form },
     };
 
