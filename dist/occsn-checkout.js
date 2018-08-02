@@ -1583,6 +1583,7 @@ function (_PaymentServiceProvid) {
         "numberEl": "spreedly-number",
         "cvvEl": "spreedly-cvv"
       });
+      var iframeInputStyles = this.props.iframeInputStyles;
       var defaultInputStyle = {
         display: 'block',
         width: '80%',
@@ -1598,8 +1599,8 @@ function (_PaymentServiceProvid) {
       };
       var focusInputStyle = 'color: #495057;' + '  background-color: #fff;' + '  border-color: #80bdff;' + '  outline: 0;' + '  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)';
 
-      if (global.OCCSN.iframeInputStyles) {
-        Object.assign(defaultInputStyle, global.OCCSN.iframeInputStyles);
+      if (iframeInputStyles) {
+        Object.assign(defaultInputStyle, iframeInputStyles);
       } // Covert to string and hyphen-case the keys
 
 
@@ -1868,9 +1869,10 @@ function (_PaymentServiceProvid) {
         color: '#495057',
         backgroundColor: '#fff'
       };
+      var iframeInputStyles = this.props.iframeInputStyles;
 
-      if (global.OCCSN.iframeInputStyles) {
-        Object.assign(defaultInputStyle, global.OCCSN.iframeInputStyles);
+      if (iframeInputStyles) {
+        Object.assign(defaultInputStyle, iframeInputStyles);
       }
 
       this.sqPaymentForm = new SquareAPI({
@@ -1983,21 +1985,20 @@ function (_PureComponent) {
   _inherits(PaymentForm, _PureComponent);
 
   function PaymentForm() {
+    var _getPrototypeOf2;
+
     var _this;
 
     _classCallCheck(this, PaymentForm);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(PaymentForm).call(this));
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'chargeOutstandingBalanceToPaymentMethod', 'paymentServiceProvider');
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(PaymentForm)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    return _this;
-  }
-
-  _createClass(PaymentForm, [{
-    key: "chargeOutstandingBalanceToPaymentMethod",
-    value: function chargeOutstandingBalanceToPaymentMethod(subject) {
-      return this.pspForm.buildPaymentMethod().then(function (paymentMethod) {
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "chargeOutstandingBalanceToPaymentMethod", function (subject) {
+      return _this.pspForm.buildPaymentMethod().then(function (paymentMethod) {
         var newSubject = subject.clone();
         newSubject.charge(paymentMethod, subject.outstandingBalance.toString());
         return newSubject;
@@ -2007,14 +2008,17 @@ function (_PureComponent) {
         subject.errors().clear();
         throw (_subject$errors = subject.errors()).addAll.apply(_subject$errors, _toConsumableArray(errors));
       });
-    }
-  }, {
-    key: "paymentServiceProvider",
-    value: function paymentServiceProvider() {
-      var order = this.props.order;
+    });
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "paymentServiceProvider", function () {
+      var order = _this.props.order;
       return order.product().merchant().pspName;
-    }
-  }, {
+    });
+
+    return _this;
+  }
+
+  _createClass(PaymentForm, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -2040,7 +2044,8 @@ function (_PureComponent) {
 }(React.PureComponent);
 
 _defineProperty(PaymentForm, "propTypes", {
-  order: PropTypes.instanceOf(occsn.Order)
+  order: PropTypes.instanceOf(occsn.Order),
+  iframeInputStyles: PropTypes.object
 });
 
 var Checkbox =
@@ -3091,7 +3096,8 @@ function (_PureComponent) {
           findRedeemable = _this$props2.findRedeemable,
           setSkipAttendee = _this$props2.setSkipAttendee,
           skipAttendees = _this$props2.skipAttendees,
-          subject = _this$props2.subject;
+          subject = _this$props2.subject,
+          iframeInputStyles = _this$props2.iframeInputStyles;
       var componentProps = this.context.componentProps;
       var customer = subject.customer();
       var product = subject.product();
@@ -3151,6 +3157,7 @@ function (_PureComponent) {
         id: "payment-anchor"
       }), this.headerForSection('payment'), React__default.createElement(PaymentForm, {
         order: subject,
+        iframeInputStyles: iframeInputStyles,
         ref: function ref(form) {
           return _this2.paymentForm = form;
         }
@@ -3207,7 +3214,8 @@ _defineProperty(Order, "propTypes", {
   saveOrder: PropTypes.func,
   setSkipAttendee: PropTypes.func,
   skipAttendees: PropTypes.object,
-  subject: PropTypes.instanceOf(occsn.Order).isRequired
+  subject: PropTypes.instanceOf(occsn.Order).isRequired,
+  iframeInputStyles: PropTypes.object
 });
 
 _defineProperty(Order, "contextTypes", {
@@ -3414,7 +3422,8 @@ function (_PureComponent) {
           actions = _this$props4.actions,
           data = _this$props4.data,
           className = _this$props4.className,
-          formRef = _this$props4.formRef;
+          formRef = _this$props4.formRef,
+          iframeInputStyles = _this$props4.iframeInputStyles;
       var classNames = classnames('occsn-app-container', className);
       return React__default.createElement("section", {
         className: classNames
@@ -3434,7 +3443,8 @@ function (_PureComponent) {
         componentRef: formRef,
         onSubmit: actions.bookOrder,
         onInvalidSubmit: actions.setOrder,
-        subject: data.order
+        subject: data.order,
+        iframeInputStyles: iframeInputStyles
       }) : null);
     }
   }, {
@@ -3519,7 +3529,8 @@ _defineProperty(AppContainer, "propTypes", {
     calendarTimeSlotsSelector: PropTypes.string,
     listTimeSlotsSelector: PropTypes.string
   }),
-  formRef: PropTypes.func
+  formRef: PropTypes.func,
+  iframeInputStyles: PropTypes.object
 });
 
 _defineProperty(AppContainer, "childContextTypes", {
