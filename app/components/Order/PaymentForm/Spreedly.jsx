@@ -39,6 +39,8 @@ export default class Spreedly extends PaymentServiceProvider {
       "cvvEl": "spreedly-cvv"
     });
 
+    let { iframeInputStyles } = this.props
+
     let defaultInputStyle = {
       display: 'block',
       width: '80%',
@@ -59,8 +61,8 @@ export default class Spreedly extends PaymentServiceProvider {
       '  outline: 0;' +
       '  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25)';
 
-    if(global.OCCSN.iframeInputStyles) {
-      Object.assign(defaultInputStyle, global.OCCSN.iframeInputStyles);
+    if(iframeInputStyles) {
+      Object.assign(defaultInputStyle, iframeInputStyles);
     }
 
     // Covert to string and hyphen-case the keys

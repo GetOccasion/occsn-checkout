@@ -12,18 +12,10 @@ import occsn from '../../libs/Occasion';
 export default class PaymentForm extends PureComponent {
   static propTypes = {
     order: PropTypes.instanceOf(occsn.Order),
+    iframeInputStyles: PropTypes.object,
   };
 
-  constructor() {
-    super();
-
-    _.bindAll(this,
-      'chargeOutstandingBalanceToPaymentMethod',
-      'paymentServiceProvider'
-    );
-  }
-
-  chargeOutstandingBalanceToPaymentMethod(subject) {
+  chargeOutstandingBalanceToPaymentMethod = (subject) => {
     return this.pspForm.buildPaymentMethod()
     .then((paymentMethod) => {
       var newSubject = subject.clone();
@@ -36,7 +28,7 @@ export default class PaymentForm extends PureComponent {
     });
   }
 
-  paymentServiceProvider() {
+  paymentServiceProvider = () => {
     let { order } = this.props;
 
     return order.product().merchant().pspName;
