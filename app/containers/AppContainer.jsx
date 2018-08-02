@@ -201,13 +201,13 @@ export class AppContainer extends PureComponent {
             saveOrder: actions.saveOrder,
             setSkipAttendee: actions.setSkipAttendee,
             skipAttendees: data.skipAttendees,
-            timeSlotsFromCalendar: data.timeSlotsFromCalendar
+            timeSlotsFromCalendar: data.timeSlotsFromCalendar,
+            iframeInputStyles
           } }
           componentRef={formRef}
           onSubmit={ actions.bookOrder }
           onInvalidSubmit={ actions.setOrder }
           subject={ data.order }
-          iframeInputStyles={ iframeInputStyles }
         ></Resource>
       ) : (null)}
     </section>;

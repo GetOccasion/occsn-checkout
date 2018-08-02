@@ -35,11 +35,12 @@ export default class PaymentForm extends PureComponent {
   }
 
   render() {
-    let { order } = this.props;
+    let { order, iframeInputStyles } = this.props;
 
     let pspFormProps = {
       order,
-      ref: (form) => { this.pspForm = form }
+      iframeInputStyles,
+      ref: (form) => { this.pspForm = form },
     };
 
     return <section className="payment">
