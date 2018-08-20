@@ -23,8 +23,7 @@ import Redeemables from './Order/Redeemables.jsx';
 export default class Order extends PureComponent {
   static propTypes = {
     activeTimeSlotsCollection: PropTypes.shape({
-      // __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
-      __collection: PropTypes.array
+      __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
     }),
     timeSlotsFromCalendar: PropTypes.shape({
       __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))

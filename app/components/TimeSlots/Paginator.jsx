@@ -7,7 +7,6 @@ export default class Paginator extends PureComponent {
   static propTypes = {
     className: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    preloadPages: PropTypes.number.isRequired,
     timeSlotsCollection: PropTypes.shape({
       __collection: PropTypes.arrayOf(PropTypes.any)
     }).isRequired,
@@ -23,24 +22,22 @@ export default class Paginator extends PureComponent {
   }
 
   componentDidMount() {
-    let { cachedPages } = this.state;
-    const { timeSlotsCollection, preloadPages } = this.props;
-    cachedPages.push(timeSlotsCollection);
-    this.loadNextTimeSlotPages(preloadPages, timeSlotsCollection);
+    const { timeSlotsCollection } = this.props;
+    this.loadNextTimeSlotPages(9, timeSlotsCollection);
   }
 
   nextClicked = () => {
-    const { onChange, preloadPages } = this.props;
+    const { timeSlotsCollection, onChange } = this.props;
     let { currentPage, cachedPages, loading } = this.state;
 
-    this.setState({currentPage: ++currentPage});
+    this.setState({currentPage: ++currentPage})
     if(cachedPages[currentPage]){
-      if(!loading && (cachedPages.length = currentPage + preloadPages/2)) {
-        this.loadNextTimeSlotPages(preloadPages, cachedPages[cachedPages.length - 1]);
+      if(!loading && (cachedPages.length < currentPage + 5)) {
+        this.loadNextTimeSlotPages(5, cachedPages[cachedPages.length - 1]);
       }
       onChange(cachedPages[currentPage])
     }
-  };
+  }
 
   prevClicked = () => {
     const { onChange } = this.props;
@@ -48,16 +45,14 @@ export default class Paginator extends PureComponent {
 
     this.setState({currentPage: --currentPage});
     onChange(cachedPages[currentPage])
-  };
+  }
 
   loadNextTimeSlotPages = (numberOfPages, collection, callback) => {
-    if(numberOfPages === 0) { return }
-
     let { cachedPages } = this.state;
 
     this.setState({loading: true});
-    let nextPagePromise = collection.nextPage();
-    nextPagePromise.then((nextPage) => {
+    collection.nextPage()
+    .then((nextPage) => {
       cachedPages.push(nextPage);
       this.setState({loading: false});
 

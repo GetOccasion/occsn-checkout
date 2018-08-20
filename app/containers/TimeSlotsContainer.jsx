@@ -124,7 +124,7 @@ export class TimeSlotsContainer extends React.Component {
               <h3>{ data.activeTimeSlotsCollection.first() && data.activeTimeSlotsCollection.first().day.format('MMMM YYYY') }</h3>
             </Col>
             <Col xs="3">
-              <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} preloadPages={4} />
+              <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
             </Col>
           </Row>
           <Calendar onDateSelect={this.onDateSelect} calendarTimeSlots={data.activeTimeSlotsCollection}/>
@@ -168,7 +168,7 @@ export class TimeSlotsContainer extends React.Component {
                 <Col xs={{ offset: "9" }}>
                 </Col>
                 <Col xs="3">
-                  <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} preloadPages={9} />
+                  <Paginator className="float-right" onChange={actions.setActiveTimeSlotsCollection} timeSlotsCollection={data.activeTimeSlotsCollection} />
                 </Col>
               </Row>
             ) : (null)
