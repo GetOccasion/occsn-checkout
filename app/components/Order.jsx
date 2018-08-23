@@ -64,7 +64,7 @@ export default class Order extends PureComponent {
 
   // Mitragyna callback
   beforeSubmit(subject) {
-    if(this.redeemables.state.focused) {
+    if(this.redeemables && this.redeemables.state.focused) {
       this.redeemables.checkForRedeemable(this.redeemables.state.code);
       throw subject;
     }
