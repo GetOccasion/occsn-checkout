@@ -33,7 +33,7 @@ export default class DropDown extends PureComponent {
     return <FormGroup className="dropdown-container">
       <Label for={id}>{ answer.question().title }{ answer.question().required ? '*' : '' }</Label>
       <Field id={id} name="option" type="select" component={ Input }
-             includeBlank={true}
+             includeBlank={ !answer.option() }
              options={ answer.question().options().target() }
              optionsLabel={ this.renderOptionTitle }
       >
