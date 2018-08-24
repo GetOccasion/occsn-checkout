@@ -33,6 +33,7 @@ export default class Order extends PureComponent {
     bookingOrder: PropTypes.bool,
     findRedeemable: PropTypes.func.isRequired,
     saveOrder: PropTypes.func,
+    savingOrder: PropTypes.bool,
     setSkipAttendee: PropTypes.func,
     skipAttendees: PropTypes.object,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
@@ -55,11 +56,11 @@ export default class Order extends PureComponent {
   }
 
   allowedToBookOrder() {
-    const { bookingOrder, subject } = this.props;
+    const { bookingOrder, savingOrder, subject } = this.props;
 
     if(!subject || !this.missingAnswers) return false;
 
-    return !bookingOrder && this.missingAnswers.missingRequiredAnswers(subject).empty();
+    return !bookingOrder && !savingOrder && this.missingAnswers.missingRequiredAnswers(subject).empty();
   }
 
   // Mitragyna callback

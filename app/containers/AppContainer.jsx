@@ -200,6 +200,7 @@ export class AppContainer extends PureComponent {
             bookingOrder: data.bookingOrder,
             findRedeemable: actions.findRedeemable,
             saveOrder: actions.saveOrder,
+            savingOrder: data.savingOrder,
             setSkipAttendee: actions.setSkipAttendee,
             skipAttendees: data.skipAttendees,
             timeSlotsFromCalendar: data.timeSlotsFromCalendar,
