@@ -30,7 +30,7 @@
     "fullcalendar-reactwrapper": "^1.0.7",
     "immutable": "^3.8.2",
     "mirror-creator": "^1.1.0",
-    "mitragyna": "git+https://github.com/nicklandgrebe/mitragyna.git",
+    "mitragyna": "https://github.com/nicklandgrebe/mitragyna",
     "moment": "^2.20.1",
     "moment-range": "^3.1.1",
     "occasion-sdk": "git+https://github.com/GetOccasion/occasion-sdk-js.git",
