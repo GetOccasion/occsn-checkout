@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+import ActiveResource from 'active-resource';
+import s from 'underscore.string';
 import _ from 'underscore';
 
 import { Alert } from 'reactstrap';
@@ -26,8 +28,17 @@ export default class MissingAnswers extends PureComponent {
 
     if(override) order = override;
 
-    return order.answers().target()
-    .select((a) => !a.valid());
+    let missingAnswers = ActiveResource.Collection.build();
+
+    ActiveResource.Collection.build(['email', 'firstName', 'lastName', 'zip'])
+      .select((q) => !order.customer()[q])
+      .each((q) => missingAnswers.push('Customer ' + s.titleize(s.humanize(q))));
+
+    order.answers().target()
+      .select((a) => !a.valid())
+      .each((a) => missingAnswers.push(a.question().title));
+
+    return missingAnswers;
   };
 
   empty() {
@@ -43,7 +54,7 @@ export default class MissingAnswers extends PureComponent {
         <ul className="missing-answers-list">
           {
             this.missingRequiredAnswers().map((a) => {
-              return <li className="missing-answer">{a.question().title}</li>
+              return <li className="missing-answer">{a}</li>
             }).toArray()
           }
         </ul>
