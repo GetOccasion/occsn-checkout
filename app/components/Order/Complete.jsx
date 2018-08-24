@@ -16,9 +16,13 @@ export default class OrderComplete extends PureComponent {
     return <section className="order-complete-container">
       <h1 className="verification-code">Order #{ order.verificationCode }</h1>
       {
-        order.timeSlots().target().first() ? (
+        !order.timeSlots().empty() ? (
           <section className="order-complete-time-slot-details">
-            <h4>{ order.timeSlots().target().first().startsAt.format('dddd MMMM Do, YYYY h:mm A') }</h4>
+            {
+              order.timeSlots().target().map((timeSlot) => {
+                return <h4>{ timeSlot.toString('LLLL') }</h4>
+              }).toArray()
+            }
           </section>
         ) : (null)
       }

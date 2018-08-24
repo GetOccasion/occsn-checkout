@@ -73,7 +73,7 @@ export default class TimeSlotsSelector extends React.Component {
     if(calendar) {
       timeSlotFormat = formatProps.calendarTimeSlotsSelector || 'LT';
     } else {
-      timeSlotFormat = formatProps.calendarTimeSlotsSelector || 'LLLL';
+      timeSlotFormat = formatProps.listTimeSlotsSelector || 'LLLL';
     }
 
     return <section className='time-slots-selector'>
@@ -90,7 +90,7 @@ export default class TimeSlotsSelector extends React.Component {
                 onClick={() => this.selectTimeSlot(timeSlot)}
                 outline
               >
-                { timeSlot.startsAt.format(timeSlotFormat) }
+                { timeSlot.toString(timeSlotFormat) }
               </Button>
               {
                 showAvailability ? (

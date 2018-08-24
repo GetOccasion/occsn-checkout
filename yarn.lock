@@ -6078,7 +6078,7 @@ obuf@^1.0.0, obuf@^1.1.1:
 
 "occasion-sdk@git+https://github.com/GetOccasion/occasion-sdk-js.git":
   version "0.2.1"
-  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#630f392d0672f3fd4dd1e987df59dc284a6b8b0c"
+  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#cf6b578436e2582be4195279dfe6501c0661cde1"
   dependencies:
     active-resource "git+https://github.com/nicklandgrebe/activeresource.js.git#feature/immutable"
     decimal.js-light "^2.4.1"
