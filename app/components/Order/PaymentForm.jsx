@@ -51,6 +51,17 @@ export default class PaymentForm extends PureComponent {
           square: <Square {...pspFormProps} squareIframeInputStyles={squareIframeInputStyles}></Square>,
         }[this.paymentServiceProvider()]
       }
+      {
+        this.paymentServiceProvider() != 'cash' ? (
+          <a
+            href="//www.shopify.com/pci-compliant/?utm_source=secure&amp;utm_medium=shop"
+            title="This online store is secured by Shopify"
+            target="_blank"
+          >
+            <img src="//cdn.shopify.com/s/images/badges/shopify-secure-badge-light-shadow.png" alt="Shopify secure badge" />
+          </a>
+        ) : (null)
+      }
     </section>;
   }
 }
