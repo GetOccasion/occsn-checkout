@@ -1,5 +1,5 @@
 /*!
- * occsn-checkout v0.0.16
+ * occsn-checkout v0.0.17
  * (c) 2018-present Peak Labs LLC DBA Occasion App
  * Released under the MIT License.
  */
@@ -34,22 +34,6 @@ var reduxDevtoolsExtension = require('redux-devtools-extension');
 var thunkMiddleware = _interopDefault(require('redux-thunk'));
 require('bootstrap/dist/css/bootstrap.css');
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
 function _asyncToGenerator(fn) {
   return function () {
     var self = this,
@@ -57,15 +41,31 @@ function _asyncToGenerator(fn) {
     return new Promise(function (resolve, reject) {
       var gen = fn.apply(self, args);
 
+      function step(key, arg) {
+        try {
+          var info = gen[key](arg);
+          var value = info.value;
+        } catch (error) {
+          reject(error);
+          return;
+        }
+
+        if (info.done) {
+          resolve(value);
+        } else {
+          Promise.resolve(value).then(_next, _throw);
+        }
+      }
+
       function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+        step("next", value);
       }
 
       function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+        step("throw", err);
       }
 
-      _next(undefined);
+      _next();
     });
   };
 }
@@ -566,7 +566,7 @@ function (_React$Component) {
       if (calendar) {
         timeSlotFormat = formatProps.calendarTimeSlotsSelector || 'LT';
       } else {
-        timeSlotFormat = formatProps.calendarTimeSlotsSelector || 'LLLL';
+        timeSlotFormat = formatProps.listTimeSlotsSelector || 'LLLL';
       }
 
       return React__default.createElement("section", {
@@ -584,7 +584,7 @@ function (_React$Component) {
             return _this3.selectTimeSlot(timeSlot);
           },
           outline: true
-        }, timeSlot.startsAt.format(timeSlotFormat)), showAvailability ? React__default.createElement(reactstrap.Tooltip, {
+        }, timeSlot.toString(timeSlotFormat)), showAvailability ? React__default.createElement(reactstrap.Tooltip, {
           placement: "bottom",
           isOpen: _this3.state.toolTips[timeSlot.id],
           target: 'timeSlot-' + timeSlot.id.replace(/~/g, ''),
@@ -706,8 +706,10 @@ function (_PureComponent) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "nextClicked", function () {
       var _this$props = _this.props,
-          timeSlotsCollection = _this$props.timeSlotsCollection,
-          onChange = _this$props.onChange;
+          cached = _this$props.cached,
+          onChange = _this$props.onChange,
+          preloadPages = _this$props.preloadPages,
+          timeSlotsCollection = _this$props.timeSlotsCollection;
       var _this$state = _this.state,
           currentPage = _this$state.currentPage,
           cachedPages = _this$state.cachedPages,
@@ -717,17 +719,24 @@ function (_PureComponent) {
         currentPage: ++currentPage
       });
 
-      if (cachedPages[currentPage]) {
-        if (!loading && cachedPages.length < currentPage + 5) {
-          _this.loadNextTimeSlotPages(5, cachedPages[cachedPages.length - 1]);
+      if (cached && cachedPages[currentPage]) {
+        if (!loading && cachedPages.length <= currentPage + preloadPages / 2) {
+          _this.loadNextTimeSlotPages(preloadPages, cachedPages[cachedPages.length - 1]);
         }
 
         onChange(cachedPages[currentPage]);
+      } else {
+        timeSlotsCollection.nextPage().then(function (nextTimeSlotsCollection) {
+          onChange(nextTimeSlotsCollection);
+        });
       }
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "prevClicked", function () {
-      var onChange = _this.props.onChange;
+      var _this$props2 = _this.props,
+          cached = _this$props2.cached,
+          onChange = _this$props2.onChange,
+          timeSlotsCollection = _this$props2.timeSlotsCollection;
       var _this$state2 = _this.state,
           currentPage = _this$state2.currentPage,
           cachedPages = _this$state2.cachedPages;
@@ -736,10 +745,20 @@ function (_PureComponent) {
         currentPage: --currentPage
       });
 
-      onChange(cachedPages[currentPage]);
+      if (cached) {
+        onChange(cachedPages[currentPage]);
+      } else {
+        timeSlotsCollection.prevPage().then(function (prevTimeSlotsCollection) {
+          onChange(prevTimeSlotsCollection);
+        });
+      }
     });
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "loadNextTimeSlotPages", function (numberOfPages, collection, callback) {
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "loadNextTimeSlotPages", function (numberOfPages, collection) {
+      if (numberOfPages === 0) {
+        return;
+      }
+
       var cachedPages = _this.state.cachedPages;
 
       _this.setState({
@@ -754,9 +773,7 @@ function (_PureComponent) {
         });
 
         if (numberOfPages) {
-          _this.loadNextTimeSlotPages(numberOfPages - 1, nextPage, callback);
-        } else {
-          if (callback !== undefined) callback();
+          _this.loadNextTimeSlotPages(numberOfPages - 1, nextPage);
         }
       });
     });
@@ -772,15 +789,23 @@ function (_PureComponent) {
   _createClass(Paginator, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var timeSlotsCollection = this.props.timeSlotsCollection;
-      this.loadNextTimeSlotPages(9, timeSlotsCollection);
+      var cachedPages = this.state.cachedPages;
+      var _this$props3 = this.props,
+          cached = _this$props3.cached,
+          preloadPages = _this$props3.preloadPages,
+          timeSlotsCollection = _this$props3.timeSlotsCollection;
+
+      if (cached) {
+        cachedPages.push(timeSlotsCollection);
+        this.loadNextTimeSlotPages(preloadPages, timeSlotsCollection);
+      }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this$props2 = this.props,
-          className = _this$props2.className,
-          timeSlotsCollection = _this$props2.timeSlotsCollection;
+      var _this$props4 = this.props,
+          className = _this$props4.className,
+          timeSlotsCollection = _this$props4.timeSlotsCollection;
       var _this$state3 = this.state,
           currentPage = _this$state3.currentPage,
           cachedPages = _this$state3.cachedPages,
@@ -807,8 +832,10 @@ function (_PureComponent) {
 }(React.PureComponent);
 
 _defineProperty(Paginator, "propTypes", {
+  cached: PropTypes.bool,
   className: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  preloadPages: PropTypes.number,
   timeSlotsCollection: PropTypes.shape({
     __collection: PropTypes.arrayOf(PropTypes.any)
   }).isRequired
@@ -985,9 +1012,11 @@ function (_React$Component) {
           }), React__default.createElement(reactstrap.Col, {
             xs: "3"
           }, React__default.createElement(Paginator, {
+            cached: true,
             className: "float-right",
             onChange: actions.setActiveTimeSlotsCollection,
-            timeSlotsCollection: data.activeTimeSlotsCollection
+            timeSlotsCollection: data.activeTimeSlotsCollection,
+            preloadPages: 9
           }))) : null, data.activeTimeSlotsCollection.empty() ? this.renderLoadingScreen() : null);
       }
     }
@@ -1230,9 +1259,18 @@ function (_PureComponent) {
     value: function missingRequiredAnswers(override) {
       var order = this.props.order;
       if (override) order = override;
-      return order.answers().target().select(function (a) {
-        return !a.valid();
+      var missingAnswers = ActiveResource.Collection.build();
+      ActiveResource.Collection.build(['email', 'firstName', 'lastName', 'zip']).select(function (q) {
+        return !order.customer()[q];
+      }).each(function (q) {
+        return missingAnswers.push('Customer ' + s.titleize(s.humanize(q)));
       });
+      order.answers().target().select(function (a) {
+        return !a.valid();
+      }).each(function (a) {
+        return missingAnswers.push(a.question().title);
+      });
+      return missingAnswers;
     }
   }, {
     key: "empty",
@@ -1255,7 +1293,7 @@ function (_PureComponent) {
         }, this.missingRequiredAnswers().map(function (a) {
           return React__default.createElement("li", {
             className: "missing-answer"
-          }, a.question().title);
+          }, a);
         }).toArray()));
       }
     }
@@ -2061,7 +2099,14 @@ function (_PureComponent) {
         square: React__default.createElement(Square, _extends({}, pspFormProps, {
           squareIframeInputStyles: squareIframeInputStyles
         }))
-      }[this.paymentServiceProvider()]);
+      }[this.paymentServiceProvider()], this.paymentServiceProvider() != 'cash' ? React__default.createElement("a", {
+        href: "//www.shopify.com/pci-compliant/?utm_source=secure&utm_medium=shop",
+        title: "This online store is secured by Shopify",
+        target: "_blank"
+      }, React__default.createElement("img", {
+        src: "//cdn.shopify.com/s/images/badges/shopify-secure-badge-light-shadow.png",
+        alt: "Shopify secure badge"
+      })) : null);
     }
   }]);
 
@@ -2184,7 +2229,7 @@ function (_PureComponent) {
         name: "option",
         type: "select",
         component: reactstrap.Input,
-        includeBlank: true,
+        includeBlank: !answer.option(),
         options: answer.question().options().target(),
         optionsLabel: this.renderOptionTitle
       }));
@@ -2220,7 +2265,8 @@ function (_PureComponent) {
       }, React__default.createElement(reactstrap.Label, {
         for: id
       }, answer.question().title, answer.question().required ? '*' : ''), React__default.createElement(mitragyna.Field, {
-        type: "radioGroup"
+        type: "radioGroup",
+        name: "option"
       }, answer.question().options().target().map(function (option) {
         return React__default.createElement(reactstrap.FormGroup, {
           check: true
@@ -2942,15 +2988,16 @@ function (_PureComponent) {
     value: function allowedToBookOrder() {
       var _this$props = this.props,
           bookingOrder = _this$props.bookingOrder,
+          savingOrder = _this$props.savingOrder,
           subject = _this$props.subject;
       if (!subject || !this.missingAnswers) return false;
-      return !bookingOrder && this.missingAnswers.missingRequiredAnswers(subject).empty();
+      return !bookingOrder && !savingOrder && this.missingAnswers.missingRequiredAnswers(subject).empty();
     } // Mitragyna callback
 
   }, {
     key: "beforeSubmit",
     value: function beforeSubmit(subject) {
-      if (this.redeemables.state.focused) {
+      if (this.redeemables && this.redeemables.state.focused) {
         this.redeemables.checkForRedeemable(this.redeemables.state.code);
         throw subject;
       }
@@ -3230,7 +3277,8 @@ function (_PureComponent) {
 
 _defineProperty(Order, "propTypes", {
   activeTimeSlotsCollection: PropTypes.shape({
-    __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
+    // __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
+    __collection: PropTypes.array
   }),
   timeSlotsFromCalendar: PropTypes.shape({
     __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
@@ -3240,6 +3288,7 @@ _defineProperty(Order, "propTypes", {
   bookingOrder: PropTypes.bool,
   findRedeemable: PropTypes.func.isRequired,
   saveOrder: PropTypes.func,
+  savingOrder: PropTypes.bool,
   setSkipAttendee: PropTypes.func,
   skipAttendees: PropTypes.object,
   subject: PropTypes.instanceOf(occsn.Order).isRequired,
@@ -3270,9 +3319,11 @@ function (_PureComponent) {
         className: "order-complete-container"
       }, React__default.createElement("h1", {
         className: "verification-code"
-      }, "Order #", order.verificationCode), React__default.createElement("section", {
+      }, "Order #", order.verificationCode), !order.timeSlots().empty() ? React__default.createElement("section", {
         className: "order-complete-time-slot-details"
-      }, React__default.createElement("h4", null, order.timeSlots().target().first().startsAt.format('dddd MMMM Do, YYYY h:mm A'))), React__default.createElement("section", {
+      }, order.timeSlots().target().map(function (timeSlot) {
+        return React__default.createElement("h4", null, timeSlot.toString('LLLL'));
+      }).toArray()) : null, React__default.createElement("section", {
         className: "order-complete-messages"
       }, React__default.createElement("p", {
         className: "custom-confirmation-message"
@@ -3466,6 +3517,7 @@ function (_PureComponent) {
           bookingOrder: data.bookingOrder,
           findRedeemable: actions.findRedeemable,
           saveOrder: actions.saveOrder,
+          savingOrder: data.savingOrder,
           setSkipAttendee: actions.setSkipAttendee,
           skipAttendees: data.skipAttendees,
           timeSlotsFromCalendar: data.timeSlotsFromCalendar,
