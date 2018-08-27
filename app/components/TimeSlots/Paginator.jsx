@@ -5,9 +5,10 @@ import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 export default class Paginator extends PureComponent {
   static propTypes = {
+    cached: PropTypes.bool,
     className: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    preloadPages: PropTypes.number.isRequired,
+    preloadPages: PropTypes.number,
     timeSlotsCollection: PropTypes.shape({
       __collection: PropTypes.arrayOf(PropTypes.any)
     }).isRequired,
@@ -24,54 +25,69 @@ export default class Paginator extends PureComponent {
 
   componentDidMount() {
     let { cachedPages } = this.state;
-    const { timeSlotsCollection, preloadPages } = this.props;
-    cachedPages.push(timeSlotsCollection);
-    this.loadNextTimeSlotPages(preloadPages, timeSlotsCollection);
+    const { cached, preloadPages, timeSlotsCollection } = this.props;
+
+    if(cached) {
+      cachedPages.push(timeSlotsCollection);
+      this.loadNextTimeSlotPages(preloadPages, timeSlotsCollection);
+    }
   }
 
   nextClicked = () => {
-    const { onChange, preloadPages } = this.props;
+    const { cached, onChange, preloadPages, timeSlotsCollection } = this.props;
     let { currentPage, cachedPages, loading } = this.state;
 
     this.setState({currentPage: ++currentPage});
-    if(cachedPages[currentPage]){
-      if(!loading && (cachedPages.length = currentPage + preloadPages/2)) {
+    if(cached && cachedPages[currentPage]){
+      if(!loading && (cachedPages.length <= currentPage + preloadPages/2)) {
         this.loadNextTimeSlotPages(preloadPages, cachedPages[cachedPages.length - 1]);
       }
       onChange(cachedPages[currentPage])
+    } else {
+      timeSlotsCollection.nextPage()
+      .then((nextTimeSlotsCollection) => {
+        onChange(nextTimeSlotsCollection);
+      });
     }
   };
 
   prevClicked = () => {
-    const { onChange } = this.props;
+    const { cached, onChange, timeSlotsCollection } = this.props;
     let { currentPage, cachedPages } = this.state;
 
     this.setState({currentPage: --currentPage});
-    onChange(cachedPages[currentPage])
+
+    if(cached) {
+      onChange(cachedPages[currentPage]);
+    } else {
+      timeSlotsCollection.prevPage()
+      .then((prevTimeSlotsCollection) => {
+        onChange(prevTimeSlotsCollection);
+      });
+    }
   };
 
-  loadNextTimeSlotPages = (numberOfPages, collection, callback) => {
+  loadNextTimeSlotPages = (numberOfPages, collection) => {
     if(numberOfPages === 0) { return }
 
     let { cachedPages } = this.state;
 
     this.setState({loading: true});
-    let nextPagePromise = collection.nextPage();
-    nextPagePromise.then((nextPage) => {
+
+    collection.nextPage()
+    .then((nextPage) => {
       cachedPages.push(nextPage);
       this.setState({loading: false});
 
       if(numberOfPages) {
-        this.loadNextTimeSlotPages(numberOfPages - 1, nextPage, callback);
-      } else {
-        if(callback !== undefined) callback();
+        this.loadNextTimeSlotPages(numberOfPages - 1, nextPage);
       }
     })
-  }
+  };
 
   render() {
     let { className, timeSlotsCollection } = this.props;
-    let { currentPage, cachedPages, loading } = this.state
+    let { currentPage, cachedPages, loading } = this.state;
 
     return <section className="time-slots-paginator">
       <Pagination className={className}>
