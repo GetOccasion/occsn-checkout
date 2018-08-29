@@ -3178,14 +3178,19 @@ function (_PureComponent) {
       return React__default.createElement("section", {
         className: "order-container"
       }, this.showTimeSlots() ? React__default.createElement("section", {
-        className: "time-slots-container"
+        className: "time-slots-container",
+        id: "time-slots-container"
       }, React__default.createElement("a", {
         name: "time-slots",
         id: "time-slots-anchor"
       }), this.headerForSection('timeSlots'), React__default.createElement(TimeSlotsContainer$1, {
         order: subject
       })) : null, React__default.createElement("section", {
-        className: "customer-container"
+        className: "information-container",
+        id: "information-container"
+      }, React__default.createElement("section", {
+        className: "customer-container",
+        id: "customer-container"
       }, React__default.createElement("a", {
         name: "customer",
         id: "customer-anchor"
@@ -3194,7 +3199,8 @@ function (_PureComponent) {
         reflection: "customer",
         subject: customer
       })), this.showQuestions() ? React__default.createElement("section", {
-        className: "questions-container"
+        className: "questions-container",
+        id: "questions-container"
       }, React__default.createElement("a", {
         name: "questions",
         id: "questions-anchor"
@@ -3202,7 +3208,8 @@ function (_PureComponent) {
         subject: subject,
         questions: product.questions().target()
       })) : null, this.showAttendees() ? React__default.createElement("section", {
-        className: "attendees-container"
+        className: "attendees-container",
+        id: "attendees-container"
       }, React__default.createElement("a", {
         name: "attendees",
         id: "attendees-anchor"
@@ -3211,8 +3218,12 @@ function (_PureComponent) {
         setSkipAttendee: setSkipAttendee,
         skipAttendees: skipAttendees,
         subject: subject
-      })) : null, this.showRedeemables() ? React__default.createElement("section", {
-        className: "redeemables-container"
+      })) : null), React__default.createElement("section", {
+        className: "payments-container",
+        id: "payments-container"
+      }, this.showRedeemables() ? React__default.createElement("section", {
+        className: "redeemables-container",
+        id: "redeemables-container"
       }, React__default.createElement("a", {
         name: "redeemables",
         id: "redeemables-anchor"
@@ -3225,7 +3236,8 @@ function (_PureComponent) {
           return _this2.redeemables = r;
         }
       })) : null, this.showPaymentForm() ? React__default.createElement("section", {
-        className: "payment-container"
+        className: "payment-container",
+        id: "payment-container"
       }, React__default.createElement("a", {
         name: "payment",
         id: "payment-anchor"
@@ -3237,14 +3249,16 @@ function (_PureComponent) {
           return _this2.paymentForm = form;
         }
       })) : null, this.showPrice() ? React__default.createElement("section", {
-        className: "total-due-container"
+        className: "total-due-container",
+        id: "total-due-container"
       }, React__default.createElement("a", {
         name: "total-due",
         id: "total-due-anchor"
       }), this.headerForSection('totalDue'), React__default.createElement(Pricing, {
         order: subject
-      })) : null, React__default.createElement("section", {
-        className: "missing-answers-container"
+      })) : null), React__default.createElement("section", {
+        className: "missing-answers-container",
+        id: "missing-answers-container"
       }, React__default.createElement("a", {
         name: "missing-answers"
       }), React__default.createElement(MissingAnswers, {
@@ -3253,13 +3267,15 @@ function (_PureComponent) {
           return _this2.missingAnswers = r;
         }
       })), React__default.createElement("section", {
-        className: "order-errors-container"
+        className: "order-errors-container",
+        id: "order-errors-container"
       }, React__default.createElement("a", {
         name: "order-errors"
       }), React__default.createElement(OrderErrors, {
         order: subject
       })), React__default.createElement("section", {
-        className: "book-order-container"
+        className: "book-order-container",
+        id: "book-order-container"
       }, React__default.createElement(reactstrap.Button, {
         block: true,
         className: "book-order-button",

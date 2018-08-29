@@ -255,7 +255,7 @@ export default class Order extends PureComponent {
     return <section className="order-container">
       {
         this.showTimeSlots() ? (
-          <section className="time-slots-container">
+          <section className="time-slots-container" id="time-slots-container">
             <a name="time-slots" id="time-slots-anchor"></a>
             { this.headerForSection('timeSlots') }
             <TimeSlotsContainer order={subject} />
@@ -263,84 +263,88 @@ export default class Order extends PureComponent {
         ) : (null)
       }
 
-      <section className="customer-container">
-        <a name="customer" id="customer-anchor"></a>
-        { this.headerForSection('contact') }
-        <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
+      <section className="information-container" id="information-container">
+        <section className="customer-container" id="customer-container">
+          <a name="customer" id="customer-anchor"></a>
+          { this.headerForSection('contact') }
+          <Resource component={ Customer } reflection="customer" subject={ customer }></Resource>
+        </section>
+
+        {
+          this.showQuestions() ? (
+            <section className="questions-container" id="questions-container">
+              <a name="questions" id="questions-anchor"></a>
+              { this.headerForSection('questions') }
+              <Questions subject={subject} questions={ product.questions().target() }></Questions>
+            </section>
+          ) : null
+        }
+
+        {
+          this.showAttendees() ? (
+            <section className="attendees-container" id="attendees-container">
+              <a name="attendees" id="attendees-anchor"></a>
+              { this.headerForSection('attendees') }
+              <Attendees questions={product.attendeeQuestions} setSkipAttendee={setSkipAttendee} skipAttendees={skipAttendees} subject={subject}></Attendees>
+            </section>
+          ) : null
+        }
       </section>
 
-      {
-        this.showQuestions() ? (
-          <section className="questions-container">
-            <a name="questions" id="questions-anchor"></a>
-            { this.headerForSection('questions') }
-            <Questions subject={subject} questions={ product.questions().target() }></Questions>
-          </section>
-        ) : null
-      }
+      <section className="payments-container" id="payments-container">
+        {
+          this.showRedeemables() ? (
+            <section className="redeemables-container" id="redeemables-container">
+              <a name="redeemables" id="redeemables-anchor"></a>
+              { this.headerForSection('redeemables') }
+              <Redeemables
+                findRedeemable={findRedeemable}
+                order={subject}
+                onChange={saveOrder}
+                onErrors={afterError}
+                ref={(r) => this.redeemables = r}
+              ></Redeemables>
+            </section>
+          ) : null
+        }
 
-      {
-        this.showAttendees() ? (
-          <section className="attendees-container">
-            <a name="attendees" id="attendees-anchor"></a>
-            { this.headerForSection('attendees') }
-            <Attendees questions={product.attendeeQuestions} setSkipAttendee={setSkipAttendee} skipAttendees={skipAttendees} subject={subject}></Attendees>
-          </section>
-        ) : null
-      }
+        {
+          this.showPaymentForm() ? (
+            <section className="payment-container" id="payment-container">
+              <a name="payment" id="payment-anchor"></a>
+              { this.headerForSection('payment') }
+              <PaymentForm
+                order={subject}
+                spreedlyIframeInputStyles={spreedlyIframeInputStyles}
+                squareIframeInputStyles={squareIframeInputStyles}
+                ref={(form) => this.paymentForm = form }
+              ></PaymentForm>
+            </section>
+          ) : null
+        }
 
-      {
-        this.showRedeemables() ? (
-          <section className="redeemables-container">
-            <a name="redeemables" id="redeemables-anchor"></a>
-            { this.headerForSection('redeemables') }
-            <Redeemables
-              findRedeemable={findRedeemable}
-              order={subject}
-              onChange={saveOrder}
-              onErrors={afterError}
-              ref={(r) => this.redeemables = r}
-            ></Redeemables>
-          </section>
-        ) : null
-      }
+        {
+          this.showPrice() ? (
+            <section className="total-due-container" id="total-due-container">
+              <a name="total-due" id="total-due-anchor"></a>
+              { this.headerForSection('totalDue') }
+              <Pricing order={subject}></Pricing>
+            </section>
+          ) : null
+        }
+      </section>
 
-      {
-        this.showPaymentForm() ? (
-          <section className="payment-container">
-            <a name="payment" id="payment-anchor"></a>
-            { this.headerForSection('payment') }
-            <PaymentForm
-              order={subject}
-              spreedlyIframeInputStyles={spreedlyIframeInputStyles}
-              squareIframeInputStyles={squareIframeInputStyles} 
-              ref={(form) => this.paymentForm = form }
-            ></PaymentForm>
-          </section>
-        ) : null
-      }
-
-      {
-        this.showPrice() ? (
-          <section className="total-due-container">
-            <a name="total-due" id="total-due-anchor"></a>
-            { this.headerForSection('totalDue') }
-            <Pricing order={subject}></Pricing>
-          </section>
-        ) : null
-      }
-
-      <section className="missing-answers-container">
+      <section className="missing-answers-container" id="missing-answers-container">
         <a name="missing-answers"></a>
         <MissingAnswers order={subject} ref={(r) => this.missingAnswers = r }></MissingAnswers>
       </section>
 
-      <section className="order-errors-container">
+      <section className="order-errors-container" id="order-errors-container">
         <a name="order-errors"></a>
         <OrderErrors order={subject}></OrderErrors>
       </section>
 
-      <section className="book-order-container">
+      <section className="book-order-container" id="book-order-container">
         <Button
           block
           className="book-order-button"
