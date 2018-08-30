@@ -5687,7 +5687,7 @@ mississippi@^2.0.0:
 
 "mitragyna@https://github.com/nicklandgrebe/mitragyna":
   version "0.0.1"
-  resolved "https://github.com/nicklandgrebe/mitragyna#f760e25ff7efc9c806d7e07c911d799b236e65db"
+  resolved "https://github.com/nicklandgrebe/mitragyna#f68f729fd4e72c903a6d2e0f9104e525d8f07b71"
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.6.0"
