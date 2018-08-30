@@ -3008,6 +3008,27 @@ function (_PureComponent) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Order).call(this));
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "renderBookOrderButton", function () {
+      var _this$props = _this.props,
+          bookingOrder = _this$props.bookingOrder,
+          onSubmit = _this$props.onSubmit,
+          subject = _this$props.subject;
+      var _this$context = _this.context,
+          callbackProps = _this$context.callbackProps,
+          componentProps = _this$context.componentProps;
+      var button = React__default.createElement(reactstrap.Button, {
+        block: true,
+        className: "book-order-button",
+        color: "success",
+        id: "bookOrder",
+        size: "lg",
+        disabled: !_this.allowedToBookOrder(),
+        onClick: onSubmit
+      }, React__default.createElement("span", null, subject.product().orderButtonText), bookingOrder && componentProps.orderBooking ? React__default.createElement(componentProps.orderBooking) : null);
+      if (callbackProps.onBookOrderButtonRender) callbackProps.onBookOrderButtonRender(button);
+      return button;
+    });
+
     _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'allowedToBookOrder', 'headerForSection', 'showPaymentForm', 'showPrice');
 
     return _this;
@@ -3016,10 +3037,10 @@ function (_PureComponent) {
   _createClass(Order, [{
     key: "allowedToBookOrder",
     value: function allowedToBookOrder() {
-      var _this$props = this.props,
-          bookingOrder = _this$props.bookingOrder,
-          savingOrder = _this$props.savingOrder,
-          subject = _this$props.subject;
+      var _this$props2 = this.props,
+          bookingOrder = _this$props2.bookingOrder,
+          savingOrder = _this$props2.savingOrder,
+          subject = _this$props2.subject;
       if (!subject || !this.missingAnswers) return false;
       return !bookingOrder && !savingOrder && this.missingAnswers.missingRequiredAnswers(subject).empty();
     } // Mitragyna callback
@@ -3192,17 +3213,15 @@ function (_PureComponent) {
     value: function render() {
       var _this2 = this;
 
-      var _this$props2 = this.props,
-          afterError = _this$props2.afterError,
-          saveOrder = _this$props2.saveOrder,
-          bookingOrder = _this$props2.bookingOrder,
-          findRedeemable = _this$props2.findRedeemable,
-          setSkipAttendee = _this$props2.setSkipAttendee,
-          skipAttendees = _this$props2.skipAttendees,
-          subject = _this$props2.subject,
-          spreedlyIframeInputStyles = _this$props2.spreedlyIframeInputStyles,
-          squareIframeInputStyles = _this$props2.squareIframeInputStyles;
-      var componentProps = this.context.componentProps;
+      var _this$props3 = this.props,
+          afterError = _this$props3.afterError,
+          saveOrder = _this$props3.saveOrder,
+          findRedeemable = _this$props3.findRedeemable,
+          setSkipAttendee = _this$props3.setSkipAttendee,
+          skipAttendees = _this$props3.skipAttendees,
+          subject = _this$props3.subject,
+          spreedlyIframeInputStyles = _this$props3.spreedlyIframeInputStyles,
+          squareIframeInputStyles = _this$props3.squareIframeInputStyles;
       var customer = subject.customer();
       var product = subject.product();
       return React__default.createElement("section", {
@@ -3306,15 +3325,7 @@ function (_PureComponent) {
       })), React__default.createElement("section", {
         className: "book-order-container",
         id: "book-order-container"
-      }, React__default.createElement(reactstrap.Button, {
-        block: true,
-        className: "book-order-button",
-        color: "success",
-        id: "bookOrder",
-        size: "lg",
-        type: "submit",
-        disabled: !this.allowedToBookOrder()
-      }, React__default.createElement("span", null, product.orderButtonText), bookingOrder && componentProps.orderBooking ? React__default.createElement(componentProps.orderBooking) : null)));
+      }, this.renderBookOrderButton()));
     }
   }]);
 
@@ -3333,6 +3344,7 @@ _defineProperty(Order, "propTypes", {
   afterUpdate: PropTypes.func.isRequired,
   bookingOrder: PropTypes.bool,
   findRedeemable: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func,
   saveOrder: PropTypes.func,
   savingOrder: PropTypes.bool,
   setSkipAttendee: PropTypes.func,
@@ -3343,6 +3355,7 @@ _defineProperty(Order, "propTypes", {
 });
 
 _defineProperty(Order, "contextTypes", {
+  callbackProps: PropTypes.object,
   componentProps: PropTypes.object
 });
 
@@ -3640,6 +3653,7 @@ function (_PureComponent) {
 _defineProperty(AppContainer, "propTypes", {
   actions: PropTypes.object.isRequired,
   callbacks: PropTypes.shape({
+    onBookOrderButtonRender: PropTypes.func,
     onDateSelect: PropTypes.func,
     onOrderComplete: PropTypes.func,
     onOrderChange: PropTypes.func,

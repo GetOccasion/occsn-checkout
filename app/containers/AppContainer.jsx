@@ -55,6 +55,7 @@ export class AppContainer extends PureComponent {
   static propTypes = {
     actions: PropTypes.object.isRequired,
     callbacks: PropTypes.shape({
+      onBookOrderButtonRender: PropTypes.func,
       onDateSelect: PropTypes.func,
       onOrderComplete: PropTypes.func,
       onOrderChange: PropTypes.func,

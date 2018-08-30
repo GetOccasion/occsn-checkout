@@ -33,6 +33,7 @@ export default class Order extends PureComponent {
     afterUpdate: PropTypes.func.isRequired,
     bookingOrder: PropTypes.bool,
     findRedeemable: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func,
     saveOrder: PropTypes.func,
     savingOrder: PropTypes.bool,
     setSkipAttendee: PropTypes.func,
@@ -43,6 +44,7 @@ export default class Order extends PureComponent {
   };
 
   static contextTypes = {
+    callbackProps: PropTypes.object,
     componentProps: PropTypes.object,
   };
 
@@ -245,9 +247,34 @@ export default class Order extends PureComponent {
     return !product.free && subject.price;
   }
 
+  renderBookOrderButton = () => {
+    const { bookingOrder, onSubmit, subject } = this.props;
+    const { callbackProps, componentProps } = this.context;
+
+    let button = <Button
+      block
+      className="book-order-button"
+      color="success"
+      id="bookOrder"
+      size="lg"
+      disabled={ !this.allowedToBookOrder() }
+      onClick={onSubmit}
+    >
+      <span>{ subject.product().orderButtonText }</span>
+      {
+        bookingOrder && componentProps.orderBooking ? (
+          React.createElement(componentProps.orderBooking)
+        ) : (null)
+      }
+    </Button>;
+
+    if(callbackProps.onBookOrderButtonRender) callbackProps.onBookOrderButtonRender(button);
+
+    return button;
+  };
+
   render() {
-    let { afterError, saveOrder, bookingOrder, findRedeemable, setSkipAttendee, skipAttendees, subject, spreedlyIframeInputStyles, squareIframeInputStyles } = this.props;
-    let { componentProps } = this.context;
+    let { afterError, saveOrder, findRedeemable, setSkipAttendee, skipAttendees, subject, spreedlyIframeInputStyles, squareIframeInputStyles } = this.props;
 
     let customer = subject.customer();
     let product = subject.product();
@@ -345,22 +372,7 @@ export default class Order extends PureComponent {
       </section>
 
       <section className="book-order-container" id="book-order-container">
-        <Button
-          block
-          className="book-order-button"
-          color="success"
-          id="bookOrder"
-          size="lg"
-          type="submit"
-          disabled={ !this.allowedToBookOrder() }
-        >
-          <span>{ product.orderButtonText }</span>
-          {
-            bookingOrder && componentProps.orderBooking ? (
-              React.createElement(componentProps.orderBooking)
-            ) : (null)
-          }
-        </Button>
+        { this.renderBookOrderButton() }
       </section>
     </section>;
   }
