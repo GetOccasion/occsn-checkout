@@ -19,6 +19,7 @@ export default class Waiver extends PureComponent {
     let id = "answer-" + answer.question().id;
 
     return <FormGroup className="waiver-container">
+      <a name={id}></a>
       <Card color="light">
         <CardBody>
           <CardText>

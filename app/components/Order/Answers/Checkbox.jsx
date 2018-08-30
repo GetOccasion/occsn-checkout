@@ -51,6 +51,7 @@ export default class Checkbox extends PureComponent {
     let id = "answer-" + answer.question().id;
 
     return <FormGroup className="checkbox-container">
+      <a name={id}></a>
       <FormGroup check>
         <Label check for={id}>
           <Field id={id} name="value" type="checkbox" component={ Input } value={true} uncheckedValue={false}></Field>

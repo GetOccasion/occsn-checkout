@@ -58,6 +58,7 @@ export class AppContainer extends PureComponent {
       onDateSelect: PropTypes.func,
       onOrderComplete: PropTypes.func,
       onOrderChange: PropTypes.func,
+      onMissingAnswerClicked: PropTypes.func,
       onPersonalInformationComplete: PropTypes.func,
       onProductLoad: PropTypes.func,
       onProductNotFound: PropTypes.func,

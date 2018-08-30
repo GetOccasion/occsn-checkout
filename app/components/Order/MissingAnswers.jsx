@@ -14,6 +14,10 @@ export default class MissingAnswers extends PureComponent {
     order: PropTypes.instanceOf(occsn.Order),
   };
 
+  static contextTypes = {
+    callbackProps: PropTypes.instanceOf(PropTypes.object)
+  };
+
   constructor() {
     super();
 
@@ -32,11 +36,21 @@ export default class MissingAnswers extends PureComponent {
 
     ActiveResource.Collection.build(['email', 'firstName', 'lastName', 'zip'])
       .select((q) => !order.customer()[q])
-      .each((q) => missingAnswers.push('Customer ' + s.titleize(s.humanize(q))));
+      .each((q) => {
+        missingAnswers.push({
+          id: q,
+          label: 'Customer ' + s.titleize(s.humanize(q)),
+        });
+      });
 
     order.answers().target()
       .select((a) => !a.valid())
-      .each((a) => missingAnswers.push(a.question().title));
+      .each((a) => {
+        missingAnswers.push({
+          id: 'answer-' + a.question().id,
+          label: a.question().title,
+        })
+      });
 
     return missingAnswers;
   };
@@ -46,6 +60,8 @@ export default class MissingAnswers extends PureComponent {
   }
 
   render() {
+    const { callbackProps } = this.context;
+
     if(this.empty()) {
       return null;
     } else {
@@ -54,7 +70,14 @@ export default class MissingAnswers extends PureComponent {
         <ul className="missing-answers-list">
           {
             this.missingRequiredAnswers().map((a) => {
-              return <li className="missing-answer">{a}</li>
+              return <li className="missing-answer">{
+                callbackProps.onMissingAnswerClicked ? (
+                  <a onClick={() => callbackProps.onMissingAnswerClicked(a.id)}>{a.label}</a>
+                ) : (
+                  a.label
+                )
+              }
+              </li>;
             }).toArray()
           }
         </ul>

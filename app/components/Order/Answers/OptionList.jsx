@@ -19,6 +19,7 @@ export default class OptionList extends PureComponent {
     let id = "answer-" + answer.question().id;
 
     return <FormGroup className="option-list-container" tag="fieldset">
+      <a name={id}></a>
       <Label for={id}>{ answer.question().title }{ answer.question().required ? '*' : '' }</Label>
       <Field type="radioGroup" name="option">
         {
