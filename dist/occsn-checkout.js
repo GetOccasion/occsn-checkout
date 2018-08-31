@@ -3473,6 +3473,10 @@ function (_PureComponent) {
       if (callbacks && callbacks.onOrderComplete) {
         this.onOrderComplete = _.debounce(callbacks.onOrderComplete, 25);
       }
+
+      if (callbacks && callbacks.onPersonalInformationComplete) {
+        this.onPersonalInformationComplete = _.once(callbacks.onPersonalInformationComplete);
+      }
     } // @todo Only execute the relevant parts based on the props that actually changed
 
   }, {
@@ -3495,7 +3499,7 @@ function (_PureComponent) {
           this.onOrderComplete(nextProps.data.order);
         }
 
-        if (callbacks && callbacks.onPersonalInformationComplete) {
+        if (this.onPersonalInformationComplete) {
           var order = nextProps.data.order;
 
           if (order.customer().complete() && !order.answers().target().detect(function (a) {
@@ -3503,7 +3507,7 @@ function (_PureComponent) {
           }) && !order.attendees().target().detect(function (a, index) {
             return !(a.complete() || nextProps.data.skipAttendees[index]);
           }) && nextProps.data.order.status == 'initialized') {
-            callbacks.onPersonalInformationComplete(nextProps.data.order);
+            this.onPersonalInformationComplete(nextProps.data.order);
           }
         }
       }
