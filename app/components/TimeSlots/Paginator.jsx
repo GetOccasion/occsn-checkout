@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
+import _ from 'underscore';
+
 export default class Paginator extends PureComponent {
   static propTypes = {
     cached: PropTypes.bool,
@@ -23,13 +25,13 @@ export default class Paginator extends PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
     let { cachedPages } = this.state;
     const { cached, preloadPages, timeSlotsCollection } = this.props;
 
-    if(cached) {
-      cachedPages.push(timeSlotsCollection);
-      this.loadNextTimeSlotPages(preloadPages, timeSlotsCollection);
+    if(cached && cachedPages.length == 0 && !nextProps.timeSlotsCollection.empty()) {
+      cachedPages.push(nextProps.timeSlotsCollection);
+      this.loadNextTimeSlotPages(preloadPages, nextProps.timeSlotsCollection);
     }
   }
 
@@ -68,7 +70,7 @@ export default class Paginator extends PureComponent {
   };
 
   loadNextTimeSlotPages = (numberOfPages, collection) => {
-    if(numberOfPages === 0) { return }
+    if(numberOfPages === 0 || !collection.hasNextPage()) return;
 
     let { cachedPages } = this.state;
 

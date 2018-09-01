@@ -755,10 +755,7 @@ function (_PureComponent) {
     });
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "loadNextTimeSlotPages", function (numberOfPages, collection) {
-      if (numberOfPages === 0) {
-        return;
-      }
-
+      if (numberOfPages === 0 || !collection.hasNextPage()) return;
       var cachedPages = _this.state.cachedPages;
 
       _this.setState({
@@ -787,17 +784,17 @@ function (_PureComponent) {
   }
 
   _createClass(Paginator, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
       var cachedPages = this.state.cachedPages;
       var _this$props3 = this.props,
           cached = _this$props3.cached,
           preloadPages = _this$props3.preloadPages,
           timeSlotsCollection = _this$props3.timeSlotsCollection;
 
-      if (cached) {
-        cachedPages.push(timeSlotsCollection);
-        this.loadNextTimeSlotPages(preloadPages, timeSlotsCollection);
+      if (cached && cachedPages.length == 0 && !nextProps.timeSlotsCollection.empty()) {
+        cachedPages.push(nextProps.timeSlotsCollection);
+        this.loadNextTimeSlotPages(preloadPages, nextProps.timeSlotsCollection);
       }
     }
   }, {
