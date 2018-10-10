@@ -34,6 +34,22 @@ var reduxDevtoolsExtension = require('redux-devtools-extension');
 var thunkMiddleware = _interopDefault(require('redux-thunk'));
 require('bootstrap/dist/css/bootstrap.css');
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
 function _asyncToGenerator(fn) {
   return function () {
     var self = this,
@@ -41,31 +57,15 @@ function _asyncToGenerator(fn) {
     return new Promise(function (resolve, reject) {
       var gen = fn.apply(self, args);
 
-      function step(key, arg) {
-        try {
-          var info = gen[key](arg);
-          var value = info.value;
-        } catch (error) {
-          reject(error);
-          return;
-        }
-
-        if (info.done) {
-          resolve(value);
-        } else {
-          Promise.resolve(value).then(_next, _throw);
-        }
-      }
-
       function _next(value) {
-        step("next", value);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
       }
 
       function _throw(err) {
-        step("throw", err);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
       }
 
-      _next();
+      _next(undefined);
     });
   };
 }
@@ -2112,14 +2112,8 @@ function (_PureComponent) {
         square: React__default.createElement(Square, _extends({}, pspFormProps, {
           squareIframeInputStyles: squareIframeInputStyles
         }))
-      }[this.paymentServiceProvider()], this.paymentServiceProvider() != 'cash' ? React__default.createElement("a", {
-        href: "//www.shopify.com/pci-compliant/?utm_source=secure&utm_medium=shop",
-        title: "This online store is secured by Shopify",
-        target: "_blank"
-      }, React__default.createElement("img", {
-        src: "//cdn.shopify.com/s/images/badges/shopify-secure-badge-light-shadow.png",
-        alt: "Shopify secure badge"
-      })) : null);
+      }[this.paymentServiceProvider()], this.paymentServiceProvider() != 'cash' ? null // TODO @kieranklaassen Replace this line with padlock code
+      : null);
     }
   }]);
 
