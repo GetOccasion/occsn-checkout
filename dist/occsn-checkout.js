@@ -3078,7 +3078,7 @@ function (_PureComponent) {
             id: "widgetTimeSlotsTitle"
           }, React__default.createElement("h6", {
             className: "pt-3 text-uppercase"
-          }, "Time Slots"), React__default.createElement("h4", null, _.isNull(product.widgetTimeSlotsTitle) ? "Please select a date and time so complete your booking" : product.widgetTimeSlotsTitle), React__default.createElement("hr", {
+          }, "Time Slots"), React__default.createElement("h4", null, _.isNull(product.widgetTimeSlotsTitle) ? "Please select a date and time to complete your booking" : product.widgetTimeSlotsTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 

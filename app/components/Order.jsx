@@ -112,7 +112,7 @@ export default class Order extends PureComponent {
           </h6>
           <h4>
             { _.isNull(product.widgetTimeSlotsTitle) ? (
-              "Please select a date and time so complete your booking"
+              "Please select a date and time to complete your booking"
             ) : (
               product.widgetTimeSlotsTitle
             )}
