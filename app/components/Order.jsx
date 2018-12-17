@@ -93,12 +93,9 @@ export default class Order extends PureComponent {
     switch(section) {
       case 'contact':
         return <div className="container-title" id="widgetContactTitle">
-          <h6 className="pt-3 text-uppercase">
-            Contact Information
-          </h6>
           <h4>
             { _.isNull(product.widgetContactTitle) ? (
-              "Please give us your personal information"
+              "Customer Information"
             ) : (
               product.widgetContactTitle
             )}
@@ -107,12 +104,9 @@ export default class Order extends PureComponent {
         </div>;
       case 'timeSlots':
         return <div className="container-title" id="widgetTimeSlotsTitle">
-          <h6 className="pt-3 text-uppercase">
-            Time Slots
-          </h6>
           <h4>
             { _.isNull(product.widgetTimeSlotsTitle) ? (
-              "Please select a date and time to complete your booking"
+              "Select which day you would like to reserve"
             ) : (
               product.widgetTimeSlotsTitle
             )}
@@ -121,12 +115,9 @@ export default class Order extends PureComponent {
         </div>;
       case 'questions':
         return <div className="container-title" id="widgetQuestionsTitle">
-          <h6 className="pt-3 text-uppercase">
-            Additional Information
-          </h6>
           <h4>
             { _.isNull(product.widgetQuestionsTitle) ? (
-              "We need to collect some information from you to confirm booking"
+              "Additional Questions"
             ) : (
               product.widgetQuestionsTitle
             )}
@@ -140,12 +131,9 @@ export default class Order extends PureComponent {
         </div>;
       case 'payment':
         return <div className="container-title" id="widgetPaymentTitle">
-          <h6 className="pt-3 text-uppercase">
-            Payment Information
-          </h6>
           <h4>
             { _.isNull(product.widgetPaymentTitle) ? (
-              "Please provide your payment details to complete your booking"
+              "Payment Information"
             ) : (
               product.widgetPaymentTitle
             )}
