@@ -34,6 +34,5 @@ $ yarn poi
 To build changes to be merged into the production experience, run:
 
 ```bash
-$ yarn poi build
-$ yarn bili
+$ yarn build
 ```

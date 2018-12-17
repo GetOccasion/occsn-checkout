@@ -12,8 +12,6 @@ module.exports = {
     template: 'index.html'
   },
 
-  outDir: 'lib/assets',
-
   plugins: [
     require('poi-plugin-react')(),
     require('poi-plugin-resolve-alias')({
@@ -22,14 +20,6 @@ module.exports = {
       'occasion-sdk': path.join(process.cwd(), 'node_modules', 'occasion-sdk', 'build', 'occasion-sdk.js'),
     })
   ],
-
-  filename: {
-    js: 'javascripts/' + pkg.name + '-[name]_bundle.js',
-    chunk: 'javascripts/' + pkg.name + '-[name]_bundle.js',
-    css: 'stylesheets/' + pkg.name + '-[name]_bundle.css',
-    images: 'images/[name].[ext]',
-    fonts: 'fonts/[name].[ext]',
-  },
 
   configureWebpack(config) {
     config.externals = {

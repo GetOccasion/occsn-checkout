@@ -3066,9 +3066,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetContactTitle"
-          }, React__default.createElement("h6", {
-            className: "pt-3 text-uppercase"
-          }, "Contact Information"), React__default.createElement("h4", null, _.isNull(product.widgetContactTitle) ? "Please give us your personal information" : product.widgetContactTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetContactTitle) ? "Customer Information" : product.widgetContactTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
@@ -3076,9 +3074,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetTimeSlotsTitle"
-          }, React__default.createElement("h6", {
-            className: "pt-3 text-uppercase"
-          }, "Time Slots"), React__default.createElement("h4", null, _.isNull(product.widgetTimeSlotsTitle) ? "Please select a date and time to complete your booking" : product.widgetTimeSlotsTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetTimeSlotsTitle) ? "Select which day you would like to reserve" : product.widgetTimeSlotsTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
@@ -3086,9 +3082,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetQuestionsTitle"
-          }, React__default.createElement("h6", {
-            className: "pt-3 text-uppercase"
-          }, "Additional Information"), React__default.createElement("h4", null, _.isNull(product.widgetQuestionsTitle) ? "We need to collect some information from you to confirm booking" : product.widgetQuestionsTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetQuestionsTitle) ? "Additional Questions" : product.widgetQuestionsTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
@@ -3104,9 +3098,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetPaymentTitle"
-          }, React__default.createElement("h6", {
-            className: "pt-3 text-uppercase"
-          }, "Payment Information"), React__default.createElement("h4", null, _.isNull(product.widgetPaymentTitle) ? "Please provide your payment details to complete your booking" : product.widgetPaymentTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetPaymentTitle) ? "Payment Information" : product.widgetPaymentTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
