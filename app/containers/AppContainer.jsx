@@ -14,7 +14,7 @@ import occsn from '../libs/Occasion';
 
 import * as appActions from '../actions/appActions';
 
-import '../styles/index.css'
+import '../styles/index.scss'
 
 import Header from '../components/Header.jsx';
 import Order from '../components/Order.jsx';
