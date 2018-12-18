@@ -1062,9 +1062,9 @@ acorn@>=2.5.2, acorn@^5.0.0, acorn@^5.0.3, acorn@^5.3.0, acorn@^5.4.1, acorn@^5.
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.1.tgz#f095829297706a7c9776958c0afc8930a9b9d9d8"
   integrity sha512-d+nbxBUGKg7Arpsvbnlq61mc12ek3EY8EQldM3GPAhWJ1UVxC6TDGbIvUMNU6obBX3i1+ptCIzV4vq0gFPEGVQ==
 
-"active-resource@git+https://github.com/nicklandgrebe/activeresource.js.git#occsn-checkout-compat":
-  version "0.9.7"
-  resolved "git+https://github.com/nicklandgrebe/activeresource.js.git#9896ef1a846555525d05a445b0e5e2fb5eb6c619"
+"active-resource@https://github.com/GetOccasion/activeresource.js.git":
+  version "1.0.0-alpha.2"
+  resolved "https://github.com/GetOccasion/activeresource.js.git#f30513f77f4bf64c57860ac1f439e31405a16fa1"
   dependencies:
     axios "^0.16.2"
     es6-promise "^4.1.1"
@@ -7016,9 +7016,9 @@ obuf@^1.0.0, obuf@^1.1.1:
 
 "occasion-sdk@git+https://github.com/GetOccasion/occasion-sdk-js.git":
   version "0.2.2"
-  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#68ff49b2dbe6c2096243c43869e37393f52760be"
+  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#c4e723ee8a2499947e29208e629aeb310f6ef2b3"
   dependencies:
-    active-resource "git+https://github.com/nicklandgrebe/activeresource.js.git#occsn-checkout-compat"
+    active-resource "https://github.com/GetOccasion/activeresource.js.git"
     decimal.js-light "^2.4.1"
     moment "^2.22.1"
     moment-timezone-with-data-2010-2020 "^0.4.0"
