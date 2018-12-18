@@ -32,7 +32,6 @@ var Immutable = _interopDefault(require('immutable'));
 var redux = require('redux');
 var reduxDevtoolsExtension = require('redux-devtools-extension');
 var thunkMiddleware = _interopDefault(require('redux-thunk'));
-require('bootstrap/dist/css/bootstrap.css');
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {

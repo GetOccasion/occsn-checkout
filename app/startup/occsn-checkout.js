@@ -1,8 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux';
 
-import 'bootstrap/dist/css/bootstrap.css';
-
 import AppContainer from '../containers/AppContainer.jsx'
 import createStore from '../store/appStore';
 
