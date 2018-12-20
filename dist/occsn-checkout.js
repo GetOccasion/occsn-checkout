@@ -28,6 +28,7 @@ var Decimal = _interopDefault(require('decimal.js-light'));
 var Q = _interopDefault(require('q'));
 var SpreedlyAPI = _interopDefault(require('spreedly'));
 var SquareAPI = _interopDefault(require('square'));
+var server = require('react-dom/server');
 var Immutable = _interopDefault(require('immutable'));
 var redux = require('redux');
 var reduxDevtoolsExtension = require('redux-devtools-extension');
@@ -2215,12 +2216,12 @@ function (_PureComponent) {
     key: "renderOptionTitle",
     value: function renderOptionTitle(option) {
       if (option.price) {
-        return React__default.createElement("span", null, option.title, "\xA0 (", React__default.createElement(Currency, {
+        return option.title + " " + server.renderToString(React__default.createElement(Currency, {
           quantity: Decimal(option.price),
           currency: option.question().product().merchant().currency().name
-        }), ")");
+        }));
       } else {
-        return React__default.createElement("span", null, option.title);
+        return option.title;
       }
     }
   }, {
