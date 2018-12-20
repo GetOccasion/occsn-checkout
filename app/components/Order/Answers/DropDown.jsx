@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { renderToString } from 'react-dom/server'
 import PropTypes from 'prop-types';
 
 import Decimal from 'decimal.js-light';
@@ -16,12 +17,14 @@ export default class DropDown extends PureComponent {
 
   renderOptionTitle(option) {
     if(option.price) {
-      return <span>
-        {option.title}&nbsp;
-        (<ReactCurrencyFormatter quantity={Decimal(option.price)} currency={option.question().product().merchant().currency().name}></ReactCurrencyFormatter>)
-      </span>;
+      return option.title + " " + renderToString(
+        <ReactCurrencyFormatter
+          quantity={Decimal(option.price)}
+          currency={option.question().product().merchant().currency().name}
+        />
+      );
     } else {
-      return <span>{option.title}</span>;
+      return option.title;
     }
   }
 
