@@ -17,15 +17,16 @@ export default class OptionList extends PureComponent {
     let { answer } = this.props;
 
     let id = "answer-" + answer.question().id;
+
     return <FormGroup className="option-list-container" tag="fieldset">
       <a name={id}></a>
       <Label for={id}>{ answer.question().title }{ answer.question().required ? '*' : '' }</Label>
-      <Field type="radioGroup" name='option'>
+      <Field type="radioGroup" name="option">
         {
           answer.question().options().target().map((option) => {
             return <FormGroup check>
               <Label for={option.id} check>
-                <Field id={option.id} name={id} type="radio" component={ Input } value={ option }></Field>
+                <Field id={option.id} name="option" type="radio" component={ Input } value={ option }></Field>
                 <span className="mr-1">{ option.title }</span>
                 {
                   option.price ? (
