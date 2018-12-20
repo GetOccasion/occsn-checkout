@@ -2288,7 +2288,7 @@ function (_PureComponent) {
           check: true
         }, React__default.createElement(mitragyna.Field, {
           id: option.id,
-          name: "option",
+          name: id,
           type: "radio",
           component: reactstrap.Input,
           value: option
