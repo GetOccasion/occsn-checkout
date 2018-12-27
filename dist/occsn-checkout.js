@@ -513,7 +513,29 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TimeSlotsSelector).call(this));
 
-    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), ['selectTimeSlot']);
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "selectTimeSlot", function (timeSlot) {
+      var _this$props = _this.props,
+          onSelect = _this$props.onSelect,
+          subject = _this$props.subject;
+      var timeSlots = subject.timeSlots().toArray();
+
+      if (subject.product().sellsDropIns) {
+        if (timeSlots.includes(timeSlot)) {
+          timeSlots = timeSlots.filter(function (ts) {
+            return ts !== timeSlot;
+          });
+        } else {
+          timeSlots.push(timeSlot);
+        }
+      } else {
+        timeSlots = [timeSlot];
+      }
+
+      var newSubject = subject.assignAttributes({
+        timeSlots: timeSlots
+      });
+      onSelect(newSubject);
+    });
 
     _this.state = {
       toolTips: {}
@@ -522,17 +544,6 @@ function (_React$Component) {
   }
 
   _createClass(TimeSlotsSelector, [{
-    key: "selectTimeSlot",
-    value: function selectTimeSlot(timeSlot) {
-      var _this$props = this.props,
-          onSelect = _this$props.onSelect,
-          subject = _this$props.subject;
-      var newSubject = subject.assignAttributes({
-        timeSlots: [timeSlot]
-      });
-      onSelect(newSubject);
-    }
-  }, {
     key: "toggleToolTip",
     value: function toggleToolTip(id) {
       var _this2 = this;
@@ -993,7 +1004,7 @@ function (_React$Component) {
         case 'list':
           return React__default.createElement("section", {
             className: "list-view"
-          }, data.product.sellsSessions ? React__default.createElement("p", null, "Sessions are purchased together") : null, React__default.createElement("a", {
+          }, data.product.sellsSessions ? React__default.createElement("p", null, "Sessions are purchased together") : null, data.product.sellsDropIns ? React__default.createElement("p", null, "Select the time slots you want to add:") : null, React__default.createElement("a", {
             name: "time-slots-selector",
             id: "time-slots-selector-anchor"
           }), React__default.createElement(TimeSlotsSelector, {
