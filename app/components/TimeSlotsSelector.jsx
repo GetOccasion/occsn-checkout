@@ -28,21 +28,26 @@ export default class TimeSlotsSelector extends React.Component {
   constructor() {
     super();
 
-    _.bindAll(this, [
-      'selectTimeSlot'
-    ]);
-
     this.state = {
       toolTips: {}
     }
   }
 
-  selectTimeSlot(timeSlot) {
+  selectTimeSlot = timeSlot => {
     let { onSelect, subject } = this.props;
+    let timeSlots = subject.timeSlots().toArray();
 
-    var newSubject = subject.assignAttributes({
-      timeSlots: [timeSlot]
-    });
+    if(subject.product().sellsDropIns) {
+      if(timeSlots.includes(timeSlot)) {
+        timeSlots = timeSlots.filter(ts => ts !== timeSlot)
+      } else {
+        timeSlots.push(timeSlot);
+      }
+    } else {
+      timeSlots = [timeSlot];
+    }
+
+    const newSubject = subject.assignAttributes({timeSlots: timeSlots});
 
     onSelect(newSubject);
   }

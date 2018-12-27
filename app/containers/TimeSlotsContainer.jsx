@@ -154,6 +154,11 @@ export class TimeSlotsContainer extends React.Component {
               <p>Sessions are purchased together</p>
             ) : (null)
           }
+          {
+            data.product.sellsDropIns ? (
+              <p>Select the time slots you want to add:</p>
+            ) : (null)
+          }
           <a name="time-slots-selector" id="time-slots-selector-anchor"></a>
           <TimeSlotsSelector
             disabled={data.product.sellsSessions}
