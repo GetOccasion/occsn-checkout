@@ -6620,9 +6620,9 @@ mississippi@^2.0.0:
     stream-each "^1.1.0"
     through2 "^2.0.0"
 
-"mitragyna@git+https://github.com/kieranklaassen/mitragyna.git#patch-2":
-  version "0.0.1"
-  resolved "git+https://github.com/kieranklaassen/mitragyna.git#e4d232e69b539092096ba826077a3af8fa30c1e6"
+"mitragyna@git+https://github.com/nicklandgrebe/mitragyna.git":
+  version "0.0.2"
+  resolved "git+https://github.com/nicklandgrebe/mitragyna.git#71e711042b821cb14a541b1897054d5fa64597fe"
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.6.0"
