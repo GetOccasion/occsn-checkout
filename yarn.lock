@@ -1064,12 +1064,12 @@ acorn@>=2.5.2, acorn@^5.0.0, acorn@^5.0.3, acorn@^5.3.0, acorn@^5.4.1, acorn@^5.
 
 "active-resource@https://github.com/GetOccasion/activeresource.js.git":
   version "1.0.0-alpha.2"
-  resolved "https://github.com/GetOccasion/activeresource.js.git#f30513f77f4bf64c57860ac1f439e31405a16fa1"
+  resolved "https://github.com/GetOccasion/activeresource.js.git#1dc9ef9ea632b1e8bd421baeac10bd1047eb35b0"
   dependencies:
     axios "^0.16.2"
     es6-promise "^4.1.1"
     qs "^6.5.0"
-    underscore "1.8.3"
+    underscore "^1.8.3"
     underscore.inflection latest
     underscore.string latest
 
@@ -4126,10 +4126,17 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-follow-redirects@^1.0.0, follow-redirects@^1.2.3:
+follow-redirects@^1.0.0:
   version "1.5.10"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
   integrity sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
+  dependencies:
+    debug "=3.1.0"
+
+follow-redirects@^1.2.3:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.6.1.tgz#514973c44b5757368bad8bddfe52f81f015c94cb"
+  integrity sha512-t2JCjbzxQpWvbhts3l6SH1DKzSrx8a+SsaVf4h6bG4kOXUuPYS/kg2Lr4gQSb7eemaHqJkOThF1BGyjlUkO1GQ==
   dependencies:
     debug "=3.1.0"
 
@@ -6665,10 +6672,15 @@ moment-timezone-with-data-2010-2020@^0.4.0:
   resolved "https://registry.yarnpkg.com/moment-timezone-with-data-2010-2020/-/moment-timezone-with-data-2010-2020-0.4.0.tgz#5727ee446baa7509c952a8ba94bafa6a169402e0"
   integrity sha1-VyfuRGuqdQnJUqi6lLr6ahaUAuA=
 
-moment@^2.18.1, moment@^2.20.1, moment@^2.22.1:
+moment@^2.18.1, moment@^2.20.1:
   version "2.23.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
   integrity sha512-3IE39bHVqFbWWaPOMHZF98Q9c3LDKGTmypMiTM2QygGXXElkFWIH7GxfmlwmY2vwa+wmNsoYZmG2iusf1ZjJoA==
+
+moment@^2.22.1:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
 mount-point@^3.0.0:
   version "3.0.0"
@@ -7128,7 +7140,7 @@ obuf@^1.0.0, obuf@^1.1.1:
 
 "occasion-sdk@git+https://github.com/GetOccasion/occasion-sdk-js.git":
   version "0.2.2"
-  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#c4e723ee8a2499947e29208e629aeb310f6ef2b3"
+  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#5546b5c6da29e35d1f5201f8e063249f33494c12"
   dependencies:
     active-resource "https://github.com/GetOccasion/activeresource.js.git"
     decimal.js-light "^2.4.1"
@@ -10000,11 +10012,6 @@ underscore.string@latest:
   dependencies:
     sprintf-js "^1.0.3"
     util-deprecate "^1.0.2"
-
-underscore@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
-  integrity sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI=
 
 underscore@^1.8.3:
   version "1.9.1"
