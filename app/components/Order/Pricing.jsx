@@ -67,8 +67,8 @@ export default class Pricing extends PureComponent {
             Deposit due today: <Currency currency={currency} quantity={order.priceDueOnInitialOrder} />
           </p>
           <div className="alert alert-info">
-            We require you to make a deposit of <strong>{<Currency currency={currency} quantity={order.priceDueOnInitialOrder} />}</strong> today
-            and pay the remaining <strong>{<Currency currency={currency} quantity={order.price - order.priceDueOnInitialOrder} />}</strong> on the time of the event.
+            A deposit of <strong>{<Currency currency={currency} quantity={order.priceDueOnInitialOrder} />}</strong> is due today
+            and <strong>{<Currency currency={currency} quantity={order.price - order.priceDueOnInitialOrder} />}</strong> will be due before the reservation date.
           </div>
         </>
       );

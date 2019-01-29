@@ -1447,13 +1447,13 @@ function (_PureComponent) {
           quantity: order.priceDueOnInitialOrder
         })), React__default.createElement("div", {
           className: "alert alert-info"
-        }, "We require you to make a deposit of ", React__default.createElement("strong", null, React__default.createElement(Currency, {
+        }, "A deposit of ", React__default.createElement("strong", null, React__default.createElement(Currency, {
           currency: currency,
           quantity: order.priceDueOnInitialOrder
-        })), " today and pay the remaining ", React__default.createElement("strong", null, React__default.createElement(Currency, {
+        })), " is due today and ", React__default.createElement("strong", null, React__default.createElement(Currency, {
           currency: currency,
           quantity: order.price - order.priceDueOnInitialOrder
-        })), " on the time of the event.")));
+        })), " will be due before the reservation date.")));
       }
 
       if (order.giftCardAmount && !order.giftCardAmount.isZero()) {
