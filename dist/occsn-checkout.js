@@ -1434,10 +1434,27 @@ function (_PureComponent) {
 
       rows.push(React__default.createElement("p", {
         className: "total"
-      }, "Total: ", React__default.createElement(Currency, {
+      }, "Total price: ", React__default.createElement(Currency, {
         currency: currency,
         quantity: order.price
       })));
+
+      if (order.product().depositMethod != 'no_deposit') {
+        rows.push(React__default.createElement(React__default.Fragment, null, React__default.createElement("p", {
+          className: "deposit-total"
+        }, "Deposit due today: ", React__default.createElement(Currency, {
+          currency: currency,
+          quantity: order.priceDueOnInitialOrder
+        })), React__default.createElement("div", {
+          className: "alert alert-info"
+        }, "We require you to make a deposit of ", React__default.createElement("strong", null, React__default.createElement(Currency, {
+          currency: currency,
+          quantity: order.priceDueOnInitialOrder
+        })), " today and pay the remaining ", React__default.createElement("strong", null, React__default.createElement(Currency, {
+          currency: currency,
+          quantity: order.price - order.priceDueOnInitialOrder
+        })), " on the time of the event.")));
+      }
 
       if (order.giftCardAmount && !order.giftCardAmount.isZero()) {
         rows.push(React__default.createElement("p", {
@@ -3026,7 +3043,7 @@ function (_PureComponent) {
         size: "lg",
         disabled: !_this.allowedToBookOrder(),
         onClick: onSubmit
-      }, React__default.createElement("span", null, subject.product().orderButtonText), bookingOrder && componentProps.orderBooking ? React__default.createElement(componentProps.orderBooking) : null);
+      }, React__default.createElement("span", null, subject.product().orderButtonText), bookingOrder && componentProps.orderBooking && React__default.createElement(componentProps.orderBooking));
       if (callbackProps.onBookOrderButtonRender) callbackProps.onBookOrderButtonRender(button);
       return button;
     });
@@ -3125,7 +3142,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetTotalDueTitle"
-          }, React__default.createElement("h4", null, _.isNull(product.widgetTotalDueTitle) ? "Total Due Today" : product.widgetTotalDueTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetTotalDueTitle) ? product.depositMethod == 'no_deposit' ? "Total Due Today" : "Deposit Due Today" : product.widgetTotalDueTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
       }
@@ -3220,7 +3237,7 @@ function (_PureComponent) {
       var product = subject.product();
       return React__default.createElement("section", {
         className: "order-container"
-      }, this.showTimeSlots() ? React__default.createElement("section", {
+      }, this.showTimeSlots() && React__default.createElement("section", {
         className: "time-slots-container",
         id: "time-slots-container"
       }, React__default.createElement("a", {
@@ -3228,7 +3245,7 @@ function (_PureComponent) {
         id: "time-slots-anchor"
       }), this.headerForSection('timeSlots'), React__default.createElement(TimeSlotsContainer$1, {
         order: subject
-      })) : null, React__default.createElement("section", {
+      })), React__default.createElement("section", {
         className: "information-container",
         id: "information-container"
       }, React__default.createElement("section", {
@@ -3241,7 +3258,7 @@ function (_PureComponent) {
         component: Customer,
         reflection: "customer",
         subject: customer
-      })), this.showQuestions() ? React__default.createElement("section", {
+      })), this.showQuestions() && React__default.createElement("section", {
         className: "questions-container",
         id: "questions-container"
       }, React__default.createElement("a", {
@@ -3250,7 +3267,7 @@ function (_PureComponent) {
       }), this.headerForSection('questions'), React__default.createElement(Questions, {
         subject: subject,
         questions: product.questions().target()
-      })) : null, this.showAttendees() ? React__default.createElement("section", {
+      })), this.showAttendees() && React__default.createElement("section", {
         className: "attendees-container",
         id: "attendees-container"
       }, React__default.createElement("a", {
@@ -3261,10 +3278,10 @@ function (_PureComponent) {
         setSkipAttendee: setSkipAttendee,
         skipAttendees: skipAttendees,
         subject: subject
-      })) : null), React__default.createElement("section", {
+      }))), React__default.createElement("section", {
         className: "payments-container",
         id: "payments-container"
-      }, this.showRedeemables() ? React__default.createElement("section", {
+      }, this.showRedeemables() && React__default.createElement("section", {
         className: "redeemables-container",
         id: "redeemables-container"
       }, React__default.createElement("a", {
@@ -3278,7 +3295,7 @@ function (_PureComponent) {
         ref: function ref(r) {
           return _this2.redeemables = r;
         }
-      })) : null, this.showPaymentForm() ? React__default.createElement("section", {
+      })), this.showPaymentForm() && React__default.createElement("section", {
         className: "payment-container",
         id: "payment-container"
       }, React__default.createElement("a", {
@@ -3291,7 +3308,7 @@ function (_PureComponent) {
         ref: function ref(form) {
           return _this2.paymentForm = form;
         }
-      })) : null, this.showPrice() ? React__default.createElement("section", {
+      })), this.showPrice() && React__default.createElement("section", {
         className: "total-due-container",
         id: "total-due-container"
       }, React__default.createElement("a", {
@@ -3299,7 +3316,7 @@ function (_PureComponent) {
         id: "total-due-anchor"
       }), this.headerForSection('totalDue'), React__default.createElement(Pricing, {
         order: subject
-      })) : null), React__default.createElement("section", {
+      }))), React__default.createElement("section", {
         className: "missing-answers-container",
         id: "missing-answers-container"
       }, React__default.createElement("a", {
