@@ -149,7 +149,7 @@ export default class Order extends PureComponent {
         return <div className="container-title" id="widgetTotalDueTitle">
           <h4>
             { _.isNull(product.widgetTotalDueTitle) ? (
-              (product.depositMethod == 'no_deposit') ? "Total Due Today" : "Deposit Due Today"
+              (product.depositBehavior == 'no_deposit') ? "Total Due Today" : "Deposit Due Today"
             ) : (
               product.widgetTotalDueTitle
             )}

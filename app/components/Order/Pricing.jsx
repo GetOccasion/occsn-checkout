@@ -56,15 +56,15 @@ export default class Pricing extends PureComponent {
 
     rows.push(
       <p className="total">
-        Total price: <Currency currency={currency} quantity={order.price} />
+        Order Total: <Currency currency={currency} quantity={order.price} />
       </p>
     );
 
-    if(order.product().depositMethod != 'no_deposit') {
+    if(order.product().depositBehavior != 'no_deposit') {
       rows.push(
         <>
           <p className="deposit-total">
-            Deposit due today: <Currency currency={currency} quantity={order.priceDueOnInitialOrder} />
+            Deposit Due Today: <Currency currency={currency} quantity={order.priceDueOnInitialOrder} />
           </p>
           <div className="alert alert-info">
             A deposit of <strong>{<Currency currency={currency} quantity={order.priceDueOnInitialOrder} />}</strong> is due today
