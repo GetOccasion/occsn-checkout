@@ -149,7 +149,7 @@ export default class Order extends PureComponent {
         return <div className="container-title" id="widgetTotalDueTitle">
           <h4>
             { _.isNull(product.widgetTotalDueTitle) ? (
-              "Total Due Today"
+              (product.depositMethod == 'no_deposit') ? "Total Due Today" : "Deposit Due Today"
             ) : (
               product.widgetTotalDueTitle
             )}
@@ -250,9 +250,9 @@ export default class Order extends PureComponent {
     >
       <span>{ subject.product().orderButtonText }</span>
       {
-        bookingOrder && componentProps.orderBooking ? (
+        bookingOrder && componentProps.orderBooking && (
           React.createElement(componentProps.orderBooking)
-        ) : (null)
+        )
       }
     </Button>;
 
@@ -269,13 +269,13 @@ export default class Order extends PureComponent {
 
     return <section className="order-container">
       {
-        this.showTimeSlots() ? (
+        this.showTimeSlots() && (
           <section className="time-slots-container" id="time-slots-container">
             <a name="time-slots" id="time-slots-anchor"></a>
             { this.headerForSection('timeSlots') }
             <TimeSlotsContainer order={subject} />
           </section>
-        ) : (null)
+        )
       }
 
       <section className="information-container" id="information-container">
@@ -286,29 +286,29 @@ export default class Order extends PureComponent {
         </section>
 
         {
-          this.showQuestions() ? (
+          this.showQuestions() && (
             <section className="questions-container" id="questions-container">
               <a name="questions" id="questions-anchor"></a>
               { this.headerForSection('questions') }
               <Questions subject={subject} questions={ product.questions().target() }></Questions>
             </section>
-          ) : null
+          )
         }
 
         {
-          this.showAttendees() ? (
+          this.showAttendees() && (
             <section className="attendees-container" id="attendees-container">
               <a name="attendees" id="attendees-anchor"></a>
               { this.headerForSection('attendees') }
               <Attendees questions={product.attendeeQuestions} setSkipAttendee={setSkipAttendee} skipAttendees={skipAttendees} subject={subject}></Attendees>
             </section>
-          ) : null
+          )
         }
       </section>
 
       <section className="payments-container" id="payments-container">
         {
-          this.showRedeemables() ? (
+          this.showRedeemables() && (
             <section className="redeemables-container" id="redeemables-container">
               <a name="redeemables" id="redeemables-anchor"></a>
               { this.headerForSection('redeemables') }
@@ -320,11 +320,11 @@ export default class Order extends PureComponent {
                 ref={(r) => this.redeemables = r}
               ></Redeemables>
             </section>
-          ) : null
+          )
         }
 
         {
-          this.showPaymentForm() ? (
+          this.showPaymentForm() && (
             <section className="payment-container" id="payment-container">
               <a name="payment" id="payment-anchor"></a>
               { this.headerForSection('payment') }
@@ -335,17 +335,17 @@ export default class Order extends PureComponent {
                 ref={(form) => this.paymentForm = form }
               ></PaymentForm>
             </section>
-          ) : null
+          )
         }
 
         {
-          this.showPrice() ? (
+          this.showPrice() && (
             <section className="total-due-container" id="total-due-container">
               <a name="total-due" id="total-due-anchor"></a>
               { this.headerForSection('totalDue') }
               <Pricing order={subject}></Pricing>
             </section>
-          ) : null
+          )
         }
       </section>
 

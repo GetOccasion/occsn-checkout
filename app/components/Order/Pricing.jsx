@@ -56,9 +56,23 @@ export default class Pricing extends PureComponent {
 
     rows.push(
       <p className="total">
-        Total: <Currency currency={currency} quantity={order.price} />
+        Total price: <Currency currency={currency} quantity={order.price} />
       </p>
     );
+
+    if(order.product().depositMethod != 'no_deposit') {
+      rows.push(
+        <>
+          <p className="deposit-total">
+            Deposit due today: <Currency currency={currency} quantity={order.priceDueOnInitialOrder} />
+          </p>
+          <div className="alert alert-info">
+            We require you to make a deposit of <strong>{<Currency currency={currency} quantity={order.priceDueOnInitialOrder} />}</strong> today
+            and pay the remaining <strong>{<Currency currency={currency} quantity={order.price - order.priceDueOnInitialOrder} />}</strong> on the time of the event.
+          </div>
+        </>
+      );
+    }
 
     if(order.giftCardAmount && !order.giftCardAmount.isZero()) {
       rows.push(
