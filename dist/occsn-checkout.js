@@ -3707,7 +3707,7 @@ var $$initialState = Immutable.fromJS({
   order: null,
   product: null,
   productNotFoundError: false,
-  savingOrder: false,
+  savingOrder: 0,
   skipAttendees: {}
 });
 
@@ -3743,12 +3743,12 @@ function appReducer() {
 
     case actionTypes.OCCSN_SAVE_ORDER_REQUEST:
       return $$state.merge({
-        savingOrder: true
+        savingOrder: $$state.get('savingOrder') + 1
       });
 
     case actionTypes.OCCSN_SAVE_ORDER_REQUEST_COMPLETE:
       return $$state.merge({
-        savingOrder: false
+        savingOrder: $$state.get('savingOrder') - 1
       });
 
     case actionTypes.OCCSN_SET_ORDER:
