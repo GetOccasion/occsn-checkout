@@ -7,7 +7,8 @@
     "test": "jest",
     "test:watch": "npm test -- --watch",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
-    "build": "bili"
+    "build": "bili",
+    "develop": "poi"
   },
   "keywords": [
     "occasion",
