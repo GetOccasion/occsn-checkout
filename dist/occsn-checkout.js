@@ -26,8 +26,7 @@ var s = _interopDefault(require('underscore.string'));
 var Currency = _interopDefault(require('react-currency-formatter'));
 var Decimal = _interopDefault(require('decimal.js-light'));
 var Q = _interopDefault(require('q'));
-var SpreedlyAPI = _interopDefault(require('spreedly'));
-var SquareAPI = _interopDefault(require('square'));
+var Script = _interopDefault(require('react-load-script'));
 var server = require('react-dom/server');
 var Immutable = _interopDefault(require('immutable'));
 var redux = require('redux');
@@ -1507,22 +1506,11 @@ function (_PureComponent) {
   }
 
   _createClass(PaymentServiceProvider, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.initializeForm();
-    }
-  }, {
     key: "buildPaymentMethod",
     value: function buildPaymentMethod() {
       this.reset();
       this.tokenizePaymentMethodData();
       return this.paymentMethodDeferred.promise;
-    } // Initializes the iFrame form that the 3rd party PSP provides for their PCI-compliant service
-
-  }, {
-    key: "initializeForm",
-    value: function initializeForm() {
-      throw 'initializeForm must be defined by subclasses';
     } // Sends the data contained the payment method form to the 3rd party PSP
 
   }, {
@@ -1644,43 +1632,24 @@ function camelCaseToDash(str) {
   return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 }
 
-var Spreedly =
+var SpreedlyIframe =
 /*#__PURE__*/
 function (_PaymentServiceProvid) {
-  _inherits(Spreedly, _PaymentServiceProvid);
+  _inherits(SpreedlyIframe, _PaymentServiceProvid);
 
-  function Spreedly() {
+  function SpreedlyIframe() {
     var _this;
 
-    _classCallCheck(this, Spreedly);
+    _classCallCheck(this, SpreedlyIframe);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Spreedly).call(this));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SpreedlyIframe).call(this));
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleChange", function (name, e) {
-      _this.setState(_defineProperty({}, name, e.target.value));
-    });
-
-    _this.state = {
-      month: null,
-      full_name: null,
-      year: null
-    };
-    return _this;
-  } // Initializes the iFrame using the global SpreedlyAPI object imported as a separate script
-  // @note Called on componentDidMount
-  // @see PaymentServiceProvider#componentDidMount
-
-
-  _createClass(Spreedly, [{
-    key: "initializeForm",
-    value: function initializeForm() {
-      var _this2 = this;
-
-      SpreedlyAPI.init(global.OCCSN.spreedly_key, {
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "initializeForm", function () {
+      Spreedly.init(global.OCCSN.spreedly_key, {
         "numberEl": "spreedly-number",
         "cvvEl": "spreedly-cvv"
       });
-      var spreedlyIframeInputStyles = this.props.spreedlyIframeInputStyles;
+      var spreedlyIframeInputStyles = _this.props.spreedlyIframeInputStyles;
       var defaultInputStyle = {
         display: 'block',
         width: '80%',
@@ -1707,49 +1676,68 @@ function (_PaymentServiceProvid) {
         inputStyleString += "".concat(camelCaseToDash(prop), ": ").concat(defaultInputStyle[prop], ";");
       }
 
-      SpreedlyAPI.on("ready", function () {
-        SpreedlyAPI.setFieldType("number", "text");
-        SpreedlyAPI.setNumberFormat("prettyFormat");
-        SpreedlyAPI.setPlaceholder("number", "•••• •••• •••• ••••");
-        SpreedlyAPI.setPlaceholder("cvv", "•••");
-        SpreedlyAPI.setStyle("number", inputStyleString);
-        SpreedlyAPI.setStyle("cvv", inputStyleString);
+      Spreedly.on("ready", function () {
+        Spreedly.setFieldType("number", "text");
+        Spreedly.setNumberFormat("prettyFormat");
+        Spreedly.setPlaceholder("number", "•••• •••• •••• ••••");
+        Spreedly.setPlaceholder("cvv", "•••");
+        Spreedly.setStyle("number", inputStyleString);
+        Spreedly.setStyle("cvv", inputStyleString);
       });
-      SpreedlyAPI.on('fieldEvent', function (name, type, activeEl, inputProperties) {
+      Spreedly.on('fieldEvent', function (name, type, activeEl, inputProperties) {
         if (type == 'focus') {
-          SpreedlyAPI.setStyle(name, focusInputStyle);
+          Spreedly.setStyle(name, focusInputStyle);
         }
 
         if (type == 'blur') {
-          SpreedlyAPI.setStyle(name, inputStyleString);
+          Spreedly.setStyle(name, inputStyleString);
         }
       });
-      SpreedlyAPI.on('errors', function (errors) {
+      Spreedly.on('errors', function (errors) {
         console.log(errors);
 
-        _this2.paymentMethodDeferred.reject(_.map(errors, function (error) {
+        _this.paymentMethodDeferred.reject(_.map(errors, function (error) {
           return ['creditCard.' + s.camelize(error.attribute, true), error.key.replace('errors.', ''), error.message];
         }));
       });
-      SpreedlyAPI.on('paymentMethod', function (token) {
-        _this2.paymentMethodDeferred.resolve(occsn.CreditCard.build({
+      Spreedly.on('paymentMethod', function (token) {
+        _this.paymentMethodDeferred.resolve(occsn.CreditCard.build({
           id: token
         }));
       });
-    } // Triggers paymentMethod event
+    });
 
-  }, {
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "handleChange", function (name, e) {
+      _this.setState(_defineProperty({}, name, e.target.value));
+    });
+
+    _this.state = {
+      month: null,
+      full_name: null,
+      year: null
+    };
+    return _this;
+  } // Initializes the iFrame using the global Spreedly object imported as a separate script
+  // @note Called on componentDidMount
+  // @see PaymentServiceProvider#componentDidMount
+
+
+  _createClass(SpreedlyIframe, [{
     key: "tokenizePaymentMethodData",
+    // Triggers paymentMethod event
     value: function tokenizePaymentMethodData() {
-      SpreedlyAPI.tokenizeCreditCard(this.state);
+      Spreedly.tokenizeCreditCard(this.state);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var order = this.props.order;
-      return React__default.createElement("section", {
+      return React__default.createElement(React__default.Fragment, null, React__default.createElement(Script, {
+        url: "https://core.spreedly.com/iframe/iframe-v1.min.js",
+        onLoad: this.initializeForm
+      }), React__default.createElement("section", {
         className: "spreedly-container"
       }, React__default.createElement(reactstrap.FormGroup, {
         className: "spreedly-full-name"
@@ -1759,7 +1747,7 @@ function (_PaymentServiceProvid) {
         name: "full_name",
         placeholder: "Name On Card",
         onChange: function onChange(e) {
-          return _this3.handleChange('full_name', e);
+          return _this2.handleChange('full_name', e);
         },
         className: order.errors().forField('creditCard.firstName').empty() && order.errors().forField('creditCard.lastName').empty() ? '' : 'is-invalid'
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1797,7 +1785,7 @@ function (_PaymentServiceProvid) {
         maxlength: "2",
         placeholder: "MM",
         onChange: function onChange(e) {
-          return _this3.handleChange('month', e);
+          return _this2.handleChange('month', e);
         },
         className: order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid'
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1813,7 +1801,7 @@ function (_PaymentServiceProvid) {
         maxlength: "4",
         placeholder: "YYYY",
         onChange: function onChange(e) {
-          return _this3.handleChange('year', e);
+          return _this2.handleChange('year', e);
         },
         className: order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid'
       }), React__default.createElement(mitragyna.ErrorsFor, {
@@ -1823,11 +1811,11 @@ function (_PaymentServiceProvid) {
       })))), React__default.createElement(reactstrap.Col, {
         className: "spreedly-cvv",
         xs: "3"
-      }, React__default.createElement(CardNumber$1, null)))));
+      }, React__default.createElement(CardNumber$1, null))))));
     }
   }]);
 
-  return Spreedly;
+  return SpreedlyIframe;
 }(PaymentServiceProvider);
 
 var CardNumber$2 =
@@ -1955,7 +1943,6 @@ function (_PaymentServiceProvid) {
 
   _createClass(Square, [{
     key: "initializeForm",
-    // Initializes the iFrame using the global SqPaymentForm library imported as SquareAPI
     value: function initializeForm() {
       var _this = this;
 
@@ -1972,7 +1959,7 @@ function (_PaymentServiceProvid) {
         Object.assign(defaultInputStyle, squareIframeInputStyles);
       }
 
-      this.sqPaymentForm = new SquareAPI({
+      this.sqPaymentForm = new SqPaymentForm({
         // Initialize the payment form elements
         applicationId: global.OCCSN.square_key,
         inputClass: 'form-control-square',
@@ -2020,7 +2007,10 @@ function (_PaymentServiceProvid) {
   }, {
     key: "render",
     value: function render() {
-      return React__default.createElement("section", {
+      return React__default.createElement(React__default.Fragment, null, React__default.createElement(Script, {
+        url: "https://js.squareup.com/v2/paymentform",
+        onLoad: this.initializeForm
+      }), React__default.createElement("section", {
         className: "square-container"
       }, React__default.createElement("div", {
         id: "sq-ccbox"
@@ -2069,7 +2059,7 @@ function (_PaymentServiceProvid) {
         className: "square-postal-code-errors",
         component: reactstrap.FormFeedback,
         field: "creditCard.postalCode"
-      })))));
+      }))))));
     }
   }]);
 
@@ -2134,7 +2124,7 @@ function (_PureComponent) {
         className: "payment"
       }, {
         cash: React__default.createElement(Cash, pspFormProps),
-        spreedly: React__default.createElement(Spreedly, _extends({}, pspFormProps, {
+        spreedly: React__default.createElement(SpreedlyIframe, _extends({}, pspFormProps, {
           spreedlyIframeInputStyles: spreedlyIframeInputStyles
         })),
         square: React__default.createElement(Square, _extends({}, pspFormProps, {
