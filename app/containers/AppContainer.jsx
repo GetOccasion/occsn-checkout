@@ -10,7 +10,8 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { Resource } from 'mitragyna';
 
-import occsn from '../libs/Occasion';
+import ActiveResource from 'active-resource';
+import Occasion from 'occasion-sdk';
 
 import * as appActions from '../actions/appActions';
 
@@ -78,6 +79,7 @@ export class AppContainer extends PureComponent {
     formRef: PropTypes.func,
     spreedlyIframeInputStyles: PropTypes.object,
     squareIframeInputStyles: PropTypes.object,
+    config: PropTypes.object,
   };
 
   static childContextTypes = {
@@ -87,15 +89,29 @@ export class AppContainer extends PureComponent {
   };
 
   constructor(props) {
+    const { config } = props
+
     super(props);
 
-    _.bindAll(this,
-      'renderBookingScreen',
-      'renderCompleteScreen',
-      'renderLoadingScreen',
-      'checkPrefilledAttributes',
-      'setPrefilledAttributes',
-    )
+    // If config variables are set via props, set globals to correct ones
+    // TODO: Reomve window.OCCSN and use a Context to pass down settings instead
+    if(config) { window.OCCSN = config; }
+
+
+  
+
+
+    // let options = {
+    //   token: window.OCCSN.api_key,
+    //   immutable: true
+    // };
+    //
+    // let url = window.OCCSN.host_url;
+    // if(url != undefined) {
+    //   options.baseUrl = ActiveResource.prototype.Links.__constructLink(url, 'api', 'v1');
+    // }
+    //
+    // var occsn = Occasion.Client(options);
   }
 
   componentDidMount() {
@@ -173,7 +189,7 @@ export class AppContainer extends PureComponent {
     };
   }
 
-  renderLoadingScreen() {
+  renderLoadingScreen = () => {
     const { components } = this.props;
 
     var loadingComponent;
@@ -187,7 +203,7 @@ export class AppContainer extends PureComponent {
     </section>;
   }
 
-  renderBookingScreen() {
+  renderBookingScreen = () => {
     const { actions, data, className, formRef, spreedlyIframeInputStyles, squareIframeInputStyles } = this.props;
 
     let classNames = classnames(
@@ -222,13 +238,13 @@ export class AppContainer extends PureComponent {
     </section>;
   }
 
-  renderCompleteScreen() {
+  renderCompleteScreen = () => {
     const { data } = this.props;
 
     return <OrderComplete order={data.order}></OrderComplete>;
   }
 
-  checkPrefilledAttributes(product) {
+  checkPrefilledAttributes = (product) => {
     const { actions } = this.props;
 
     let promises = [];
@@ -260,7 +276,7 @@ export class AppContainer extends PureComponent {
     Promise.all(promises).then(this.setPrefilledAttributes);
   }
 
-  setPrefilledAttributes(prefills) {
+  setPrefilledAttributes = (prefills) => {
     const { actions, data } = this.props;
 
     let attributes = {};

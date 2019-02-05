@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux';
 
-import AppContainer from '../containers/AppContainer.jsx'
+import OccsnCheckout from '../containers/AppContainer.jsx'
 import createStore from '../store/appStore';
 
 const store = createStore();
@@ -14,7 +14,7 @@ export default class OccsnCheckout extends React.Component {
         store
       },
       React.createElement(
-        AppContainer,
+        OccsnCheckout,
         {
           ...this.props,
         }
