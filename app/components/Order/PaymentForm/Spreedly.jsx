@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import Script from 'react-load-script'
 
 import _ from 'underscore';
 import s from 'underscore.string';
@@ -6,8 +7,6 @@ import s from 'underscore.string';
 import { ErrorsFor } from 'mitragyna';
 
 import occsn from '../../../libs/Occasion';
-
-import SpreedlyAPI from 'spreedly';
 
 import { Col, FormGroup, Input, Label, Row, FormFeedback } from 'reactstrap';
 
@@ -19,7 +18,7 @@ function camelCaseToDash (str) {
   return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase()
 }
 
-export default class Spreedly extends PaymentServiceProvider {
+export default class SpreedlyIframe extends PaymentServiceProvider {
   constructor() {
     super();
 
@@ -30,11 +29,11 @@ export default class Spreedly extends PaymentServiceProvider {
     };
   }
 
-  // Initializes the iFrame using the global SpreedlyAPI object imported as a separate script
+  // Initializes the iFrame using the global Spreedly object imported as a separate script
   // @note Called on componentDidMount
   // @see PaymentServiceProvider#componentDidMount
-  initializeForm() {
-    SpreedlyAPI.init(global.OCCSN.spreedly_key, {
+  initializeForm = () => {
+    Spreedly.init(global.OCCSN.spreedly_key, {
       "numberEl": "spreedly-number",
       "cvvEl": "spreedly-cvv"
     });
@@ -67,26 +66,26 @@ export default class Spreedly extends PaymentServiceProvider {
     let inputStyleString = '';
     for (let prop in defaultInputStyle) { inputStyleString += `${camelCaseToDash(prop)}: ${defaultInputStyle[prop]};` }
 
-    SpreedlyAPI.on("ready", function () {
-      SpreedlyAPI.setFieldType("number", "text");
-      SpreedlyAPI.setNumberFormat("prettyFormat");
-      SpreedlyAPI.setPlaceholder("number", "•••• •••• •••• ••••");
-      SpreedlyAPI.setPlaceholder("cvv", "•••");
-      SpreedlyAPI.setStyle("number", inputStyleString);
-      SpreedlyAPI.setStyle("cvv", inputStyleString);
+    Spreedly.on("ready", function () {
+      Spreedly.setFieldType("number", "text");
+      Spreedly.setNumberFormat("prettyFormat");
+      Spreedly.setPlaceholder("number", "•••• •••• •••• ••••");
+      Spreedly.setPlaceholder("cvv", "•••");
+      Spreedly.setStyle("number", inputStyleString);
+      Spreedly.setStyle("cvv", inputStyleString);
     });
 
-    SpreedlyAPI.on('fieldEvent', function(name, type, activeEl, inputProperties) {
+    Spreedly.on('fieldEvent', function(name, type, activeEl, inputProperties) {
       if(type == 'focus'){
-        SpreedlyAPI.setStyle(name, focusInputStyle);
+        Spreedly.setStyle(name, focusInputStyle);
       }
 
       if(type == 'blur'){
-        SpreedlyAPI.setStyle(name, inputStyleString);
+        Spreedly.setStyle(name, inputStyleString);
       }
     });
 
-    SpreedlyAPI.on('errors', (errors) => {
+    Spreedly.on('errors', (errors) => {
       console.log(errors)
       this.paymentMethodDeferred.reject(
         _.map(errors, (error) => {
@@ -99,14 +98,14 @@ export default class Spreedly extends PaymentServiceProvider {
       )
     });
 
-    SpreedlyAPI.on('paymentMethod', (token) => {
+    Spreedly.on('paymentMethod', (token) => {
       this.paymentMethodDeferred.resolve(occsn.CreditCard.build({ id: token }));
     });
   }
 
   // Triggers paymentMethod event
   tokenizePaymentMethodData() {
-    SpreedlyAPI.tokenizeCreditCard(this.state);
+    Spreedly.tokenizeCreditCard(this.state);
   }
 
   handleChange = (name, e) => {
@@ -118,53 +117,56 @@ export default class Spreedly extends PaymentServiceProvider {
   render() {
     const { order } = this.props;
 
-    return <section className="spreedly-container">
-      <FormGroup className="spreedly-full-name">
-        <label>Name On Card</label>
-        <Input type="text" id="full_name" name="full_name" placeholder="Name On Card"
-               onChange={ (e) => this.handleChange('full_name', e) }
-               className={ (order.errors().forField('creditCard.firstName').empty() && order.errors().forField('creditCard.lastName').empty()) ? '' : 'is-invalid' }
-        />
-        <ErrorsFor className="spreedly-first-name-errors" component={FormFeedback} field='creditCard.firstName'></ErrorsFor>
-        <ErrorsFor className="spreedly-last-name-errors" component={FormFeedback} field='creditCard.lastName'></ErrorsFor>
-      </FormGroup>
+    return <>
+      <Script url="https://core.spreedly.com/iframe/iframe-v1.min.js" onLoad={this.initializeForm} />
+      <section className="spreedly-container">
+        <FormGroup className="spreedly-full-name">
+          <label>Name On Card</label>
+          <Input type="text" id="full_name" name="full_name" placeholder="Name On Card"
+                 onChange={ (e) => this.handleChange('full_name', e) }
+                 className={ (order.errors().forField('creditCard.firstName').empty() && order.errors().forField('creditCard.lastName').empty()) ? '' : 'is-invalid' }
+          />
+          <ErrorsFor className="spreedly-first-name-errors" component={FormFeedback} field='creditCard.firstName'></ErrorsFor>
+          <ErrorsFor className="spreedly-last-name-errors" component={FormFeedback} field='creditCard.lastName'></ErrorsFor>
+        </FormGroup>
 
-      <FormGroup className="spreedly-card-number">
-        <Label>Credit Card Number</Label>
-        <div class="custom-file">
-          <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
-            <CardNumber />
+        <FormGroup className="spreedly-card-number">
+          <Label>Credit Card Number</Label>
+          <div class="custom-file">
+            <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
+              <CardNumber />
+            </div>
+            <ErrorsFor className="spreedly-card-number-errors" component={FormFeedback} field='creditCard.number'></ErrorsFor>
           </div>
-          <ErrorsFor className="spreedly-card-number-errors" component={FormFeedback} field='creditCard.number'></ErrorsFor>
-        </div>
-      </FormGroup>
+        </FormGroup>
 
-      <FormGroup className="spreedly-expiration-cvv">
-        <Row>
-          <Col className="spreedly-expiration" xs="6">
-            <Label>Expiration Date</Label>
-            <Row>
-              <Col xs="6">
-                <Input type="text" id="month" name="month" maxlength="2" placeholder="MM"
-                       onChange={ (e) => this.handleChange('month', e) }
-                       className={ order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid' }
-                />
-                <ErrorsFor className="spreedly-expiration-month-errors" component={FormFeedback} field='creditCard.month'></ErrorsFor>
-              </Col>
-              <Col xs="6">
-                <Input type="text" id="year" name="year" maxlength="4" placeholder="YYYY"
-                       onChange={ (e) => this.handleChange('year', e) }
-                       className={ order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid' }
-                />
-                <ErrorsFor className="spreedly-expiration-year-errors" component={FormFeedback} field='creditCard.year'></ErrorsFor>
-              </Col>
-            </Row>
-          </Col>
-          <Col className="spreedly-cvv" xs="3">
-            <CVV />
-          </Col>
-        </Row>
-      </FormGroup>
-    </section>;
+        <FormGroup className="spreedly-expiration-cvv">
+          <Row>
+            <Col className="spreedly-expiration" xs="6">
+              <Label>Expiration Date</Label>
+              <Row>
+                <Col xs="6">
+                  <Input type="text" id="month" name="month" maxlength="2" placeholder="MM"
+                         onChange={ (e) => this.handleChange('month', e) }
+                         className={ order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid' }
+                  />
+                  <ErrorsFor className="spreedly-expiration-month-errors" component={FormFeedback} field='creditCard.month'></ErrorsFor>
+                </Col>
+                <Col xs="6">
+                  <Input type="text" id="year" name="year" maxlength="4" placeholder="YYYY"
+                         onChange={ (e) => this.handleChange('year', e) }
+                         className={ order.errors().forField('creditCard.year').empty() ? '' : 'is-invalid' }
+                  />
+                  <ErrorsFor className="spreedly-expiration-year-errors" component={FormFeedback} field='creditCard.year'></ErrorsFor>
+                </Col>
+              </Row>
+            </Col>
+            <Col className="spreedly-cvv" xs="3">
+              <CVV />
+            </Col>
+          </Row>
+        </FormGroup>
+      </section>
+    </>
   }
 }

@@ -14,14 +14,5 @@ module.exports = {
 
   plugins: [
     require('poi-plugin-react')()
-  ],
-
-  configureWebpack(config) {
-    config.externals = {
-      spreedly: 'Spreedly',
-      square: 'SqPaymentForm',
-    };
-
-    return config;
-  }
+  ]
 };

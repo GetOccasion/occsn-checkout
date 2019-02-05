@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
+import Script from 'react-load-script'
 
 import { ErrorsFor } from 'mitragyna';
 import _ from 'underscore';
 
 import occsn from '../../../libs/Occasion';
-
-import SquareAPI from 'square';
 
 import { Col, FormGroup, Input, Label, Row, FormFeedback } from 'reactstrap';
 
@@ -17,7 +16,6 @@ import CVV from './Square/CVV.jsx';
 import PostalCode from './Square/PostalCode.jsx';
 
 export default class Square extends PaymentServiceProvider {
-  // Initializes the iFrame using the global SqPaymentForm library imported as SquareAPI
   initializeForm() {
     let defaultInputStyle = {
       padding: '0.375em 0.75em',
@@ -33,7 +31,7 @@ export default class Square extends PaymentServiceProvider {
       Object.assign(defaultInputStyle, squareIframeInputStyles);
     }
 
-    this.sqPaymentForm = new SquareAPI({
+    this.sqPaymentForm = new SqPaymentForm({
 
       // Initialize the payment form elements
       applicationId: global.OCCSN.square_key,
@@ -86,46 +84,49 @@ export default class Square extends PaymentServiceProvider {
   }
 
   render() {
-    return <section className="square-container">
-      <div id="sq-ccbox">
-        <FormGroup className="square-card-number">
-          <Label>Card Number</Label>
-          <div class="custom-file">
-            <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
-              <CardNumber />
-            </div>
-            <ErrorsFor className="square-card-number-errors" component={FormFeedback} field='creditCard.cardNumber'></ErrorsFor>
-          </div>
-        </FormGroup>
-
-        <FormGroup className="square-expiration-cvv">
-          <Row>
-            <Col className="square-expiration" xs="6">
-              <Label>Expiration Date</Label>
-              <div class="custom-file">
-                <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
-                  <ExpirationDate />
-                </div>
-                <ErrorsFor className="square-expiration-errors" component={FormFeedback} field='creditCard.expirationDate'></ErrorsFor>
+    return <>
+      <Script url="https://js.squareup.com/v2/paymentform" onLoad={this.initializeForm} />
+      <section className="square-container">
+        <div id="sq-ccbox">
+          <FormGroup className="square-card-number">
+            <Label>Card Number</Label>
+            <div class="custom-file">
+              <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
+                <CardNumber />
               </div>
-            </Col>
-            <Col className="square-cvv" xs="3">
-              <Label>CVV</Label>
-              <CVV />
-            </Col>
-          </Row>
-        </FormGroup>
-
-        <FormGroup className="square-postal-code">
-          <Label>Postal Code</Label>
-          <div class="custom-file">
-            <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
-              <PostalCode />
+              <ErrorsFor className="square-card-number-errors" component={FormFeedback} field='creditCard.cardNumber'></ErrorsFor>
             </div>
-            <ErrorsFor className="square-postal-code-errors" component={FormFeedback} field='creditCard.postalCode'></ErrorsFor>
-          </div>
-        </FormGroup>
-      </div>
-    </section>;
+          </FormGroup>
+
+          <FormGroup className="square-expiration-cvv">
+            <Row>
+              <Col className="square-expiration" xs="6">
+                <Label>Expiration Date</Label>
+                <div class="custom-file">
+                  <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
+                    <ExpirationDate />
+                  </div>
+                  <ErrorsFor className="square-expiration-errors" component={FormFeedback} field='creditCard.expirationDate'></ErrorsFor>
+                </div>
+              </Col>
+              <Col className="square-cvv" xs="3">
+                <Label>CVV</Label>
+                <CVV />
+              </Col>
+            </Row>
+          </FormGroup>
+
+          <FormGroup className="square-postal-code">
+            <Label>Postal Code</Label>
+            <div class="custom-file">
+              <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
+                <PostalCode />
+              </div>
+              <ErrorsFor className="square-postal-code-errors" component={FormFeedback} field='creditCard.postalCode'></ErrorsFor>
+            </div>
+          </FormGroup>
+        </div>
+      </section>
+    </>
   }
 }
