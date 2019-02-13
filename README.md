@@ -1,3 +1,5 @@
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 # occsn-checkout
 
 An importable boilerplate Occasion checkout experience using React, the Occasion SDK, and Mitragyna
@@ -27,7 +29,6 @@ Then, run poi to start a local webpack hot-reloading build:
 ```bash
 $ yarn poi
 ```
-
 
 ## Build
 
