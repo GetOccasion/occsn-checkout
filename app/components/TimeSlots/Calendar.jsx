@@ -1,14 +1,14 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 
-import moment from 'moment';
-import _ from 'underscore';
+import moment from 'moment'
+import _ from 'underscore'
 
-import FullCalendar from 'fullcalendar-reactwrapper';
+import FullCalendar from 'fullcalendar-reactwrapper'
 
-import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
+import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css'
 
-import occsn from '../../libs/Occasion';
+import occsn from '../../libs/Occasion'
 
 export default class Calendar extends PureComponent {
   static propTypes = {
@@ -17,54 +17,66 @@ export default class Calendar extends PureComponent {
         PropTypes.shape({
           day: PropTypes.instanceOf(moment),
           timeSlots: PropTypes.shape({
-            __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
+            __collection: PropTypes.arrayOf(
+              PropTypes.instanceOf(occsn.TimeSlot)
+            )
           })
         })
       )
     }).isRequired,
-    onDateSelect: PropTypes.func.isRequired,
-  };
+    onDateSelect: PropTypes.func.isRequired
+  }
 
   constructor() {
-    super();
+    super()
 
-    _.bindAll(this,
-      'dateClicked'
-    );
+    _.bindAll(this, 'dateClicked')
   }
 
   dateClicked(selectedDate) {
-    const { calendarTimeSlots, onDateSelect } = this.props;
+    const { calendarTimeSlots, onDateSelect } = this.props
 
-    var timeSlotsForDay = calendarTimeSlots.detect((date) => {
-      return date.day.clone().utc().isSame(selectedDate, 'day');
-    }).timeSlots;
+    var timeSlotsForDay = calendarTimeSlots.detect(date => {
+      return date.day
+        .clone()
+        .utc()
+        .isSame(selectedDate, 'day')
+    }).timeSlots
 
-    if(!timeSlotsForDay.empty()) onDateSelect(timeSlotsForDay);
+    if (!timeSlotsForDay.empty()) onDateSelect(timeSlotsForDay)
   }
 
   render() {
-    let { calendarTimeSlots } = this.props;
+    let { calendarTimeSlots } = this.props
 
-    let events = calendarTimeSlots.map((day) => {
-      return day.timeSlots.map((timeSlot) => {
-        return {
-          start: timeSlot.startsAt.format(),
-          allDay: true,
-          rendering: 'background'
-        };
-      }).toArray();
-    }).flatten().toArray();
+    let events = calendarTimeSlots
+      .map(day => {
+        return day.timeSlots
+          .map(timeSlot => {
+            return {
+              start: timeSlot.startsAt.format(),
+              allDay: true,
+              rendering: 'background'
+            }
+          })
+          .toArray()
+      })
+      .flatten()
+      .toArray()
 
-    return <section className="calendar">
-      <FullCalendar
-        header={false}
-        dayClick={this.dateClicked}
-        defaultDate={calendarTimeSlots.first() && calendarTimeSlots.first().day}
-        events={events}
-        fixedWeekCount={5}
-        ref={(r) => this.fullCalendar = r}
-      />
-    </section>;
+    return (
+      <section className="calendar">
+        <FullCalendar
+          header={false}
+          dayClick={this.dateClicked}
+          defaultDate={
+            calendarTimeSlots.first() && calendarTimeSlots.first().day
+          }
+          events={events}
+          fixedWeekCount={5}
+          ref={r => (this.fullCalendar = r)}
+        />
+      </section>
+    )
   }
 }

@@ -1,15 +1,15 @@
-import React from 'react';
+import React from 'react'
 
-import { FormGroup, Label, FormFeedback } from 'reactstrap';
+import { FormGroup, Label, FormFeedback } from 'reactstrap'
 
-import { ErrorsFor } from 'mitragyna';
+import { ErrorsFor } from 'mitragyna'
 
 export default class CVV extends React.Component {
   shouldComponentUpdate() {
-    return false;
+    return false
   }
 
   render() {
-    return <div id="sq-cvv"></div>;
+    return <div id="sq-cvv" />
   }
 }

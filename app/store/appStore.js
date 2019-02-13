@@ -1,30 +1,30 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
-import thunkMiddleware from 'redux-thunk';
+import thunkMiddleware from 'redux-thunk'
 
-import reducers, { initialStates } from '../reducers/index.js';
+import reducers, { initialStates } from '../reducers/index.js'
 
 export default function configureStore(_) {
-  const { $$appState, $$calendarState } = initialStates;
+  const { $$appState, $$calendarState } = initialStates
 
   // Redux expects to initialize the store using an Object, not an Immutable.Map
   const initialState = {
     $$appStore: $$appState,
-    $$calendarStore: $$calendarState,
-  };
+    $$calendarStore: $$calendarState
+  }
 
   // https://github.com/reactjs/react-router-redux
   const reducer = combineReducers({
-    ...reducers,
-  });
+    ...reducers
+  })
 
   // Sync dispatched route actions to the history
   const finalCreateStore = composeWithDevTools(
     applyMiddleware(thunkMiddleware)
-  )(createStore);
+  )(createStore)
 
-  var store = finalCreateStore(reducer, initialState);
+  var store = finalCreateStore(reducer, initialState)
 
-  return store;
-};
+  return store
+}

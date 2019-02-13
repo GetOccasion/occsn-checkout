@@ -1,4 +1,4 @@
-import mirrorCreator from 'mirror-creator';
+import mirrorCreator from 'mirror-creator'
 
 const actionTypes = mirrorCreator([
   'OCCSN_BOOK_ORDER_REQUEST',
@@ -13,7 +13,7 @@ const actionTypes = mirrorCreator([
   'OCCSN_SET_ORDER',
   'OCCSN_SET_PRODUCT',
   'OCCSN_SET_PRODUCT_NOT_FOUND_ERROR',
-  'OCCSN_SET_SKIP_ATTENDEE',
-]);
+  'OCCSN_SET_SKIP_ATTENDEE'
+])
 
-export default actionTypes;
+export default actionTypes
