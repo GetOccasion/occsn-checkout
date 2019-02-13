@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-import _ from 'underscore'
-
 import Cash from './PaymentForm/Cash.jsx'
 import Spreedly from './PaymentForm/Spreedly.jsx'
 import Square from './PaymentForm/Square.jsx'
