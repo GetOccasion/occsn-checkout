@@ -195,7 +195,7 @@ export default class Redeemables extends PureComponent {
                   className="redeemable-code-input-button"
                   onClick={() => this.checkForRedeemable(code)}
                 >
-                  Search
+                  Apply
                 </Button>
               </InputGroupAddon>
             </InputGroup>
