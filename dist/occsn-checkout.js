@@ -1014,7 +1014,7 @@ function (_React$Component) {
             timeSlots: data.activeTimeSlotsCollection
           }), !data.product.sellsSessions ? React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
             xs: {
-              offset: "9"
+              offset: '9'
             }
           }), React__default.createElement(reactstrap.Col, {
             xs: "3"
@@ -1441,18 +1441,18 @@ function (_PureComponent) {
       if (order.product().depositBehavior != 'no_deposit') {
         rows.push(React__default.createElement(React__default.Fragment, null, React__default.createElement("p", {
           className: "deposit-total"
-        }, "Deposit Due Today: ", React__default.createElement(Currency, {
+        }, "Deposit Due Today:", ' ', React__default.createElement(Currency, {
           currency: currency,
           quantity: order.priceDueOnInitialOrder
         })), React__default.createElement("div", {
           className: "alert alert-info"
-        }, "A deposit of ", React__default.createElement("strong", null, React__default.createElement(Currency, {
+        }, "A deposit of", ' ', React__default.createElement("strong", null, React__default.createElement(Currency, {
           currency: currency,
           quantity: order.priceDueOnInitialOrder
-        })), " is due today and ", React__default.createElement("strong", null, React__default.createElement(Currency, {
+        })), ' ', "is due today and", ' ', React__default.createElement("strong", null, React__default.createElement(Currency, {
           currency: currency,
           quantity: order.price - order.priceDueOnInitialOrder
-        })), " will be due before the reservation date.")));
+        })), ' ', "will be due before the reservation date.")));
       }
 
       if (order.giftCardAmount && !order.giftCardAmount.isZero()) {
@@ -1646,8 +1646,8 @@ function (_PaymentServiceProvid) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "initializeForm", function () {
       Spreedly.init(global.OCCSN.spreedly_key, {
-        "numberEl": "spreedly-number",
-        "cvvEl": "spreedly-cvv"
+        numberEl: 'spreedly-number',
+        cvvEl: 'spreedly-cvv'
       });
       var spreedlyIframeInputStyles = _this.props.spreedlyIframeInputStyles;
       var defaultInputStyle = {
@@ -1676,13 +1676,13 @@ function (_PaymentServiceProvid) {
         inputStyleString += "".concat(camelCaseToDash(prop), ": ").concat(defaultInputStyle[prop], ";");
       }
 
-      Spreedly.on("ready", function () {
-        Spreedly.setFieldType("number", "text");
-        Spreedly.setNumberFormat("prettyFormat");
-        Spreedly.setPlaceholder("number", "•••• •••• •••• ••••");
-        Spreedly.setPlaceholder("cvv", "•••");
-        Spreedly.setStyle("number", inputStyleString);
-        Spreedly.setStyle("cvv", inputStyleString);
+      Spreedly.on('ready', function () {
+        Spreedly.setFieldType('number', 'text');
+        Spreedly.setNumberFormat('prettyFormat');
+        Spreedly.setPlaceholder('number', '•••• •••• •••• ••••');
+        Spreedly.setPlaceholder('cvv', '•••');
+        Spreedly.setStyle('number', inputStyleString);
+        Spreedly.setStyle('cvv', inputStyleString);
       });
       Spreedly.on('fieldEvent', function (name, type, activeEl, inputProperties) {
         if (type == 'focus') {
@@ -2170,12 +2170,12 @@ function (_PureComponent) {
           label.push(React__default.createElement("span", null, "\xA0(", React__default.createElement(Currency, {
             currency: currency.name,
             quantity: price.toNumber()
-          }), " extra)"));
+          }), ' ', "extra)"));
         } else if (question.operation == 'subtract') {
           label.push(React__default.createElement("span", null, "\xA0(", React__default.createElement(Currency, {
             currency: currency.name,
             quantity: price.toNumber()
-          }), " off)"));
+          }), ' ', "off)"));
         }
       }
 
@@ -2191,7 +2191,7 @@ function (_PureComponent) {
         label.push(React__default.createElement("span", null, "\xA0*"));
       }
 
-      var id = "answer-" + answer.question().id;
+      var id = 'answer-' + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "checkbox-container"
       }, React__default.createElement("a", {
@@ -2234,7 +2234,7 @@ function (_PureComponent) {
     key: "renderOptionTitle",
     value: function renderOptionTitle(option) {
       if (option.price) {
-        return option.title + " " + server.renderToString(React__default.createElement(Currency, {
+        return option.title + ' ' + server.renderToString(React__default.createElement(Currency, {
           quantity: Decimal(option.price),
           currency: option.question().product().merchant().currency().name
         }));
@@ -2246,7 +2246,7 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
-      var id = "answer-" + answer.question().id;
+      var id = 'answer-' + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "dropdown-container"
       }, React__default.createElement("a", {
@@ -2287,7 +2287,7 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
-      var id = "answer-" + answer.question().id;
+      var id = 'answer-' + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "option-list-container",
         tag: "fieldset"
@@ -2394,7 +2394,7 @@ function (_PureComponent) {
         }));
       }
 
-      var id = "answer-" + answer.question().id;
+      var id = 'answer-' + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "spin-button-container"
       }, React__default.createElement("a", {
@@ -2449,7 +2449,7 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
-      var id = "answer-" + answer.question().id;
+      var id = 'answer-' + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "text-area-container"
       }, React__default.createElement("a", {
@@ -2487,7 +2487,7 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
-      var id = "answer-" + answer.question().id;
+      var id = 'answer-' + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "text-input-container"
       }, React__default.createElement("a", {
@@ -2525,7 +2525,7 @@ function (_PureComponent) {
     key: "render",
     value: function render() {
       var answer = this.props.answer;
-      var id = "answer-" + answer.question().id;
+      var id = 'answer-' + answer.question().id;
       return React__default.createElement(reactstrap.FormGroup, {
         className: "waiver-container"
       }, React__default.createElement("a", {
@@ -2778,10 +2778,10 @@ function (_PureComponent) {
         className: "gift-card-title"
       }, "Gift Card - ", subject.paymentMethod().code), React__default.createElement(reactstrap.FormText, {
         className: "gift-card-remaining-balance"
-      }, "Remaining balance will be ", React__default.createElement(Currency, {
+      }, "Remaining balance will be", ' ', React__default.createElement(Currency, {
         currency: currency,
         quantity: remainingBalance.toNumber()
-      }), " after checkout."), React__default.createElement("span", {
+      }), ' ', "after checkout."), React__default.createElement("span", {
         className: "gift-card-amount"
       }, React__default.createElement(Currency, {
         currency: currency,
@@ -2983,7 +2983,7 @@ function (_PureComponent) {
         onClick: function onClick() {
           return _this2.checkForRedeemable(code);
         }
-      }, "Search"))), React__default.createElement(mitragyna.ErrorsFor, {
+      }, "Apply"))), React__default.createElement(mitragyna.ErrorsFor, {
         className: "redeemable-code-errors",
         component: reactstrap.FormFeedback,
         field: "redeemables.code"
@@ -3084,7 +3084,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetContactTitle"
-          }, React__default.createElement("h4", null, _.isNull(product.widgetContactTitle) ? "Customer Information" : product.widgetContactTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetContactTitle) ? 'Customer Information' : product.widgetContactTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
@@ -3092,7 +3092,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetTimeSlotsTitle"
-          }, React__default.createElement("h4", null, _.isNull(product.widgetTimeSlotsTitle) ? "Select which day you would like to reserve" : product.widgetTimeSlotsTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetTimeSlotsTitle) ? 'Select which day you would like to reserve' : product.widgetTimeSlotsTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
@@ -3100,7 +3100,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetQuestionsTitle"
-          }, React__default.createElement("h4", null, _.isNull(product.widgetQuestionsTitle) ? "Additional Questions" : product.widgetQuestionsTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetQuestionsTitle) ? 'Additional Questions' : product.widgetQuestionsTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
@@ -3116,7 +3116,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetPaymentTitle"
-          }, React__default.createElement("h4", null, _.isNull(product.widgetPaymentTitle) ? "Payment Information" : product.widgetPaymentTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetPaymentTitle) ? 'Payment Information' : product.widgetPaymentTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
@@ -3132,7 +3132,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetTotalDueTitle"
-          }, React__default.createElement("h4", null, _.isNull(product.widgetTotalDueTitle) ? product.depositBehavior == 'no_deposit' ? "Total Due Today" : "Deposit Due Today" : product.widgetTotalDueTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetTotalDueTitle) ? product.depositBehavior == 'no_deposit' ? 'Total Due Today' : 'Deposit Due Today' : product.widgetTotalDueTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
       }
@@ -3387,9 +3387,9 @@ function (_PureComponent) {
         className: "order-complete-messages"
       }, React__default.createElement("p", {
         className: "custom-confirmation-message"
-      }, order.product().customerConfirmationMessage), React__default.createElement("p", {
+      }, ReactHtmlParser(order.product().customerConfirmationMessage)), React__default.createElement("p", {
         className: "confirmation-email-message"
-      }, "An order confirmation email with receipt has been sent to ", order.customer().email, ".")));
+      }, "An order confirmation email with receipt has been sent to", ' ', order.customer().email, ".")));
     }
   }]);
 
@@ -3807,9 +3807,9 @@ function configureStore(_$$1) {
 
   var initialState = {
     $$appStore: $$appState,
-    $$calendarStore: $$calendarState
-  }; // https://github.com/reactjs/react-router-redux
+    $$calendarStore: $$calendarState // https://github.com/reactjs/react-router-redux
 
+  };
   var reducer = redux.combineReducers(_objectSpread({}, reducers)); // Sync dispatched route actions to the history
 
   var finalCreateStore = reduxDevtoolsExtension.composeWithDevTools(redux.applyMiddleware(thunkMiddleware))(redux.createStore);
