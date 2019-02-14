@@ -66,7 +66,10 @@ export default class Pricing extends PureComponent {
       </p>
     )
 
-    if (order.product().depositBehavior != 'no_deposit') {
+    if (
+      order.product().depositBehavior &&
+      order.product().depositBehavior != 'no_deposit'
+    ) {
       rows.push(
         <>
           <p className="deposit-total">

@@ -1438,7 +1438,7 @@ function (_PureComponent) {
         quantity: order.price
       })));
 
-      if (order.product().depositBehavior != 'no_deposit') {
+      if (order.product().depositBehavior && order.product().depositBehavior != 'no_deposit') {
         rows.push(React__default.createElement(React__default.Fragment, null, React__default.createElement("p", {
           className: "deposit-total"
         }, "Deposit Due Today:", ' ', React__default.createElement(Currency, {
@@ -3126,7 +3126,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetTotalDueTitle"
-          }, React__default.createElement("h4", null, _.isNull(product.widgetTotalDueTitle) ? product.depositBehavior == 'no_deposit' ? 'Total Due Today' : 'Deposit Due Today' : product.widgetTotalDueTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetTotalDueTitle) ? !product.depositBehavior || product.depositBehavior == 'no_deposit' ? 'Total Due Today' : 'Deposit Due Today' : product.widgetTotalDueTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
       }
