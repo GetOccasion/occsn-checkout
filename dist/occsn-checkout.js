@@ -1936,34 +1936,38 @@ function (_PaymentServiceProvid) {
   _inherits(Square, _PaymentServiceProvid);
 
   function Square() {
+    var _getPrototypeOf2;
+
+    var _this;
+
     _classCallCheck(this, Square);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Square).apply(this, arguments));
-  }
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-  _createClass(Square, [{
-    key: "initializeForm",
-    value: function initializeForm() {
-      var _this = this;
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Square)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-      var defaultInputStyle = {
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "initializeForm", function () {
+      console.log('ting');
+      var defaultInputStyles = {
         padding: '0.375em 0.75em',
         fontSize: '1em',
         lineHeight: 1.5,
         color: '#495057',
         backgroundColor: '#fff'
       };
-      var squareIframeInputStyles = this.props.squareIframeInputStyles;
+      var squareIframeInputStyles = _this.props.squareIframeInputStyles;
 
       if (squareIframeInputStyles) {
-        Object.assign(defaultInputStyle, squareIframeInputStyles);
+        inputStyles = _objectSpread({}, defaultInputStyles, squareIframeInputStyles);
       }
 
-      this.sqPaymentForm = new SqPaymentForm({
+      _this.sqPaymentForm = new SqPaymentForm({
         // Initialize the payment form elements
         applicationId: global.OCCSN.square_key,
         inputClass: 'form-control-square',
-        inputStyles: [defaultInputStyle],
+        inputStyles: [defaultInputStyles],
         // Initialize the credit card placeholders
         cardNumber: {
           elementId: 'sq-card-number',
@@ -1996,11 +2000,16 @@ function (_PaymentServiceProvid) {
           }
         }
       });
-      this.sqPaymentForm.build();
-    } // Triggers cardNonceResponseReceived event
 
-  }, {
+      _this.sqPaymentForm.build();
+    });
+
+    return _this;
+  }
+
+  _createClass(Square, [{
     key: "tokenizePaymentMethodData",
+    // Triggers cardNonceResponseReceived event
     value: function tokenizePaymentMethodData() {
       this.sqPaymentForm.requestCardNonce();
     }
