@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import Q from 'q'
 
+import _ from 'underscore'
+
 import occsn from '../../../libs/Occasion'
 
 export default class PaymentServiceProvider extends PureComponent {
@@ -12,10 +14,19 @@ export default class PaymentServiceProvider extends PureComponent {
 
   constructor() {
     super()
+
     this.reset()
+
+    _.bindAll(
+      this,
+      'buildPaymentMethod',
+      'initializeForm',
+      'tokenizePaymentMethodData',
+      'reset'
+    )
   }
 
-  buildPaymentMethod = () => {
+  buildPaymentMethod() {
     this.reset()
     this.tokenizePaymentMethodData()
 
@@ -23,11 +34,11 @@ export default class PaymentServiceProvider extends PureComponent {
   }
 
   // Sends the data contained the payment method form to the 3rd party PSP
-  tokenizePaymentMethodData = () => {
+  tokenizePaymentMethodData() {
     throw 'tokenizePaymentMethodData must be defined by subclasses'
   }
 
-  reset = () => {
+  reset() {
     this.paymentMethodDeferred = Q.defer()
   }
 }

@@ -1498,26 +1498,32 @@ function (_PureComponent) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PaymentServiceProvider).call(this));
 
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "buildPaymentMethod", function () {
-      _this.reset();
-
-      _this.tokenizePaymentMethodData();
-
-      return _this.paymentMethodDeferred.promise;
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "tokenizePaymentMethodData", function () {
-      throw 'tokenizePaymentMethodData must be defined by subclasses';
-    });
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "reset", function () {
-      _this.paymentMethodDeferred = Q.defer();
-    });
-
     _this.reset();
+
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'buildPaymentMethod', 'initializeForm', 'tokenizePaymentMethodData', 'reset');
 
     return _this;
   }
+
+  _createClass(PaymentServiceProvider, [{
+    key: "buildPaymentMethod",
+    value: function buildPaymentMethod() {
+      this.reset();
+      this.tokenizePaymentMethodData();
+      return this.paymentMethodDeferred.promise;
+    } // Sends the data contained the payment method form to the 3rd party PSP
+
+  }, {
+    key: "tokenizePaymentMethodData",
+    value: function tokenizePaymentMethodData() {
+      throw 'tokenizePaymentMethodData must be defined by subclasses';
+    }
+  }, {
+    key: "reset",
+    value: function reset() {
+      this.paymentMethodDeferred = Q.defer();
+    }
+  }]);
 
   return PaymentServiceProvider;
 }(React.PureComponent);
