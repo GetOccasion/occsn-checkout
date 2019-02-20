@@ -1500,7 +1500,7 @@ function (_PureComponent) {
 
     _this.reset();
 
-    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'buildPaymentMethod', 'initializeForm', 'tokenizePaymentMethodData', 'reset');
+    _.bindAll(_assertThisInitialized(_assertThisInitialized(_this)), 'buildPaymentMethod', 'tokenizePaymentMethodData', 'reset');
 
     return _this;
   }

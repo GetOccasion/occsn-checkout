@@ -17,13 +17,7 @@ export default class PaymentServiceProvider extends PureComponent {
 
     this.reset()
 
-    _.bindAll(
-      this,
-      'buildPaymentMethod',
-      'initializeForm',
-      'tokenizePaymentMethodData',
-      'reset'
-    )
+    _.bindAll(this, 'buildPaymentMethod', 'tokenizePaymentMethodData', 'reset')
   }
 
   buildPaymentMethod() {
