@@ -18,25 +18,24 @@ import PostalCode from './Square/PostalCode.jsx'
 export default class Square extends PaymentServiceProvider {
   initializeForm = () => {
     console.log('ting')
-    let defaultInputStyles = {
+    let inputStyles = {
       padding: '0.375em 0.75em',
       fontSize: '1em',
       lineHeight: 1.5,
       color: '#495057',
       backgroundColor: '#fff'
     }
-
     const { squareIframeInputStyles } = this.props
 
     if (squareIframeInputStyles) {
-      inputStyles = { ...defaultInputStyles, ...squareIframeInputStyles }
+      inputStyles = { ...inputStyles, ...squareIframeInputStyles }
     }
 
     this.sqPaymentForm = new SqPaymentForm({
       // Initialize the payment form elements
       applicationId: global.OCCSN.square_key,
       inputClass: 'form-control-square',
-      inputStyles: [defaultInputStyles],
+      inputStyles: [inputStyles],
 
       // Initialize the credit card placeholders
       cardNumber: {

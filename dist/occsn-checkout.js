@@ -1950,7 +1950,7 @@ function (_PaymentServiceProvid) {
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "initializeForm", function () {
       console.log('ting');
-      var defaultInputStyles = {
+      var inputStyles = {
         padding: '0.375em 0.75em',
         fontSize: '1em',
         lineHeight: 1.5,
@@ -1960,14 +1960,14 @@ function (_PaymentServiceProvid) {
       var squareIframeInputStyles = _this.props.squareIframeInputStyles;
 
       if (squareIframeInputStyles) {
-        inputStyles = _objectSpread({}, defaultInputStyles, squareIframeInputStyles);
+        inputStyles = _objectSpread({}, inputStyles, squareIframeInputStyles);
       }
 
       _this.sqPaymentForm = new SqPaymentForm({
         // Initialize the payment form elements
         applicationId: global.OCCSN.square_key,
         inputClass: 'form-control-square',
-        inputStyles: [defaultInputStyles],
+        inputStyles: [inputStyles],
         // Initialize the credit card placeholders
         cardNumber: {
           elementId: 'sq-card-number',
