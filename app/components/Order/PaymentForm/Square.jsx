@@ -16,8 +16,9 @@ import CVV from './Square/CVV.jsx'
 import PostalCode from './Square/PostalCode.jsx'
 
 export default class Square extends PaymentServiceProvider {
-  initializeForm() {
-    let defaultInputStyle = {
+  initializeForm = () => {
+    console.log('ting')
+    let defaultInputStyles = {
       padding: '0.375em 0.75em',
       fontSize: '1em',
       lineHeight: 1.5,
@@ -25,17 +26,17 @@ export default class Square extends PaymentServiceProvider {
       backgroundColor: '#fff'
     }
 
-    let { squareIframeInputStyles } = this.props
+    const { squareIframeInputStyles } = this.props
 
     if (squareIframeInputStyles) {
-      Object.assign(defaultInputStyle, squareIframeInputStyles)
+      inputStyles = { ...defaultInputStyles, ...squareIframeInputStyles }
     }
 
     this.sqPaymentForm = new SqPaymentForm({
       // Initialize the payment form elements
       applicationId: global.OCCSN.square_key,
       inputClass: 'form-control-square',
-      inputStyles: [defaultInputStyle],
+      inputStyles: [defaultInputStyles],
 
       // Initialize the credit card placeholders
       cardNumber: {
