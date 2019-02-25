@@ -33,21 +33,13 @@ export default class Checkbox extends PureComponent {
       if (question.operation == 'add') {
         label.push(
           <span>
-            &nbsp;(<Currency
-              currency={currency.name}
-              quantity={price.toNumber()}
-            />{' '}
-            extra)
+            &nbsp;(<Currency currency={currency.name} quantity={price.toNumber()} /> extra)
           </span>
         )
       } else if (question.operation == 'subtract') {
         label.push(
           <span>
-            &nbsp;(<Currency
-              currency={currency.name}
-              quantity={price.toNumber()}
-            />{' '}
-            off)
+            &nbsp;(<Currency currency={currency.name} quantity={price.toNumber()} /> off)
           </span>
         )
       }

@@ -33,8 +33,7 @@ export default class OrderComplete extends PureComponent {
             {ReactHtmlParser(order.product().customerConfirmationMessage)}
           </p>
           <p className="confirmation-email-message">
-            An order confirmation email with receipt has been sent to{' '}
-            {order.customer().email}.
+            An order confirmation email with receipt has been sent to {order.customer().email}.
           </p>
         </section>
       </section>

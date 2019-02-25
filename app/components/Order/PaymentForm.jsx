@@ -38,11 +38,7 @@ export default class PaymentForm extends PureComponent {
   }
 
   render() {
-    let {
-      order,
-      spreedlyIframeInputStyles,
-      squareIframeInputStyles
-    } = this.props
+    let { order, spreedlyIframeInputStyles, squareIframeInputStyles } = this.props
 
     let pspFormProps = {
       order,
@@ -62,17 +58,9 @@ export default class PaymentForm extends PureComponent {
           {
             cash: <Cash {...pspFormProps} />,
             spreedly: (
-              <Spreedly
-                {...pspFormProps}
-                spreedlyIframeInputStyles={spreedlyIframeInputStyles}
-              />
+              <Spreedly {...pspFormProps} spreedlyIframeInputStyles={spreedlyIframeInputStyles} />
             ),
-            square: (
-              <Square
-                {...pspFormProps}
-                squareIframeInputStyles={squareIframeInputStyles}
-              />
-            )
+            square: <Square {...pspFormProps} squareIframeInputStyles={squareIframeInputStyles} />
           }[this.paymentServiceProvider()]
         }
         {order.product().merchant().canRetainCards && (

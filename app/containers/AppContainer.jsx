@@ -31,9 +31,7 @@ function stateToProps(state) {
       order: state.$$appStore.get('order'),
       product: state.$$appStore.get('product'),
       productNotFoundError: state.$$appStore.get('productNotFoundError'),
-      activeTimeSlotsCollection: state.$$calendarStore.get(
-        'activeTimeSlotsCollection'
-      ),
+      activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
       timeSlotsFromCalendar: state.$$calendarStore.get('timeSlotsFromCalendar')
     }
   }
@@ -46,12 +44,10 @@ function dispatchToProps(dispatch) {
       bookOrder: order => dispatch(appActions.bookOrder(order)),
       findRedeemable: (product, code, onSuccess, onError) =>
         dispatch(appActions.findRedeemable(product, code, onSuccess, onError)),
-      loadProduct: () =>
-        dispatch(appActions.loadProduct(window.OCCSN.product_id)),
+      loadProduct: () => dispatch(appActions.loadProduct(window.OCCSN.product_id)),
       saveOrder: order => dispatch(appActions.saveOrder(order)),
       setOrder: order => dispatch(appActions.setOrder(order)),
-      setSkipAttendee: (attendee, skip) =>
-        dispatch(appActions.setSkipAttendee(attendee, skip))
+      setSkipAttendee: (attendee, skip) => dispatch(appActions.setSkipAttendee(attendee, skip))
     }
   }
 }
@@ -118,9 +114,7 @@ export class AppContainer extends PureComponent {
     }
 
     if (callbacks && callbacks.onPersonalInformationComplete) {
-      this.onPersonalInformationComplete = _.once(
-        callbacks.onPersonalInformationComplete
-      )
+      this.onPersonalInformationComplete = _.once(callbacks.onPersonalInformationComplete)
     }
   }
 
@@ -151,10 +145,7 @@ export class AppContainer extends PureComponent {
           !order
             .attendees()
             .target()
-            .detect(
-              (a, index) =>
-                !(a.complete() || nextProps.data.skipAttendees[index])
-            ) &&
+            .detect((a, index) => !(a.complete() || nextProps.data.skipAttendees[index])) &&
           nextProps.data.order.status == 'initialized'
         ) {
           this.onPersonalInformationComplete(nextProps.data.order)
@@ -163,8 +154,7 @@ export class AppContainer extends PureComponent {
     }
 
     if (data.product == null && nextProps.data.product != null) {
-      if (callbacks && callbacks.onProductLoad)
-        callbacks.onProductLoad(nextProps.data.product)
+      if (callbacks && callbacks.onProductLoad) callbacks.onProductLoad(nextProps.data.product)
     } else if (data.productNotFoundError) {
       if (callbacks && callbacks.onProductNotFound)
         callbacks.onProductNotFound(data.productNotFoundError)
@@ -260,12 +250,7 @@ export class AppContainer extends PureComponent {
     if (window.OCCSN.coupon_code) {
       promises.push(
         new Promise(resolve => {
-          actions.findRedeemable(
-            product,
-            window.OCCSN.coupon_code,
-            coupon => resolve(coupon),
-            null
-          )
+          actions.findRedeemable(product, window.OCCSN.coupon_code, coupon => resolve(coupon), null)
         })
       )
     } else {

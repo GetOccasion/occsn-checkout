@@ -5,15 +5,7 @@ import Decimal from 'decimal.js-light'
 import _ from 'underscore'
 
 import { Field } from 'mitragyna'
-import {
-  Button,
-  FormGroup,
-  FormText,
-  Label,
-  Input,
-  InputGroup,
-  InputGroupAddon
-} from 'reactstrap'
+import { Button, FormGroup, FormText, Label, Input, InputGroup, InputGroupAddon } from 'reactstrap'
 import Currency from 'react-currency-formatter'
 
 import occsn from '../../../libs/Occasion'
@@ -76,10 +68,7 @@ export default class SpinButton extends PureComponent {
       priceContribution = (
         <span>
           {answer.value} x {question.price} =&nbsp;
-          <Currency
-            currency={currency}
-            quantity={price.times(value).toNumber()}
-          />
+          <Currency currency={currency} quantity={price.times(value).toNumber()} />
         </span>
       )
     }
@@ -101,25 +90,15 @@ export default class SpinButton extends PureComponent {
             ref={r => (this.fieldRef = r)}
           />
           <InputGroupAddon addonType="append">
-            <Button
-              className="spin-button-minus"
-              color="secondary"
-              onClick={this.decrementValue}
-            >
+            <Button className="spin-button-minus" color="secondary" onClick={this.decrementValue}>
               -
             </Button>
-            <Button
-              className="spin-button-plus"
-              color="secondary"
-              onClick={this.incrementValue}
-            >
+            <Button className="spin-button-plus" color="secondary" onClick={this.incrementValue}>
               +
             </Button>
           </InputGroupAddon>
         </InputGroup>
-        <FormText className="spin-button-calculation">
-          {priceContribution}
-        </FormText>
+        <FormText className="spin-button-calculation">{priceContribution}</FormText>
       </FormGroup>
     )
   }

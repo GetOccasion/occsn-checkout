@@ -65,9 +65,7 @@ export default class Square extends PaymentServiceProvider {
               })
             )
           } else {
-            this.paymentMethodDeferred.resolve(
-              occsn.CreditCard.build({ id: nonce })
-            )
+            this.paymentMethodDeferred.resolve(occsn.CreditCard.build({ id: nonce }))
           }
         }
       }
@@ -84,19 +82,13 @@ export default class Square extends PaymentServiceProvider {
   render() {
     return (
       <>
-        <Script
-          url="https://js.squareup.com/v2/paymentform"
-          onLoad={this.initializeForm}
-        />
+        <Script url="https://js.squareup.com/v2/paymentform" onLoad={this.initializeForm} />
         <section className="square-container">
           <div id="sq-ccbox">
             <FormGroup className="square-card-number">
               <Label>Card Number</Label>
               <div class="custom-file">
-                <div
-                  className="custom-file-input is-invalid"
-                  style={{ opacity: 1 }}
-                >
+                <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
                   <CardNumber />
                 </div>
                 <ErrorsFor
@@ -112,10 +104,7 @@ export default class Square extends PaymentServiceProvider {
                 <Col className="square-expiration" xs="6">
                   <Label>Expiration Date</Label>
                   <div class="custom-file">
-                    <div
-                      className="custom-file-input is-invalid"
-                      style={{ opacity: 1 }}
-                    >
+                    <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
                       <ExpirationDate />
                     </div>
                     <ErrorsFor
@@ -135,10 +124,7 @@ export default class Square extends PaymentServiceProvider {
             <FormGroup className="square-postal-code">
               <Label>Postal Code</Label>
               <div class="custom-file">
-                <div
-                  className="custom-file-input is-invalid"
-                  style={{ opacity: 1 }}
-                >
+                <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
                   <PostalCode />
                 </div>
                 <ErrorsFor

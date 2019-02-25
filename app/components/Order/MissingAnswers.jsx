@@ -66,22 +66,14 @@ export default class MissingAnswers extends PureComponent {
     } else {
       return (
         <Alert color="secondary" className="missing-answers">
-          <p className="missing-answers-text">
-            Please complete the following fields:
-          </p>
+          <p className="missing-answers-text">Please complete the following fields:</p>
           <ul className="missing-answers-list">
             {this.missingRequiredAnswers()
               .map(a => {
                 return (
                   <li className="missing-answer">
                     {callbackProps.onMissingAnswerClicked ? (
-                      <a
-                        onClick={() =>
-                          callbackProps.onMissingAnswerClicked(a.id)
-                        }
-                      >
-                        {a.label}
-                      </a>
+                      <a onClick={() => callbackProps.onMissingAnswerClicked(a.id)}>{a.label}</a>
                     ) : (
                       a.label
                     )}

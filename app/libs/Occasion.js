@@ -8,11 +8,7 @@ let options = {
 
 let url = window.OCCSN.host_url
 if (url != undefined) {
-  options.baseUrl = ActiveResource.prototype.Links.__constructLink(
-    url,
-    'api',
-    'v1'
-  )
+  options.baseUrl = ActiveResource.prototype.Links.__constructLink(url, 'api', 'v1')
 }
 
 var occsn = Occasion.Client(options)

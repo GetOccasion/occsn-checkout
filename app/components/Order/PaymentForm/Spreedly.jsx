@@ -55,9 +55,7 @@ export default class SpreedlyIframe extends PaymentServiceProvider {
     }
 
     const focusInputStyle =
-      'color: #495057;' +
-      '  background-color: #fff;' +
-      '  border-color: #80bdff;'
+      'color: #495057;' + '  background-color: #fff;' + '  border-color: #80bdff;'
 
     if (spreedlyIframeInputStyles) {
       Object.assign(defaultInputStyle, spreedlyIframeInputStyles)
@@ -66,9 +64,7 @@ export default class SpreedlyIframe extends PaymentServiceProvider {
     // Covert to string and hyphen-case the keys
     let inputStyleString = ''
     for (let prop in defaultInputStyle) {
-      inputStyleString += `${camelCaseToDash(prop)}: ${
-        defaultInputStyle[prop]
-      };`
+      inputStyleString += `${camelCaseToDash(prop)}: ${defaultInputStyle[prop]};`
     }
 
     Spreedly.on('ready', function() {
@@ -165,10 +161,7 @@ export default class SpreedlyIframe extends PaymentServiceProvider {
           <FormGroup className="spreedly-card-number">
             <Label>Credit Card Number</Label>
             <div class="custom-file">
-              <div
-                className="custom-file-input is-invalid"
-                style={{ opacity: 1 }}
-              >
+              <div className="custom-file-input is-invalid" style={{ opacity: 1 }}>
                 <CardNumber />
               </div>
               <ErrorsFor

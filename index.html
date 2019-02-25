@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title><%= htmlWebpackPlugin.options.title %></title>
 
     <% if (htmlWebpackPlugin.options.description) { %>
-        <meta name="description" content="<%= htmlWebpackPlugin.options.description %>"/>
+    <meta
+      name="description"
+      content="<%= htmlWebpackPlugin.options.description %>"
+    />
     <% } %>
 
     <script>
       window.OCCSN = {
         api_key: '3fab810787084bf188db835a76643778',
         host_url: 'http://noisacco.lvh.me:3000',
-        product_id: 'modern_product',
+        product_id: 'drop_ins',
         spreedly_key: 'CYJy65Wq5dmc2dGFVQOp6eci1Ka',
-        square_key: 'sandbox-sq0idp-kKdgouNdlT2lj08V0tSJ3g',
+        square_key: 'sandbox-sq0idp-kKdgouNdlT2lj08V0tSJ3g'
         // time_slot_id: 'ut3zvqcJ',
         // coupon_code: 'TEST'
-      };
+      }
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <noscript>
-        You need to enable JavaScript to run this app.
+      You need to enable JavaScript to run this app.
     </noscript>
     <div class="container-fluid">
       <div id="occsn-app"></div>
     </div>
-</body>
+  </body>
 </html>

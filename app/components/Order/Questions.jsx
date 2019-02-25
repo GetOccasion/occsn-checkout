@@ -26,10 +26,7 @@ export default class Questions extends PureComponent {
               case 'text_output':
                 if (question.displayAsTitle) {
                   return (
-                    <legend
-                      className="question text-output-title"
-                      key={question.id}
-                    >
+                    <legend className="question text-output-title" key={question.id}>
                       {question.title}
                     </legend>
                   )

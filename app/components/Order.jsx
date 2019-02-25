@@ -50,13 +50,7 @@ export default class Order extends PureComponent {
 
   constructor() {
     super()
-    _.bindAll(
-      this,
-      'allowedToBookOrder',
-      'headerForSection',
-      'showPaymentForm',
-      'showPrice'
-    )
+    _.bindAll(this, 'allowedToBookOrder', 'headerForSection', 'showPaymentForm', 'showPrice')
   }
 
   allowedToBookOrder() {
@@ -65,9 +59,7 @@ export default class Order extends PureComponent {
     if (!subject || !this.missingAnswers) return false
 
     return (
-      !bookingOrder &&
-      !savingOrder &&
-      this.missingAnswers.missingRequiredAnswers(subject).empty()
+      !bookingOrder && !savingOrder && this.missingAnswers.missingRequiredAnswers(subject).empty()
     )
   }
 
@@ -165,8 +157,7 @@ export default class Order extends PureComponent {
           <div className="container-title" id="widgetTotalDueTitle">
             <h4>
               {_.isNull(product.widgetTotalDueTitle)
-                ? !product.depositBehavior ||
-                  product.depositBehavior == 'no_deposit'
+                ? !product.depositBehavior || product.depositBehavior == 'no_deposit'
                   ? 'Total Due Today'
                   : 'Deposit Due Today'
                 : product.widgetTotalDueTitle}
@@ -230,8 +221,7 @@ export default class Order extends PureComponent {
     return (
       !product.free &&
       product.hasRedeemables &&
-      ((subject.subtotal && !subject.subtotal.isZero()) ||
-        window.OCCSN.coupon_code)
+      ((subject.subtotal && !subject.subtotal.isZero()) || window.OCCSN.coupon_code)
     )
   }
 
@@ -245,11 +235,7 @@ export default class Order extends PureComponent {
 
     if (subject.newResource()) return false
 
-    return !(
-      product.free ||
-      !subject.outstandingBalance ||
-      subject.outstandingBalance.isZero()
-    )
+    return !(product.free || !subject.outstandingBalance || subject.outstandingBalance.isZero())
   }
 
   // Determines if should show the price output
@@ -287,8 +273,7 @@ export default class Order extends PureComponent {
       </Button>
     )
 
-    if (callbackProps.onBookOrderButtonRender)
-      callbackProps.onBookOrderButtonRender(button)
+    if (callbackProps.onBookOrderButtonRender) callbackProps.onBookOrderButtonRender(button)
 
     return button
   }
@@ -322,21 +307,14 @@ export default class Order extends PureComponent {
           <section className="customer-container" id="customer-container">
             <a name="customer" id="customer-anchor" />
             {this.headerForSection('contact')}
-            <Resource
-              component={Customer}
-              reflection="customer"
-              subject={customer}
-            />
+            <Resource component={Customer} reflection="customer" subject={customer} />
           </section>
 
           {this.showQuestions() && (
             <section className="questions-container" id="questions-container">
               <a name="questions" id="questions-anchor" />
               {this.headerForSection('questions')}
-              <Questions
-                subject={subject}
-                questions={product.questions().target()}
-              />
+              <Questions subject={subject} questions={product.questions().target()} />
             </section>
           )}
 
@@ -356,10 +334,7 @@ export default class Order extends PureComponent {
 
         <section className="payments-container" id="payments-container">
           {this.showRedeemables() && (
-            <section
-              className="redeemables-container"
-              id="redeemables-container"
-            >
+            <section className="redeemables-container" id="redeemables-container">
               <a name="redeemables" id="redeemables-anchor" />
               {this.headerForSection('redeemables')}
               <Redeemables
@@ -394,15 +369,9 @@ export default class Order extends PureComponent {
           )}
         </section>
 
-        <section
-          className="missing-answers-container"
-          id="missing-answers-container"
-        >
+        <section className="missing-answers-container" id="missing-answers-container">
           <a name="missing-answers" />
-          <MissingAnswers
-            order={subject}
-            ref={r => (this.missingAnswers = r)}
-          />
+          <MissingAnswers order={subject} ref={r => (this.missingAnswers = r)} />
         </section>
 
         <section className="order-errors-container" id="order-errors-container">

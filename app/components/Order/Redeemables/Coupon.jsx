@@ -8,15 +8,7 @@ import occsn from '../../../libs/Occasion'
 
 import Currency from 'react-currency-formatter'
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-  Col,
-  Row
-} from 'reactstrap'
+import { Button, Card, CardBody, CardTitle, CardText, Col, Row } from 'reactstrap'
 
 export default class Coupon extends PureComponent {
   static propTypes = {
@@ -35,10 +27,7 @@ export default class Coupon extends PureComponent {
     let discount
     if (!_.isNull(subject.discountFixed)) {
       discount = (
-        <Currency
-          currency={currency}
-          quantity={Decimal(subject.discountFixed).toNumber()}
-        />
+        <Currency currency={currency} quantity={Decimal(subject.discountFixed).toNumber()} />
       )
     } else {
       discount = <span>{subject.discountPercentage}%</span>

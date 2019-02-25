@@ -44,9 +44,7 @@ export default class Attendee extends PureComponent {
               .map(q => {
                 return (
                   <FormGroup className="attendee-input-container">
-                    <Label for={'attendee-' + indexOf + '-' + q}>
-                      {_.humanize(q)}
-                    </Label>
+                    <Label for={'attendee-' + indexOf + '-' + q}>{_.humanize(q)}</Label>
                     <Field
                       type="text"
                       name={q}

@@ -17,8 +17,7 @@ export default class Cash extends PaymentServiceProvider {
     return (
       <section className="cash-container">
         <Alert color="warning" className="cash">
-          No payment required at this time. Payment will be collected at the
-          venue.
+          No payment required at this time. Payment will be collected at the venue.
         </Alert>
       </section>
     )

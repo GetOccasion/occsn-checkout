@@ -24,11 +24,7 @@ export default class Customer extends PureComponent {
             component={Input}
             invalidClassName="is-invalid"
           />
-          <ErrorsFor
-            className="customer-email-errors"
-            component={FormFeedback}
-            field="email"
-          />
+          <ErrorsFor className="customer-email-errors" component={FormFeedback} field="email" />
         </FormGroup>
         <FormGroup className="customer-first-name-form-group">
           <Label for="firstName">First Name*</Label>
@@ -72,11 +68,7 @@ export default class Customer extends PureComponent {
             component={Input}
             invalidClassName="is-invalid"
           />
-          <ErrorsFor
-            className="customer-zip-errors"
-            component={FormFeedback}
-            field="zip"
-          />
+          <ErrorsFor className="customer-zip-errors" component={FormFeedback} field="zip" />
         </FormGroup>
       </section>
     )

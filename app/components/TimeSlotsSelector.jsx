@@ -63,13 +63,7 @@ export default class TimeSlotsSelector extends React.Component {
   }
 
   render() {
-    let {
-      calendar,
-      disabled,
-      timeSlots,
-      showAvailability,
-      subject
-    } = this.props
+    let { calendar, disabled, timeSlots, showAvailability, subject } = this.props
     let { formatProps } = this.context
 
     var customControlInputClassNames = classNames('custom-control-input', {

@@ -40,11 +40,7 @@ export default function appReducer($$state = $$initialState, action) {
       return $$state.merge({ productNotFoundError: action.error })
     case actionTypes.OCCSN_SET_SKIP_ATTENDEE:
       return $$state.merge({
-        skipAttendees: setSkipAttendee(
-          $$state.get('skipAttendees'),
-          action.attendee,
-          action.skip
-        )
+        skipAttendees: setSkipAttendee($$state.get('skipAttendees'), action.attendee, action.skip)
       })
     default:
       return $$state

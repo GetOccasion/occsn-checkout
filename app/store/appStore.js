@@ -20,9 +20,7 @@ export default function configureStore(_) {
   })
 
   // Sync dispatched route actions to the history
-  const finalCreateStore = composeWithDevTools(
-    applyMiddleware(thunkMiddleware)
-  )(createStore)
+  const finalCreateStore = composeWithDevTools(applyMiddleware(thunkMiddleware))(createStore)
 
   var store = finalCreateStore(reducer, initialState)
 

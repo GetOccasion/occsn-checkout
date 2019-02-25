@@ -119,8 +119,7 @@ export default class Redeemables extends PureComponent {
     const { order } = this.props
 
     return (
-      (order.outstandingBalance && !order.outstandingBalance.isZero()) ||
-      _.isNull(order.coupon())
+      (order.outstandingBalance && !order.outstandingBalance.isZero()) || _.isNull(order.coupon())
     )
   }
 
@@ -149,9 +148,7 @@ export default class Redeemables extends PureComponent {
 
     let redeemables = []
     if (!_.isNull(order.coupon())) {
-      redeemables.push(
-        <Coupon currency={currency.name} subject={order.coupon()} />
-      )
+      redeemables.push(<Coupon currency={currency.name} subject={order.coupon()} />)
     }
 
     let giftCardTransactions = order
@@ -162,9 +159,7 @@ export default class Redeemables extends PureComponent {
       })
 
     giftCardTransactions.each(giftCardTransaction => {
-      redeemables.push(
-        <GiftCard currency={currency.name} subject={giftCardTransaction} />
-      )
+      redeemables.push(<GiftCard currency={currency.name} subject={giftCardTransaction} />)
     })
 
     return (

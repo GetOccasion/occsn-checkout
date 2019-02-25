@@ -17,9 +17,7 @@ export default class Calendar extends PureComponent {
         PropTypes.shape({
           day: PropTypes.instanceOf(moment),
           timeSlots: PropTypes.shape({
-            __collection: PropTypes.arrayOf(
-              PropTypes.instanceOf(occsn.TimeSlot)
-            )
+            __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
           })
         })
       )
@@ -69,9 +67,7 @@ export default class Calendar extends PureComponent {
         <FullCalendar
           header={false}
           dayClick={this.dateClicked}
-          defaultDate={
-            calendarTimeSlots.first() && calendarTimeSlots.first().day
-          }
+          defaultDate={calendarTimeSlots.first() && calendarTimeSlots.first().day}
           events={events}
           fixedWeekCount={5}
           ref={r => (this.fullCalendar = r)}

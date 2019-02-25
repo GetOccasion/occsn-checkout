@@ -8,16 +8,7 @@ import occsn from '../../../libs/Occasion'
 
 import Currency from 'react-currency-formatter'
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-  Col,
-  FormText,
-  Row
-} from 'reactstrap'
+import { Button, Card, CardBody, CardTitle, CardText, Col, FormText, Row } from 'reactstrap'
 
 export default class GiftCard extends PureComponent {
   static propTypes = {
@@ -56,23 +47,14 @@ export default class GiftCard extends PureComponent {
             </CardTitle>
             <FormText className="gift-card-remaining-balance">
               Remaining balance will be{' '}
-              <Currency
-                currency={currency}
-                quantity={remainingBalance.toNumber()}
-              />{' '}
-              after checkout.
+              <Currency currency={currency} quantity={remainingBalance.toNumber()} /> after
+              checkout.
             </FormText>
             <span className="gift-card-amount">
-              <Currency
-                currency={currency}
-                quantity={transactionValue.toNumber()}
-              />&nbsp;/&nbsp;
+              <Currency currency={currency} quantity={transactionValue.toNumber()} />&nbsp;/&nbsp;
             </span>
             <span className="gift-card-value">
-              <Currency
-                currency={currency}
-                quantity={giftCardValue.toNumber()}
-              />
+              <Currency currency={currency} quantity={giftCardValue.toNumber()} />
             </span>
           </CardText>
         </CardBody>

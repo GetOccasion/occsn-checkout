@@ -32,9 +32,7 @@ export default class OrderErrors extends PureComponent {
     } else {
       return (
         <Alert color="danger" className="order-errors">
-          <p className="order-errors-text">
-            The following errors occurred while booking:
-          </p>
+          <p className="order-errors-text">The following errors occurred while booking:</p>
           <ul className="order-errors-list">
             {order
               .errors()

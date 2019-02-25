@@ -29,11 +29,7 @@ export default class Paginator extends PureComponent {
     let { cachedPages } = this.state
     const { cached, preloadPages, timeSlotsCollection } = this.props
 
-    if (
-      cached &&
-      cachedPages.length == 0 &&
-      !nextProps.timeSlotsCollection.empty()
-    ) {
+    if (cached && cachedPages.length == 0 && !nextProps.timeSlotsCollection.empty()) {
       cachedPages.push(nextProps.timeSlotsCollection)
       this.loadNextTimeSlotPages(preloadPages, nextProps.timeSlotsCollection)
     }
@@ -46,10 +42,7 @@ export default class Paginator extends PureComponent {
     this.setState({ currentPage: ++currentPage })
     if (cached && cachedPages[currentPage]) {
       if (!loading && cachedPages.length <= currentPage + preloadPages / 2) {
-        this.loadNextTimeSlotPages(
-          preloadPages,
-          cachedPages[cachedPages.length - 1]
-        )
+        this.loadNextTimeSlotPages(preloadPages, cachedPages[cachedPages.length - 1])
       }
       onChange(cachedPages[currentPage])
     } else {
