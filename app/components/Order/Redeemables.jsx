@@ -184,6 +184,11 @@ export default class Redeemables extends PureComponent {
                 onFocus={() => this.setState({ focused: true })}
                 onBlur={() => this.setState({ focused: false })}
                 value={code}
+                onKeyPress={event => {
+                  if (event.key == 'Enter') {
+                    this.checkForRedeemable(code)
+                  }
+                }}
               />
               <InputGroupAddon addonType="append">
                 <Button
