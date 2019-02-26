@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 
 import { Row, Col } from 'reactstrap'
 
-import { Resource } from 'mitragyna'
-
 import * as appActions from '../actions/appActions'
 import * as calendarActions from '../actions/calendarActions'
 
@@ -20,9 +18,7 @@ function stateToProps(state) {
   return {
     data: {
       product: state.$$appStore.get('product'),
-      activeTimeSlotsCollection: state.$$calendarStore.get(
-        'activeTimeSlotsCollection'
-      ),
+      activeTimeSlotsCollection: state.$$calendarStore.get('activeTimeSlotsCollection'),
       timeSlotsFromCalendar: state.$$calendarStore.get('timeSlotsFromCalendar')
     }
   }
@@ -32,10 +28,8 @@ function stateToProps(state) {
 function dispatchToProps(dispatch) {
   return {
     actions: {
-      loadProductCalendar: product =>
-        dispatch(calendarActions.loadProductCalendar(product)),
-      loadProductTimeSlots: product =>
-        dispatch(calendarActions.loadProductTimeSlots(product)),
+      loadProductCalendar: product => dispatch(calendarActions.loadProductCalendar(product)),
+      loadProductTimeSlots: product => dispatch(calendarActions.loadProductTimeSlots(product)),
       saveOrder: order => dispatch(appActions.saveOrder(order)),
       setOrder: order => dispatch(appActions.setOrder(order)),
       setActiveTimeSlotsCollection: timeSlots =>
@@ -67,8 +61,7 @@ export class TimeSlotsContainer extends React.Component {
         actions.loadProductCalendar(data.product)
         break
       case 'list':
-        if (data.product.requiresTimeSlotSelection)
-          actions.loadProductTimeSlots(data.product)
+        if (data.product.requiresTimeSlotSelection) actions.loadProductTimeSlots(data.product)
         break
     }
 
@@ -86,8 +79,7 @@ export class TimeSlotsContainer extends React.Component {
     const { actions } = this.props
     const { callbackProps } = this.context
 
-    if (callbackProps.onDateSelect)
-      callbackProps.onDateSelect(timeSlotsFromCalendar)
+    if (callbackProps.onDateSelect) callbackProps.onDateSelect(timeSlotsFromCalendar)
 
     actions.setTimeSlotsFromCalendar(timeSlotsFromCalendar)
   }
@@ -105,9 +97,7 @@ export class TimeSlotsContainer extends React.Component {
   render() {
     const { data } = this.props
 
-    return (
-      <section className="time-slots">{this.renderTimeSlotsScreen()}</section>
-    )
+    return <section className="time-slots">{this.renderTimeSlotsScreen()}</section>
   }
 
   renderLoadingScreen() {
@@ -133,9 +123,7 @@ export class TimeSlotsContainer extends React.Component {
               <Col xs="9">
                 <h3>
                   {data.activeTimeSlotsCollection.first() &&
-                    data.activeTimeSlotsCollection
-                      .first()
-                      .day.format('MMMM YYYY')}
+                    data.activeTimeSlotsCollection.first().day.format('MMMM YYYY')}
                 </h3>
               </Col>
               <Col xs="3">
@@ -153,9 +141,7 @@ export class TimeSlotsContainer extends React.Component {
             <a name="time-slots-selector" id="time-slots-selector-anchor" />
             {data.timeSlotsFromCalendar.first() ? (
               <h3 className="calendar-date-selected">
-                {data.timeSlotsFromCalendar
-                  .first()
-                  .startsAt.format('dddd, MMMM Do')}
+                {data.timeSlotsFromCalendar.first().startsAt.format('dddd, MMMM Do')}
               </h3>
             ) : null}
             <TimeSlotsSelector
@@ -165,20 +151,14 @@ export class TimeSlotsContainer extends React.Component {
               subject={order}
               timeSlots={data.timeSlotsFromCalendar}
             />
-            {data.activeTimeSlotsCollection.empty()
-              ? this.renderLoadingScreen()
-              : null}
+            {data.activeTimeSlotsCollection.empty() ? this.renderLoadingScreen() : null}
           </section>
         )
       case 'list':
         return (
           <section className="list-view">
-            {data.product.sellsSessions ? (
-              <p>Sessions are purchased together</p>
-            ) : null}
-            {data.product.sellsDropIns ? (
-              <p>Select the time slots you want to add:</p>
-            ) : null}
+            {data.product.sellsSessions ? <p>Sessions are purchased together</p> : null}
+            {data.product.sellsDropIns && <p>Select the time slots you want to add:</p>}
             <a name="time-slots-selector" id="time-slots-selector-anchor" />
             <TimeSlotsSelector
               disabled={data.product.sellsSessions}
@@ -187,6 +167,39 @@ export class TimeSlotsContainer extends React.Component {
               subject={order}
               timeSlots={data.activeTimeSlotsCollection}
             />
+
+            {data.product.dropInsDiscountPercentage &&
+            data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() > 0 ? (
+              <div className="drop-ins-discount alert alert-secondary">
+                {order.dropInsDiscountAppliesToWholeOrder ? (
+                  <>
+                    Get <strong>{data.product.dropInsDiscountPercentage}%</strong> discount if you
+                    select {data.product.dropInsDiscountDaysThreshold - order.timeSlots().size()} or
+                    more dates
+                  </>
+                ) : (
+                  <>
+                    An automatic discount is applied when you select{' '}
+                    {data.product.dropInsDiscountDaysThreshold - order.timeSlots().size()} or more
+                    dates
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="drop-ins-discount alert alert-success">
+                {order.dropInsDiscountAppliesToWholeOrder ? (
+                  <>
+                    🎉 You got <strong>{data.product.dropInsDiscountPercentage}%</strong> off
+                    because you selected more than {data.product.dropInsDiscountDaysThreshold} dates
+                  </>
+                ) : (
+                  <>
+                    🎉 You got a discount because you selected more than{' '}
+                    {data.product.dropInsDiscountDaysThreshold} dates
+                  </>
+                )}
+              </div>
+            )}
             {!data.product.sellsSessions ? (
               <Row>
                 <Col xs={{ offset: '9' }} />
@@ -201,9 +214,7 @@ export class TimeSlotsContainer extends React.Component {
                 </Col>
               </Row>
             ) : null}
-            {data.activeTimeSlotsCollection.empty()
-              ? this.renderLoadingScreen()
-              : null}
+            {data.activeTimeSlotsCollection.empty() ? this.renderLoadingScreen() : null}
           </section>
         )
     }

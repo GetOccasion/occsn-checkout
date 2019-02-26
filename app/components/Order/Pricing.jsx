@@ -5,8 +5,6 @@ import Currency from 'react-currency-formatter'
 import Decimal from 'decimal.js-light'
 import _ from 'underscore'
 
-import { Card, CardBody, CardText } from 'reactstrap'
-
 import occsn from '../../libs/Occasion'
 
 export default class Pricing extends PureComponent {
@@ -26,7 +24,7 @@ export default class Pricing extends PureComponent {
 
     var displaySubtotal = false
 
-    if (!_.isNull(order.coupon())) {
+    if (Decimal(order.couponAmount).isPositive()) {
       displaySubtotal = true
 
       rows.push(
@@ -34,13 +32,31 @@ export default class Pricing extends PureComponent {
           <span>Coupon Discount: </span>
           <Currency
             currency={currency}
-            quantity={order.couponAmount.neg().toNumber()}
+            quantity={Decimal(order.couponAmount)
+              .neg()
+              .toNumber()}
           />
         </p>
       )
     }
 
-    if (Decimal(order.taxPercentage).toNumber() > 0.0) {
+    if (Decimal(order.dropInsDiscount).isPositive()) {
+      displaySubtotal = true
+
+      rows.push(
+        <p className="drop-ins-discount">
+          <span>Drop In Discount: </span>
+          <Currency
+            currency={currency}
+            quantity={Decimal(order.dropInsDiscount)
+              .neg()
+              .toNumber()}
+          />
+        </p>
+      )
+    }
+
+    if (Decimal(order.taxPercentage).isPositive()) {
       displaySubtotal = true
 
       rows.push(
@@ -66,28 +82,17 @@ export default class Pricing extends PureComponent {
       </p>
     )
 
-    if (
-      order.product().depositBehavior &&
-      order.product().depositBehavior != 'no_deposit'
-    ) {
+    if (order.product().depositBehavior && order.product().depositBehavior != 'no_deposit') {
       rows.push(
         <>
           <p className="deposit-total">
             Deposit Due Today:{' '}
-            <Currency
-              currency={currency}
-              quantity={order.priceDueOnInitialOrder}
-            />
+            <Currency currency={currency} quantity={order.priceDueOnInitialOrder} />
           </p>
           <div className="alert alert-info">
             A deposit of{' '}
             <strong>
-              {
-                <Currency
-                  currency={currency}
-                  quantity={order.priceDueOnInitialOrder}
-                />
-              }
+              {<Currency currency={currency} quantity={order.priceDueOnInitialOrder} />}
             </strong>{' '}
             is due today and{' '}
             <strong>
@@ -104,21 +109,15 @@ export default class Pricing extends PureComponent {
       )
     }
 
-    if (order.giftCardAmount && !order.giftCardAmount.isZero()) {
+    if (order.giftCardAmount && order.giftCardAmount.isPositive()) {
       rows.push(
         <p className="gift-card-amount">
           <span>Gift Cards: </span>
-          <Currency
-            currency={currency}
-            quantity={order.giftCardAmount.neg().toNumber()}
-          />
+          <Currency currency={currency} quantity={order.giftCardAmount.neg().toNumber()} />
         </p>,
         <p className="outstanding-balance">
           <span>Balance due today: </span>
-          <Currency
-            currency={currency}
-            quantity={order.outstandingBalance.toNumber()}
-          />
+          <Currency currency={currency} quantity={order.outstandingBalance.toNumber()} />
         </p>
       )
     }
