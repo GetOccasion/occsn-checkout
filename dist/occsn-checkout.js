@@ -1003,7 +1003,7 @@ function (_React$Component) {
         case 'list':
           return React__default.createElement("section", {
             className: "list-view"
-          }, data.product.sellsSessions ? React__default.createElement("p", null, "Sessions are purchased together") : null, data.product.sellsDropIns ? React__default.createElement("p", null, "Select the time slots you want to add:") : null, React__default.createElement("a", {
+          }, data.product.sellsSessions ? React__default.createElement("p", null, "Sessions are purchased together") : null, data.product.sellsDropIns && React__default.createElement("p", null, "Select the time slots you want to add:"), React__default.createElement("a", {
             name: "time-slots-selector",
             id: "time-slots-selector-anchor"
           }), React__default.createElement(TimeSlotsSelector, {
@@ -1012,7 +1012,11 @@ function (_React$Component) {
             showAvailability: data.product.showOccurrenceAvailability,
             subject: order,
             timeSlots: data.activeTimeSlotsCollection
-          }), !data.product.sellsSessions ? React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
+          }), data.product.dropInsDiscountPercentage && data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() > 0 ? React__default.createElement("div", {
+            className: "drop-ins-discount alert alert-secondary"
+          }, order.dropInsDiscountAppliesToWholeOrder ? React__default.createElement(React__default.Fragment, null, "Get ", React__default.createElement("strong", null, data.product.dropInsDiscountPercentage, "%"), " discount if you select ", data.product.dropInsDiscountDaysThreshold - order.timeSlots().size(), " or more dates") : React__default.createElement(React__default.Fragment, null, "An automatic discount is applied when you select", ' ', data.product.dropInsDiscountDaysThreshold - order.timeSlots().size(), " or more dates")) : React__default.createElement("div", {
+            className: "drop-ins-discount alert alert-success"
+          }, order.dropInsDiscountAppliesToWholeOrder ? React__default.createElement(React__default.Fragment, null, "\uD83C\uDF89 You got ", React__default.createElement("strong", null, data.product.dropInsDiscountPercentage, "%"), " off because you selected more than ", data.product.dropInsDiscountDaysThreshold, " dates") : React__default.createElement(React__default.Fragment, null, "\uD83C\uDF89 You got a discount because you selected more than", ' ', data.product.dropInsDiscountDaysThreshold, " dates")), !data.product.sellsSessions ? React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
             xs: {
               offset: '9'
             }
@@ -1402,17 +1406,27 @@ function (_PureComponent) {
       var currency = order.product().merchant().currency().name;
       var displaySubtotal = false;
 
-      if (!_.isNull(order.coupon())) {
+      if (Decimal(order.couponAmount).isPositive()) {
         displaySubtotal = true;
         rows.push(React__default.createElement("p", {
           className: "coupon-discount"
         }, React__default.createElement("span", null, "Coupon Discount: "), React__default.createElement(Currency, {
           currency: currency,
-          quantity: order.couponAmount.neg().toNumber()
+          quantity: Decimal(order.couponAmount).neg().toNumber()
         })));
       }
 
-      if (Decimal(order.taxPercentage).toNumber() > 0.0) {
+      if (Decimal(order.dropInsDiscount).isPositive()) {
+        displaySubtotal = true;
+        rows.push(React__default.createElement("p", {
+          className: "drop-ins-discount"
+        }, React__default.createElement("span", null, "Drop In Discount: "), React__default.createElement(Currency, {
+          currency: currency,
+          quantity: Decimal(order.dropInsDiscount).neg().toNumber()
+        })));
+      }
+
+      if (Decimal(order.taxPercentage).isPositive()) {
         displaySubtotal = true;
         rows.push(React__default.createElement("p", {
           className: "tax"
@@ -1455,7 +1469,7 @@ function (_PureComponent) {
         })), ' ', "will be due before the reservation date.")));
       }
 
-      if (order.giftCardAmount && !order.giftCardAmount.isZero()) {
+      if (order.giftCardAmount && order.giftCardAmount.isPositive()) {
         rows.push(React__default.createElement("p", {
           className: "gift-card-amount"
         }, React__default.createElement("span", null, "Gift Cards: "), React__default.createElement(Currency, {
@@ -2185,12 +2199,12 @@ function (_PureComponent) {
           label.push(React__default.createElement("span", null, "\xA0(", React__default.createElement(Currency, {
             currency: currency.name,
             quantity: price.toNumber()
-          }), ' ', "extra)"));
+          }), " extra)"));
         } else if (question.operation == 'subtract') {
           label.push(React__default.createElement("span", null, "\xA0(", React__default.createElement(Currency, {
             currency: currency.name,
             quantity: price.toNumber()
-          }), ' ', "off)"));
+          }), " off)"));
         }
       }
 
@@ -2796,7 +2810,7 @@ function (_PureComponent) {
       }, "Remaining balance will be", ' ', React__default.createElement(Currency, {
         currency: currency,
         quantity: remainingBalance.toNumber()
-      }), ' ', "after checkout."), React__default.createElement("span", {
+      }), " after checkout."), React__default.createElement("span", {
         className: "gift-card-amount"
       }, React__default.createElement(Currency, {
         currency: currency,
@@ -2990,7 +3004,12 @@ function (_PureComponent) {
             focused: false
           });
         },
-        value: code
+        value: code,
+        onKeyPress: function onKeyPress(event) {
+          if (event.key == 'Enter') {
+            _this2.checkForRedeemable(code);
+          }
+        }
       }), React__default.createElement(reactstrap.InputGroupAddon, {
         addonType: "append"
       }, React__default.createElement(reactstrap.Button, {
@@ -3404,7 +3423,7 @@ function (_PureComponent) {
         className: "custom-confirmation-message"
       }, ReactHtmlParser(order.product().customerConfirmationMessage)), React__default.createElement("p", {
         className: "confirmation-email-message"
-      }, "An order confirmation email with receipt has been sent to", ' ', order.customer().email, ".")));
+      }, "An order confirmation email with receipt has been sent to ", order.customer().email, ".")));
     }
   }]);
 
