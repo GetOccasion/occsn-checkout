@@ -169,19 +169,26 @@ export class TimeSlotsContainer extends React.Component {
             />
 
             {data.product.dropInsDiscountPercentage &&
-            data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() > 0 ? (
+            data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() >= 0 ? (
               <div className="drop-ins-discount alert alert-secondary">
                 {order.dropInsDiscountAppliesToWholeOrder ? (
                   <>
-                    Get <strong>{data.product.dropInsDiscountPercentage}%</strong> discount if you
-                    select {data.product.dropInsDiscountDaysThreshold - order.timeSlots().size()} or
-                    more dates
+                    Get <strong>{data.product.dropInsDiscountPercentage}%</strong> discount
+                  </>
+                ) : (
+                  <>An automatic discount is applied</>
+                )}
+                {order.timeSlots().size() == 0 ? (
+                  <>
+                    {' '}
+                    when you select {data.product.dropInsDiscountDaysThreshold + 1} or more dates
                   </>
                 ) : (
                   <>
-                    An automatic discount is applied when you select{' '}
-                    {data.product.dropInsDiscountDaysThreshold - order.timeSlots().size()} or more
-                    dates
+                    {' '}
+                    when you select{' '}
+                    {data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() + 1} more
+                    date(s)
                   </>
                 )}
               </div>
@@ -190,12 +197,13 @@ export class TimeSlotsContainer extends React.Component {
                 {order.dropInsDiscountAppliesToWholeOrder ? (
                   <>
                     🎉 You got <strong>{data.product.dropInsDiscountPercentage}%</strong> off
-                    because you selected more than {data.product.dropInsDiscountDaysThreshold} dates
+                    because you selected {data.product.dropInsDiscountDaysThreshold + 1} or more
+                    dates
                   </>
                 ) : (
                   <>
-                    🎉 You got a discount because you selected more than{' '}
-                    {data.product.dropInsDiscountDaysThreshold} dates
+                    🎉 You got a discount because you selected{' '}
+                    {data.product.dropInsDiscountDaysThreshold + 1} or more dates
                   </>
                 )}
               </div>
