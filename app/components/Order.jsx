@@ -372,6 +372,14 @@ export default class Order extends PureComponent {
             </section>
           )}
 
+          {this.showPrice() && (
+            <section className="total-due-container" id="total-due-container">
+              <a name="total-due" id="total-due-anchor" />
+              {this.headerForSection('totalDue')}
+              <Pricing order={subject} />
+            </section>
+          )}
+
           {this.showPaymentForm() && (
             <section className="payment-container" id="payment-container">
               <a name="payment" id="payment-anchor" />
@@ -382,14 +390,6 @@ export default class Order extends PureComponent {
                 squareIframeInputStyles={squareIframeInputStyles}
                 ref={form => (this.paymentForm = form)}
               />
-            </section>
-          )}
-
-          {this.showPrice() && (
-            <section className="total-due-container" id="total-due-container">
-              <a name="total-due" id="total-due-anchor" />
-              {this.headerForSection('totalDue')}
-              <Pricing order={subject} />
             </section>
           )}
         </section>
