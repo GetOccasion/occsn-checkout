@@ -2129,6 +2129,7 @@ function (_PureComponent) {
           _this2.pspForm = form;
         }
       };
+      var currency = order.product().merchant().currency().name;
       return React__default.createElement("section", {
         className: "payment"
       }, {
@@ -2139,7 +2140,12 @@ function (_PureComponent) {
         square: React__default.createElement(Square, _extends({}, pspFormProps, {
           squareIframeInputStyles: squareIframeInputStyles
         }))
-      }[this.paymentServiceProvider()], this.paymentServiceProvider() != 'cash' ? null // TODO @kieranklaassen Replace this line with padlock code
+      }[this.paymentServiceProvider()], order.product().merchant().canRetainCards && React__default.createElement("div", {
+        className: "alert alert-secondary"
+      }, "Your credit card will be stored so we can charge the remaining", ' ', React__default.createElement(Currency, {
+        currency: currency,
+        quantity: order.price - order.priceDueOnInitialOrder
+      }), ' ', "before the reservation date."), this.paymentServiceProvider() != 'cash' ? null // TODO @kieranklaassen Replace this line with padlock code
       : null);
     }
   }]);
@@ -3294,6 +3300,14 @@ function (_PureComponent) {
         ref: function ref(r) {
           return _this2.redeemables = r;
         }
+      })), this.showPrice() && React__default.createElement("section", {
+        className: "total-due-container",
+        id: "total-due-container"
+      }, React__default.createElement("a", {
+        name: "total-due",
+        id: "total-due-anchor"
+      }), this.headerForSection('totalDue'), React__default.createElement(Pricing, {
+        order: subject
       })), this.showPaymentForm() && React__default.createElement("section", {
         className: "payment-container",
         id: "payment-container"
@@ -3307,14 +3321,6 @@ function (_PureComponent) {
         ref: function ref(form) {
           return _this2.paymentForm = form;
         }
-      })), this.showPrice() && React__default.createElement("section", {
-        className: "total-due-container",
-        id: "total-due-container"
-      }, React__default.createElement("a", {
-        name: "total-due",
-        id: "total-due-anchor"
-      }), this.headerForSection('totalDue'), React__default.createElement(Pricing, {
-        order: subject
       }))), React__default.createElement("section", {
         className: "missing-answers-container",
         id: "missing-answers-container"
