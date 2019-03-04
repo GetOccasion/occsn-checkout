@@ -7274,8 +7274,8 @@ obuf@^1.0.0, obuf@^1.1.2:
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
 
 "occasion-sdk@git+https://github.com/GetOccasion/occasion-sdk-js.git":
-  version "0.2.2"
-  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#9d8a5842e825c6d8c0003f7aca022f804c11617a"
+  version "0.2.3"
+  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#cea4eefa78fd292caa67b5eb809fb944e1927bf9"
   dependencies:
     active-resource "https://github.com/GetOccasion/activeresource.js.git"
     decimal.js-light "^2.4.1"
