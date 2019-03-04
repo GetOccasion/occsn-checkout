@@ -169,45 +169,47 @@ export class TimeSlotsContainer extends React.Component {
             />
 
             {data.product.dropInsDiscountPercentage &&
-            data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() >= 0 ? (
-              <div className="drop-ins-discount alert alert-secondary">
-                {order.dropInsDiscountAppliesToWholeOrder ? (
-                  <>
-                    Get <strong>{data.product.dropInsDiscountPercentage}%</strong> discount
-                  </>
-                ) : (
-                  <>An automatic discount is applied</>
-                )}
-                {order.timeSlots().size() == 0 ? (
-                  <>
-                    {' '}
-                    when you select {data.product.dropInsDiscountDaysThreshold + 1} or more dates
-                  </>
-                ) : (
-                  <>
-                    {' '}
-                    when you select{' '}
-                    {data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() + 1} more
-                    date(s)
-                  </>
-                )}
-              </div>
-            ) : (
-              <div className="drop-ins-discount alert alert-success">
-                {order.dropInsDiscountAppliesToWholeOrder ? (
-                  <>
-                    🎉 You got <strong>{data.product.dropInsDiscountPercentage}%</strong> off
-                    because you selected {data.product.dropInsDiscountDaysThreshold + 1} or more
-                    dates
-                  </>
-                ) : (
-                  <>
-                    🎉 You got a discount because you selected{' '}
-                    {data.product.dropInsDiscountDaysThreshold + 1} or more dates
-                  </>
-                )}
-              </div>
-            )}
+              (data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() >= 0 ? (
+                <div className="drop-ins-discount alert alert-secondary">
+                  {order.dropInsDiscountAppliesToWholeOrder ? (
+                    <>
+                      Get <strong>{data.product.dropInsDiscountPercentage}%</strong> discount
+                    </>
+                  ) : (
+                    <>An automatic discount is applied</>
+                  )}
+                  {order.timeSlots().size() == 0 ? (
+                    <>
+                      {' '}
+                      when you select {data.product.dropInsDiscountDaysThreshold + 1} or more dates
+                    </>
+                  ) : (
+                    <>
+                      {' '}
+                      when you select{' '}
+                      {data.product.dropInsDiscountDaysThreshold -
+                        order.timeSlots().size() +
+                        1}{' '}
+                      more date(s)
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="drop-ins-discount alert alert-success">
+                  {order.dropInsDiscountAppliesToWholeOrder ? (
+                    <>
+                      🎉 You got <strong>{data.product.dropInsDiscountPercentage}%</strong> off
+                      because you selected {data.product.dropInsDiscountDaysThreshold + 1} or more
+                      dates
+                    </>
+                  ) : (
+                    <>
+                      🎉 You got a discount because you selected{' '}
+                      {data.product.dropInsDiscountDaysThreshold + 1} or more dates
+                    </>
+                  )}
+                </div>
+              ))}
             {!data.product.sellsSessions ? (
               <Row>
                 <Col xs={{ offset: '9' }} />
