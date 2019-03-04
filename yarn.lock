@@ -7275,7 +7275,7 @@ obuf@^1.0.0, obuf@^1.1.2:
 
 "occasion-sdk@git+https://github.com/GetOccasion/occasion-sdk-js.git":
   version "0.2.3"
-  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#cea4eefa78fd292caa67b5eb809fb944e1927bf9"
+  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#69a4dc7da40b48b0700dfb69d452afdeb731e73b"
   dependencies:
     active-resource "https://github.com/GetOccasion/activeresource.js.git"
     decimal.js-light "^2.4.1"
