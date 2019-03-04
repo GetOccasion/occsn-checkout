@@ -191,7 +191,7 @@ export class TimeSlotsContainer extends React.Component {
                       {data.product.dropInsDiscountDaysThreshold -
                         order.timeSlots().size() +
                         1}{' '}
-                      more date(s)
+                      more time slot(s)
                     </>
                   )}
                 </div>
