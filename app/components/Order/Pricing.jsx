@@ -45,7 +45,7 @@ export default class Pricing extends PureComponent {
 
       rows.push(
         <p className="drop-ins-discount">
-          <span>Drop In Discount: </span>
+          <span>Multi-Date Discount: </span>
           <Currency
             currency={currency}
             quantity={Decimal(order.dropInsDiscount)

@@ -181,7 +181,8 @@ export class TimeSlotsContainer extends React.Component {
                   {order.timeSlots().size() == 0 ? (
                     <>
                       {' '}
-                      when you select {data.product.dropInsDiscountDaysThreshold + 1} or more dates
+                      when you select {data.product.dropInsDiscountDaysThreshold + 1} or more time
+                      slots
                     </>
                   ) : (
                     <>
@@ -200,12 +201,12 @@ export class TimeSlotsContainer extends React.Component {
                     <>
                       🎉 You got <strong>{data.product.dropInsDiscountPercentage}%</strong> off
                       because you selected {data.product.dropInsDiscountDaysThreshold + 1} or more
-                      dates
+                      time slots
                     </>
                   ) : (
                     <>
                       🎉 You got a discount because you selected{' '}
-                      {data.product.dropInsDiscountDaysThreshold + 1} or more dates
+                      {data.product.dropInsDiscountDaysThreshold + 1} or more time slots
                     </>
                   )}
                 </div>

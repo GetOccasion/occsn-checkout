@@ -1014,9 +1014,9 @@ function (_React$Component) {
             timeSlots: data.activeTimeSlotsCollection
           }), data.product.dropInsDiscountPercentage && (data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() >= 0 ? React__default.createElement("div", {
             className: "drop-ins-discount alert alert-secondary"
-          }, order.dropInsDiscountAppliesToWholeOrder ? React__default.createElement(React__default.Fragment, null, "Get ", React__default.createElement("strong", null, data.product.dropInsDiscountPercentage, "%"), " discount") : React__default.createElement(React__default.Fragment, null, "An automatic discount is applied"), order.timeSlots().size() == 0 ? React__default.createElement(React__default.Fragment, null, ' ', "when you select ", data.product.dropInsDiscountDaysThreshold + 1, " or more dates") : React__default.createElement(React__default.Fragment, null, ' ', "when you select", ' ', data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() + 1, ' ', "more date(s)")) : React__default.createElement("div", {
+          }, order.dropInsDiscountAppliesToWholeOrder ? React__default.createElement(React__default.Fragment, null, "Get ", React__default.createElement("strong", null, data.product.dropInsDiscountPercentage, "%"), " discount") : React__default.createElement(React__default.Fragment, null, "An automatic discount is applied"), order.timeSlots().size() == 0 ? React__default.createElement(React__default.Fragment, null, ' ', "when you select ", data.product.dropInsDiscountDaysThreshold + 1, " or more time slots") : React__default.createElement(React__default.Fragment, null, ' ', "when you select", ' ', data.product.dropInsDiscountDaysThreshold - order.timeSlots().size() + 1, ' ', "more date(s)")) : React__default.createElement("div", {
             className: "drop-ins-discount alert alert-success"
-          }, order.dropInsDiscountAppliesToWholeOrder ? React__default.createElement(React__default.Fragment, null, "\uD83C\uDF89 You got ", React__default.createElement("strong", null, data.product.dropInsDiscountPercentage, "%"), " off because you selected ", data.product.dropInsDiscountDaysThreshold + 1, " or more dates") : React__default.createElement(React__default.Fragment, null, "\uD83C\uDF89 You got a discount because you selected", ' ', data.product.dropInsDiscountDaysThreshold + 1, " or more dates"))), !data.product.sellsSessions ? React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
+          }, order.dropInsDiscountAppliesToWholeOrder ? React__default.createElement(React__default.Fragment, null, "\uD83C\uDF89 You got ", React__default.createElement("strong", null, data.product.dropInsDiscountPercentage, "%"), " off because you selected ", data.product.dropInsDiscountDaysThreshold + 1, " or more time slots") : React__default.createElement(React__default.Fragment, null, "\uD83C\uDF89 You got a discount because you selected", ' ', data.product.dropInsDiscountDaysThreshold + 1, " or more time slots"))), !data.product.sellsSessions ? React__default.createElement(reactstrap.Row, null, React__default.createElement(reactstrap.Col, {
             xs: {
               offset: '9'
             }
@@ -1420,7 +1420,7 @@ function (_PureComponent) {
         displaySubtotal = true;
         rows.push(React__default.createElement("p", {
           className: "drop-ins-discount"
-        }, React__default.createElement("span", null, "Drop In Discount: "), React__default.createElement(Currency, {
+        }, React__default.createElement("span", null, "Multi-Date Discount: "), React__default.createElement(Currency, {
           currency: currency,
           quantity: Decimal(order.dropInsDiscount).neg().toNumber()
         })));
