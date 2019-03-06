@@ -56,12 +56,12 @@ export default class Pricing extends PureComponent {
       )
     }
 
-    if (Decimal(order.taxPercentage).isPositive()) {
+    if (order.taxPercentage.isPositive()) {
       displaySubtotal = true
 
       rows.push(
         <p className="tax">
-          <span>Tax ({order.taxPercentage}%): </span>
+          <span>Tax ({order.taxPercentage.toNumber()}%): </span>
           <Currency currency={currency} quantity={order.tax} />
         </p>
       )

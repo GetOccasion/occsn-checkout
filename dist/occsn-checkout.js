@@ -1426,11 +1426,11 @@ function (_PureComponent) {
         })));
       }
 
-      if (Decimal(order.taxPercentage).isPositive()) {
+      if (order.taxPercentage.isPositive()) {
         displaySubtotal = true;
         rows.push(React__default.createElement("p", {
           className: "tax"
-        }, React__default.createElement("span", null, "Tax (", order.taxPercentage, "%): "), React__default.createElement(Currency, {
+        }, React__default.createElement("span", null, "Tax (", order.taxPercentage.toNumber(), "%): "), React__default.createElement(Currency, {
           currency: currency,
           quantity: order.tax
         })));
