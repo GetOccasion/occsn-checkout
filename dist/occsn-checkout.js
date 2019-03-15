@@ -3655,9 +3655,7 @@ function (_PureComponent) {
       }
 
       if (window.OCCSN.time_slot_id) {
-        promises.push(product.timeSlots().includes({
-          product: 'merchant'
-        }).where({
+        promises.push(product.timeSlots().where({
           status: 'bookable'
         }).find(window.OCCSN.time_slot_id));
       }
