@@ -1062,16 +1062,16 @@ acorn@>=2.5.2, acorn@^5.0.0, acorn@^5.0.3, acorn@^5.3.0, acorn@^5.4.1, acorn@^5.
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.1.tgz#f095829297706a7c9776958c0afc8930a9b9d9d8"
   integrity sha512-d+nbxBUGKg7Arpsvbnlq61mc12ek3EY8EQldM3GPAhWJ1UVxC6TDGbIvUMNU6obBX3i1+ptCIzV4vq0gFPEGVQ==
 
-active-resource@1.0.0-beta.3:
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/active-resource/-/active-resource-1.0.0-beta.3.tgz#493d2a08ad3295a2d48182261b8b534027b11049"
-  integrity sha512-EXqy6KxWW4tcNN15ZWftlq+Mpho2TdCKGXKlDWdMukFX6GzDBpP9IJPLwZcbtYqPhClqS+rqp87f0DRU+78Mcw==
+active-resource@1.0.0-alpha.2:
+  version "1.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/active-resource/-/active-resource-1.0.0-alpha.2.tgz#180df6fab397b0fa2b012f6b6a2a62eb5f460f20"
+  integrity sha512-3OcMuP/qGUku9WjjwlssoFPgB3t9X/NYFcI2uJl8sGa2wtNl6i6JSbuhi32Cg8Jtkyh9NzYpK+tjQTHBSszBUA==
   dependencies:
     axios "^0.16.2"
     es6-promise "^4.1.1"
     qs "^6.5.0"
     underscore "1.8.3"
-    underscore.inflection "^1.3.3"
+    underscore.inflection latest
     underscore.string latest
 
 address@^1.0.1:
@@ -7233,9 +7233,9 @@ obuf@^1.0.0, obuf@^1.1.2:
 
 "occasion-sdk@git+https://github.com/GetOccasion/occasion-sdk-js.git":
   version "0.2.3"
-  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#ba4f892c5ecbcbb06942a158c4ef7935b589a742"
+  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#ac276f383c31600b1663630ef1eeb08ac37c4dbe"
   dependencies:
-    active-resource "1.0.0-beta.3"
+    active-resource "1.0.0-alpha.2"
     decimal.js-light "^2.4.1"
     moment "^2.22.1"
     moment-timezone-with-data-2010-2020 "^0.4.0"
@@ -10140,7 +10140,7 @@ uglifyjs-webpack-plugin@^1.2.4:
     webpack-sources "^1.1.0"
     worker-farm "^1.5.2"
 
-underscore.inflection@^1.3.3:
+underscore.inflection@latest:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/underscore.inflection/-/underscore.inflection-1.3.3.tgz#80afc119393878783a03cb2923d6ed5b4e277283"
   integrity sha512-DwnTzoQUp5B+JBl26OcTGBgmCa7Enxtrj1gUHixOCCFvMf7LzMX7U+odu3VLMDwzfSmhPMblspbEeK77ohreCQ==
