@@ -1062,15 +1062,14 @@ acorn@>=2.5.2, acorn@^5.0.0, acorn@^5.0.3, acorn@^5.3.0, acorn@^5.4.1, acorn@^5.
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.1.tgz#f095829297706a7c9776958c0afc8930a9b9d9d8"
   integrity sha512-d+nbxBUGKg7Arpsvbnlq61mc12ek3EY8EQldM3GPAhWJ1UVxC6TDGbIvUMNU6obBX3i1+ptCIzV4vq0gFPEGVQ==
 
-active-resource@1.0.0-alpha.2:
+"active-resource@https://github.com/GetOccasion/activeresource.js.git":
   version "1.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/active-resource/-/active-resource-1.0.0-alpha.2.tgz#180df6fab397b0fa2b012f6b6a2a62eb5f460f20"
-  integrity sha512-3OcMuP/qGUku9WjjwlssoFPgB3t9X/NYFcI2uJl8sGa2wtNl6i6JSbuhi32Cg8Jtkyh9NzYpK+tjQTHBSszBUA==
+  resolved "https://github.com/GetOccasion/activeresource.js.git#1dc9ef9ea632b1e8bd421baeac10bd1047eb35b0"
   dependencies:
     axios "^0.16.2"
     es6-promise "^4.1.1"
     qs "^6.5.0"
-    underscore "1.8.3"
+    underscore "^1.8.3"
     underscore.inflection latest
     underscore.string latest
 
@@ -7233,9 +7232,9 @@ obuf@^1.0.0, obuf@^1.1.2:
 
 "occasion-sdk@git+https://github.com/GetOccasion/occasion-sdk-js.git":
   version "0.2.3"
-  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#ac276f383c31600b1663630ef1eeb08ac37c4dbe"
+  resolved "git+https://github.com/GetOccasion/occasion-sdk-js.git#d508dada711e138278caaab5e836147c52e19170"
   dependencies:
-    active-resource "1.0.0-alpha.2"
+    active-resource "https://github.com/GetOccasion/activeresource.js.git"
     decimal.js-light "^2.4.1"
     moment "^2.22.1"
     moment-timezone-with-data-2010-2020 "^0.4.0"
@@ -10152,11 +10151,6 @@ underscore.string@latest:
   dependencies:
     sprintf-js "^1.0.3"
     util-deprecate "^1.0.2"
-
-underscore@1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
-  integrity sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI=
 
 underscore@^1.8.3:
   version "1.9.1"
