@@ -19,8 +19,12 @@ export default function configureStore(_) {
     ...reducers
   })
 
+  const middleware = [thunkMiddleware]
+
+  if (LogRocket) middleware.push(LogRocket.reduxMiddleware())
+
   // Sync dispatched route actions to the history
-  const finalCreateStore = composeWithDevTools(applyMiddleware(thunkMiddleware))(createStore)
+  const finalCreateStore = composeWithDevTools(applyMiddleware(...middleware))(createStore)
 
   var store = finalCreateStore(reducer, initialState)
 

@@ -389,12 +389,21 @@ function saveOrderRequestComplete() {
   };
 }
 function setOrder(order) {
+  if (bugsnagClient && order.customer()) {
+    bugsnagClient.user.name = "".concat(order.customer().firstName, " ").concat(order.customer().lastName);
+  }
+
   return {
     type: actionTypes.OCCSN_SET_ORDER,
     order: order
   };
 }
 function setProduct(product) {
+  if (bugsnagClient) {
+    bugsnagClient.user.merchant_id = product.merchant().id;
+    bugsnagClient.user.merchant_name = product.merchant().name;
+  }
+
   return {
     type: actionTypes.OCCSN_SET_PRODUCT,
     product: product
@@ -3842,14 +3851,17 @@ function configureStore(_$$1) {
     $$calendarStore: $$calendarState // https://github.com/reactjs/react-router-redux
 
   };
-  var reducer = redux.combineReducers(_objectSpread({}, reducers)); // Sync dispatched route actions to the history
+  var reducer = redux.combineReducers(_objectSpread({}, reducers));
+  var middleware = [thunkMiddleware];
+  if (LogRocket) middleware.push(LogRocket.reduxMiddleware()); // Sync dispatched route actions to the history
 
-  var finalCreateStore = reduxDevtoolsExtension.composeWithDevTools(redux.applyMiddleware(thunkMiddleware))(redux.createStore);
+  var finalCreateStore = reduxDevtoolsExtension.composeWithDevTools(redux.applyMiddleware.apply(void 0, middleware))(redux.createStore);
   var store = finalCreateStore(reducer, initialState);
   return store;
 }
 
 var store = configureStore();
+LogRocket.reduxMiddleware;
 
 var OccsnCheckout =
 /*#__PURE__*/

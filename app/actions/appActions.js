@@ -132,6 +132,10 @@ export function saveOrderRequestComplete() {
 }
 
 export function setOrder(order) {
+  if (bugsnagClient && order.customer()) {
+    bugsnagClient.user.name = `${order.customer().firstName} ${order.customer().lastName}`
+  }
+
   return {
     type: actionTypes.OCCSN_SET_ORDER,
     order
@@ -139,6 +143,11 @@ export function setOrder(order) {
 }
 
 export function setProduct(product) {
+  if (bugsnagClient) {
+    bugsnagClient.user.merchant_id = product.merchant().id
+    bugsnagClient.user.merchant_name = product.merchant().name
+  }
+
   return {
     type: actionTypes.OCCSN_SET_PRODUCT,
     product
