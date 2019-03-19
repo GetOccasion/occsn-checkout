@@ -389,8 +389,8 @@ function saveOrderRequestComplete() {
   };
 }
 function setOrder(order) {
-  if (bugsnagClient && order.customer()) {
-    bugsnagClient.user.name = "".concat(order.customer().firstName, " ").concat(order.customer().lastName);
+  if (window.bugsnagClient && order.customer()) {
+    window.bugsnagClient.user.name = "".concat(order.customer().firstName, " ").concat(order.customer().lastName);
   }
 
   return {
@@ -399,9 +399,9 @@ function setOrder(order) {
   };
 }
 function setProduct(product) {
-  if (bugsnagClient) {
-    bugsnagClient.user.merchant_id = product.merchant().id;
-    bugsnagClient.user.merchant_name = product.merchant().name;
+  if (window.bugsnagClient) {
+    window.bugsnagClient.user.merchant_id = product.merchant().id;
+    window.bugsnagClient.user.merchant_name = product.merchant().name;
   }
 
   return {
@@ -3853,7 +3853,7 @@ function configureStore(_$$1) {
   };
   var reducer = redux.combineReducers(_objectSpread({}, reducers));
   var middleware = [thunkMiddleware];
-  if (LogRocket) middleware.push(LogRocket.reduxMiddleware()); // Sync dispatched route actions to the history
+  if (window.LogRocket) middleware.push(window.LogRocket.reduxMiddleware()); // Sync dispatched route actions to the history
 
   var finalCreateStore = reduxDevtoolsExtension.composeWithDevTools(redux.applyMiddleware.apply(void 0, middleware))(redux.createStore);
   var store = finalCreateStore(reducer, initialState);
@@ -3861,7 +3861,6 @@ function configureStore(_$$1) {
 }
 
 var store = configureStore();
-LogRocket.reduxMiddleware;
 
 var OccsnCheckout =
 /*#__PURE__*/

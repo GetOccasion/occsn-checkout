@@ -132,8 +132,8 @@ export function saveOrderRequestComplete() {
 }
 
 export function setOrder(order) {
-  if (bugsnagClient && order.customer()) {
-    bugsnagClient.user.name = `${order.customer().firstName} ${order.customer().lastName}`
+  if (window.bugsnagClient && order.customer()) {
+    window.bugsnagClient.user.name = `${order.customer().firstName} ${order.customer().lastName}`
   }
 
   return {
@@ -143,9 +143,9 @@ export function setOrder(order) {
 }
 
 export function setProduct(product) {
-  if (bugsnagClient) {
-    bugsnagClient.user.merchant_id = product.merchant().id
-    bugsnagClient.user.merchant_name = product.merchant().name
+  if (window.bugsnagClient) {
+    window.bugsnagClient.user.merchant_id = product.merchant().id
+    window.bugsnagClient.user.merchant_name = product.merchant().name
   }
 
   return {
