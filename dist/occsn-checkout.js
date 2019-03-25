@@ -1415,6 +1415,16 @@ function (_PureComponent) {
       var currency = order.product().merchant().currency().name;
       var displaySubtotal = false;
 
+      if (order.serviceFee.isPositive()) {
+        displaySubtotal = true;
+        rows.push(React__default.createElement("p", {
+          className: "coupon-discount"
+        }, React__default.createElement("span", null, order.serviceFeeDescription ? order.serviceFeeDescription : 'Service Fee', ": "), React__default.createElement(Currency, {
+          currency: currency,
+          quantity: order.serviceFee.toNumber()
+        })));
+      }
+
       if (Decimal(order.couponAmount).isPositive()) {
         displaySubtotal = true;
         rows.push(React__default.createElement("p", {

@@ -24,6 +24,17 @@ export default class Pricing extends PureComponent {
 
     var displaySubtotal = false
 
+    if (order.serviceFee.isPositive()) {
+      displaySubtotal = true
+
+      rows.push(
+        <p className="coupon-discount">
+          <span>{order.serviceFeeDescription ? order.serviceFeeDescription : 'Service Fee'}: </span>
+          <Currency currency={currency} quantity={order.serviceFee.toNumber()} />
+        </p>
+      )
+    }
+
     if (Decimal(order.couponAmount).isPositive()) {
       displaySubtotal = true
 
