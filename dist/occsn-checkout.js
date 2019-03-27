@@ -350,21 +350,31 @@ function saveOrder(order) {
     function () {
       var _ref2 = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(dispatch) {
+      regeneratorRuntime.mark(function _callee2(dispatch, getState) {
+        var savingOrder;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 dispatch(saveOrderRequest());
-                _context2.next = 3;
+                savingOrder = getState().$$appStore.get('savingOrder');
+
+                if (!(order.persisted() || savingOrder <= 1)) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _context2.next = 5;
                 return order.save();
 
-              case 3:
+              case 5:
                 order = _context2.sent;
                 dispatch(setOrder(order));
+
+              case 7:
                 dispatch(saveOrderRequestComplete());
 
-              case 6:
+              case 8:
               case "end":
                 return _context2.stop();
             }
@@ -372,7 +382,7 @@ function saveOrder(order) {
         }, _callee2, this);
       }));
 
-      return function (_x2) {
+      return function (_x2, _x3) {
         return _ref2.apply(this, arguments);
       };
     }()
@@ -3400,7 +3410,7 @@ _defineProperty(Order, "propTypes", {
   findRedeemable: PropTypes.func.isRequired,
   onSubmit: PropTypes.func,
   saveOrder: PropTypes.func,
-  savingOrder: PropTypes.bool,
+  savingOrder: PropTypes.number,
   setSkipAttendee: PropTypes.func,
   skipAttendees: PropTypes.object,
   subject: PropTypes.instanceOf(occsn.Order).isRequired,
@@ -3547,7 +3557,9 @@ function (_PureComponent) {
           this.checkPrefilledAttributes(nextProps.data.product);
         }
 
-        if (this.onOrderChange) this.onOrderChange(nextProps.data.order);
+        if (this.onOrderChange && data.order != nextProps.data.order) {
+          this.onOrderChange(nextProps.data.order);
+        }
 
         if (this.onOrderComplete && nextProps.data.order.status == 'booked') {
           this.onOrderComplete(nextProps.data.order);
