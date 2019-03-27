@@ -35,7 +35,7 @@ export default class Order extends PureComponent {
     findRedeemable: PropTypes.func.isRequired,
     onSubmit: PropTypes.func,
     saveOrder: PropTypes.func,
-    savingOrder: PropTypes.bool,
+    savingOrder: PropTypes.number,
     setSkipAttendee: PropTypes.func,
     skipAttendees: PropTypes.object,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
