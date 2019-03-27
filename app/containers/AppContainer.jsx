@@ -128,7 +128,10 @@ export class AppContainer extends PureComponent {
         this.checkPrefilledAttributes(nextProps.data.product)
       }
 
-      if (this.onOrderChange) this.onOrderChange(nextProps.data.order)
+      if (this.onOrderChange && data.order != nextProps.data.order) {
+        this.onOrderChange(nextProps.data.order)
+      }
+
       if (this.onOrderComplete && nextProps.data.order.status == 'booked') {
         this.onOrderComplete(nextProps.data.order)
       }
