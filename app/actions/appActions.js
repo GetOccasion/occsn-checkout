@@ -109,12 +109,13 @@ export function loadProductRequestComplete() {
 }
 
 export function saveOrder(order) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch(saveOrderRequest())
-
-    order = await order.save()
-
-    dispatch(setOrder(order))
+    const savingOrder = getState().$$appStore.get('savingOrder')
+    if (order.persisted() || savingOrder <= 1) {
+      order = await order.save()
+      dispatch(setOrder(order))
+    }
     dispatch(saveOrderRequestComplete())
   }
 }
