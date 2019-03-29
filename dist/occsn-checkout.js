@@ -672,7 +672,7 @@ function (_PureComponent) {
           calendarTimeSlots = _this$props.calendarTimeSlots,
           onDateSelect = _this$props.onDateSelect;
       var timeSlotsForDay = calendarTimeSlots.detect(function (date) {
-        return date.day.clone().isSame(selectedDate, 'day');
+        return date.day.date() == selectedDate.date();
       }).timeSlots;
       if (!timeSlotsForDay.empty()) onDateSelect(timeSlotsForDay);
     }
