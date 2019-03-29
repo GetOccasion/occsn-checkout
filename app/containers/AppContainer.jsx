@@ -124,7 +124,7 @@ export class AppContainer extends PureComponent {
 
     if (nextProps.data.order != null) {
       if (data.order == null) {
-        actions.saveOrder(nextProps.data.order)
+        actions.setOrder(nextProps.data.order)
         this.checkPrefilledAttributes(nextProps.data.product)
       }
 

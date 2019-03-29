@@ -350,31 +350,21 @@ function saveOrder(order) {
     function () {
       var _ref2 = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(dispatch, getState) {
-        var savingOrder;
+      regeneratorRuntime.mark(function _callee2(dispatch) {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 dispatch(saveOrderRequest());
-                savingOrder = getState().$$appStore.get('savingOrder');
-
-                if (!(order.persisted() || savingOrder <= 1)) {
-                  _context2.next = 7;
-                  break;
-                }
-
-                _context2.next = 5;
+                _context2.next = 3;
                 return order.save();
 
-              case 5:
+              case 3:
                 order = _context2.sent;
                 dispatch(setOrder(order));
-
-              case 7:
                 dispatch(saveOrderRequestComplete());
 
-              case 8:
+              case 6:
               case "end":
                 return _context2.stop();
             }
@@ -382,7 +372,7 @@ function saveOrder(order) {
         }, _callee2, this);
       }));
 
-      return function (_x2, _x3) {
+      return function (_x2) {
         return _ref2.apply(this, arguments);
       };
     }()
@@ -3553,7 +3543,7 @@ function (_PureComponent) {
 
       if (nextProps.data.order != null) {
         if (data.order == null) {
-          actions.saveOrder(nextProps.data.order);
+          actions.setOrder(nextProps.data.order);
           this.checkPrefilledAttributes(nextProps.data.product);
         }
 
