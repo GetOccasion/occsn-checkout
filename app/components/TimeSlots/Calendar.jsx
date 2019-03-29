@@ -35,7 +35,7 @@ export default class Calendar extends PureComponent {
     const { calendarTimeSlots, onDateSelect } = this.props
 
     var timeSlotsForDay = calendarTimeSlots.detect(date => {
-      return date.day.clone().isSame(selectedDate, 'day')
+      return date.day.date() == selectedDate.date()
     }).timeSlots
 
     if (!timeSlotsForDay.empty()) onDateSelect(timeSlotsForDay)
