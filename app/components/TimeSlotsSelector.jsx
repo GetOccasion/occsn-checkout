@@ -38,8 +38,14 @@ export default class TimeSlotsSelector extends React.Component {
     let timeSlots = subject.timeSlots().toArray()
 
     if (subject.product().sellsDropIns) {
-      if (timeSlots.includes(timeSlot)) {
-        timeSlots = timeSlots.filter(ts => ts !== timeSlot)
+      if (
+        timeSlots
+          .map(timeSlot => {
+            return timeSlot.id
+          })
+          .includes(timeSlot.id)
+      ) {
+        timeSlots = timeSlots.filter(ts => ts.id !== timeSlot.id)
       } else {
         timeSlots.push(timeSlot)
       }
@@ -92,8 +98,11 @@ export default class TimeSlotsSelector extends React.Component {
                     className={
                       subject
                         .timeSlots()
-                        .target()
-                        .include(timeSlot)
+                        .toArray()
+                        .map(timeSlot => {
+                          return timeSlot.id
+                        })
+                        .includes(timeSlot.id)
                         ? 'active'
                         : ''
                     }

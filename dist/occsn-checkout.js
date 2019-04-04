@@ -528,9 +528,11 @@ function (_React$Component) {
       var timeSlots = subject.timeSlots().toArray();
 
       if (subject.product().sellsDropIns) {
-        if (timeSlots.includes(timeSlot)) {
+        if (timeSlots.map(function (timeSlot) {
+          return timeSlot.id;
+        }).includes(timeSlot.id)) {
           timeSlots = timeSlots.filter(function (ts) {
-            return ts !== timeSlot;
+            return ts.id !== timeSlot.id;
           });
         } else {
           timeSlots.push(timeSlot);
@@ -594,7 +596,9 @@ function (_React$Component) {
         className: "time-slots-selector-buttons"
       }, timeSlots.map(function (timeSlot) {
         return React__default.createElement("span", null, React__default.createElement(reactstrap.Button, {
-          className: subject.timeSlots().target().include(timeSlot) ? 'active' : '',
+          className: subject.timeSlots().toArray().map(function (timeSlot) {
+            return timeSlot.id;
+          }).includes(timeSlot.id) ? 'active' : '',
           color: "primary",
           disabled: disabled,
           id: 'timeSlot-' + timeSlot.id.replace(/~/g, ''),
@@ -1012,7 +1016,9 @@ function (_React$Component) {
         case 'list':
           return React__default.createElement("section", {
             className: "list-view"
-          }, data.product.sellsSessions ? React__default.createElement("p", null, "Sessions are purchased together") : null, data.product.sellsDropIns && React__default.createElement("p", null, "Select the time slots you want to add:"), React__default.createElement("a", {
+          }, data.product.sellsSessions ? React__default.createElement("p", null, "Times listed below must be purchased together") : null, data.product.sellsDropIns && order.timeSlots().size() > 0 && React__default.createElement(React__default.Fragment, null, "You have the following time slots selected:", React__default.createElement("ul", null, order.timeSlots().toArray().map(function (timeSlot) {
+            return React__default.createElement("li", null, timeSlot.startsAt.format('LLLL'));
+          })), React__default.createElement("p", null, "Select more time slots you want to add:")), React__default.createElement("a", {
             name: "time-slots-selector",
             id: "time-slots-selector-anchor"
           }), React__default.createElement(TimeSlotsSelector, {
@@ -1482,10 +1488,10 @@ function (_PureComponent) {
         }, "A deposit of", ' ', React__default.createElement("strong", null, React__default.createElement(Currency, {
           currency: currency,
           quantity: order.priceDueOnInitialOrder
-        })), ' ', "is due today and", ' ', React__default.createElement("strong", null, React__default.createElement(Currency, {
+        })), ' ', "will be collected today and", ' ', React__default.createElement("strong", null, React__default.createElement(Currency, {
           currency: currency,
           quantity: order.price - order.priceDueOnInitialOrder
-        })), ' ', "will be due before the reservation date.")));
+        })), ' ', "is still due on this reservation.")));
       }
 
       if (order.giftCardAmount && order.giftCardAmount.isPositive()) {
@@ -3145,7 +3151,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetTimeSlotsTitle"
-          }, React__default.createElement("h4", null, _.isNull(product.widgetTimeSlotsTitle) ? 'Select which day you would like to reserve' : product.widgetTimeSlotsTitle), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, _.isNull(product.widgetTimeSlotsTitle) ? product.sellsSingles ? 'Select which day you would like to reserve' : 'Dates and Times' : product.widgetTimeSlotsTitle), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
@@ -3177,7 +3183,7 @@ function (_PureComponent) {
           return React__default.createElement("div", {
             className: "container-title",
             id: "widgetRedeemableTitle"
-          }, React__default.createElement("h4", null, "Coupons and Gift Cards"), React__default.createElement("hr", {
+          }, React__default.createElement("h4", null, "Discount or Redemption Code"), React__default.createElement("hr", {
             className: "pb-3"
           }));
 
@@ -3212,7 +3218,7 @@ function (_PureComponent) {
     value: function showTimeSlots() {
       var subject = this.props.subject;
       var product = subject.product();
-      return product.firstTimeSlotStartsAt && (product.requiresTimeSlotSelection || product.sellsSessions) && !window.OCCSN.time_slot_id;
+      return product.sellsDropIns || product.sellsSessions || product.firstTimeSlotStartsAt && product.requiresTimeSlotSelection && !window.OCCSN.time_slot_id;
     } // Determines if should show Questions
     // @note If the product.questions() is empty, don't show questions
     //

@@ -110,7 +110,9 @@ export default class Order extends PureComponent {
           <div className="container-title" id="widgetTimeSlotsTitle">
             <h4>
               {_.isNull(product.widgetTimeSlotsTitle)
-                ? 'Select which day you would like to reserve'
+                ? product.sellsSingles
+                  ? 'Select which day you would like to reserve'
+                  : 'Dates and Times'
                 : product.widgetTimeSlotsTitle}
             </h4>
             <hr className="pb-3" />
@@ -148,7 +150,7 @@ export default class Order extends PureComponent {
       case 'redeemables':
         return (
           <div className="container-title" id="widgetRedeemableTitle">
-            <h4>Coupons and Gift Cards</h4>
+            <h4>Discount or Redemption Code</h4>
             <hr className="pb-3" />
           </div>
         )
@@ -191,9 +193,11 @@ export default class Order extends PureComponent {
     let product = subject.product()
 
     return (
-      product.firstTimeSlotStartsAt &&
-      (product.requiresTimeSlotSelection || product.sellsSessions) &&
-      !window.OCCSN.time_slot_id
+      product.sellsDropIns ||
+      product.sellsSessions ||
+      (product.firstTimeSlotStartsAt &&
+        product.requiresTimeSlotSelection &&
+        !window.OCCSN.time_slot_id)
     )
   }
 

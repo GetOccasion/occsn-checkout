@@ -157,8 +157,23 @@ export class TimeSlotsContainer extends React.Component {
       case 'list':
         return (
           <section className="list-view">
-            {data.product.sellsSessions ? <p>Sessions are purchased together</p> : null}
-            {data.product.sellsDropIns && <p>Select the time slots you want to add:</p>}
+            {data.product.sellsSessions ? (
+              <p>Times listed below must be purchased together</p>
+            ) : null}
+            {data.product.sellsDropIns && order.timeSlots().size() > 0 && (
+              <>
+                You have the following time slots selected:
+                <ul>
+                  {order
+                    .timeSlots()
+                    .toArray()
+                    .map(timeSlot => {
+                      return <li>{timeSlot.startsAt.format('LLLL')}</li>
+                    })}
+                </ul>
+                <p>Select more time slots you want to add:</p>
+              </>
+            )}
             <a name="time-slots-selector" id="time-slots-selector-anchor" />
             <TimeSlotsSelector
               disabled={data.product.sellsSessions}

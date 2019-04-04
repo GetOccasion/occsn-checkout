@@ -105,7 +105,7 @@ export default class Pricing extends PureComponent {
             <strong>
               {<Currency currency={currency} quantity={order.priceDueOnInitialOrder} />}
             </strong>{' '}
-            is due today and{' '}
+            will be collected today and{' '}
             <strong>
               {
                 <Currency
@@ -114,7 +114,7 @@ export default class Pricing extends PureComponent {
                 />
               }
             </strong>{' '}
-            will be due before the reservation date.
+            is still due on this reservation.
           </div>
         </>
       )
