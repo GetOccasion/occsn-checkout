@@ -320,7 +320,7 @@ function findRedeemableRequestComplete() {
 function loadProduct(id) {
   return function (dispatch) {
     dispatch(loadProductRequest());
-    var query = occsn.Product.includes({
+    var query = occsn.Product.includes('labels', {
       merchant: 'currency',
       venue: 'state'
     }).find(id);

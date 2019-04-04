@@ -76,7 +76,7 @@ export function loadProduct(id) {
   return dispatch => {
     dispatch(loadProductRequest())
 
-    var query = occsn.Product.includes({
+    var query = occsn.Product.includes('labels', {
       merchant: 'currency',
       venue: 'state'
     }).find(id)
