@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames';
 import { Resource } from 'mitragyna'
 import { Container, Row, Col } from 'reactstrap'
+import _ from 'underscore';
 
 import OccsnContextConsumer from '@occsn/occsn-provider';
 
@@ -23,21 +24,29 @@ export class Order extends PureComponent {
     }
 
     this.onChange = onChange
-    this.state = {}
+    this.state = {
+      bookingOrder: false,
+      order: null,
+      savingOrder: false
+    }
   }
 
   componentDidMount() {
     this.constructOrder()
   }
 
-  bookOrder = async (order) => {
-    try {
-      order = await order.update({ status: 'reserved' })
-    } catch (invalidOrder) {
-      order = invalidOrder
-    }
+  bookOrder = (order) => {
+    this.setState({
+      bookingOrder: true
+    }, async () => {
+      try {
+        order = await order.update({ status: 'reserved' })
+      } catch (invalidOrder) {
+        order = invalidOrder
+      }
 
-    this.setOrder(order)
+      this.setOrder(order, () => this.setState({ bookingOrder: false }))
+    })
   }
 
   constructOrder = () => {
@@ -48,16 +57,25 @@ export class Order extends PureComponent {
   }
 
   saveOrder = async (order) => {
-    this.setOrder(await order.save())
+    this.setState({
+      savingOrder: true
+    }, async () => {
+      let order = await order.save()
+
+      this.setOrder(order, () => this.setState({ savingOrder: false }))
+    })
   }
 
-  setOrder = (order) => {
-    this.setState({ order }, () => this.onChange(order))
+  setOrder = (order, onSet = _.noop) => {
+    this.setState({ order }, () => {
+      onSet(order);
+      this.onChange(order)
+    })
   }
 
   render() {
     const { children, className } = this.props
-    const { order } = this.state
+    const { bookingOrder, order, savingOrder } = this.state
 
     let classNames = classnames('occsn-order-form', className)
 
@@ -68,6 +86,10 @@ export class Order extends PureComponent {
             afterError={this.setOrder}
             afterUpdate={this.saveOrder}
             component={OrderForm}
+            componentProps={{
+              bookingOrder,
+              savingOrder
+            }}
             onInvalidSubmit={this.setOrder}
             onSubmit={this.bookOrder}
             subject={order}

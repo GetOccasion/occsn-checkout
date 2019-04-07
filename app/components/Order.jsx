@@ -30,17 +30,12 @@ export default class Order extends PureComponent {
       __collection: PropTypes.arrayOf(PropTypes.instanceOf(occsn.TimeSlot))
     }),
     afterError: PropTypes.func.isRequired,
-    afterUpdate: PropTypes.func.isRequired,
-    bookingOrder: PropTypes.bool,
     findRedeemable: PropTypes.func.isRequired,
     onSubmit: PropTypes.func,
     saveOrder: PropTypes.func,
-    savingOrder: PropTypes.bool,
     setSkipAttendee: PropTypes.func,
     skipAttendees: PropTypes.object,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
-    spreedlyIframeInputStyles: PropTypes.object,
-    squareIframeInputStyles: PropTypes.object
   }
 
   renderBookOrderButton = () => {
