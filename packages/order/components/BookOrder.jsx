@@ -24,7 +24,7 @@ export class BookOrder extends PureComponent {
           booking: order.isBooking()
         }),
         disabled: !order.allowedToBookOrder(),
-        onClick: order.onSubmit
+        onClick: order.submit
       })
     })
   }
