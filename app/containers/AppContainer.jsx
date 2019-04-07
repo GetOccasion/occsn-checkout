@@ -213,33 +213,18 @@ export class AppContainer extends PureComponent {
           <Resource
             afterError={actions.setOrder}
             afterUpdate={actions.saveOrder}
-            component={Order}
             componentProps={{
               activeTimeSlotsCollection: data.activeTimeSlotsCollection,
-              bookingOrder: data.bookingOrder,
               findRedeemable: actions.findRedeemable,
-              saveOrder: actions.saveOrder,
-              savingOrder: data.savingOrder,
               setSkipAttendee: actions.setSkipAttendee,
               skipAttendees: data.skipAttendees,
               timeSlotsFromCalendar: data.timeSlotsFromCalendar,
-              spreedlyIframeInputStyles,
-              squareIframeInputStyles
             }}
             componentRef={formRef}
-            onSubmit={actions.bookOrder}
-            onInvalidSubmit={actions.setOrder}
-            subject={data.order}
           />
         ) : null}
       </section>
     )
-  }
-
-  renderCompleteScreen() {
-    const { data } = this.props
-
-    return <OrderComplete order={data.order} />
   }
 
   checkPrefilledAttributes(product) {

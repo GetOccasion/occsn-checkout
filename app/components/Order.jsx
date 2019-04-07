@@ -63,12 +63,6 @@ export default class Order extends PureComponent {
         )}
 
         <section className="information-container" id="information-container">
-          <section className="customer-container" id="customer-container">
-            <a name="customer" id="customer-anchor" />
-            {this.headerForSection('contact')}
-            <Resource component={Customer} reflection="customer" subject={customer} />
-          </section>
-
           {this.showQuestions() && (
             <section className="questions-container" id="questions-container">
               <a name="questions" id="questions-anchor" />

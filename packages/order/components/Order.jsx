@@ -108,6 +108,10 @@ export class Order extends PureComponent {
     return this.state.savingOrder
   }
 
+  getOrder = () => {
+    return this.state.order
+  }
+
   saveOrder = async (order) => {
     this.setState({
       savingOrder: true
