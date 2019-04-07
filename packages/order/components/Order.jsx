@@ -7,27 +7,30 @@ import { Container, Row, Col } from 'reactstrap'
 
 import OccsnContextConsumer from '@occsn/occsn-provider';
 
+import OrderForm from './OrderForm';
+
 export class Order extends PureComponent {
-  static contextType = OccsnContextConsumer;
+  static contextType = OccsnContextConsumer
 
   static propTypes = {
     product: PropTypes.object.isRequired
   }
 
-  constructor({ product }) {
-    const { Product } = this.context;
+  constructor({ onChange, product }) {
+    const { occsn: { Product }} = this.context
     if(!product.isA?(Product)) {
       throw TypeError('Order component received prop product not of type Product');
     }
 
-    this.state = {};
+    this.onChange = onChange
+    this.state = {}
   }
 
   componentDidMount() {
-    this.constructOrder();
+    this.constructOrder()
   }
 
-  async bookOrder(order) {
+  bookOrder = async (order) => {
     try {
       order = await order.update({ status: 'reserved' })
     } catch (invalidOrder) {
@@ -37,26 +40,26 @@ export class Order extends PureComponent {
     this.setOrder(order)
   }
 
-  constructOrder() {
-    const { product } = this.props;
-    const { Order } = this.context;
+  constructOrder = () => {
+    const { product } = this.props
+    const { occsn: { Order }} = this.context
 
     occsn.Order.construct({ product, status: 'initialized' }).then(this.setOrder);
   }
 
-  async saveOrder(order) {
-    this.setOrder(await order.save());
+  saveOrder = async (order) => {
+    this.setOrder(await order.save())
   }
 
-  setOrder(order) {
-    this.setState({ order });
+  setOrder = (order) => {
+    this.setState({ order }, () => this.onChange(order))
   }
 
   render() {
-    const { children, className } = this.props;
-    const { order } = this.state;
+    const { children, className } = this.props
+    const { order } = this.state
 
-    let classNames = classnames('occsn-order-form', className);
+    let classNames = classnames('occsn-order-form', className)
 
     return (
       <section className={classNames}>
@@ -64,6 +67,7 @@ export class Order extends PureComponent {
           <Resource
             afterError={this.setOrder}
             afterUpdate={this.saveOrder}
+            component={OrderForm}
             onInvalidSubmit={this.setOrder}
             onSubmit={this.bookOrder}
             subject={order}
