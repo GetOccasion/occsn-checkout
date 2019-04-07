@@ -6,11 +6,14 @@ import OccsnContextConsumer from '@occsn/occsn-provider';
 class OrderForm extends PureComponent {
   static contextType = OccsnContextConsumer
 
-  constructor() {
+  constructor(props) {
     super()
     const { registerComponent } = this.context
 
     registerComponent('order', this)
+
+    // Mitragyna submit method
+    this.onSubmit = props.onSubmit
   }
 
   allowedToBookOrder = () => {

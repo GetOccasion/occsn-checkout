@@ -31,37 +31,10 @@ export default class Order extends PureComponent {
     }),
     afterError: PropTypes.func.isRequired,
     findRedeemable: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func,
     saveOrder: PropTypes.func,
     setSkipAttendee: PropTypes.func,
     skipAttendees: PropTypes.object,
     subject: PropTypes.instanceOf(occsn.Order).isRequired,
-  }
-
-  renderBookOrderButton = () => {
-    const { bookingOrder, onSubmit, subject } = this.props
-    const { callbackProps, componentProps } = this.context
-
-    let button = (
-      <Button
-        block
-        className="book-order-button"
-        color="success"
-        id="bookOrder"
-        size="lg"
-        disabled={!this.allowedToBookOrder()}
-        onClick={onSubmit}
-      >
-        <span>{subject.product().orderButtonText}</span>
-        {bookingOrder &&
-          componentProps.orderBooking &&
-          React.createElement(componentProps.orderBooking)}
-      </Button>
-    )
-
-    if (callbackProps.onBookOrderButtonRender) callbackProps.onBookOrderButtonRender(button)
-
-    return button
   }
 
   render() {

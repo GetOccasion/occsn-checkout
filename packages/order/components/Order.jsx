@@ -53,7 +53,15 @@ export class Order extends PureComponent {
     const { product } = this.props
     const { occsn: { Order }} = this.context
 
-    occsn.Order.construct({ product, status: 'initialized' }).then(this.setOrder);
+    occsn.Order.construct({ product, status: 'initialized' }).then(this.setOrder)
+  }
+
+  isBooking = () => {
+    return this.state.bookingOrder
+  }
+
+  isSaving = () => {
+    return this.state.savingOrder
   }
 
   saveOrder = async (order) => {
@@ -68,7 +76,7 @@ export class Order extends PureComponent {
 
   setOrder = (order, onSet = _.noop) => {
     this.setState({ order }, () => {
-      onSet(order);
+      onSet(order)
       this.onChange(order)
     })
   }
