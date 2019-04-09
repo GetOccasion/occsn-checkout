@@ -6,25 +6,22 @@ import { Resource } from 'mitragyna'
 import { Container, Row, Col } from 'reactstrap'
 import _ from 'underscore';
 
-import OccsnContextConsumer from '@occsn/occsn-provider';
+import {OccsnContext} from '@occsn/occsn-provider';
 
-export class Order extends PureComponent {
-  static contextType = OccsnContextConsumer
+export default class Order extends PureComponent {
+  static contextType = OccsnContext
 
   static propTypes = {
+    onChange: PropTypes.func,
     product: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    onChange: _.noop
   }
 
   constructor({ onChange, product }) {
     super()
-
-    const { occsn: { Product }, registerComponent } = this.context
-
-    if(!product.isA?(Product)) {
-      throw TypeError('Order component received prop product not of type Product');
-    }
-
-    registerComponent('order', this)
 
     this.onChange = onChange
     this.resourceRef = React.createRef();
@@ -37,6 +34,15 @@ export class Order extends PureComponent {
   }
 
   componentDidMount() {
+    const { product } = this.props
+    const { occsn: { Product }, registerComponent } = this.context
+
+    if(!(product.isA && product.isA(Product))) {
+      throw TypeError('Order component received prop product not of type Product');
+    }
+
+    registerComponent('order', this)
+
     this.constructOrder()
   }
 
@@ -97,7 +103,7 @@ export class Order extends PureComponent {
     const { product } = this.props
     const { occsn: { Order }} = this.context
 
-    occsn.Order.construct({ product, status: 'initialized' }).then(this.setOrder)
+    Order.construct({ product, status: 'initialized' }).then(this.setOrder)
   }
 
   isBooking = () => {
@@ -116,9 +122,9 @@ export class Order extends PureComponent {
     this.setState({
       savingOrder: true
     }, async () => {
-      let order = await order.save()
+      let newOrder = await order.save()
 
-      this.setOrder(order, () => this.setState({ savingOrder: false }))
+      this.setOrder(newOrder, () => this.setState({ savingOrder: false }))
     })
   }
 

@@ -2,7 +2,7 @@
   "name": "@occsn/product",
   "version": "0.0.17",
   "description": "Product loading component for the Occasion checkout experience",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
     "test:watch": "npm test -- --watch",
@@ -14,83 +14,17 @@
     "occasion",
     "checkout",
     "experience",
-    "react",
-    "redux",
-    "mitragyna",
-    "occasion-sdk",
-    "active-resource"
+    "occasion-sdk"
   ],
   "author": "Peak Labs LLC DBA Occasion App",
   "license": "MIT",
   "dependencies": {
-    "@babel/polyfill": "^7.0.0-beta.46",
-    "bootstrap": "^4.1.3",
     "classnames": "^2.2.5",
     "mitragyna": "git+https://github.com/nicklandgrebe/mitragyna.git",
-    "node-sass": "^4.11.0",
-    "occasion-sdk": "git+https://github.com/GetOccasion/occasion-sdk-js.git",
-    "poi-plugin-react": "git+https://github.com/nicklandgrebe/poi-plugin-react",
+    "@occsn/occsn-provider": "^0.0.17",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "reactstrap": "^5.0.0-beta",
     "underscore": "^1.8.3"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.44",
-    "@babel/core": "^7.0.0-beta.44",
-    "@babel/preset-env": "^7.0.0-beta.44",
-    "@babel/preset-react": "^7.0.0-beta.44",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^22.2.2",
-    "babel-plugin-async-to-promises": "^1.0.5",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-optional-chaining": "^7.0.0-beta.3",
-    "babel-preset-stage-0": "^6.24.1",
-    "bili": "^3.1.2",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-matchers": "^4.2.0",
-    "enzyme-to-json": "^3.3.1",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^22.3.0",
-    "jest-cli": "^22.3.0",
-    "jest-enzyme": "^4.2.0",
-    "jest-plugin-action": "^2.6.0",
-    "jest-plugin-context": "^2.6.0",
-    "jest-plugin-for-each": "^2.6.0",
-    "jest-plugin-it-renders": "^2.6.0",
-    "jest-plugin-its": "^2.6.0",
-    "jest-plugin-set": "^2.6.0",
-    "jest-plugin-unhandled-promise": "^2.6.0",
-    "jest-plugins": "^2.6.0",
-    "poi": "^10.1.5",
-    "poi-plugin-resolve-alias": "^2.0.0",
-    "poi-preset-react": "^9.2.1",
-    "react-test-renderer": "^16.2.0",
-    "redux-mock-store": "^1.5.1",
-    "regenerator-runtime": "^0.11.1",
-    "rollup": "^0.61.0",
-    "rollup-plugin-babel": "^4.0.0-beta.5",
-    "rollup-plugin-postcss": "^1.6.2",
-    "sass-loader": "^7.1.0"
-  },
-  "jest": {
-    "clearMocks": true,
-    "setupFiles": [
-      "./spec/jest/setup.js"
-    ],
-    "setupTestFrameworkScriptFile": "./spec/jest/plugins.js",
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "moduleNameMapper": {
-      "^.+\\.(css|scss)$": "identity-obj-proxy",
-      "^active-resource$": "active-resource/build/active-resource.min.js",
-      "^mitragyna$": "mitragyna/build/mitragyna.min.js",
-      "^occasion-sdk$": "occasion-sdk/build/occasion-sdk.js",
-      "^app(.*)$": "<rootDir>/app$1",
-      "fixtures(.*)$": "<rootDir>/spec/fixtures$1"
-    }
   }
 }

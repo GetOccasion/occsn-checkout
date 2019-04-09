@@ -5,7 +5,7 @@ const process = require('process');
 module.exports = {
   // Entry is relative to process.cwd()
   entry: {
-    client: 'app/startup/app.jsx'
+    client: 'src/startup.jsx'
   },
 
   html: {

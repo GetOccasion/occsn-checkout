@@ -1,10 +1,10 @@
 {
-  "name": "@occsn/order",
+  "name": "@occsn/occsn-checkout-demo",
   "version": "0.0.17",
-  "description": "Order form wrapper component for the Occasion checkout experience",
+  "description": "Demo for the Occasion checkout experience components",
   "main": "dist/index.js",
   "scripts": {
-    "build": "bili"
+    "start": "poi"
   },
   "keywords": [
     "occasion",
@@ -16,16 +16,25 @@
   "author": "Peak Labs LLC DBA Occasion App",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.0.0-beta.46",
+    "@occsn/customer": "^0.0.17",
+    "@occsn/occsn-provider": "^0.0.17",
+    "@occsn/order": "^0.0.17",
+    "@occsn/product": "^0.0.17",
+    "bootstrap": "^4.1.3",
     "classnames": "^2.2.5",
     "mitragyna": "git+https://github.com/nicklandgrebe/mitragyna.git",
-    "@occsn/occsn-provider": "^0.0.17",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-hot-loader": "^4.8.3",
     "reactstrap": "^5.0.0-beta",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "bili": "^3.1.2"
+    "node-sass": "^4.11.0",
+    "poi": "^10.1.5",
+    "poi-plugin-react": "git+https://github.com/nicklandgrebe/poi-plugin-react"
   },
   "extends": "../../babel.config.js"
 }

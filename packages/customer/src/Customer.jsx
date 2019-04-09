@@ -5,10 +5,10 @@ import classnames from 'classnames';
 import { ErrorsFor, Field, Resource } from 'mitragyna'
 import { FormFeedback, FormGroup, Input, Label } from 'reactstrap'
 
-import OccsnContextConsumer from '@occsn/occsn-provider'
+import {OccsnContext} from '@occsn/occsn-provider'
 
 export class Customer extends PureComponent {
-  static contextType = OccsnContextConsumer
+  static contextType = OccsnContext
 
   constructor() {
     super();

@@ -1,7 +1,7 @@
 var pkg = require('./package.json')
 
 module.exports = {
-  input: 'src/**/*.jsx',
+  input: 'src/index.js',
   format: 'cjs',
   banner: true,
   moduleName: pkg.name,

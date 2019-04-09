@@ -5,16 +5,12 @@ import { Resource } from 'mitragyna'
 import { Container, Row, Col } from 'reactstrap'
 import _ from 'underscore'
 
-import occsn from '../libs/Occasion'
-
 import ActiveResource from 'active-resource'
 import Occasion from 'occasion-sdk'
 
-const OccsnContext = React.createContext();
+export const OccsnContext = React.createContext();
 
-export const OccsnContextConsumer = OccsnContext.Consumer;
-
-export class OccsnProvider extends PureComponent {
+export default class OccsnProvider extends PureComponent {
   static propTypes = {
     immutable: PropTypes.bool,
     publicKey: PropTypes.string.isRequired,
@@ -26,15 +22,15 @@ export class OccsnProvider extends PureComponent {
     url: window.OCCSN.host_url
   }
 
-  constructor(props) {
+  constructor({ immutable, publicKey, url }) {
     super();
 
     let options = {
-      immutable: props.immutable,
-      token: props.publicKey
+      immutable: immutable,
+      token: publicKey
     }
 
-    if (props.url != undefined) {
+    if (url != undefined) {
       options.baseUrl = ActiveResource.Links.__constructLink(url, 'api', 'v1')
     }
 
@@ -46,7 +42,7 @@ export class OccsnProvider extends PureComponent {
 
   // Adds a subcomponent like MissingAnswers or Redeemables to the component register
   // so the OrderForm can use them in internal methods
-  registerComponent(name, component) {
+  registerComponent = (name, component) => {
     this.setState({
       components: _.extend(
         this.state.components,

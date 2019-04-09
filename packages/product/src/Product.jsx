@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import _ from 'underscore'
 
-import OccsnContextConsumer from '@occsn/occsn-provider'
+import {OccsnContext} from '@occsn/occsn-provider'
 
 export class Product extends PureComponent {
-  static contextType = OccsnContextConsumer
+  static contextType = OccsnContext
 
   static propTypes = {
     id: PropTypes.string.isRequired,
@@ -60,12 +60,12 @@ export class Product extends PureComponent {
     const { children, className } = this.props
     const { loading, product } = this.state
 
-    className = classnames(className, 'occsn-product', {
+    const classNames = classnames(className, 'occsn-product', {
       loading
     })
 
     return (
-      <section className={className}>
+      <section className={classNames}>
         {
           product && (
             React.Children.map(children, child => {
